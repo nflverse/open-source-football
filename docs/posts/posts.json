@@ -14,5 +14,21 @@
     "preview": {},
     "last_modified": "2020-08-18T12:26:58+02:00",
     "input_file": {}
+  },
+  {
+    "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
+    "title": "PFR's Bad Throw Percentage for Quarterbacks",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Sebastian Carl",
+        "url": "https://twitter.com/mrcaseb"
+      }
+    ],
+    "date": "2020-08-18",
+    "categories": [],
+    "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
+    "last_modified": "2020-08-18T15:49:47+02:00",
+    "input_file": "pfrs-bad-throw-percentage-for-quarterbacks.utf8.md"
   }
 ]
