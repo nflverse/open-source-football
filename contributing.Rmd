@@ -12,7 +12,7 @@ repository_url: "https://github.com/mrcaseb/analytics-community"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 The key idea of Open Source Football is to make football related analysis and
@@ -27,9 +27,35 @@ contributors to get their articles ready for publishing.
 
 If you are willing to contribute you will have to follow the below steps:
 
-1. 
+1. Install the packages `distill` and `rmarkdown` with
 
+```{r, eval=FALSE}
+install.packages(c("distill", "rmarkdown"))
+```
 
+2. Login to your GitHub account, view the 
+[website repo](https://github.com/mrcaseb/open-source-football) and fork it by
+clicking the "Fork" button. The current version of the repo will be copied into
+your GitHub.
 
+```{r layout="l-body-outset", echo=FALSE}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90563320-ed936480-e1a3-11ea-90b0-9fbc00a6808b.png")
+```
 
+3. Create a new branch within your repo and try to choose a descriptive name
 
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564133-24b64580-e1a5-11ea-91cc-5e34224f63d5.png")
+```
+
+4. Copy the web url of the new repo into your clipboard
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564521-cccc0e80-e1a5-11ea-8fd7-493f40b74cd3.png")
+```
+
+5. In RStudio choose "Create a Project" > "Version Control" > "Git", paste the
+Repository URL from step 4 and click "Create Project". The whole thing will be
+downloaded and the project opened. 
+
+6. 
