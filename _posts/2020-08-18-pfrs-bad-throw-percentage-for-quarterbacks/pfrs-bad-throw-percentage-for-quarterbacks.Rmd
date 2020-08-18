@@ -15,6 +15,11 @@ output:
     toc: true
     toc_depth: 3
 repository_url: "https://github.com/mrcaseb/analytics-community"
+categories:
+  - Scraping
+  - PFR
+  - Bad Throws
+  - Plot
 ---
 
 ```{r setup, include=FALSE}

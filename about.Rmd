@@ -40,4 +40,5 @@ We hope that we can get as many volunteers as possible to publish their code her
 Their names we will maintain in this list (chronological order).
 
 * [Sebastian Carl](https://twitter.com/mrcaseb)
+* [Ben Baldwin](https://twitter.com/benbbaldwin)
 * ...

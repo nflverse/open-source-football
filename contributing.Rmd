@@ -1,0 +1,35 @@
+---
+title: "Contributing to Open Source Football"
+description: |
+  A brief guide how to contribute content.
+author:
+  - name: Sebastian Carl
+    url: https://twitter.com/mrcaseb
+    affiliation: nflfastR
+    affiliation_url: https://twitter.com/nflfastR
+date: "`r Sys.Date()`"
+repository_url: "https://github.com/mrcaseb/analytics-community"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+The key idea of Open Source Football is to make football related analysis and
+the corresponding code publicly available. To achieve this we need volunteers 
+who are willing to make a contribution.
+
+Articles posted on Open Source Football are authored using [Distill for R
+Markdown](https://rstudio.github.io/distill). This guide is intended to help all 
+contributors to get their articles ready for publishing. 
+
+### Step by Step Overview
+
+If you are willing to contribute you will have to follow the below steps:
+
+1. 
+
+
+
+
+
