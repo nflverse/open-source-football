@@ -1,5 +1,5 @@
-name: "analytics-community"
-title: "The Analytics Community"
+name: "open-source-football"
+title: "Open Source Football"
 description: |
   A place where anybody can share their work with others
 output_dir: "docs"
@@ -10,5 +10,5 @@ navbar:
     - text: "About"
       href: about.html
     - icon: fa fa-github
-      href: https://github.com/mrcaseb/analytics-community
+      href: https://github.com/mrcaseb/open-source-football
 output: distill::distill_article

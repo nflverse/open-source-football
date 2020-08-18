@@ -1,5 +1,5 @@
 ---
-title: "About the Analytics Community"
+title: "Open Source Football"
 description: |
   What the heck this is...
 ---
@@ -7,6 +7,8 @@ description: |
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+### What Seb says
 
 At the beginning of 2020 I decided to dive into NFL Analytics and started to follow
 the big accounts (within the community) on Twitter.
@@ -28,10 +30,14 @@ This website is the result but with a big improvement:
 very intelligent people from the community agreed to publish their code as well. 
 And this is the place where I want to centralize all these things.
 
+### What Ben says
+
+...
+
 ## Contributors
 
-I hope that I can get as many volunteers as possible to publish their code here. 
-Their names I will maintain in this list (chronological order).
+We hope that we can get as many volunteers as possible to publish their code here. 
+Their names we will maintain in this list (chronological order).
 
 * [Sebastian Carl](https://twitter.com/mrcaseb)
 * ...
