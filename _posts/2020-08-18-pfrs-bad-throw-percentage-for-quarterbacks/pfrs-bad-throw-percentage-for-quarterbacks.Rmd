@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
   )
 ```
 
-## Preamble
+## Preface
 
 One of the most important sources for football related data is [Pro Football Reference](https://www.pro-football-reference.com/) (short PFR). There are a 
 ton of useful stats and I would like to look into their "Bad Throw Percentage"
