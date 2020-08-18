@@ -1,5 +1,5 @@
 ---
-title: "The Analytics Community"
+title: "The Analytics Community - Latest posts"
 site: distill::distill_website
 listing: posts
 ---

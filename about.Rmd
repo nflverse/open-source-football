@@ -1,9 +1,37 @@
 ---
-title: "About this blog"
+title: "About the Analytics Community"
 description: |
-  Some additional details about the blog
+  What the heck this is...
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+At the beginning of 2020 I decided to dive into NFL Analytics and started to follow
+the big accounts (within the community) on Twitter.
+
+I learned there was this R package [nflscrapR](https://twitter.com/nflscrapR) and
+started to learn R and the NFL play-by-play data. Very quickly I got the urge 
+to make some plots with R and post them on Twitter, because I wanted to hear 
+what the people who know about it have to say. The plots were well received and 
+I was getting requests to publish the related code. I did that and got a lot of 
+positive feedback. 
+
+At some point one thing led to another and before I knew it I developed 
+[nflfastR](https://mrcaseb.github.io/nflfastR/) together with 
+[Ben Baldwin](https://twitter.com/benbbaldwin). 
+Most of my previously released code didn't work after that and I had to decide 
+whether to just remove the code or rebuild the whole thing.
+
+This website is the result but with a big improvement:
+very intelligent people from the community agreed to publish their code as well. 
+And this is the place where I want to centralize all these things.
+
+## Contributors
+
+I hope that I can get as many volunteers as possible to publish their code here. 
+Their names I will maintain in this list (chronological order).
+
+* [Sebastian Carl](https://twitter.com/mrcaseb)
+* ...

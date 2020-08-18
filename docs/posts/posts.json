@@ -1,24 +1,8 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to The Analytics Community",
-    "description": "Welcome to our new blog, The Analytics Community. We hope you enjoy \nreading what we have to say!",
-    "author": [
-      {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
-      }
-    ],
-    "date": "2020-08-18",
-    "categories": [],
-    "preview": {},
-    "last_modified": "2020-08-18T12:26:58+02:00",
-    "input_file": {}
-  },
-  {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
     "title": "PFR's Bad Throw Percentage for Quarterbacks",
-    "description": "A short description of the post.",
+    "description": "This article shows how to scrape football data from Pro Football Reference and\nhow to plot the bad throw percentage data for quarterbacks.",
     "author": [
       {
         "name": "Sebastian Carl",
@@ -28,7 +12,7 @@
     "date": "2020-08-18",
     "categories": [],
     "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2020-08-18T15:49:47+02:00",
+    "last_modified": "2020-08-18T17:33:56+02:00",
     "input_file": "pfrs-bad-throw-percentage-for-quarterbacks.utf8.md"
   }
 ]

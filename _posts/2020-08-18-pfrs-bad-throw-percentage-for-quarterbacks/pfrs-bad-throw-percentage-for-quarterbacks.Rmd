@@ -6,14 +6,15 @@ description: |
 author:
   - name: Sebastian Carl
     url: https://twitter.com/mrcaseb
-date: "`r Sys.Date()`"
+    affiliation: nflfastR
+    affiliation_url: https://twitter.com/nflfastR
+date: 08-18-2020
 output:
   distill::distill_article:
     self_contained: false
     toc: true
     toc_depth: 3
-twitter:
-  creator: "@mrcaseb"
+repository_url: "https://github.com/mrcaseb/analytics-community"
 ---
 
 ```{r setup, include=FALSE}
@@ -21,9 +22,9 @@ knitr::opts_chunk$set(
   echo = TRUE, 
   message = FALSE, 
   warning = FALSE, 
-  collapse = TRUE, 
   dpi = 300, 
-  tidy = 'styler'
+  tidy = 'styler',
+  class.source = 'fold-hide'
   )
 ```
 
@@ -35,7 +36,7 @@ defined as
 
 >  Percentage of poor throws per pass attempt, excluding spikes and throwaways
 
-PFR provides it's data on static html website which makes it easy to scrape them.
+PFR provides it's data on static html websites which makes it easy to scrape them.
 This will be demonstrated below.
 
 ## Get the data and save it locally
@@ -45,7 +46,7 @@ scrape them once and save them locally. This can be done with the following code
 (please note it saves only the for this example relevant variables and you might
 want to change that): 
 
-```{r eval=FALSE}
+```{r eval=FALSE, class.output="scroll-100"}
 library(tidyverse)
 library(rvest)
 
@@ -100,7 +101,7 @@ write_csv(pfr, "pfr_bad_throws.csv")
 ## Create the plot
 
 The data we want to have a look at is now saved locally and can be used to create
-the plot: #fig.width=10, fig.asp=1/1.2
+the plot:
 
 ```{r, layout="l-page", fig.height=5.5, preview=TRUE}
 library(tidyverse)
@@ -117,7 +118,7 @@ chart_data %>%
   scale_size_area(max_size = 6) +
   labs(x = "Average Depth of Target in Yards",
        y = "Bad Throw Percentage",
-       caption = "Bad% = Percentage of throws that weren't catchable with normal effort, excluding spikes and throwaways\nFigure: @mrcaseb | Data: @pfref",
+       caption = "Bad Throw Percentage = Percentage of throws that weren't catchable with normal effort, excluding spikes and throwaways\nFigure: @mrcaseb | Data: @pfref",
        title = 'QB Passing Performance 2019',
        subtitle = "We may see regression hitting Tannehill and Prescott in 2020") +
   theme_minimal() +
@@ -130,16 +131,6 @@ chart_data %>%
     legend.position = "top",
     aspect.ratio = 1/1.618
   ) +
-  # theme(axis.title = element_text(size = 6),
-  #       axis.text = element_text(size = 6),
-  #       text = element_text(size = 8),
-  #       plot.title = element_text(size = 10, hjust = 0.5, face = 'bold'),
-  #       plot.subtitle = element_text(size = 8, hjust = 0.5),
-  #       plot.caption = element_text(size = 6, hjust = 1),
-  #       legend.position = "top",
-  #       legend.title = element_text(size = 8, vjust = 0.5, face = 'bold')
-  #       # aspect.ratio = 1/1.618
-  #       ) +
   NULL
 
 ```

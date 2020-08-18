@@ -1,7 +1,7 @@
 name: "analytics-community"
 title: "The Analytics Community"
 description: |
-  The Analytics Community
+  A place where anybody can share their work with others
 output_dir: "docs"
 navbar:
   right:
@@ -9,4 +9,6 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - icon: fa fa-github
+      href: https://github.com/mrcaseb/analytics-community
 output: distill::distill_article
