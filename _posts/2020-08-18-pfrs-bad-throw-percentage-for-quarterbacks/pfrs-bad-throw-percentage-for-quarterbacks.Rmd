@@ -28,8 +28,7 @@ knitr::opts_chunk$set(
   message = FALSE, 
   warning = FALSE, 
   dpi = 300, 
-  tidy = 'styler',
-  class.source = 'fold-hide'
+  tidy = 'styler'
   )
 ```
 
@@ -51,7 +50,7 @@ scrape them once and save them locally. This can be done with the following code
 (please note it saves only the for this example relevant variables and you might
 want to change that): 
 
-```{r eval=FALSE, class.output="scroll-100"}
+```{r eval=FALSE}
 library(tidyverse)
 library(rvest)
 
@@ -126,7 +125,6 @@ chart_data %>%
        caption = "Bad Throw Percentage = Percentage of throws that weren't catchable with normal effort, excluding spikes and throwaways\nFigure: @mrcaseb | Data: @pfref",
        title = 'QB Passing Performance 2019',
        subtitle = "We may see regression hitting Tannehill and Prescott in 2020") +
-  theme_minimal() +
   ggthemes::theme_stata(scheme = "sj", base_size = 8) +
   theme(
     plot.title = element_text(face = 'bold'),
