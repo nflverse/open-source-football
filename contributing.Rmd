@@ -77,8 +77,24 @@ knitr::include_graphics("https://user-images.githubusercontent.com/38586519/9056
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564521-cccc0e80-e1a5-11ea-8fd7-493f40b74cd3.png")
 ```
 
-5. In RStudio choose "Create a Project" > "Version Control" > "Git", paste the
+In RStudio choose "Create a Project" > "Version Control" > "Git", paste the
 Repository URL from step 4 and click "Create Project". The whole thing will be
 downloaded and the project opened. 
 
-6. 
+Important: Make sure you switch into your newly created branch from step 2
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90626505-57028a00-e21b-11ea-847d-621083af7771.png")
+```
+
+---
+
+4. Create the new article by running
+
+```{r, eval=FALSE}
+distill::create_post("Title of your post")
+```
+
+This will create a new folder in `_posts` and name it with the current date and
+your chosen title. Additionally the RMarkdown file in which you will write your 
+post will be opened automatically.

@@ -1405,10 +1405,20 @@ install.packages(c(&quot;distill&quot;, &quot;rmarkdown&quot;))</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90564521-cccc0e80-e1a5-11ea-8fd7-493f40b74cd3.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
-<ol start="5" type="1">
-<li><p>In RStudio choose “Create a Project” &gt; “Version Control” &gt; “Git”, paste the Repository URL from step 4 and click “Create Project”. The whole thing will be downloaded and the project opened.</p></li>
-<li></li>
+<p>In RStudio choose “Create a Project” &gt; “Version Control” &gt; “Git”, paste the Repository URL from step 4 and click “Create Project”. The whole thing will be downloaded and the project opened.</p>
+<p>Important: Make sure you switch into your newly created branch from step 2</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="https://user-images.githubusercontent.com/38586519/90626505-57028a00-e21b-11ea-847d-621083af7771.png" style="display: block; margin: auto;" /></p>
+</div>
+<hr />
+<ol start="4" type="1">
+<li>Create the new article by running</li>
 </ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+distill::create_post(&quot;Title of your post&quot;)</code></pre>
+</div>
+<p>This will create a new folder in <code>_posts</code> and name it with the current date and your chosen title. Additionally the RMarkdown file in which you will write your post will be opened automatically.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
