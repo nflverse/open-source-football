@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Wins Above Expectation"]},{"type":"character","attributes":{},"value":["This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Plot","nflfastR","Win percentage"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Wins Above Expectation"]},{"type":"character","attributes":{},"value":["This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -984,7 +984,7 @@
 <hr class="d-toc-separator"/>
 <h2 id="preface">Preface</h2>
 <p>In the NFL, practically everyone can beat anyone. So it often happens that games are tight until the very end and the winner is likely to have had some luck. Every year there are teams where you subjectively feel that they have lost or won particularly many of the aforementioned games.</p>
-<p>In this post I will show off a very simple way to illustrate that by looking at how many snaps a team played with the <a href="https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html">nflfastR win probability</a> above a critical value (50%) more or less arbitrarily chosen by me and compare this value with the true win percentage.</p>
+<p>In this post I will show off a very simple way to illustrate that by looking at how many snaps a team played with the <a href="https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html">nflfastR win probability</a> (model with Vegas line) above a critical value (50%) more or less arbitrarily chosen by me and compare this value with the true win percentage.</p>
 <h2 id="load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</h2>
 <p>Since we want to compute true win percentage from nflfastR play-by-play data we have to do a little data wrangling before we can create the plot.</p>
 <div class="layout-chunk" data-layout="l-page">
@@ -1107,7 +1107,7 @@ chart %&gt;%
   geom_vline(aes(xintercept = mean(wp_lim_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
   ggpmisc::geom_grob(aes(x = wp_lim_percentage, y = win_percentage, label = grob), vp.width = 0.05) +
   labs(
-    x = glue::glue(&quot;Percentage of snaps with win probability over {100 * wp_limit}%&quot;),
+    x = glue::glue(&quot;Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%&quot;),
     y = &quot;True win percentage (including ties as half a win)&quot;,
     title = &quot;NFL Team Efficiency&quot;,
     caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;

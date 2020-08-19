@@ -9,6 +9,10 @@ author:
     affiliation_url: https://twitter.com/nflfastR
 date: "`r Sys.Date()`"
 repository_url: "https://github.com/mrcaseb/open-source-football"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -26,11 +30,13 @@ contributors to get their articles ready for publishing.
 ## Step by Step Overview
 
 If you are willing to contribute you will have to follow the below steps (we will
-discuss some steps more detailed below):
+discuss some steps more detailed in the next section). Please note we assume that
+you have [RStudio](https://rstudio.com/) and git (I highly recommend [Hadley's
+git section](http://r-pkgs.had.co.nz/git.html) in "R packages") installed. 
 
 1. Install the R packages you will need to contribute
-1. Create a copy of the website repo to your GitHub
-1. Load it into a new R Studio project and start working in a new branch
+1. Create a copy of the website repo to your GitHub (you'll need a free account)
+1. Load it into a new RStudio project and start working in a new branch
 1. Create the new article (see [the 
 repo](https://github.com/mrcaseb/open-source-football/tree/master/_posts) for 
 some examples) and don't forget to check the [Distill for R 
@@ -46,15 +52,17 @@ the main repo.
 
 ## More Detailed Instruction
 
-1. Install the packages `distill` and `rmarkdown` with
+### Install the packages
+
+Install the packages `distill` and `rmarkdown` with
 
 ```{r, eval=FALSE}
 install.packages(c("distill", "rmarkdown"))
 ```
 
----
+### Fork the repo
 
-2. Login to your GitHub account, view the 
+Login to your GitHub account, view the 
 [website repo](https://github.com/mrcaseb/open-source-football) and fork it by
 clicking the "Fork" button. The current version of the repo will be copied into
 your GitHub.
@@ -69,27 +77,30 @@ Create a new branch within your repo and try to choose a descriptive name
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564133-24b64580-e1a5-11ea-91cc-5e34224f63d5.png")
 ```
 
----
+### Import the repo into a RStudio Project
 
-3. Copy the web url of the new repo into your clipboard
+Copy the web url of the new repo into your clipboard
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564521-cccc0e80-e1a5-11ea-8fd7-493f40b74cd3.png")
 ```
 
-In RStudio choose "Create a Project" > "Version Control" > "Git", paste the
-Repository URL from step 4 and click "Create Project". The whole thing will be
+In RStudio choose *Create a Project* > *Version Control* > *Git*, paste the
+Repository URL from above and click "Create Project". The whole thing will be
 downloaded and the project opened. 
 
-Important: Make sure you switch into your newly created branch from step 2
+Important: Make sure you switch into your newly created branch from the previous
+section!
+
+For further information please visit [happygitwithr.com](https://happygitwithr.com/rstudio-git-github.html).
 
 ```{r, echo=FALSE, fig.align='center'}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90626505-57028a00-e21b-11ea-847d-621083af7771.png")
 ```
 
----
+### Start working on the post
 
-4. Create the new article by running
+Create the new article by running
 
 ```{r, eval=FALSE}
 distill::create_post("Title of your post")
@@ -117,3 +128,21 @@ Markdown](https://rstudio.github.io/distill) as well as some of [the
 already published posts](https://github.com/mrcaseb/open-source-football/tree/master/_posts).
 And if you feel like you need more information about R Markdown please feel free
 to check the [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/).
+
+### Push your work into your repo
+
+Using git within RStudio is easy because you can do it graphically. However, it 
+doersn't make sense to provide a ton of screenshots and text here. Instead I 
+recommend two sources:
+
+* The short one is [happygitwithr.com](https://happygitwithr.com/rstudio-git-github.html)
+* The detailed one is [Hadley's section](http://r-pkgs.had.co.nz/git.html)
+
+Commit all file which are related to your post and go on with the last step.
+
+### Create the Pull Request
+
+To create the Pull Request visit your GitHub repo and you will notice a banner
+indicating that you’ve recently pushed a new branch and that you can "compare & 
+pull request". Follow the steps for [creating a pull request from a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
+and you are finally done.

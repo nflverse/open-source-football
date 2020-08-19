@@ -18,8 +18,8 @@ repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - Scraping
   - PFR
-  - Bad Throws
-  - Plot
+  - Figures
+  - nflfastR
 ---
 
 ```{r setup, include=FALSE}

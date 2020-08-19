@@ -16,9 +16,8 @@ output:
     toc_depth: 3
 repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
-  - Plot
+  - Figures
   - nflfastR
-  - Win percentage
 ---
 
 ```{r setup, include=FALSE}
@@ -39,9 +38,9 @@ Every year there are teams where you subjectively feel that they have lost or
 won particularly many of the aforementioned games.
 
 In this post I will show off a very simple way to illustrate that by looking at
-how many snaps a team played with the [nflfastR win probability](https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html) 
-above a critical value (50%) more or less arbitrarily chosen by me and compare 
-this value with the true win percentage.
+how many snaps a team played with the [nflfastR win probability](https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html)
+(model with Vegas line) above a critical value (50%) more or less arbitrarily 
+chosen by me and compare this value with the true win percentage.
 
 ## Load nflfastR Play by Play and compute some helper columns
 
@@ -170,7 +169,7 @@ chart %>%
   geom_vline(aes(xintercept = mean(wp_lim_percentage)), color = "red", linetype = "dashed") +
   ggpmisc::geom_grob(aes(x = wp_lim_percentage, y = win_percentage, label = grob), vp.width = 0.05) +
   labs(
-    x = glue::glue("Percentage of snaps with win probability over {100 * wp_limit}%"),
+    x = glue::glue("Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%"),
     y = "True win percentage (including ties as half a win)",
     title = "NFL Team Efficiency",
     caption = "Figure: @mrcaseb | Data: @nflfastR"
