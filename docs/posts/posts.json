@@ -42,6 +42,26 @@
     "preview_height": 3000
   },
   {
+    "path": "posts/2020-08-19-eaepaaep-our-take-on-epa-for-punters/",
+    "title": "EAEPAAE/P: Our take on EPA for punters",
+    "description": "A statistical journey to EPA/punt",
+    "author": [
+      {
+        "name": "Dennis Brookner",
+        "url": {}
+      },
+      {
+        "name": "Raphael Laden-Guindon",
+        "url": {}
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2020-08-19T18:09:11-04:00",
+    "input_file": "eaepaaep-our-take-on-epa-for-punters.utf8.md"
+  },
+  {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
     "title": "PFR's Bad Throw Percentage for Quarterbacks",
     "description": "This article shows how to scrape football data from Pro Football Reference and\nhow to plot the bad throw percentage data for quarterbacks.",
