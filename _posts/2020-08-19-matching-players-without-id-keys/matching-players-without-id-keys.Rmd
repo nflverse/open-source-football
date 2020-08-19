@@ -1,0 +1,174 @@
+---
+title: "Matching players without ID keys"
+description: |
+  Rebuilding player graphs when ID keys go missing or are corrupted. 
+author:
+  - name: Analytics Darkweb
+    url: https://twitter.com/footballdaRkweb
+date: 08-19-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Sometimes when we go to remake graphs from other people resources that used to work no longer do. This example shows how to work through that problem. 
+
+First let's load the data and define which season we care about. 
+
+```{r}
+library(tidyverse)
+library(nflfastR)
+pbp <- data.table::fread("../../../Darkweb/pbp_2010-2019.csv") %>% filter(season == 2019)
+roster <-
+  readRDS(url("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/roster-data/roster.rds")) %>%
+  filter(teamPlayers.position == "QB", team.season == 2019)
+
+cpoe <-
+  pbp %>%
+  filter(!is.na(cpoe)) %>%
+  group_by(passer_player_id, air_yards) %>%
+  summarise(
+    count = n(),
+    cpoe = mean(cpoe)
+  )
+
+season <- 2019
+```
+
+Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster lists them or the data is missing. 
+We can quickly fill in a couple missing entries like below.
+
+```{r}
+summary <-
+  pbp %>%
+  separate(passer_player_name, c("firstName", "lastName"), sep = "\\.") %>%
+  filter(!is.na(cpoe)) %>%
+  group_by(lastName, posteam, firstName, passer_player_id) %>%
+  summarise(plays = n()) %>%
+  ungroup() %>%
+  arrange(desc(plays)) %>%
+  head(30) %>%
+  mutate(
+    posteam = 
+      ifelse(
+        lastName == "Brady", "NE",
+      ifelse(
+        lastName == "Flacco", "DEN",
+      ifelse(
+        lastName == "Carr", "LV",
+      ifelse(
+        lastName == "Tannehill", "TEN",
+      posteam
+      )
+      )
+      )
+      ),
+    lastName = ifelse(lastName == "Minshew II", "Minshew", lastName)
+  ) %>%
+  left_join(
+    roster %>% filter(team.season == season) %>% mutate(firstInit = str_extract(teamPlayers.firstName, "\\w")) %>% select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url),
+    by = c("lastName" = "teamPlayers.lastName", "firstName" = "firstInit")
+  ) %>%
+  mutate(# some headshot urls are broken. They are checked here and set to a default 
+    teamPlayers.headshot_url = dplyr::if_else(
+      RCurl::url.exists(as.character(teamPlayers.headshot_url)),
+      as.character(teamPlayers.headshot_url),
+      "http://static.nfl.com/static/content/public/image/fantasy/transparent/200x200/default.png",
+    )
+  ) %>%
+  left_join(cpoe, by = "passer_player_id") %>%
+  left_join(
+    teams_colors_logos %>% select(team_abbr, team_color, team_logo_espn),
+    by = c("team.abbr" = "team_abbr")
+  )
+
+colors_raw <-
+  summary %>%
+  group_by(passer_player_id) %>%
+  summarise(team = first(team.abbr), name = first(name)) %>%
+  left_join(
+    teams_colors_logos %>% select(team_abbr, team_color),
+    by = c("team" = "team_abbr")
+  ) %>%
+  arrange(name)
+
+n_eval <- 80
+colors <-
+  as.data.frame(lapply(colors_raw, rep, n_eval)) %>%
+  arrange(name)
+
+
+mean <-
+  summary %>%
+  group_by(air_yards) %>%
+  summarise(league = mean(cpoe), league_count = n())
+```
+
+Next, we need to change how Sebastian calls for colors in the geom_smooth call due to a package update. We can make a named vector to match the color hex numbers to the data frame.
+
+```{r}
+asp <- 1.2
+cols <- c()
+for(i in 1:length(unique(summary$team_color))) {
+  cols <- append(cols, unique(summary$team_color)[i])
+}
+color_names <- as.vector(unique(summary$team_color))
+cols <- set_names(cols, color_names)
+
+plot <-
+  summary %>%
+  ggplot(aes(x = air_yards, y = cpoe)) +
+  geom_smooth(
+    data = mean, aes(x = air_yards, y = league, weight = league_count), n = n_eval,
+    color = "red", alpha = 0.7, se = FALSE, size = 0.5, linetype = "dashed"
+  ) +
+  geom_smooth(
+    se = FALSE, alpha = 0.7, aes(weight = count, color = team_color), size = 0.65,
+    n = n_eval
+  ) +
+  scale_color_manual(values = cols) + 
+  geom_point(color = summary$team_color, size = summary$count / 15, alpha = 0.4) +
+  ggimage::geom_image(aes(x = 27.5, y = -20, image = team_logo_espn),
+                      size = .15, by = "width", asp = asp
+  ) +
+  ggimage::geom_image(aes(x = -2.5, y = -20, image = teamPlayers.headshot_url),
+                      size = .15, by = "width", asp = asp
+  ) +
+  xlim(-10, 40) + # makes sure the smoothing algorithm is evaluated between -10 and 40
+  coord_cartesian(xlim = c(-5, 30), ylim = c(-25, 25)) + # 'zoom in'
+  labs(
+    x = "Target Depth In Yards Thrown Beyond The Line Of Scrimmage (DOT)",
+    y = "Completion Percentage Over Expectation (CPOE in percentage points)",
+    caption = "Figure: @mrcaseb | Data: @nflfastR | Update: AnalyticsDarkweb",
+    title = glue::glue("Passing Efficiency {season}"),
+    subtitle = "CPOE as a function of target depth. Dotsize equivalent to number of targets. Smoothed for -10 ??? DOT ??? 40 Yards. Red Line = League Average."
+  ) +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = 10),
+    axis.text = element_text(size = 6),
+    plot.title = element_text(size = 12, hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    plot.caption = element_text(size = 8),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 6),
+    strip.text = element_text(size = 6, hjust = 0.5, face = "bold"),
+    aspect.ratio = 1 / asp,
+    legend.position = "none"
+  ) +
+  facet_wrap(vars(name), ncol = 6, scales = "free")
+
+
+```
+
+Lastly, we can kick our a save of our image file as before. 
+
+```{r, fig.width=20, fig.height=16}
+plot
+ggsave(glue::glue("cpoe_vs_dot_{season}.png"), dpi = 600, width = 24, height = 21, units = "cm")
+```
+
