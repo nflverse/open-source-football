@@ -42,6 +42,24 @@
     "preview_height": 3000
   },
   {
+    "path": "posts/2020-08-19-neural-nets-using-r/",
+    "title": "Neural Nets using R",
+    "description": "Using Keras in R to build neural networks.",
+    "author": [
+      {
+        "name": "Analytics Darkweb",
+        "url": "https://twitter.com/footballdaRkweb"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [],
+    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png",
+    "last_modified": "2020-08-19T15:30:43-07:00",
+    "input_file": "neural-nets-using-r.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
     "title": "PFR's Bad Throw Percentage for Quarterbacks",
     "description": "This article shows how to scrape football data from Pro Football Reference and\nhow to plot the bad throw percentage data for quarterbacks.",

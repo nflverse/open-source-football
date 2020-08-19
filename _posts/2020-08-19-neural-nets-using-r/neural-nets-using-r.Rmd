@@ -1,7 +1,7 @@
 ---
 title: "Neural Nets using R"
 description: |
-  A short description of the post.
+  Using Keras in R to build neural networks.
 author:
   - name: Analytics Darkweb
     url: https://twitter.com/footballdaRkweb
@@ -12,10 +12,10 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(reticulate)
 library(tidyverse)
 
@@ -36,16 +36,14 @@ https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_regre
 
 Use the following lines to download the data if you need to.
 
-```{r}
-# seasons <- 2010:2019
-# pbp <- purrr::map_df(seasons, function(x) {
-#   readr::read_csv(
-#     glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
-#   )
-# })
-# data.table::fwrite(pbp, "Darkweb/pbp_2010-2019.csv")
+```{r, message=FALSE, warning=FALSE}
+seasons <- 2010:2019
+pbp <- purrr::map_df(seasons, function(x) {
+  readr::read_csv(
+    glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
+  )
+})
 
-pbp <- data.table::fread("Darkweb/pbp_2010-2019.csv")
 ```
 
 Instead of throwing the kitchen sink at a problem, let's choose some variables we think would influence yards after catch.
@@ -66,7 +64,7 @@ In this step you are converting your data frame into something Keras can injest.
 
 ```{r}
 
-set.seed(4)
+set.seed(7)
 sample <- sample.int(n = nrow(df), size = floor(.9*nrow(df)), replace = F)
 train_df <- df[sample, ]
 test_df  <- df[-sample, ]
@@ -95,6 +93,19 @@ anything too fancy. Just a little good ole fashioned brute force! Mostly because
 types before you use them. :) 
 
 ```{r}
+library(tfdatasets)
+
+spec <- feature_spec(train_df, label ~ . ) %>% 
+  step_numeric_column(all_numeric(), normalizer_fn = scaler_standard()) %>% 
+  fit()
+
+spec
+
+layer <- layer_dense_features(
+  feature_columns = dense_features(spec), 
+  dtype = tf$float32
+)
+
 build_model <- function() {
   input <- layer_input_from_dataset(train_df %>% select(-label))
   
@@ -136,7 +147,7 @@ summary(model)
 
 Next let's run the model and see how it does! 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 history <- model %>% fit(
   x = train_df %>% select(-label),
   y = train_df$label,
@@ -150,11 +161,11 @@ history <- model %>% fit(
 
 Now to check the results!
 
-Here we visualize how our nnet trained over our epochs. We define epochs to 61 here since we had some early stopping.
+Here we visualize how our nnet trained over our epochs. We define epochs here since we had some early stopping.
 
 ```{r}
 library(ggplot2)
-history$params$epochs <- 61
+history$params$epochs <- length(history$metrics$loss)
 
 plot(history)
 
@@ -205,6 +216,7 @@ df %>%
   geom_density(aes(V1), color = "blue") + 
   geom_density(aes(yards_after_catch)) + 
   geom_density(aes(xyac_mean_yardage), color = "red") +
+  xlim(c(-10, 20)) + 
   theme_minimal() + 
   labs(
     title = "Expected YAC yardage",
