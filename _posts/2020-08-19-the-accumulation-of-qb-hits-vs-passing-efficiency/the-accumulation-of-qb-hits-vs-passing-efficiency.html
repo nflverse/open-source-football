@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>The accumulation of QB hits vs passing efficiency</title>
+
+  <meta property="description" itemprop="description" content="Do quarterbacks who get hit see their performance decline throughout the game?"/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-19"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-19"/>
+  <meta name="article:author" content="Ben Baldwin"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="The accumulation of QB hits vs passing efficiency"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Do quarterbacks who get hit see their performance decline throughout the game?"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="The accumulation of QB hits vs passing efficiency"/>
+  <meta property="twitter:description" content="Do quarterbacks who get hit see their performance decline throughout the game?"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["The accumulation of QB hits vs passing efficiency"]},{"type":"character","attributes":{},"value":["Do quarterbacks who get hit see their performance decline throughout the game?\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Ben Baldwin"]},{"type":"character","attributes":{},"value":["https://twitter.com/benbbaldwin"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["the-accumulation-of-qb-hits-vs-passing-efficiency_files/bowser-1.9.3/bowser.min.js","the-accumulation-of-qb-hits-vs-passing-efficiency_files/distill-2.2.21/template.v2.js","the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png","the-accumulation-of-qb-hits-vs-passing-efficiency_files/header-attrs-2.3/header-attrs.js","the-accumulation-of-qb-hits-vs-passing-efficiency_files/jquery-1.11.3/jquery.min.js","the-accumulation-of-qb-hits-vs-passing-efficiency_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for table of contents */
+
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+
+  .d-toc a {
+    border-bottom: none;
+  }
+
+  .d-toc ul {
+    padding-left: 0;
+  }
+
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+
+
+
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+
+  d-code {
+    overflow-x: auto !important;
+  }
+
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  pre.text-output {
+
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  @media(min-width: 768px) {
+
+  d-code {
+    overflow-x: visible !important;
+  }
+
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/header-attrs-2.3/header-attrs.js"></script>
+  <script src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"The accumulation of QB hits vs passing efficiency","description":"Do quarterbacks who get hit see their performance decline throughout the game?","authors":[{"author":"Ben Baldwin","authorURL":"https://twitter.com/benbbaldwin","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000-04:00","citationText":"Baldwin, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>The accumulation of QB hits vs passing efficiency</h1>
+<p><p>Do quarterbacks who get hit see their performance decline throughout the game?</p></p>
+</div>
+
+<div class="d-byline">
+  Ben Baldwin <a href="https://twitter.com/benbbaldwin" class="uri">https://twitter.com/benbbaldwin</a> 
+  
+<br/>08-19-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#get-the-data">Get the data</a></li>
+<li><a href="#calculate-total-hits-and-cumulative-hits">Calculate total hits and cumulative hits</a></li>
+<li><a href="#make-sure-the-data-are-sound">Make sure the data are sound</a></li>
+<li><a href="#some-final-cleaning-up">Some final cleaning up</a></li>
+<li><a href="#make-the-graph">Make the graph</a></li>
+<li><a href="#wrapping-up">Wrapping up</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>In a follow-up to his <a href="https://theathletic.com/980870/2019/07/26/teams-dont-have-to-establish-the-run-to-win-games-and-the-analytics-proves-it-but-the-run-isnt-dead-either/">excellent piece on the value of the run game</a> in The Athletic (great website, highly recommended), Ted Nguyen <a href="https://twitter.com/FB_FilmAnalysis/status/1156339362591735808">shared the following</a>:</p>
+<p>“In-house NFL analytics crews track QB hits and the results of the accumulation of hits and how it affects offensive performance over the course of a game.”</p>
+<p>Does the accumulation of hits affect offensive performance over the game? Is this finally a feather in the cap for the run game defenders?</p>
+<p>Because QB hits are tracked by the NFL, we can investigate this ourselves. Let’s dive in.</p>
+<h2 id="get-the-data">Get the data</h2>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+
+pbp &lt;- map_df(2015 : 2019, ~{
+  readRDS(
+    url(
+      glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{.}.rds&quot;)
+    )
+  ) %&gt;%
+    filter(pass == 1, !is.na(epa))
+})</code></pre>
+</div>
+<p>As a starting point, I’m using the saved dataset of pass plays from <code>nflfastR</code>.</p>
+<p>Let’s make sure the <code>qb_hit</code> variable includes penalty plays, because presumably a quarterback feels the effects of a hit even if the play didn’t count.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pbp %&gt;% 
+  filter(qb_hit==1, play_type == &quot;no_play&quot;) %&gt;%
+  select(desc, qb_hit)</code></pre>
+<pre><code>
+# A tibble: 0 x 2
+# ... with 2 variables: desc &lt;chr&gt;, qb_hit &lt;dbl&gt;</code></pre>
+</div>
+<p>Womp womp. Let’s see if we can just create hits by searching for the bracket <code>[</code> since that’s what NFL uses to denote hits.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pbp %&gt;% 
+  filter(play_type != &quot;no_play&quot;) %&gt;%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, &quot;\\[&quot;) | sack == 1, 1, 0)
+  ) %&gt;%
+  group_by(hit, qb_hit) %&gt;%
+  summarize(n = n())</code></pre>
+<pre><code>
+# A tibble: 4 x 3
+# Groups:   hit [2]
+    hit qb_hit     n
+  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+1     0      0 88971
+2     0      1     3
+3     1      0   373
+4     1      1 14515</code></pre>
+</div>
+<p>Just counting sacks and hits works pretty well for the non-penalty plays; there’s high agreement between the official NFL stats (<code>qb_hit</code>) and the variable we created (<code>hit</code>). Let’s see which plays drive the difference:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pbp %&gt;% 
+  filter(play_type != &quot;no_play&quot;) %&gt;%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, &quot;\\[&quot;) | sack == 1, 1, 0)
+  ) %&gt;%
+  filter(hit == 0 &amp; qb_hit == 1) %&gt;%
+  select(desc)</code></pre>
+<pre><code>
+# A tibble: 3 x 1
+  desc                                                                
+  &lt;chr&gt;                                                               
+1 (6:33) (Shotgun) 5-J.Flacco to DEN 15 for -5 yards. FUMBLES, and re~
+2 (8:37) (Shotgun) 11-C.Wentz Aborted. 62-J.Kelce FUMBLES at NYJ 28, ~
+3 (:44) (Shotgun) 6-D.Hodges FUMBLES (Aborted) at NYJ 49, and recover~</code></pre>
+</div>
+<p>I guess these are data errors or something? I don’t know.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pbp %&gt;% 
+  filter(play_type != &quot;no_play&quot;) %&gt;%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, &quot;\\[&quot;) | sack == 1, 1, 0)
+  ) %&gt;%
+  filter(hit == 1 &amp; qb_hit == 0) %&gt;%
+  select(desc)</code></pre>
+<pre><code>
+# A tibble: 373 x 1
+   desc                                                               
+   &lt;chr&gt;                                                              
+ 1 (7:04) (Shotgun) 5-T.Taylor sacked ob at BUF 23 for -6 yards (50-R~
+ 2 (4:41) (Shotgun) 12-T.Brady sacked at BUF 41 for -6 yards (55-J.Hu~
+ 3 (14:21) 3-R.Wilson sacked ob at SEA 43 for -1 yards (56-J.Peppers).
+ 4 (13:08) (Shotgun) 5-N.Foles sacked at STL 31 for -6 yards. FUMBLES~
+ 5 (4:58) (Shotgun) 9-D.Brees sacked at NO 15 for -8 yards (56-J.Smit~
+ 6 (1:37) (No Huddle, Shotgun) 8-M.Mariota sacked at CLE 43 for -8 ya~
+ 7 (1:17) (No Huddle, Shotgun) 17-R.Tannehill sacked at MIA 39 for -7~
+ 8 (14:21) (Shotgun) 12-A.Luck sacked at IND 18 for -5 yards (97-K.Kl~
+ 9 (11:33) (Shotgun) 5-B.Bortles sacked at NE 31 for -6 yards (91-J.C~
+10 (14:13) (Shotgun) 2-M.Vick sacked ob at PIT 27 for 0 yards (52-A.O~
+# ... with 363 more rows</code></pre>
+</div>
+<p>Seems like these are sacks out of bounds or fumbles without getting hit. Okay whatever, close enough. Let’s go with the official <code>qb_hit</code> on normal plays and the created version for <code>no_play</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hits_data &lt;- pbp %&gt;% 
+  mutate(
+    hit = case_when(
+      play_type != &quot;no_play&quot; &amp; qb_hit == 1 ~ 1,
+      play_type == &quot;no_play&quot; &amp; (stringr::str_detect(desc, &quot;\\[&quot;) | sack == 1) ~ 1,
+      TRUE ~ 0
+    )
+  )</code></pre>
+</div>
+<h2 id="calculate-total-hits-and-cumulative-hits">Calculate total hits and cumulative hits</h2>
+<p>Now we need to create two variables: (1) qb hits taken up to the current point in the game and (2) total qb hits taken in the game. I’ll also filter out run plays.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hits_data &lt;- hits_data %&gt;% 
+  group_by(posteam, game_id) %&gt;%
+  mutate(
+    cum_hits=cumsum(qb_hit),
+    total_hits=sum(qb_hit)
+  ) %&gt;%
+  ungroup()</code></pre>
+</div>
+<p>I’m grouping by team (posteam), which isn’t quite perfect. If a team has to switch quarterbacks mid-game, then the count of hits won’t be accurate for the second quarterback. But because these situations are so rare, it shouldn’t matter in the aggregate.</p>
+<p>The variable cum_hits is created using cumsum, which totals up how many QB hits a team has suffered to that point in the game. And total_hits just sums up the total number of hits over the whole game. I’m kind of amazed at how easy this is to do in R.</p>
+<p>Now let’s see how total_hits affects EPA per dropback at the game level:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hits_data %&gt;% 
+  group_by(total_hits) %&gt;%
+  summarize(
+    mean_epa = mean(epa),
+    games=n_distinct(game_id, posteam)
+    )</code></pre>
+<pre><code>
+# A tibble: 17 x 3
+   total_hits mean_epa games
+        &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+ 1          0   0.256     35
+ 2          1   0.232    119
+ 3          2   0.195    238
+ 4          3   0.167    307
+ 5          4   0.123    374
+ 6          5   0.0557   407
+ 7          6   0.0339   331
+ 8          7   0.0171   285
+ 9          8  -0.0162   200
+10          9  -0.0511   146
+11         10  -0.0343    90
+12         11  -0.112     59
+13         12  -0.0274    36
+14         13  -0.0337    24
+15         14   0.0182     7
+16         15  -0.249      7
+17         16  -0.245      5</code></pre>
+</div>
+<p>Wow, the most efficient games are most decidedly the ones in which a QB isn’t hit often!</p>
+<h2 id="make-sure-the-data-are-sound">Make sure the data are sound</h2>
+<p>I was surprised that there have been so many games where a QB was never hit (35, the first row above). Initially I thought I did something wrong, but it checks out. Let’s make sure we can replicate the official NFL data. I’m going to look at the later stage of Cleveland’s 2018 season because I know that’s where some of the 0-hit games come from.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hits_data %&gt;% 
+  filter(posteam == &quot;CLE&quot; &amp; season == 2018 &amp; week &gt;= 10) %&gt;%
+  group_by(week) %&gt;%
+  summarize(hits = mean(total_hits), mean_epa = mean(epa))</code></pre>
+<pre><code>
+# A tibble: 7 x 3
+   week  hits mean_epa
+  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1    10     0   0.614 
+2    12     1   0.837 
+3    13     1  -0.145 
+4    14     1  -0.112 
+5    15     3  -0.0154
+6    16     0   0.458 
+7    17     2   0.211 </code></pre>
+</div>
+<p>Now compare to the official stats (with thanks to SportRadar):</p>
+<figure>
+<img src="https://camo.githubusercontent.com/542b586c99f6a3d04d88ce2b8a3db1828a55806c/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4541346e675972586b4149345950643f666f726d61743d706e67" alt="" /><figcaption>Hits</figcaption>
+</figure>
+<p>Boom! A perfect match!</p>
+<h2 id="some-final-cleaning-up">Some final cleaning up</h2>
+<p>Returning to the relationship between hits and EPA per dropback, case closed, right? Games with fewer hits have higher EPA per dropback. Well, not so fast. This is picking up, in part, a game script effect, where overmatched teams fall behind early and are forced to pass a lot, resulting in their QB being hit more often.</p>
+<p>So we want to create a level playing field. To do this, let’s take teams with a given number of hits and see how the number of accumulated hits affects passing efficiency, holding the total number of hits received in the game constant. There are a number of other ways we could have approached this – looking at plays within some range of win probability or score differential, for example – but I think this is a nice illustration.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hits_data &lt;- hits_data %&gt;%
+  mutate(
+    hit_in_game=
+      case_when(total_hits==0 | total_hits==1~&quot;0-1&quot;,
+                 total_hits==2 | total_hits==3~&quot;2-3&quot;, 
+                 total_hits==4 | total_hits==5~&quot;4-5&quot;, 
+                 total_hits==6 | total_hits==7~&quot;6-7&quot;, 
+                 total_hits==8|total_hits==9~&quot;8-9&quot;, 
+                 total_hits&gt;9~&quot;10+&quot;) %&gt;% 
+                  factor(levels = c(&quot;0&quot;, &quot;2-3&quot;, &quot;4-5&quot;, &quot;6-7&quot;, &quot;8-9&quot;, &quot;10+&quot;))
+    )</code></pre>
+</div>
+<p>Above, we’ve created some BINS based on how often a quarterback is hit in a game (the factor(levels… part at the end isn’t strictly necessary, but allows the legend to display in the right order later on).</p>
+<p>Now we can group by our bins, along with how many hits a QB has taken up to that point in a given game.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+chart &lt;- hits_data %&gt;% 
+  group_by(hit_in_game,cum_hits) %&gt;%
+  summarize(avg_epa = mean(epa), plays = n())</code></pre>
+</div>
+<h2 id="make-the-graph">Make the graph</h2>
+<p>Now all that’s left to do is plot the data (with a huge thanks to R genius Josh Hornsby for helping make this look better)</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+chart %&gt;% 
+  filter(cum_hits &gt; 0 &amp; cum_hits &lt;=12 &amp; !is.na(hit_in_game)) %&gt;%
+  ggplot(aes(x = cum_hits, y = avg_epa, color = hit_in_game, shape = hit_in_game)) +
+    geom_jitter(aes(x = cum_hits, y = avg_epa, fill = hit_in_game), shape = 21, stroke = 1.25, size = 4, width = 0.1, show.legend=FALSE)+
+   geom_smooth(method = lm, se = FALSE) +
+   theme_minimal() +
+   theme(
+    legend.position = c(0.99, 0.99), 
+    legend.justification = c(1, 1) ,
+    plot.title = element_text(size = 16, hjust = 0.5),
+    panel.grid.minor = element_blank())+ 
+  ggsci::scale_color_locuszoom(name = &quot;Total Hits\nIn-Game&quot;) +
+  scale_y_continuous(name = &quot;EPA Per Dropback&quot;, breaks = scales::pretty_breaks(n = 5))+
+  scale_x_continuous(breaks = 0:50, name = &quot;Cumulative QB Hits Suffered In Game So Far&quot;)+
+  labs(title=&quot;QB hits versus QB efficiency&quot;, caption = &quot;Data from nflfastR&quot;)</code></pre>
+<p><img src="the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<p>Well then. The negative relationship between QB hits and efficiency is because the group of teams that get hit often are the only ones to make it to the high numbers of hits. Stated this way, it sounds obvious, but it’s important. These teams aren’t necessarily inefficient because their QBs are getting hit a lot; but rather, their QBs are getting hit a lot because they’re bad teams to begin with.</p>
+<p>Side note: I’m not showing 0 hits because there’s a mechanical relationship between QB hits and efficiency. It is the one x-axis point that contains 0 hits, by definition, so of course EPA per play is higher: it’s a comparison of a set of plays with no QB hits to other sets of plays with QB hits. I also truncated the x-axis at 12 hits because anything higher is extremely rare.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Letting your QB get hit is bad. Obviously. Teams that allow more hits are less likely to have efficient offenses. But for a given level of hits, there is no evidence that the accumulation of hits makes any difference throughout the course of a game. The evidence suggests that we’ve found a variation of Brian Burke’s <a href="http://archive.advancedfootballanalytics.com/2008/02/passing-paradox-part-3.html">“passing paradox”</a>:</p>
+<figure>
+<img src="https://camo.githubusercontent.com/cc43777a1fcb61bd06dfc57e4b20b2afcfc31d8f/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f454136495a7348586b4149644f54393f666f726d61743d706e67" alt="" /><figcaption>Burke</figcaption>
+</figure>
+<p>As with the Rule of 53, the NFL has appeared to draw the wrong conclusions from a correlation driven by game state.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
