@@ -32,7 +32,13 @@ And this is the place where I want to centralize all these things.
 
 ### What Ben says
 
-...
+The existence of open-source packages like [nflscrapR](https://twitter.com/nflscrapR)
+and [nflfastR](https://mrcaseb.github.io/nflfastR/) along with people's willingness 
+to share code has made NFL analytics Twitter a great place to learn from each other. 
+However, the nature of Twitter makes it hard to find old posts, and I often have 
+a hard time remembering where I saw something. 
+
+The hope is that this will serve as a resource for others.
 
 ## Contributors
 
