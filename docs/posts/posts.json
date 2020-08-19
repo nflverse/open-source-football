@@ -60,6 +60,24 @@
     "preview_height": 768
   },
   {
+    "path": "posts/2020-08-19-matching-players-without-id-keys/",
+    "title": "Matching players without ID keys",
+    "description": "Rebuilding player graphs when ID keys go missing or are corrupted.",
+    "author": [
+      {
+        "name": "Analytics Darkweb",
+        "url": "https://twitter.com/footballdaRkweb"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [],
+    "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2020-08-19T16:15:58-07:00",
+    "input_file": "matching-players-without-id-keys.utf8.md",
+    "preview_width": 3840,
+    "preview_height": 3072
+  },
+  {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
     "title": "PFR's Bad Throw Percentage for Quarterbacks",
     "description": "This article shows how to scrape football data from Pro Football Reference and\nhow to plot the bad throw percentage data for quarterbacks.",
