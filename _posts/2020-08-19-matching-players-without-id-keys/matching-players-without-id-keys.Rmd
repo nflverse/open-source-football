@@ -165,7 +165,7 @@ plot <-
 
 ```
 
-Lastly, we can kick our a save of our image file as before. 
+Lastly, we can kick out a save of our image file as before. 
 
 ```{r, fig.width=20, fig.height=16}
 plot
