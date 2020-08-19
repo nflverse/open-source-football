@@ -42,3 +42,10 @@ Their names we will maintain in this list (chronological order).
 * [Sebastian Carl](https://twitter.com/mrcaseb)
 * [Ben Baldwin](https://twitter.com/benbbaldwin)
 * ...
+
+## Design
+
+This website is built with [Distill for R Markdown](https://rstudio.github.io/distill).
+It uses a custom Cascading Style Sheet (css) heavily borrowed from [Matt 
+Worthington](https://twitter.com/mrworthington) as suggested by the incredible 
+helpful [Tom Mock](https://twitter.com/thomas_mock).

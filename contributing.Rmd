@@ -19,7 +19,7 @@ The key idea of Open Source Football is to make football related analysis and
 the corresponding code publicly available. To achieve this we need volunteers 
 who are willing to make a contribution.
 
-Articles posted on Open Source Football are authored using [Distill for R
+Articles posted on Open Source Football are authored using [Distill for R 
 Markdown](https://rstudio.github.io/distill). This guide is intended to help all 
 contributors to get their articles ready for publishing. 
 
@@ -38,7 +38,7 @@ install.packages(c("distill", "rmarkdown"))
 clicking the "Fork" button. The current version of the repo will be copied into
 your GitHub.
 
-```{r layout="l-body-outset", echo=FALSE}
+```{r echo=FALSE}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90563320-ed936480-e1a3-11ea-90b0-9fbc00a6808b.png")
 ```
 

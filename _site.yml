@@ -2,6 +2,10 @@ name: "open-source-football"
 title: "Open Source Football"
 description: |
   A place where anybody can share their work with others
+base_url: https://mrcaseb.github.io/open-source-football/
+collections:
+  posts:
+    share: [twitter, facebook]
 output_dir: "docs"
 navbar:
   right:
@@ -13,4 +17,6 @@ navbar:
       href: contributing.html
     - icon: fa fa-github
       href: https://github.com/mrcaseb/open-source-football
-output: distill::distill_article
+output:
+  distill::distill_article:
+    css: styles.css
