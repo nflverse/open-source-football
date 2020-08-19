@@ -1368,8 +1368,18 @@
 <div class="d-article">
 <p>The key idea of Open Source Football is to make football related analysis and the corresponding code publicly available. To achieve this we need volunteers who are willing to make a contribution.</p>
 <p>Articles posted on Open Source Football are authored using <a href="https://rstudio.github.io/distill">Distill for R Markdown</a>. This guide is intended to help all contributors to get their articles ready for publishing.</p>
-<h3 id="step-by-step-overview">Step by Step Overview</h3>
-<p>If you are willing to contribute you will have to follow the below steps:</p>
+<h2 id="step-by-step-overview">Step by Step Overview</h2>
+<p>If you are willing to contribute you will have to follow the below steps (we will discuss some steps more detailed below):</p>
+<ol type="1">
+<li>Install the R packages you will need to contribute</li>
+<li>Create a copy of the website repo to your GitHub</li>
+<li>Load it into a new R Studio project and start working in a new branch</li>
+<li>Create the new article (see <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the repo</a> for some examples) and don’t forget to check the <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> website.</li>
+<li>Commit all to your post related files and push them into the new branch in your GitHub repo</li>
+<li>Visit your repo and create a pull request to merge your post into the open-source-football repo</li>
+</ol>
+<p>With the last step we will be notified and will take a look at your article, suggest changes as necessary, then publish it when it’s ready by merging it into the main repo.</p>
+<h2 id="more-detailed-instruction">More Detailed Instruction</h2>
 <ol type="1">
 <li>Install the packages <code>distill</code> and <code>rmarkdown</code> with</li>
 </ol>
@@ -1377,19 +1387,19 @@
 <pre class="r"><code>
 install.packages(c(&quot;distill&quot;, &quot;rmarkdown&quot;))</code></pre>
 </div>
+<hr />
 <ol start="2" type="1">
 <li>Login to your GitHub account, view the <a href="https://github.com/mrcaseb/open-source-football">website repo</a> and fork it by clicking the “Fork” button. The current version of the repo will be copied into your GitHub.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90563320-ed936480-e1a3-11ea-90b0-9fbc00a6808b.png" /><!-- --></p>
 </div>
-<ol start="3" type="1">
-<li>Create a new branch within your repo and try to choose a descriptive name</li>
-</ol>
+<p>Create a new branch within your repo and try to choose a descriptive name</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90564133-24b64580-e1a5-11ea-91cc-5e34224f63d5.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
-<ol start="4" type="1">
+<hr />
+<ol start="3" type="1">
 <li>Copy the web url of the new repo into your clipboard</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">

@@ -23,15 +23,36 @@ Articles posted on Open Source Football are authored using [Distill for R
 Markdown](https://rstudio.github.io/distill). This guide is intended to help all 
 contributors to get their articles ready for publishing. 
 
-### Step by Step Overview
+## Step by Step Overview
 
-If you are willing to contribute you will have to follow the below steps:
+If you are willing to contribute you will have to follow the below steps (we will
+discuss some steps more detailed below):
+
+1. Install the R packages you will need to contribute
+1. Create a copy of the website repo to your GitHub
+1. Load it into a new R Studio project and start working in a new branch
+1. Create the new article (see [the 
+repo](https://github.com/mrcaseb/open-source-football/tree/master/_posts) for 
+some examples) and don't forget to check the [Distill for R 
+Markdown](https://rstudio.github.io/distill) website.
+1. Commit all to your post related files and push them into the new branch in 
+your GitHub repo
+1. Visit your repo and create a pull request to merge your post into the 
+open-source-football repo
+
+With the last step we will be notified and will take a look at your article, 
+suggest changes as necessary, then publish it when it’s ready by merging it into
+the main repo.
+
+## More Detailed Instruction
 
 1. Install the packages `distill` and `rmarkdown` with
 
 ```{r, eval=FALSE}
 install.packages(c("distill", "rmarkdown"))
 ```
+
+---
 
 2. Login to your GitHub account, view the 
 [website repo](https://github.com/mrcaseb/open-source-football) and fork it by
@@ -42,13 +63,15 @@ your GitHub.
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90563320-ed936480-e1a3-11ea-90b0-9fbc00a6808b.png")
 ```
 
-3. Create a new branch within your repo and try to choose a descriptive name
+Create a new branch within your repo and try to choose a descriptive name
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564133-24b64580-e1a5-11ea-91cc-5e34224f63d5.png")
 ```
 
-4. Copy the web url of the new repo into your clipboard
+---
+
+3. Copy the web url of the new repo into your clipboard
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90564521-cccc0e80-e1a5-11ea-8fd7-493f40b74cd3.png")
