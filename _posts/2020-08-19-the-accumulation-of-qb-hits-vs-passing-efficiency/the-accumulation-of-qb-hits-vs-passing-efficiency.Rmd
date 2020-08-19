@@ -1,0 +1,220 @@
+---
+title: "The accumulation of QB hits vs passing efficiency"
+description: |
+  Do quarterbacks who get hit see their performance decline throughout the game?
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: 08-19-2020
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - Figures
+  - nflfastR
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+```
+
+
+In a follow-up to his [excellent piece on the value of the run game](https://theathletic.com/980870/2019/07/26/teams-dont-have-to-establish-the-run-to-win-games-and-the-analytics-proves-it-but-the-run-isnt-dead-either/) in The Athletic (great website, highly recommended), Ted Nguyen [shared the following](https://twitter.com/FB_FilmAnalysis/status/1156339362591735808):
+
+"In-house NFL analytics crews track QB hits and the results of the accumulation of hits and how it affects offensive performance over the course of a game."
+
+Does the accumulation of hits affect offensive performance over the game? Is this finally a feather in the cap for the run game defenders?
+
+Because QB hits are tracked by the NFL, we can investigate this ourselves. Let's dive in.
+
+## Get the data
+``` {r}
+library(tidyverse)
+
+pbp <- map_df(2015 : 2019, ~{
+  readRDS(
+    url(
+      glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{.}.rds")
+    )
+  ) %>%
+    filter(pass == 1, !is.na(epa))
+})
+```
+
+As a starting point, I'm using the saved dataset of pass plays from `nflfastR`.
+
+Let's make sure the `qb_hit` variable includes penalty plays, because presumably a quarterback feels the effects of a hit even if the play didn't count.
+
+``` {r}
+pbp %>% 
+  filter(qb_hit==1, play_type == "no_play") %>%
+  select(desc, qb_hit)
+```
+Womp womp. Let's see if we can just create hits by searching for the bracket `[` since that's what NFL uses to denote hits.
+
+``` {r}
+pbp %>% 
+  filter(play_type != "no_play") %>%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, "\\[") | sack == 1, 1, 0)
+  ) %>%
+  group_by(hit, qb_hit) %>%
+  summarize(n = n())
+```
+
+Just counting sacks and hits works pretty well for the non-penalty plays; there's high agreement between the official NFL stats (`qb_hit`) and the variable we created (`hit`). Let's see which plays drive the difference:
+
+``` {r}
+pbp %>% 
+  filter(play_type != "no_play") %>%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, "\\[") | sack == 1, 1, 0)
+  ) %>%
+  filter(hit == 0 & qb_hit == 1) %>%
+  select(desc)
+```
+
+I guess these are data errors or something? I don't know.
+
+``` {r}
+pbp %>% 
+  filter(play_type != "no_play") %>%
+  mutate(
+    hit = if_else(stringr::str_detect(desc, "\\[") | sack == 1, 1, 0)
+  ) %>%
+  filter(hit == 1 & qb_hit == 0) %>%
+  select(desc)
+```
+
+Seems like these are sacks out of bounds or fumbles without getting hit. Okay whatever, close enough. Let's go with the official `qb_hit` on normal plays and the created version for `no_play`.
+
+``` {r}
+hits_data <- pbp %>% 
+  mutate(
+    hit = case_when(
+      play_type != "no_play" & qb_hit == 1 ~ 1,
+      play_type == "no_play" & (stringr::str_detect(desc, "\\[") | sack == 1) ~ 1,
+      TRUE ~ 0
+    )
+  )
+```
+
+## Calculate total hits and cumulative hits
+
+Now we need to create two variables: (1) qb hits taken up to the current point in the game and (2) total qb hits taken in the game. I'll also filter out run plays.
+
+``` {r}
+hits_data <- hits_data %>% 
+  group_by(posteam, game_id) %>%
+  mutate(
+    cum_hits=cumsum(qb_hit),
+    total_hits=sum(qb_hit)
+  ) %>%
+  ungroup()
+```
+
+I'm grouping by team (posteam), which isn't quite perfect. If a team has to switch quarterbacks mid-game, then the count of hits won't be accurate for the second quarterback. But because these situations are so rare, it shouldn't matter in the aggregate.
+
+The variable cum_hits is created using cumsum, which totals up how many QB hits a team has suffered to that point in the game. And total_hits just sums up the total number of hits over the whole game. I'm kind of amazed at how easy this is to do in R.
+
+Now let's see how total_hits affects EPA per dropback at the game level:
+
+``` {r}
+hits_data %>% 
+  group_by(total_hits) %>%
+  summarize(
+    mean_epa = mean(epa),
+    games=n_distinct(game_id, posteam)
+    )
+```
+
+Wow, the most efficient games are most decidedly the ones in which a QB isn't hit often!
+
+## Make sure the data are sound
+
+I was surprised that there have been so many games where a QB was never hit (35, the first row above). Initially I thought I did something wrong, but it checks out. Let's make sure we can replicate the official NFL data. I'm going to look at the later stage of Cleveland's 2018 season because I know that's where some of the 0-hit games come from.
+
+``` {r}
+hits_data %>% 
+  filter(posteam == "CLE" & season == 2018 & week >= 10) %>%
+  group_by(week) %>%
+  summarize(hits = mean(total_hits), mean_epa = mean(epa))
+```
+
+Now compare to the official stats (with thanks to SportRadar):
+
+![Hits](https://camo.githubusercontent.com/542b586c99f6a3d04d88ce2b8a3db1828a55806c/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4541346e675972586b4149345950643f666f726d61743d706e67)
+
+Boom! A perfect match!
+
+## Some final cleaning up
+
+Returning to the relationship between hits and EPA per dropback, case closed, right? Games with fewer hits have higher EPA per dropback. Well, not so fast. This is picking up, in part, a game script effect, where overmatched teams fall behind early and are forced to pass a lot, resulting in their QB being hit more often.
+
+So we want to create a level playing field. To do this, let's take teams with a given number of hits and see how the number of accumulated hits affects passing efficiency, holding the total number of hits received in the game constant. There are a number of other ways we could have approached this -- looking at plays within some range of win probability or score differential, for example -- but I think this is a nice illustration.
+
+``` {r}
+hits_data <- hits_data %>%
+  mutate(
+    hit_in_game=
+      case_when(total_hits==0 | total_hits==1~"0-1",
+                 total_hits==2 | total_hits==3~"2-3", 
+                 total_hits==4 | total_hits==5~"4-5", 
+                 total_hits==6 | total_hits==7~"6-7", 
+                 total_hits==8|total_hits==9~"8-9", 
+                 total_hits>9~"10+") %>% 
+                  factor(levels = c("0", "2-3", "4-5", "6-7", "8-9", "10+"))
+    )
+```
+
+Above, we've created some BINS based on how often a quarterback is hit in a game (the factor(levels... part at the end isn't strictly necessary, but allows the legend to display in the right order later on).
+
+Now we can group by our bins, along with how many hits a QB has taken up to that point in a given game.
+
+``` {r}
+chart <- hits_data %>% 
+  group_by(hit_in_game,cum_hits) %>%
+  summarize(avg_epa = mean(epa), plays = n())
+```
+
+## Make the graph
+Now all that's left to do is plot the data (with a huge thanks to R genius Josh Hornsby for helping make this look better)
+
+```{r, layout="l-page", fig.height=5.5, preview=TRUE}
+chart %>% 
+  filter(cum_hits > 0 & cum_hits <=12 & !is.na(hit_in_game)) %>%
+  ggplot(aes(x = cum_hits, y = avg_epa, color = hit_in_game, shape = hit_in_game)) +
+    geom_jitter(aes(x = cum_hits, y = avg_epa, fill = hit_in_game), shape = 21, stroke = 1.25, size = 4, width = 0.1, show.legend=FALSE)+
+   geom_smooth(method = lm, se = FALSE) +
+   theme_minimal() +
+   theme(
+    legend.position = c(0.99, 0.99), 
+    legend.justification = c(1, 1) ,
+    plot.title = element_text(size = 16, hjust = 0.5),
+    panel.grid.minor = element_blank())+ 
+  ggsci::scale_color_locuszoom(name = "Total Hits\nIn-Game") +
+  scale_y_continuous(name = "EPA Per Dropback", breaks = scales::pretty_breaks(n = 5))+
+  scale_x_continuous(breaks = 0:50, name = "Cumulative QB Hits Suffered In Game So Far")+
+  labs(title="QB hits versus QB efficiency", caption = "Data from nflfastR")
+```
+
+Well then. The negative relationship between QB hits and efficiency is because the group of teams that get hit often are the only ones to make it to the high numbers of hits. Stated this way, it sounds obvious, but it's important. These teams aren't necessarily inefficient because their QBs are getting hit a lot; but rather, their QBs are getting hit a lot because they're bad teams to begin with.
+
+Side note: I'm not showing 0 hits because there's a mechanical relationship between QB hits and efficiency. It is the one x-axis point that contains 0 hits, by definition, so of course EPA per play is higher: it's a comparison of a set of plays with no QB hits to other sets of plays with QB hits. I also truncated the x-axis at 12 hits because anything higher is extremely rare.
+
+## Wrapping up
+Letting your QB get hit is bad. Obviously. Teams that allow more hits are less likely to have efficient offenses. But for a given level of hits, there is no evidence that the accumulation of hits makes any difference throughout the course of a game. The evidence suggests that we've found a variation of Brian Burke's ["passing paradox"](http://archive.advancedfootballanalytics.com/2008/02/passing-paradox-part-3.html):
+
+![Burke](https://camo.githubusercontent.com/cc43777a1fcb61bd06dfc57e4b20b2afcfc31d8f/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f454136495a7348586b4149644f54393f666f726d61743d706e67)
+
+As with the Rule of 53, the NFL has appeared to draw the wrong conclusions from a correlation driven by game state.
+
