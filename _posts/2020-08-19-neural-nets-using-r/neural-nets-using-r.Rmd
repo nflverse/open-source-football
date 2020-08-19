@@ -1,0 +1,218 @@
+---
+title: "Neural Nets using R"
+description: |
+  A short description of the post.
+author:
+  - name: Analytics Darkweb
+    url: https://twitter.com/footballdaRkweb
+date: 08-19-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(reticulate)
+library(tidyverse)
+
+use_condaenv("r-tf-gpu", required = TRUE)
+
+
+library(keras)
+
+```
+
+Before you proceed you will need to install Keras for R. In order to do that, I followed this guide.
+https://github.com/antoniosehk/keras-tensorflow-windows-installation
+
+The following guide is heavily borrowed from the following Rstudio guide!
+https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_regression/
+
+
+
+Use the following lines to download the data if you need to.
+
+```{r}
+# seasons <- 2010:2019
+# pbp <- purrr::map_df(seasons, function(x) {
+#   readr::read_csv(
+#     glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
+#   )
+# })
+# data.table::fwrite(pbp, "Darkweb/pbp_2010-2019.csv")
+
+pbp <- data.table::fread("Darkweb/pbp_2010-2019.csv")
+```
+
+Instead of throwing the kitchen sink at a problem, let's choose some variables we think would influence yards after catch.
+
+```{r}
+df <-
+  pbp %>%
+  filter(pass == 1) %>%
+  mutate(
+    pass_location = as.numeric(ifelse(pass_location == "middle", 1, 0)),
+    roof = as.numeric(as.factor(roof))
+    ) %>%
+  select(yardline_100, down, ydstogo, shotgun, air_yards, yards_after_catch, qb_hit, pass_location, roof) %>%
+  na.omit()
+```
+
+In this step you are converting your data frame into something Keras can injest. 
+
+```{r}
+
+set.seed(4)
+sample <- sample.int(n = nrow(df), size = floor(.9*nrow(df)), replace = F)
+train_df <- df[sample, ]
+test_df  <- df[-sample, ]
+
+train_labels <- train_df$yards_after_catch
+test_labels <- test_df$yards_after_catch
+
+train_df <- train_df %>% select(-yards_after_catch)
+test_df <- test_df %>% select(-yards_after_catch)
+
+column_names <- colnames(train_df)
+
+train_df <- train_df %>% 
+  as_tibble(.name_repair = "minimal") %>% 
+  setNames(column_names) %>% 
+  mutate(label = train_labels)
+
+test_df <- test_df %>% 
+  as_tibble(.name_repair = "minimal") %>% 
+  setNames(column_names) %>% 
+  mutate(label = test_labels)
+```
+
+Next we'll use a little helper function to create the model, here we're just doing a little toy model. No convolutions or
+anything too fancy. Just a little good ole fashioned brute force! Mostly because you should go read about different network 
+types before you use them. :) 
+
+```{r}
+build_model <- function() {
+  input <- layer_input_from_dataset(train_df %>% select(-label))
+  
+  output <- input %>% 
+    layer_dense_features(dense_features(spec)) %>% 
+    layer_dense(units = 32, activation = "relu") %>%
+    layer_dropout(.25) %>%
+    layer_dense(units = 32, activation = "relu") %>%
+    layer_dropout(.25) %>%
+    layer_dense(units = 32, activation = "relu") %>%
+    layer_dropout(.25) %>%
+    layer_dense(units = 1) 
+  
+  model <- keras_model(input, output)
+  
+  model %>% 
+    compile(
+      loss = "mse",
+      optimizer = "adam",
+      metrics = list("mean_absolute_error")
+    )
+  
+  model
+}
+
+early_stop <- callback_early_stopping(monitor = "val_loss", patience = 20)
+
+print_dot_callback <- callback_lambda(
+  on_epoch_end = function(epoch, logs) {
+    if (epoch %% 20 == 0) cat("\n")
+    cat(".")
+  }
+)  
+
+model <- build_model()
+
+summary(model)
+```
+
+Next let's run the model and see how it does! 
+
+```{r}
+history <- model %>% fit(
+  x = train_df %>% select(-label),
+  y = train_df$label,
+  epochs = 500,
+  batchsize = 64,
+  validation_split = 0.2,
+  verbose = 0,
+  callbacks = list(print_dot_callback, early_stop)
+)
+```
+
+Now to check the results!
+
+Here we visualize how our nnet trained over our epochs. We define epochs to 61 here since we had some early stopping.
+
+```{r}
+library(ggplot2)
+history$params$epochs <- 61
+
+plot(history)
+
+test_predictions <- model %>% predict(test_df %>% select(-label))
+```
+
+Next we can take a look at the mean absolute error and loss from our model on the test set.
+
+```{r}
+c(loss, mae) %<-% (model %>% evaluate(test_df %>% select(-label), test_df$label, verbose = 0))
+
+loss
+
+mae
+```
+
+Lastly, let's visualize our trained model versus both actual YAC yardage and nflfastR's XYAC mean yards model.
+
+```{r}
+test_predictions <- test_predictions %>% as.data.frame()
+
+test_predictions %>% ggplot(aes(V1)) + geom_density()
+
+df <-
+  pbp %>%
+  filter(pass == 1) %>%
+  mutate(
+    pass_location = as.numeric(ifelse(pass_location == "middle", 1, 0)),
+    roof = as.numeric(as.factor(roof))
+  ) %>%
+  select(yardline_100, down, ydstogo, shotgun, air_yards, yards_after_catch, qb_hit, pass_location, roof, xyac_mean_yardage) %>%
+  na.omit()
+
+train_df <- df %>% 
+  as_tibble(.name_repair = "minimal") %>% 
+  setNames(colnames(df)) %>% 
+  mutate(label = yards_after_catch)
+
+test_predictions <- model %>% predict(train_df %>% select(-label))
+
+test_predictions <- test_predictions %>% as.data.frame()
+
+df <- 
+  cbind(df, test_predictions)
+
+df %>%
+  ggplot() + 
+  geom_density(aes(V1), color = "blue") + 
+  geom_density(aes(yards_after_catch)) + 
+  geom_density(aes(xyac_mean_yardage), color = "red") +
+  theme_minimal() + 
+  labs(
+    title = "Expected YAC yardage",
+    x = "YAC Yardage",
+    y = "Density",
+    subtitle = "Actual: Black, NNet: Blue, XYAC_Mean: Red"
+    
+  )
+```
+
+There you have it, your own little nnet done completely in R using the Keras/tensorflow backend. 
