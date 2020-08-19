@@ -45,7 +45,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","repository_url"]}},"value":[{"type":"character","attributes":{},"value":["Contributing to Open Source Football"]},{"type":"character","attributes":{},"value":["A brief guide how to contribute content.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["2020-08-19"]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/analytics-community"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","repository_url"]}},"value":[{"type":"character","attributes":{},"value":["Contributing to Open Source Football"]},{"type":"character","attributes":{},"value":["A brief guide how to contribute content.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["2020-08-19"]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1418,7 +1418,15 @@ install.packages(c(&quot;distill&quot;, &quot;rmarkdown&quot;))</code></pre>
 <pre class="r"><code>
 distill::create_post(&quot;Title of your post&quot;)</code></pre>
 </div>
-<p>This will create a new folder in <code>_posts</code> and name it with the current date and your chosen title. Additionally the RMarkdown file in which you will write your post will be opened automatically.</p>
+<p>This will create a new folder in <code>_posts</code> and name it with the current date and your chosen title. Additionally the RMarkdown file in which you will write your post will be opened automatically. It will look something like this</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="https://user-images.githubusercontent.com/38586519/90627998-1dcb1980-e21d-11ea-8ea9-e307f81087c4.png" style="display: block; margin: auto;" /></p>
+</div>
+<p>We need to tweak the metadata as well as the chunk setup a little bit in order for the post to meet our expectations. You can have a look at <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the repo</a> for some examples.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="https://user-images.githubusercontent.com/38586519/90628632-3e47a380-e21e-11ea-9bae-a01ac6720026.png" style="display: block; margin: auto;" /></p>
+</div>
+<p>Now you are ready to write your post. Please see <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> as well as some of <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the already published posts</a>. And if you feel like you need more information about R Markdown please feel free to check the <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a>.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1432,7 +1440,7 @@ distill::create_post(&quot;Title of your post&quot;)</code></pre>
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
 <h3 id="updates-and-corrections">Corrections</h3>
-<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/analytics-community/issues/new">create an issue</a> on the source repository.</p>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
 </div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->

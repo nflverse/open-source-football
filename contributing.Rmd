@@ -8,7 +8,7 @@ author:
     affiliation: nflfastR
     affiliation_url: https://twitter.com/nflfastR
 date: "`r Sys.Date()`"
-repository_url: "https://github.com/mrcaseb/analytics-community"
+repository_url: "https://github.com/mrcaseb/open-source-football"
 ---
 
 ```{r setup, include=FALSE}
@@ -97,4 +97,23 @@ distill::create_post("Title of your post")
 
 This will create a new folder in `_posts` and name it with the current date and
 your chosen title. Additionally the RMarkdown file in which you will write your 
-post will be opened automatically.
+post will be opened automatically. It will look something like this
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90627998-1dcb1980-e21d-11ea-8ea9-e307f81087c4.png")
+```
+
+We need to tweak the metadata as well as the chunk setup a little bit in order
+for the post to meet our expectations. You can have a look at [the 
+repo](https://github.com/mrcaseb/open-source-football/tree/master/_posts) for 
+some examples. 
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90628632-3e47a380-e21e-11ea-9bae-a01ac6720026.png")
+```
+
+Now you are ready to write your post. Please see [Distill for R 
+Markdown](https://rstudio.github.io/distill) as well as some of [the 
+already published posts](https://github.com/mrcaseb/open-source-football/tree/master/_posts).
+And if you feel like you need more information about R Markdown please feel free
+to check the [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/).
