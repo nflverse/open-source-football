@@ -9,10 +9,14 @@ date: 08-19-2020
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - Figures
+  - Roster
+  - nflfastR
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, dpi = 300)
 ```
 
 Sometimes when we go to remake graphs from other people resources that used to work no longer do. This example shows how to work through that problem. 
@@ -167,7 +171,7 @@ plot <-
 
 Lastly, we can kick out a save of our image file as before. 
 
-```{r, fig.width=20, fig.height=16}
+```{r, fig.width=20, fig.height=16, dpi=300}
 plot
 ggsave(glue::glue("cpoe_vs_dot_{season}.png"), dpi = 600, width = 24, height = 21, units = "cm")
 ```

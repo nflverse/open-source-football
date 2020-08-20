@@ -44,7 +44,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Neural Nets using R"]},{"type":"character","attributes":{},"value":["Using Keras in R to build neural networks.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Analytics Darkweb"]},{"type":"character","attributes":{},"value":["https://twitter.com/footballdaRkweb"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories"]}},"value":[{"type":"character","attributes":{},"value":["Neural Nets using R"]},{"type":"character","attributes":{},"value":["Using Keras in R to build neural networks.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Analytics Darkweb"]},{"type":"character","attributes":{},"value":["https://twitter.com/footballdaRkweb"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Keras","Tensorflow","nflfastR"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1046,13 +1046,13 @@ spec &lt;- feature_spec(train_df, label ~ . ) %&gt;%
 
 spec</code></pre>
 <pre><code>
--- Feature Spec -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+-- Feature Spec --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 A feature_spec with 8 steps.
 Fitted: TRUE 
--- Steps --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+-- Steps ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 The feature_spec has 1 dense features.
 StepNumericColumn: yardline_100, down, ydstogo, shotgun, air_yards, qb_hit, pass_location, roof 
--- Dense features ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ </code></pre>
+-- Dense features ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- </code></pre>
 <pre class="r"><code>
 layer &lt;- layer_dense_features(
   feature_columns = dense_features(spec), 
@@ -1064,11 +1064,11 @@ build_model &lt;- function() {
   
   output &lt;- input %&gt;% 
     layer_dense_features(dense_features(spec)) %&gt;% 
-    layer_dense(units = 32, activation = &quot;relu&quot;) %&gt;%
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
     layer_dropout(.25) %&gt;%
-    layer_dense(units = 32, activation = &quot;relu&quot;) %&gt;%
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
     layer_dropout(.25) %&gt;%
-    layer_dense(units = 32, activation = &quot;relu&quot;) %&gt;%
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
     layer_dropout(.25) %&gt;%
     layer_dense(units = 1) 
   
@@ -1126,22 +1126,22 @@ dense_features_1 (Dens (None, 8)      0       air_yards[0][0]
                                               yardline_100[0][0]      
                                               ydstogo[0][0]           
 ______________________________________________________________________
-dense (Dense)          (None, 32)     288     dense_features_1[0][0]  
+dense (Dense)          (None, 64)     576     dense_features_1[0][0]  
 ______________________________________________________________________
-dropout (Dropout)      (None, 32)     0       dense[0][0]             
+dropout (Dropout)      (None, 64)     0       dense[0][0]             
 ______________________________________________________________________
-dense_1 (Dense)        (None, 32)     1056    dropout[0][0]           
+dense_1 (Dense)        (None, 64)     4160    dropout[0][0]           
 ______________________________________________________________________
-dropout_1 (Dropout)    (None, 32)     0       dense_1[0][0]           
+dropout_1 (Dropout)    (None, 64)     0       dense_1[0][0]           
 ______________________________________________________________________
-dense_2 (Dense)        (None, 32)     1056    dropout_1[0][0]         
+dense_2 (Dense)        (None, 64)     4160    dropout_1[0][0]         
 ______________________________________________________________________
-dropout_2 (Dropout)    (None, 32)     0       dense_2[0][0]           
+dropout_2 (Dropout)    (None, 64)     0       dense_2[0][0]           
 ______________________________________________________________________
-dense_3 (Dense)        (None, 1)      33      dropout_2[0][0]         
+dense_3 (Dense)        (None, 1)      65      dropout_2[0][0]         
 ======================================================================
-Total params: 2,433
-Trainable params: 2,433
+Total params: 8,961
+Trainable params: 8,961
 Non-trainable params: 0
 ______________________________________________________________________</code></pre>
 </div>
@@ -1159,8 +1159,7 @@ history &lt;- model %&gt;% fit(
 )</code></pre>
 <pre><code>
 ....................
-....................
-.................</code></pre>
+............</code></pre>
 </div>
 <p>Now to check the results!</p>
 <p>Here we visualize how our nnet trained over our epochs. We define epochs here since we had some early stopping.</p>
@@ -1170,7 +1169,7 @@ library(ggplot2)
 history$params$epochs &lt;- length(history$metrics$loss)
 
 plot(history)</code></pre>
-<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png" width="1950" /></p>
 <pre class="r"><code>
 test_predictions &lt;- model %&gt;% predict(test_df %&gt;% select(-label))</code></pre>
 </div>
@@ -1181,11 +1180,11 @@ c(loss, mae) %&lt;-% (model %&gt;% evaluate(test_df %&gt;% select(-label), test_
 
 loss</code></pre>
 <pre><code>
-[1] 47.05037</code></pre>
+[1] 46.7482</code></pre>
 <pre class="r"><code>
 mae</code></pre>
 <pre><code>
-[1] 4.115185</code></pre>
+[1] 4.154294</code></pre>
 </div>
 <p>Lastly, let’s visualize our trained model versus both actual YAC yardage and nflfastR’s XYAC mean yards model.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1193,7 +1192,7 @@ mae</code></pre>
 test_predictions &lt;- test_predictions %&gt;% as.data.frame()
 
 test_predictions %&gt;% ggplot(aes(V1)) + geom_density()</code></pre>
-<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
 <pre class="r"><code>
 df &lt;-
   pbp %&gt;%
@@ -1231,7 +1230,7 @@ df %&gt;%
     subtitle = &quot;Actual: Black, NNet: Blue, XYAC_Mean: Red&quot;
     
   )</code></pre>
-<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png" width="624" /></p>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png" width="1950" data-distill-preview=1 /></p>
 </div>
 <p>There you have it, your own little nnet done completely in R using the Keras/tensorflow backend.</p>
 <!--radix_placeholder_article_footer-->
