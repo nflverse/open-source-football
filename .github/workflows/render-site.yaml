@@ -4,6 +4,10 @@ on:
     branches:
       - master
 
+  pull_request:
+    branches:
+      - master
+
 name: Seb's Render Site Action
 
 jobs:
