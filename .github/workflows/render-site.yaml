@@ -17,10 +17,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install rmarkdown, remotes, and distill
         run: |
-          install.packages("remotes")
-          remotes::install_local(".")
-          remotes::install_cran("rmarkdown")
-          remotes::install_cran("distill")
+          install.packages(c("rmarkdown", "distill"))
         shell: Rscript {0}
       - name: Render Site
         run: Rscript -e 'rmarkdown::render_site(encoding = "UTF-8")'
