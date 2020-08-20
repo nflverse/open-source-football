@@ -19,13 +19,26 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Preface
+
 The key idea of Open Source Football is to make football related analysis and
 the corresponding code publicly available. To achieve this we need volunteers 
 who are willing to make a contribution.
 
 Articles posted on Open Source Football are authored using [Distill for R 
-Markdown](https://rstudio.github.io/distill). This guide is intended to help all 
-contributors to get their articles ready for publishing. 
+Markdown](https://rstudio.github.io/distill). If you would like to contribute
+you'll have to have installed R and R Markdown. However, this expressly **does not 
+mean that we want to limit ourselves exclusively to R code** because R Markdown 
+[supports many other languages as well](https://bookdown.org/yihui/rmarkdown-cookbook/other-languages.html)!
+You'll need R and R Markdown to create the post and the formal structure but the 
+most important thing - your code and it's output - can be anything you want.
+
+This guide is intended to help all contributors to get their articles ready for
+publishing. Since all of this is very new it's a work in progress and if I see 
+typical problems I will update this site with the corresponding solutions. If 
+you have questions or think something is unclear or wrong please [create an
+issue](https://github.com/mrcaseb/open-source-football/issues/new) and I will
+look into it.
 
 ## Step by Step Overview
 
@@ -39,8 +52,10 @@ git section](http://r-pkgs.had.co.nz/git.html) in "R packages") installed.
 1. Load it into a new RStudio project and start working in a new branch
 1. Create the new article (see [the 
 repo](https://github.com/mrcaseb/open-source-football/tree/master/_posts) for 
-some examples) and don't forget to check the [Distill for R 
-Markdown](https://rstudio.github.io/distill) website.
+some examples and check the [Distill for R 
+Markdown](https://rstudio.github.io/distill) website) and please don't forget
+to add [metadata and chunk options](#start-working-on-the-post) like suggested
+in the next section
 1. Commit all to your post related files and push them into the new branch in 
 your GitHub repo
 1. Visit your repo and create a pull request to merge your post into the 
