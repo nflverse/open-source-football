@@ -31,7 +31,8 @@ you'll have to have installed R and R Markdown. However, this expressly **does n
 mean that we want to limit ourselves exclusively to R code** because R Markdown 
 [supports many other languages as well](https://bookdown.org/yihui/rmarkdown-cookbook/other-languages.html)!
 You'll need R and R Markdown to create the post and the formal structure but the 
-most important thing - your code and it's output - can be anything you want.
+most important thing - your code and it's output - can be anything you want
+(please see [Ben's python contributing example](https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example/)).
 
 This guide is intended to help all contributors to get their articles ready for
 publishing. Since all of this is very new it's a work in progress and if I see 
