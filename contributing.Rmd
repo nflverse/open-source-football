@@ -7,7 +7,7 @@ author:
     url: https://twitter.com/mrcaseb
     affiliation: nflfastR
     affiliation_url: https://twitter.com/nflfastR
-date: "`r Sys.Date()`"
+date: 08-20-2020
 repository_url: "https://github.com/mrcaseb/open-source-football"
 output:
   distill::distill_article:
