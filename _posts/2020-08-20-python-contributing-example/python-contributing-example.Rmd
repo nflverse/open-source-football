@@ -1,0 +1,79 @@
+---
+title: "Python contributing example"
+description: |
+  Showing how to contribute using Python code
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: 08-20-2020
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - nflfastR
+  - python
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+
+library(reticulate)
+```
+
+## Contributing in python
+
+### There is some stuff to install and setup:
+
+* R and RStudio
+* Get github in RStudio setup ([see here](http://r-pkgs.had.co.nz/git.html#git-setup))
+* In R, run `install.packages(c("distill", "rmarkdown"))` to get the needed packages for the website installed, and `install.packages("reticulate")` to install `reticulate`, which allows python to be run from within R
+* You'll need to somehow point RStudio to your python installation. I ran `py_install("pandas")` and the below worked
+
+### Once setup is done:
+
+Start working on your document. You can put in python code chunks as in the examples below.
+
+* Once you have everything ready in your document, press the "Knit" button on the top and it will create the document.
+* Then you can committ all the files using the Git tab
+* Please see the [step-by-step instructions here](https://mrcaseb.github.io/open-source-football/contributing.html#more-detailed-instruction)
+
+Once everything is set up, you can just use python code as normal. Here is a quick example borrowing some code from [from Deryck's nflfastR python guide](https://gist.github.com/Deryck97/dff8d33e9f841568201a2a0d5519ac5e).
+
+```{python p1}
+import pandas
+data = pandas.read_csv("https://github.com/guga31bb/nflfastR-data/blob/master/data/play_by_play_2019.csv.gz?raw=True", compression='gzip', low_memory=False)
+data = data.loc[(data.play_type.isin(['no_play','pass','run'])) & (data.epa.isna()==False)]
+data.groupby('posteam')[['epa']].mean()
+```
+
+Grouping by QBs:
+
+```{python p2}
+qbs = data.groupby(['passer','posteam'], as_index=False).agg({'epa':'mean',
+                                                              'cpoe':'mean',
+                                                              'play_id':'count'})
+# at least 200 plays
+qbs = qbs.loc[qbs.play_id>199]
+# sort by EPA
+qbs.sort_values('epa', ascending=False, inplace=True)
+
+#Round to two decimal places where appropriate
+qbs = qbs.round(2)
+
+#Rename columns
+qbs.columns = ['Player','Team','EPA per Dropback','CPOE','Dropbacks']
+
+qbs
+```
+
+Hopefully the process is painless once all the setup is done.
+
