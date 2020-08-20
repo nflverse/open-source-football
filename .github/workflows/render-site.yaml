@@ -4,7 +4,7 @@ on:
     branches:
       - master
 
-name: Render Site
+name: Seb's Render Site Action
 
 jobs:
   render:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
-      - name: Install rmarkdown, remotes, and distill
+      - name: Install rmarkdown and distill
         run: |
           install.packages(c("rmarkdown", "distill"))
         shell: Rscript {0}
@@ -25,5 +25,5 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git commit --all 'gh-action-seb re-build site' || echo "No changes to commit"
+          git commit -am 'gh-action-seb re-build site' || echo "No changes to commit"
           git push origin master || echo "No changes to commit"
