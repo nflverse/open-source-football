@@ -1,12 +1,12 @@
 on:
-  # Trigger the workflow on push or pull request for the master branch
+  # Trigger the workflow on push to the master branch
   push:
     branches:
       - master
 
-  pull_request:
-    branches:
-      - master
+  # pull_request:
+  #   branches:
+  #     - master
 
 name: Seb's Render Site Action
 
