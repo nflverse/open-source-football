@@ -19,54 +19,53 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-<title>Open Source Football: Wins Above Expectation</title>
+<title>Open Source Football: Matching players without ID keys</title>
 
-<meta property="description" itemprop="description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
+<meta property="description" itemprop="description" content="Rebuilding player graphs when ID keys go missing or are corrupted."/>
 
-<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"/>
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-08-19"/>
 <meta property="article:created" itemprop="dateCreated" content="2020-08-19"/>
-<meta name="article:author" content="Sebastian Carl"/>
+<meta name="article:author" content="Analytics Darkweb"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Open Source Football: Wins Above Expectation"/>
+<meta property="og:title" content="Open Source Football: Matching players without ID keys"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
-<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"/>
-<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
-<meta property="og:image:width" content="3900"/>
-<meta property="og:image:height" content="3000"/>
+<meta property="og:description" content="Rebuilding player graphs when ID keys go missing or are corrupted."/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="og:image:width" content="12000"/>
+<meta property="og:image:height" content="9600"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Open Source Football"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="Open Source Football: Wins Above Expectation"/>
-<meta property="twitter:description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
-<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"/>
-<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
-<meta property="twitter:image:width" content="3900"/>
-<meta property="twitter:image:height" content="3000"/>
+<meta property="twitter:title" content="Open Source Football: Matching players without ID keys"/>
+<meta property="twitter:description" content="Rebuilding player graphs when ID keys go missing or are corrupted."/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="twitter:image:width" content="12000"/>
+<meta property="twitter:image:height" content="9600"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Open Source Football: Wins Above Expectation"/>
-<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"/>
+<meta name="citation_title" content="Open Source Football: Matching players without ID keys"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
 <meta name="citation_online_date" content="2020/08/19"/>
 <meta name="citation_publication_date" content="2020/08/19"/>
-<meta name="citation_author" content="Sebastian Carl"/>
-<meta name="citation_author_institution" content="nflfastR"/>
+<meta name="citation_author" content="Analytics Darkweb"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Wins Above Expectation"]},{"type":"character","attributes":{},"value":["This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Matching players without ID keys"]},{"type":"character","attributes":{},"value":["Rebuilding player graphs when ID keys go missing or are corrupted."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Analytics Darkweb"]},{"type":"character","attributes":{},"value":["https://twitter.com/footballdaRkweb"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Figures","Roster","nflfastR"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["wins-above-expectation_files/bowser-1.9.3/bowser.min.js","wins-above-expectation_files/distill-2.2.21/template.v2.js","wins-above-expectation_files/figure-html5/unnamed-chunk-1-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png","wins-above-expectation_files/jquery-1.11.3/jquery.min.js","wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["cpoe_vs_dot_2019.png","matching-players-without-id-keys_files/bowser-1.9.3/bowser.min.js","matching-players-without-id-keys_files/distill-2.2.21/template.v2.js","matching-players-without-id-keys_files/figure-html5/unnamed-chunk-3-1.png","matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png","matching-players-without-id-keys_files/header-attrs-2.3/header-attrs.js","matching-players-without-id-keys_files/jquery-1.11.3/jquery.min.js","matching-players-without-id-keys_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1291,6 +1290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1353,7 +1353,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Wins Above Expectation","description":"This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR"}],"publishedDate":"2020-08-19T00:00:00.000+00:00","citationText":"Carl, 2020"}
+{"title":"Matching players without ID keys","description":"Rebuilding player graphs when ID keys go missing or are corrupted.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000+00:00","citationText":"Darkweb, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1379,205 +1379,177 @@ color: white;
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Wins Above Expectation</h1>
-<p><p>This article looks at the percentage of snaps with win probability over an arbitralily chosen critical value and compares it with the true win percentage.</p></p>
+<h1>Matching players without ID keys</h1>
+<p><p>Rebuilding player graphs when ID keys go missing or are corrupted.</p></p>
 </div>
 
 <div class="d-byline">
-  Sebastian Carl <a href="https://twitter.com/mrcaseb" class="uri">https://twitter.com/mrcaseb</a> (nflfastR)<a href="https://twitter.com/nflfastR" class="uri">https://twitter.com/nflfastR</a>
+  Analytics Darkweb <a href="https://twitter.com/footballdaRkweb" class="uri">https://twitter.com/footballdaRkweb</a> 
   
 <br/>08-19-2020
 </div>
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
-<ul>
-<li><a href="#preface">Preface</a></li>
-<li><a href="#load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</a></li>
-<li><a href="#create-the-plots">Create the plots</a></li>
-</ul>
-</nav>
-<hr class="d-toc-separator"/>
-<h2 id="preface">Preface</h2>
-<p>In the NFL, practically everyone can beat anyone. So it often happens that games are tight until the very end and the winner is likely to have had some luck. Every year there are teams where you subjectively feel that they have lost or won particularly many of the aforementioned games.</p>
-<p>In this post I will show off a very simple way to illustrate that by looking at how many snaps a team played with the <a href="https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html">nflfastR win probability</a> (model with Vegas line) above a critical value (50%) more or less arbitrarily chosen by me and compare this value with the true win percentage.</p>
-<h2 id="load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</h2>
-<p>Since we want to compute true win percentage from nflfastR play-by-play data we have to do a little data wrangling before we can create the plot.</p>
-<div class="layout-chunk" data-layout="l-page">
+<p>Sometimes when we go to remake graphs from other people resources that used to work no longer do. This example shows how to work through that problem.</p>
+<p>First let’s load the data and define which season we care about.</p>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(tidyverse)
+library(nflfastR)
+pbp &lt;- data.table::fread(&quot;../../../Darkweb/pbp_2010-2019.csv&quot;) %&gt;% filter(season == 2019)
+roster &lt;-
+  readRDS(url(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/roster-data/roster.rds&quot;)) %&gt;%
+  filter(teamPlayers.position == &quot;QB&quot;, team.season == 2019)
 
-# Parameter --------------------------------------------------------------------
-
-season &lt;- 2019
-wp_limit &lt;- 0.5
-
-# Load the data ----------------------------------------------------------------
-
-pbp &lt;- readRDS(url(
-  glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{season}.rds&quot;)
-)) %&gt;%
-  filter(pass == 1 | rush == 1)
-
-# Compute outcomes and win percentage ------------------------------------------
-
-outcomes &lt;- pbp %&gt;%
-  group_by(season, game_id, home_team) %&gt;%
+cpoe &lt;-
+  pbp %&gt;%
+  filter(!is.na(cpoe)) %&gt;%
+  group_by(passer_player_id, air_yards) %&gt;%
   summarise(
-    home_win = if_else(result &gt; 0, 1, 0),
-    home_tie = if_else(result == 0, 1, 0)
-  ) %&gt;%
-  group_by(season, home_team) %&gt;%
-  summarise(
-    home_games = n(),
-    home_wins = sum(home_win),
-    home_ties = sum(home_tie)
-  ) %&gt;%
-  ungroup() %&gt;%
-  left_join(
-    # away games
-    pbp %&gt;%
-      group_by(season, game_id, away_team) %&gt;%
-      summarise(
-        away_win = if_else(result &lt; 0, 1, 0),
-        away_tie = if_else(result == 0, 1, 0)
-      ) %&gt;%
-      group_by(season, away_team) %&gt;%
-      summarise(
-        away_games = n(),
-        away_wins = sum(away_win),
-        away_ties = sum(away_tie)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;home_team&quot; = &quot;away_team&quot;)
-  ) %&gt;%
-  rename(team = &quot;home_team&quot;) %&gt;%
-  mutate(
-    games = home_games + away_games,
-    wins = home_wins + away_wins,
-    losses = games - wins,
-    ties = home_ties + away_ties,
-    win_percentage = (wins + 0.5 * ties) / games
-  ) %&gt;%
-  select(
-    season, team, games, wins, losses, ties, win_percentage
+    count = n(),
+    cpoe = mean(cpoe)
   )
 
-# Compute percentage of plays with wp &gt; wp_lim ---------------------------------
-
-wp_combined &lt;- pbp %&gt;%
-  filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-  group_by(season, posteam) %&gt;%
-  summarise(
-    pos_plays = n(),
-    pos_wp_lim_plays = sum(vegas_wp &gt; wp_limit)
-  ) %&gt;%
+season &lt;- 2019</code></pre>
+</div>
+<p>Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster lists them or the data is missing. We can quickly fill in a couple missing entries like below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary &lt;-
+  pbp %&gt;%
+  separate(passer_player_name, c(&quot;firstName&quot;, &quot;lastName&quot;), sep = &quot;\\.&quot;) %&gt;%
+  filter(!is.na(cpoe)) %&gt;%
+  group_by(lastName, posteam, firstName, passer_player_id) %&gt;%
+  summarise(plays = n()) %&gt;%
   ungroup() %&gt;%
-  left_join(
-    pbp %&gt;%
-      filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-      group_by(season, defteam) %&gt;%
-      summarise(
-        def_plays = n(),
-        def_wp_lim_plays = sum(vegas_wp &lt; wp_limit)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;posteam&quot; = &quot;defteam&quot;)
-  ) %&gt;%
-  rename(team = &quot;posteam&quot;) %&gt;%
+  arrange(desc(plays)) %&gt;%
+  head(30) %&gt;%
   mutate(
-    wp_lim_percentage = as.numeric(pos_wp_lim_plays + def_wp_lim_plays) / as.numeric(pos_plays + def_plays)
+    posteam = 
+      ifelse(
+        lastName == &quot;Brady&quot;, &quot;NE&quot;,
+      ifelse(
+        lastName == &quot;Flacco&quot;, &quot;DEN&quot;,
+      ifelse(
+        lastName == &quot;Carr&quot;, &quot;LV&quot;,
+      ifelse(
+        lastName == &quot;Tannehill&quot;, &quot;TEN&quot;,
+      posteam
+      )
+      )
+      )
+      ),
+    lastName = ifelse(lastName == &quot;Minshew II&quot;, &quot;Minshew&quot;, lastName)
   ) %&gt;%
-  select(season, team, wp_lim_percentage)
+  left_join(
+    roster %&gt;% filter(team.season == season) %&gt;% mutate(firstInit = str_extract(teamPlayers.firstName, &quot;\\w&quot;)) %&gt;% select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url),
+    by = c(&quot;lastName&quot; = &quot;teamPlayers.lastName&quot;, &quot;firstName&quot; = &quot;firstInit&quot;)
+  ) %&gt;%
+  mutate(# some headshot urls are broken. They are checked here and set to a default 
+    teamPlayers.headshot_url = dplyr::if_else(
+      RCurl::url.exists(as.character(teamPlayers.headshot_url)),
+      as.character(teamPlayers.headshot_url),
+      &quot;http://static.nfl.com/static/content/public/image/fantasy/transparent/200x200/default.png&quot;,
+    )
+  ) %&gt;%
+  left_join(cpoe, by = &quot;passer_player_id&quot;) %&gt;%
+  left_join(
+    teams_colors_logos %&gt;% select(team_abbr, team_color, team_logo_espn),
+    by = c(&quot;team.abbr&quot; = &quot;team_abbr&quot;)
+  )
 
-# Combine data and add colors and logos ----------------------------------------
-
-chart &lt;- outcomes %&gt;%
-  left_join(wp_combined, by = c(&quot;season&quot;, &quot;team&quot;)) %&gt;%
-  filter(!is.na(wp_lim_percentage)) %&gt;%
-  mutate(diff = 100 * (win_percentage - wp_lim_percentage)) %&gt;%
-  group_by(team) %&gt;%
-  summarise_all(mean) %&gt;%
-  ungroup() %&gt;%
-  inner_join(
-    nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_color, team_logo_espn, team_logo_wikipedia),
+colors_raw &lt;-
+  summary %&gt;%
+  group_by(passer_player_id) %&gt;%
+  summarise(team = first(team.abbr), name = first(name)) %&gt;%
+  left_join(
+    teams_colors_logos %&gt;% select(team_abbr, team_color),
     by = c(&quot;team&quot; = &quot;team_abbr&quot;)
   ) %&gt;%
-  mutate(
-    grob = map(seq_along(team_logo_espn), function(x) {
-      grid::rasterGrob(magick::image_read(team_logo_espn[[x]]))
-    })
-  ) %&gt;%
-  select(team, win_percentage, wp_lim_percentage, diff, team_color, grob) %&gt;%
-  arrange(desc(diff))</code></pre>
+  arrange(name)
+
+n_eval &lt;- 80
+colors &lt;-
+  as.data.frame(lapply(colors_raw, rep, n_eval)) %&gt;%
+  arrange(name)
+
+
+mean &lt;-
+  summary %&gt;%
+  group_by(air_yards) %&gt;%
+  summarise(league = mean(cpoe), league_count = n())</code></pre>
 </div>
-<h2 id="create-the-plots">Create the plots</h2>
-<p>We will create two separate plots. A scatterplot comparing true win percentage with the percentage of plays with win probability &gt; 50% and a barplot showing the difference between the above variables.</p>
-<div class="layout-chunk" data-layout="l-page">
+<p>Next, we need to change how Sebastian calls for colors in the geom_smooth call due to a package update. We can make a named vector to match the color hex numbers to the data frame.</p>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-# Create scatterplot -----------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = wp_lim_percentage, y = win_percentage)) +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_hline(aes(yintercept = mean(win_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_vline(aes(xintercept = mean(wp_lim_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  ggpmisc::geom_grob(aes(x = wp_lim_percentage, y = win_percentage, label = grob), vp.width = 0.05) +
+asp &lt;- 1.2
+cols &lt;- c()
+for(i in 1:length(unique(summary$team_color))) {
+  cols &lt;- append(cols, unique(summary$team_color)[i])
+}
+color_names &lt;- as.vector(unique(summary$team_color))
+cols &lt;- set_names(cols, color_names)
+
+plot &lt;-
+  summary %&gt;%
+  ggplot(aes(x = air_yards, y = cpoe)) +
+  geom_smooth(
+    data = mean, aes(x = air_yards, y = league, weight = league_count), n = n_eval,
+    color = &quot;red&quot;, alpha = 0.7, se = FALSE, size = 0.5, linetype = &quot;dashed&quot;
+  ) +
+  geom_smooth(
+    se = FALSE, alpha = 0.7, aes(weight = count, color = team_color), size = 0.65,
+    n = n_eval
+  ) +
+  scale_color_manual(values = cols) + 
+  geom_point(color = summary$team_color, size = summary$count / 15, alpha = 0.4) +
+  ggimage::geom_image(aes(x = 27.5, y = -20, image = team_logo_espn),
+                      size = .15, by = &quot;width&quot;, asp = asp
+  ) +
+  ggimage::geom_image(aes(x = -2.5, y = -20, image = teamPlayers.headshot_url),
+                      size = .15, by = &quot;width&quot;, asp = asp
+  ) +
+  xlim(-10, 40) + # makes sure the smoothing algorithm is evaluated between -10 and 40
+  coord_cartesian(xlim = c(-5, 30), ylim = c(-25, 25)) + # &#39;zoom in&#39;
   labs(
-    x = glue::glue(&quot;Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%&quot;),
-    y = &quot;True win percentage (including ties as half a win)&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
+    x = &quot;Target Depth In Yards Thrown Beyond The Line Of Scrimmage (DOT)&quot;,
+    y = &quot;Completion Percentage Over Expectation (CPOE in percentage points)&quot;,
+    caption = &quot;Figure: @mrcaseb | Data: @nflfastR | Update: AnalyticsDarkweb&quot;,
+    title = glue::glue(&quot;Passing Efficiency {season}&quot;),
+    subtitle = &quot;CPOE as a function of target depth. Dotsize equivalent to number of targets. Smoothed for -10 ??? DOT ??? 40 Yards. Red Line = League Average.&quot;
   ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
+  theme_bw() +
   theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
+    axis.title = element_text(size = 10),
+    axis.text = element_text(size = 6),
+    plot.title = element_text(size = 12, hjust = 0.5, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    plot.caption = element_text(size = 8),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 6),
+    strip.text = element_text(size = 6, hjust = 0.5, face = &quot;bold&quot;),
+    aspect.ratio = 1 / asp,
+    legend.position = &quot;none&quot;
   ) +
-  NULL</code></pre>
-<p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png" width="1950" /></p>
+  facet_wrap(vars(name), ncol = 6, scales = &quot;free&quot;)</code></pre>
 </div>
-<div class="layout-chunk" data-layout="l-page">
+<p>Lastly, we can kick out a save of our image file as before.</p>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-# Create bar plot  -------------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = seq_along(diff), y = diff)) +
-  geom_hline(aes(yintercept = mean(diff)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_col(width = 0.5, colour = chart$team_color, fill = chart$team_color, alpha = 0.5) +
-  ggpmisc::geom_grob(aes(x = seq_along(diff), y = diff, label = grob), vp.width = 0.035) +
-  # scale_x_continuous(expand = c(0,0)) +
-  labs(
-    x = &quot;Rank&quot;,
-    y = &quot;Win Percentage Over Expectation&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    subtitle = &quot;How Lucky are the Teams?&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
-  ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
-  theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
-  ) +
-  NULL</code></pre>
-<p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" width="1950" data-distill-preview=1 /></p>
+plot</code></pre>
+<p><img src="matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" width="6000" /></p>
+<pre class="r"><code>
+ggsave(glue::glue(&quot;cpoe_vs_dot_{season}.png&quot;), dpi = 600, width = 24, height = 21, units = &quot;cm&quot;)</code></pre>
 </div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Wins%20Above%20Expectation&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-wins-above-expectation%2F">
+      <a href="https://twitter.com/share?text=Matching%20players%20without%20ID%20keys&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-matching-players-without-id-keys%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-wins-above-expectation%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-matching-players-without-id-keys%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -1594,16 +1566,14 @@ chart %&gt;%
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
-  <h3 id="updates-and-corrections">Corrections</h3>
-  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Carl (2020, Aug. 19). Open Source Football: Wins Above Expectation. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/</pre>
+  <pre class="citation-appendix short">Darkweb (2020, Aug. 19). Open Source Football: Matching players without ID keys. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{carl2020wins,
-  author = {Carl, Sebastian},
-  title = {Open Source Football: Wins Above Expectation},
-  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/},
+  <pre class="citation-appendix long">@misc{darkweb2020matching,
+  author = {Darkweb, Analytics},
+  title = {Open Source Football: Matching players without ID keys},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/},
   year = {2020}
 }</pre>
 </div>

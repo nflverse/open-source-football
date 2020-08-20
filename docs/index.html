@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mrcaseb.github.io/open-source-football/index.xml" />
+  <link rel="alternate" type="application/rss+xml" href="https://mrcaseb.github.io/open-source-football/index.xml" /
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -1311,6 +1311,11 @@
   color: white;
   }
   
+  .distill-site-footer {
+    border-top: 2px solid #DECF40;
+    border-bottom: 0;
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1667,15 +1672,43 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption">Latest posts</h1>
-<a href="posts/2020-08-20-python-contributing-example/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
+<a href="posts/2020-08-19-matching-players-without-id-keys/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Figures","Roster","nflfastR"]}</script>
 <div class="metadata">
-<div class="publishedDate">Aug. 20, 2020</div>
+<div class="publishedDate">Aug. 19, 2020</div>
 </div>
-<div class="thumbnail"></div>
+<div class="thumbnail">
+<img data-src="posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
+</div>
 <div class="description">
-<h2>Python contributing example</h2>
-<p>Showing how to contribute using Python code</p>
+<h2>Matching players without ID keys</h2>
+<p>Rebuilding player graphs when ID keys go missing or are corrupted.</p>
+</div>
+</a>
+<a href="posts/2020-08-19-neural-nets-using-r/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Keras","Tensorflow","nflfastR"]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 19, 2020</div>
+</div>
+<div class="thumbnail">
+<img data-src="posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png"/>
+</div>
+<div class="description">
+<h2>Neural Nets using R</h2>
+<p>Using Keras in R to build neural networks.</p>
+</div>
+</a>
+<a href="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 19, 2020</div>
+</div>
+<div class="thumbnail">
+<img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
+</div>
+<div class="description">
+<h2>The accumulation of QB hits vs passing efficiency</h2>
+<p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
 </div>
 </a>
 <a href="posts/2020-08-19-wins-above-expectation/" class="post-preview">
@@ -1690,19 +1723,6 @@ function init_posts_list() {
 <h2>Wins Above Expectation</h2>
 <p>This article looks at the percentage of snaps with win probability over an 
 arbitralily chosen critical value and compares it with the true win percentage.</p>
-</div>
-</a>
-<a href="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
-</div>
-<div class="description">
-<h2>The accumulation of QB hits vs passing efficiency</h2>
-<p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
 </div>
 </a>
 <a href="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/" class="post-preview">
@@ -1726,22 +1746,30 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <ul>
 <li>
 <a href="#Figures">Figures</a>
-<span class="category-count">(3)</span>
+<span class="category-count">(4)</span>
+</li>
+<li>
+<a href="#Keras">Keras</a>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#nflfastR">nflfastR</a>
-<span class="category-count">(4)</span>
+<span class="category-count">(5)</span>
 </li>
 <li>
 <a href="#PFR">PFR</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#python">python</a>
+<a href="#Roster">Roster</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#Scraping">Scraping</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#Tensorflow">Tensorflow</a>
 <span class="category-count">(1)</span>
 </li>
 </ul>
@@ -1751,7 +1779,7 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <a href="#">More articles &raquo;</a>
 </div>
 </div>
-<!--/radix_placeholder_article_listing-->
+<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
 <h1>Latest posts</h1>
@@ -1775,6 +1803,9 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>

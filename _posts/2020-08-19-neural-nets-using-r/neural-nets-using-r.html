@@ -19,406 +19,76 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Open Source Football: About Open Source Football</title>
-  
-  <meta property="description" itemprop="description" content="The creators try to say what they think of this website"/>
-  
-  
-  
+  <title>Neural Nets using R</title>
+
+  <meta property="description" itemprop="description" content="Using Keras in R to build neural networks."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-19"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-19"/>
+  <meta name="article:author" content="Analytics Darkweb"/>
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Open Source Football: About Open Source Football"/>
+  <meta property="og:title" content="Neural Nets using R"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="The creators try to say what they think of this website"/>
+  <meta property="og:description" content="Using Keras in R to build neural networks."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Open Source Football"/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Open Source Football: About Open Source Football"/>
-  <meta property="twitter:description" content="The creators try to say what they think of this website"/>
-  
+  <meta property="twitter:title" content="Neural Nets using R"/>
+  <meta property="twitter:description" content="Using Keras in R to build neural networks."/>
+
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["About Open Source Football"]},{"type":"character","attributes":{},"value":["The creators try to say what they think of this website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories"]}},"value":[{"type":"character","attributes":{},"value":["Neural Nets using R"]},{"type":"character","attributes":{},"value":["Using Keras in R to build neural networks.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Analytics Darkweb"]},{"type":"character","attributes":{},"value":["https://twitter.com/footballdaRkweb"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Keras","Tensorflow","nflfastR"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
   
-  <script type="application/javascript">
-  
-    window.headroom_prevent_pin = false;
-  
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-  
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-  
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-  
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-  
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["neural-nets-using-r_files/bowser-1.9.3/bowser.min.js","neural-nets-using-r_files/distill-2.2.21/template.v2.js","neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png","neural-nets-using-r_files/header-attrs-2.3/header-attrs.js","neural-nets-using-r_files/jquery-1.11.3/jquery.min.js","neural-nets-using-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-  
-  <style type="text/css">
-  
-  /* Theme (user-documented overrideables for nav appearance) */
-  
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-  }
-  
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-  
-  .distill-site-header {
-  
-  }
-  
-  .distill-site-footer {
-  
-  }
-  
-  
-  /* Site Header */
-  
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-  
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-  
-  
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-  
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-  
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-  
-  .distill-site-header .logo {
-    padding: 0;
-  }
-  
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-  
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-  
-  
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-  
-  
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-  
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-  
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-dropdown-active {
-    display: block;
-  }
-  
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-  
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-  
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-  
-  /* Site Footer */
-  
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  /* Headroom */
-  
-  d-title {
-    padding-top: 6rem;
-  }
-  
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-  
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-  
-  .headroom--unpinned {
-    top: -100px;
-  }
-  
-  .headroom--pinned {
-    top: 0;
-  }
-  
-  </style>
-  
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -426,43 +96,43 @@
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -470,15 +140,15 @@
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for table of contents */
-  
+
   .d-toc {
     color: rgba(0,0,0,0.8);
     font-size: 0.8em;
     line-height: 1em;
   }
-  
+
   .d-toc-header {
     font-size: 0.6rem;
     font-weight: 400;
@@ -487,57 +157,57 @@
     margin-top: 0;
     margin-bottom: 1.3em;
   }
-  
+
   .d-toc a {
     border-bottom: none;
   }
-  
+
   .d-toc ul {
     padding-left: 0;
   }
-  
+
   .d-toc li>ul {
     padding-top: 0.8em;
     padding-left: 16px;
     margin-bottom: 0.6em;
   }
-  
+
   .d-toc ul,
   .d-toc li {
     list-style-type: none;
   }
-  
+
   .d-toc li {
     margin-bottom: 0.9em;
   }
-  
+
   .d-toc-separator {
     margin-top: 20px;
     margin-bottom: 2em;
   }
-  
+
   .d-article-with-toc {
     border-top: none;
     padding-top: 0;
   }
-  
-  
-  
+
+
+
   /* Tweak code blocks (note that this CSS is repeated above in an injection
      into the d-code shadow dom) */
-  
+
   d-code {
     overflow-x: auto !important;
   }
-  
+
   pre.d-code code.d-code {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   pre.text-output {
-  
+
     font-size: 12px;
     color: black;
     background: none;
@@ -548,23 +218,23 @@
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-code {
     overflow-x: visible !important;
   }
-  
+
   pre.d-code code.d-code  {
       padding-left: 18px;
       font-size: 14px;
@@ -573,25 +243,25 @@
     font-size: 14px;
   }
   }
-  
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -599,21 +269,21 @@
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
-  
-  
+
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -629,11 +299,11 @@
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -642,7 +312,7 @@
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -658,16 +328,16 @@
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -684,111 +354,111 @@
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
-  
+
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -800,11 +470,11 @@
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -821,7 +491,7 @@
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -841,14 +511,14 @@
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -859,21 +529,21 @@
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -882,13 +552,13 @@
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -901,43 +571,43 @@
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // create d-bibliography
     var bibliography = $('<d-bibliography></d-bibliography>');
     $('#distill-bibliography').wrap(bibliography);
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace citations with <d-cite>
     $('.citation').each(function(i, val) {
       appendix = true;
@@ -948,7 +618,7 @@
     });
     // remove refs
     $('#refs').remove();
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -964,7 +634,7 @@
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -974,10 +644,10 @@
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // replace code blocks with d-code
     $('pre>code').each(function(i, val) {
       var code = $(this);
@@ -998,13 +668,13 @@
         code.addClass('text-output').unwrap().changeElementType('pre');
       }
     });
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('d-code, pre.text-output, script');
       elements.each(function(i, el) {
@@ -1017,39 +687,39 @@
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // table of contents
       if (have_authors) // adjust border if we are in authors
         $('.d-toc').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1061,11 +731,11 @@
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1085,14 +755,14 @@
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
       $('d-code').each(function(i, val) {
         var style = document.createElement('style');
@@ -1101,45 +771,45 @@
         if (this.shadowRoot)
           this.shadowRoot.appendChild(style);
       });
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-toc-header').remove();
     $('.d-toc').remove();
     $('.d-toc-separator').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1147,62 +817,62 @@
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1214,35 +884,35 @@
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -1256,72 +926,25 @@
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="neural-nets-using-r_files/header-attrs-2.3/header-attrs.js"></script>
+  <script src="neural-nets-using-r_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="neural-nets-using-r_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="neural-nets-using-r_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="neural-nets-using-r_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <style type="text/css">
-  d-article > d-code, d-article section > d-code {
-  padding: 16px;
-  overflow: auto;
-      overflow-x: auto;
-      overflow-y: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-left-radius: 6px;
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-  }
-  
-  pre d-code{
-    border-left: 0;
-  }
-  
-  .distill-site-nav {
-    color: #ffffff;
-    font-weight: 400;
-    background: #24292e;
-    border-bottom: 2px solid #DECF40;
-    -webkit-box-shadow: 1px 1px 18px #4d4d4d;
-    -moz-box-shadow: 1px 1px 18px #4d4d4d;
-    box-shadow: 1px 1px 18px #4d4d4d;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-    font-weight: 700;
-  }
-  
-  d-title {
-  background: #575757;
-  color: white;
-  }
-  
-  .distill-site-footer {
-    border-top: 2px solid #DECF40;
-    border-bottom: 0;
-  }
-  
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
@@ -1330,56 +953,286 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"About Open Source Football","description":"The creators try to say what they think of this website","authors":[]}
+{"title":"Neural Nets using R","description":"Using Keras in R to build neural networks.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000-07:00","citationText":"Darkweb, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Open Source Football</a>
-</div>
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="contributing.html">Contributing</a>
-<a href="https://github.com/mrcaseb/open-source-football">
-<i class="fa fa-github" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>About Open Source Football</h1>
-<p><p>The creators try to say what they think of this website</p></p>
+<h1>Neural Nets using R</h1>
+<p><p>Using Keras in R to build neural networks.</p></p>
 </div>
 
+<div class="d-byline">
+  Analytics Darkweb <a href="https://twitter.com/footballdaRkweb" class="uri">https://twitter.com/footballdaRkweb</a> 
+  
+<br/>08-19-2020
+</div>
 
 <div class="d-article">
-<h3 id="what-seb-says">What Seb says</h3>
-<p>At the beginning of 2020 I decided to dive into NFL Analytics and started to follow the big accounts (within the community) on Twitter.</p>
-<p>I learned there was this R package <a href="https://twitter.com/nflscrapR">nflscrapR</a> and started to learn R and the NFL play-by-play data. Very quickly I got the urge to make some plots with R and post them on Twitter, because I wanted to hear what the people who know about it have to say. The plots were well received and I was getting requests to publish the related code. I did that and got a lot of positive feedback.</p>
-<p>At some point one thing led to another and before I knew it I developed <a href="https://mrcaseb.github.io/nflfastR/">nflfastR</a> together with <a href="https://twitter.com/benbbaldwin">Ben Baldwin</a>. Most of my previously released code didn’t work after that and I had to decide whether to just remove the code or rebuild the whole thing.</p>
-<p>This website is the result but with a big improvement: very intelligent people from the community agreed to publish their code as well. And this is the place where I want to centralize all these things.</p>
-<h3 id="what-ben-says">What Ben says</h3>
-<p>The existence of open-source packages like <a href="https://twitter.com/nflscrapR">nflscrapR</a> and <a href="https://mrcaseb.github.io/nflfastR/">nflfastR</a> along with people’s willingness to share code has made NFL analytics Twitter a great place to learn from each other. However, the nature of Twitter makes it hard to find old posts, and I often have a hard time remembering where I saw something.</p>
-<p>The hope is that this will serve as a resource for others.</p>
-<h2 id="contributors">Contributors</h2>
-<p>We hope that we can get as many volunteers as possible to publish their code here. Their names we will maintain in this list (chronological order).</p>
-<ul>
-<li><a href="https://twitter.com/mrcaseb">Sebastian Carl</a></li>
-<li><a href="https://twitter.com/benbbaldwin">Ben Baldwin</a></li>
-<li><a href="https://twitter.com/footballdaRkweb">Analytics Darkweb</a></li>
-<li>…</li>
-</ul>
-<h2 id="design">Design</h2>
-<p>This website is built with <a href="https://rstudio.github.io/distill">Distill for R Markdown</a>. It uses a custom Cascading Style Sheet (css) heavily borrowed from <a href="https://twitter.com/mrworthington">Matt Worthington</a> as suggested by the incredible helpful <a href="https://twitter.com/thomas_mock">Tom Mock</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(reticulate)
+library(tidyverse)
+
+use_condaenv(&quot;r-tf-gpu&quot;, required = TRUE)
+
+
+library(keras)</code></pre>
+</div>
+<p>Before you proceed you will need to install Keras for R. In order to do that, I followed this guide. <a href="https://github.com/antoniosehk/keras-tensorflow-windows-installation" class="uri">https://github.com/antoniosehk/keras-tensorflow-windows-installation</a></p>
+<p>The following guide is heavily borrowed from the following Rstudio guide! <a href="https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_regression/" class="uri">https://tensorflow.rstudio.com/tutorials/beginners/basic-ml/tutorial_basic_regression/</a></p>
+<p>Use the following lines to download the data if you need to.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seasons &lt;- 2010:2019
+pbp &lt;- purrr::map_df(seasons, function(x) {
+  readr::read_csv(
+    glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz&quot;)
+  )
+})</code></pre>
+</div>
+<p>Instead of throwing the kitchen sink at a problem, let’s choose some variables we think would influence yards after catch.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+df &lt;-
+  pbp %&gt;%
+  filter(pass == 1) %&gt;%
+  mutate(
+    pass_location = as.numeric(ifelse(pass_location == &quot;middle&quot;, 1, 0)),
+    roof = as.numeric(as.factor(roof))
+    ) %&gt;%
+  select(yardline_100, down, ydstogo, shotgun, air_yards, yards_after_catch, qb_hit, pass_location, roof) %&gt;%
+  na.omit()</code></pre>
+</div>
+<p>In this step you are converting your data frame into something Keras can injest.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+set.seed(7)
+sample &lt;- sample.int(n = nrow(df), size = floor(.9*nrow(df)), replace = F)
+train_df &lt;- df[sample, ]
+test_df  &lt;- df[-sample, ]
+
+train_labels &lt;- train_df$yards_after_catch
+test_labels &lt;- test_df$yards_after_catch
+
+train_df &lt;- train_df %&gt;% select(-yards_after_catch)
+test_df &lt;- test_df %&gt;% select(-yards_after_catch)
+
+column_names &lt;- colnames(train_df)
+
+train_df &lt;- train_df %&gt;% 
+  as_tibble(.name_repair = &quot;minimal&quot;) %&gt;% 
+  setNames(column_names) %&gt;% 
+  mutate(label = train_labels)
+
+test_df &lt;- test_df %&gt;% 
+  as_tibble(.name_repair = &quot;minimal&quot;) %&gt;% 
+  setNames(column_names) %&gt;% 
+  mutate(label = test_labels)</code></pre>
+</div>
+<p>Next we’ll use a little helper function to create the model, here we’re just doing a little toy model. No convolutions or anything too fancy. Just a little good ole fashioned brute force! Mostly because you should go read about different network types before you use them. :)</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tfdatasets)
+
+spec &lt;- feature_spec(train_df, label ~ . ) %&gt;% 
+  step_numeric_column(all_numeric(), normalizer_fn = scaler_standard()) %&gt;% 
+  fit()
+
+spec</code></pre>
+<pre><code>
+-- Feature Spec --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+A feature_spec with 8 steps.
+Fitted: TRUE 
+-- Steps ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+The feature_spec has 1 dense features.
+StepNumericColumn: yardline_100, down, ydstogo, shotgun, air_yards, qb_hit, pass_location, roof 
+-- Dense features ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- </code></pre>
+<pre class="r"><code>
+layer &lt;- layer_dense_features(
+  feature_columns = dense_features(spec), 
+  dtype = tf$float32
+)
+
+build_model &lt;- function() {
+  input &lt;- layer_input_from_dataset(train_df %&gt;% select(-label))
+  
+  output &lt;- input %&gt;% 
+    layer_dense_features(dense_features(spec)) %&gt;% 
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
+    layer_dropout(.25) %&gt;%
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
+    layer_dropout(.25) %&gt;%
+    layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
+    layer_dropout(.25) %&gt;%
+    layer_dense(units = 1) 
+  
+  model &lt;- keras_model(input, output)
+  
+  model %&gt;% 
+    compile(
+      loss = &quot;mse&quot;,
+      optimizer = &quot;adam&quot;,
+      metrics = list(&quot;mean_absolute_error&quot;)
+    )
+  
+  model
+}
+
+early_stop &lt;- callback_early_stopping(monitor = &quot;val_loss&quot;, patience = 20)
+
+print_dot_callback &lt;- callback_lambda(
+  on_epoch_end = function(epoch, logs) {
+    if (epoch %% 20 == 0) cat(&quot;\n&quot;)
+    cat(&quot;.&quot;)
+  }
+)  
+
+model &lt;- build_model()
+
+summary(model)</code></pre>
+<pre><code>
+Model: &quot;model&quot;
+______________________________________________________________________
+Layer (type)           Output Shape   Param # Connected to            
+======================================================================
+air_yards (InputLayer) [(None,)]      0                               
+______________________________________________________________________
+down (InputLayer)      [(None,)]      0                               
+______________________________________________________________________
+pass_location (InputLa [(None,)]      0                               
+______________________________________________________________________
+qb_hit (InputLayer)    [(None,)]      0                               
+______________________________________________________________________
+roof (InputLayer)      [(None,)]      0                               
+______________________________________________________________________
+shotgun (InputLayer)   [(None,)]      0                               
+______________________________________________________________________
+yardline_100 (InputLay [(None,)]      0                               
+______________________________________________________________________
+ydstogo (InputLayer)   [(None,)]      0                               
+______________________________________________________________________
+dense_features_1 (Dens (None, 8)      0       air_yards[0][0]         
+                                              down[0][0]              
+                                              pass_location[0][0]     
+                                              qb_hit[0][0]            
+                                              roof[0][0]              
+                                              shotgun[0][0]           
+                                              yardline_100[0][0]      
+                                              ydstogo[0][0]           
+______________________________________________________________________
+dense (Dense)          (None, 64)     576     dense_features_1[0][0]  
+______________________________________________________________________
+dropout (Dropout)      (None, 64)     0       dense[0][0]             
+______________________________________________________________________
+dense_1 (Dense)        (None, 64)     4160    dropout[0][0]           
+______________________________________________________________________
+dropout_1 (Dropout)    (None, 64)     0       dense_1[0][0]           
+______________________________________________________________________
+dense_2 (Dense)        (None, 64)     4160    dropout_1[0][0]         
+______________________________________________________________________
+dropout_2 (Dropout)    (None, 64)     0       dense_2[0][0]           
+______________________________________________________________________
+dense_3 (Dense)        (None, 1)      65      dropout_2[0][0]         
+======================================================================
+Total params: 8,961
+Trainable params: 8,961
+Non-trainable params: 0
+______________________________________________________________________</code></pre>
+</div>
+<p>Next let’s run the model and see how it does!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+history &lt;- model %&gt;% fit(
+  x = train_df %&gt;% select(-label),
+  y = train_df$label,
+  epochs = 500,
+  batchsize = 64,
+  validation_split = 0.2,
+  verbose = 0,
+  callbacks = list(print_dot_callback, early_stop)
+)</code></pre>
+<pre><code>
+....................
+............</code></pre>
+</div>
+<p>Now to check the results!</p>
+<p>Here we visualize how our nnet trained over our epochs. We define epochs here since we had some early stopping.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(ggplot2)
+history$params$epochs &lt;- length(history$metrics$loss)
+
+plot(history)</code></pre>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png" width="1950" /></p>
+<pre class="r"><code>
+test_predictions &lt;- model %&gt;% predict(test_df %&gt;% select(-label))</code></pre>
+</div>
+<p>Next we can take a look at the mean absolute error and loss from our model on the test set.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+c(loss, mae) %&lt;-% (model %&gt;% evaluate(test_df %&gt;% select(-label), test_df$label, verbose = 0))
+
+loss</code></pre>
+<pre><code>
+[1] 46.7482</code></pre>
+<pre class="r"><code>
+mae</code></pre>
+<pre><code>
+[1] 4.154294</code></pre>
+</div>
+<p>Lastly, let’s visualize our trained model versus both actual YAC yardage and nflfastR’s XYAC mean yards model.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+test_predictions &lt;- test_predictions %&gt;% as.data.frame()
+
+test_predictions %&gt;% ggplot(aes(V1)) + geom_density()</code></pre>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
+<pre class="r"><code>
+df &lt;-
+  pbp %&gt;%
+  filter(pass == 1) %&gt;%
+  mutate(
+    pass_location = as.numeric(ifelse(pass_location == &quot;middle&quot;, 1, 0)),
+    roof = as.numeric(as.factor(roof))
+  ) %&gt;%
+  select(yardline_100, down, ydstogo, shotgun, air_yards, yards_after_catch, qb_hit, pass_location, roof, xyac_mean_yardage) %&gt;%
+  na.omit()
+
+train_df &lt;- df %&gt;% 
+  as_tibble(.name_repair = &quot;minimal&quot;) %&gt;% 
+  setNames(colnames(df)) %&gt;% 
+  mutate(label = yards_after_catch)
+
+test_predictions &lt;- model %&gt;% predict(train_df %&gt;% select(-label))
+
+test_predictions &lt;- test_predictions %&gt;% as.data.frame()
+
+df &lt;- 
+  cbind(df, test_predictions)
+
+df %&gt;%
+  ggplot() + 
+  geom_density(aes(V1), color = &quot;blue&quot;) + 
+  geom_density(aes(yards_after_catch)) + 
+  geom_density(aes(xyac_mean_yardage), color = &quot;red&quot;) +
+  xlim(c(-10, 20)) + 
+  theme_minimal() + 
+  labs(
+    title = &quot;Expected YAC yardage&quot;,
+    x = &quot;YAC Yardage&quot;,
+    y = &quot;Density&quot;,
+    subtitle = &quot;Actual: Black, NNet: Blue, XYAC_Mean: Red&quot;
+    
+  )</code></pre>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<p>There you have it, your own little nnet done completely in R using the Keras/tensorflow backend.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1394,9 +1247,6 @@
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>
