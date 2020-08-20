@@ -9,10 +9,14 @@ date: 08-19-2020
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - Keras
+  - Tensorflow
+  - nflfastR
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, dpi = 300)
 ```
 
 ```{r, message=FALSE, warning=FALSE}
@@ -111,11 +115,11 @@ build_model <- function() {
   
   output <- input %>% 
     layer_dense_features(dense_features(spec)) %>% 
-    layer_dense(units = 32, activation = "relu") %>%
+    layer_dense(units = 64, activation = "relu") %>%
     layer_dropout(.25) %>%
-    layer_dense(units = 32, activation = "relu") %>%
+    layer_dense(units = 64, activation = "relu") %>%
     layer_dropout(.25) %>%
-    layer_dense(units = 32, activation = "relu") %>%
+    layer_dense(units = 64, activation = "relu") %>%
     layer_dropout(.25) %>%
     layer_dense(units = 1) 
   
@@ -184,7 +188,7 @@ mae
 
 Lastly, let's visualize our trained model versus both actual YAC yardage and nflfastR's XYAC mean yards model.
 
-```{r}
+```{r, preview=TRUE}
 test_predictions <- test_predictions %>% as.data.frame()
 
 test_predictions %>% ggplot(aes(V1)) + geom_density()
