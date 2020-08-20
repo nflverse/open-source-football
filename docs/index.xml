@@ -7,7 +7,7 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 19 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mi, 19 Aug 2020 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Matching players without ID keys</title>
       <dc:creator>Analytics Darkweb</dc:creator>
@@ -17,7 +17,7 @@
       <category>Roster</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="12000" height="9600"/>
     </item>
     <item>
@@ -29,7 +29,7 @@
       <category>Tensorflow</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -40,7 +40,7 @@
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -52,7 +52,7 @@ arbitralily chosen critical value and compares it with the true win percentage.<
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -66,7 +66,7 @@ how to plot the bad throw percentage data for quarterbacks.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</guid>
-      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Di, 18 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
   </channel>
