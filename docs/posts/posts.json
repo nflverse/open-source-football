@@ -10,12 +10,16 @@
       }
     ],
     "date": "2020-08-19",
-    "categories": [],
+    "categories": [
+      "Figures",
+      "Roster",
+      "nflfastR"
+    ],
     "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
+    "last_modified": "2020-08-20T17:59:50+00:00",
     "input_file": {},
-    "preview_width": 3840,
-    "preview_height": 3072
+    "preview_width": 12000,
+    "preview_height": 9600
   },
   {
     "path": "posts/2020-08-19-neural-nets-using-r/",
@@ -28,12 +32,16 @@
       }
     ],
     "date": "2020-08-19",
-    "categories": [],
-    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
+    "categories": [
+      "Keras",
+      "Tensorflow",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-08-20T17:59:51+00:00",
     "input_file": {},
-    "preview_width": 1248,
-    "preview_height": 768
+    "preview_width": 3900,
+    "preview_height": 2400
   },
   {
     "path": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/",
@@ -51,7 +59,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
+    "last_modified": "2020-08-20T17:59:52+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -72,54 +80,10 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
+    "last_modified": "2020-08-20T17:59:52+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3000
-  },
-  {
-    "path": "posts/2020-08-19-neural-nets-using-r/",
-    "title": "Neural Nets using R",
-    "description": "Using Keras in R to build neural networks.",
-    "author": [
-      {
-        "name": "Analytics Darkweb",
-        "url": "https://twitter.com/footballdaRkweb"
-      }
-    ],
-    "date": "2020-08-19",
-    "categories": [
-      "Keras",
-      "Tensorflow",
-      "nflfastR"
-    ],
-    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-08-20T09:35:45-07:00",
-    "input_file": "neural-nets-using-r.utf8.md",
-    "preview_width": 3900,
-    "preview_height": 2400
-  },
-  {
-    "path": "posts/2020-08-19-matching-players-without-id-keys/",
-    "title": "Matching players without ID keys",
-    "description": "Rebuilding player graphs when ID keys go missing or are corrupted.",
-    "author": [
-      {
-        "name": "Analytics Darkweb",
-        "url": "https://twitter.com/footballdaRkweb"
-      }
-    ],
-    "date": "2020-08-19",
-    "categories": [
-      "Figures",
-      "Roster",
-      "nflfastR"
-    ],
-    "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2020-08-20T08:07:49-07:00",
-    "input_file": "matching-players-without-id-keys.utf8.md",
-    "preview_width": 12000,
-    "preview_height": 9600
   },
   {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
@@ -139,7 +103,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
+    "last_modified": "2020-08-20T17:59:50+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300

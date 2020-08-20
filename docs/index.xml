@@ -13,18 +13,24 @@
       <dc:creator>Analytics Darkweb</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</link>
       <description>Rebuilding player graphs when ID keys go missing or are corrupted.</description>
+      <category>Figures</category>
+      <category>Roster</category>
+      <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3840" height="3072"/>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="12000" height="9600"/>
     </item>
     <item>
       <title>Neural Nets using R</title>
       <dc:creator>Analytics Darkweb</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</link>
       <description>Using Keras in R to build neural networks.</description>
+      <category>Keras</category>
+      <category>Tensorflow</category>
+      <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>The accumulation of QB hits vs passing efficiency</title>
@@ -48,30 +54,6 @@ arbitralily chosen critical value and compares it with the true win percentage.<
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
-    </item>
-    <item>
-      <title>Neural Nets using R</title>
-      <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</link>
-      <description>Using Keras in R to build neural networks.</description>
-      <category>Keras</category>
-      <category>Tensorflow</category>
-      <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
-    </item>
-    <item>
-      <title>Matching players without ID keys</title>
-      <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</link>
-      <description>Rebuilding player graphs when ID keys go missing or are corrupted.</description>
-      <category>Figures</category>
-      <category>Roster</category>
-      <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="12000" height="9600"/>
     </item>
     <item>
       <title>PFR's Bad Throw Percentage for Quarterbacks</title>
