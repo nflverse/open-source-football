@@ -1,5 +1,26 @@
 [
   {
+    "path": "posts/2020-08-19-visualizing-the-runpass-efficiency-gap/",
+    "title": "Visualizing the Run/Pass Efficiency Gap",
+    "description": "Using nflfastR data to show how much more efficient passing is than rushing at the team level",
+    "author": [
+      {
+        "name": "Anthony Reinhard",
+        "url": "https://twitter.com/reinhurdler"
+      }
+    ],
+    "date": "2020-08-20",
+    "categories": [
+      "Figures",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2020-08-20T16:55:10-04:00",
+    "input_file": "visualizing-the-runpass-efficiency-gap.utf8.md",
+    "preview_width": 3300,
+    "preview_height": 3300
+  },
+  {
     "path": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/",
     "title": "The accumulation of QB hits vs passing efficiency",
     "description": "Do quarterbacks who get hit see their performance decline throughout the game?",

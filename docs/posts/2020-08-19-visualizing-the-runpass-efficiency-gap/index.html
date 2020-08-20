@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Open Source Football: Visualizing the Run/Pass Efficiency Gap</title>
+
+<meta property="description" itemprop="description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
+
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-08-20"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-08-20"/>
+<meta name="article:author" content="Anthony Reinhard"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Open Source Football: Visualizing the Run/Pass Efficiency Gap"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="og:image:width" content="3300"/>
+<meta property="og:image:height" content="3300"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Open Source Football"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Open Source Football: Visualizing the Run/Pass Efficiency Gap"/>
+<meta property="twitter:description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="twitter:image:width" content="3300"/>
+<meta property="twitter:image:height" content="3300"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Open Source Football: Visualizing the Run/Pass Efficiency Gap"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"/>
+<meta name="citation_online_date" content="2020/08/20"/>
+<meta name="citation_publication_date" content="2020/08/20"/>
+<meta name="citation_author" content="Anthony Reinhard"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Visualizing the Run/Pass Efficiency Gap"]},{"type":"character","attributes":{},"value":["Using nflfastR data to show how much more efficient passing is than rushing at the team level"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Anthony Reinhard"]},{"type":"character","attributes":{},"value":["https://twitter.com/reinhurdler"]}]}]},{"type":"character","attributes":{},"value":["08-20-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["visualizing-the-runpass-efficiency-gap_files/bowser-1.9.3/bowser.min.js","visualizing-the-runpass-efficiency-gap_files/distill-2.2.21/template.v2.js","visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png","visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png","visualizing-the-runpass-efficiency-gap_files/jquery-1.11.3/jquery.min.js","visualizing-the-runpass-efficiency-gap_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<style type="text/css">
+d-article > d-code, d-article section > d-code {
+padding: 16px;
+overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f6f8fa;
+border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+pre d-code{
+  border-left: 0;
+}
+
+.distill-site-nav {
+  color: #ffffff;
+  font-weight: 400;
+  background: #24292e;
+  border-bottom: 2px solid #DECF40;
+  -webkit-box-shadow: 1px 1px 18px #4d4d4d;
+  -moz-box-shadow: 1px 1px 18px #4d4d4d;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+  font-weight: 700;
+}
+
+d-title {
+background: #575757;
+color: white;
+}
+
+.distill-site-footer {
+  border-top: 2px solid #DECF40;
+  border-bottom: 0;
+}
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Visualizing the Run/Pass Efficiency Gap","description":"Using nflfastR data to show how much more efficient passing is than rushing at the team level","authors":[{"author":"Anthony Reinhard","authorURL":"https://twitter.com/reinhurdler","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-20T00:00:00.000-04:00","citationText":"Reinhard, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Open Source Football</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="../../contributing.html">Contributing</a>
+<a href="https://github.com/mrcaseb/open-source-football">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Visualizing the Run/Pass Efficiency Gap</h1>
+<p><p>Using nflfastR data to show how much more efficient passing is than rushing at the team level</p></p>
+</div>
+
+<div class="d-byline">
+  Anthony Reinhard <a href="https://twitter.com/reinhurdler" class="uri">https://twitter.com/reinhurdler</a> 
+  
+<br/>08-20-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#the-data">The Data</a></li>
+<li><a href="#plot-extras">Plot Extras</a></li>
+<li><a href="#basic-plot">Basic Plot</a></li>
+<li><a href="#fancier-plot">Fancier Plot</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="intro">Intro</h2>
+<p>The football philosophers of Twitter know that the passing game reigns supreme over the rushing game. As easy as it is to just say this, we need to be able to prove it. We also need to acknowledge that there could come a time where a team is so good at running the ball or so bad at passing that they should be running the ball more often. I thought an easy way to communicate this would be show the difference between a team’s dropback EPA/play and their designed rush EPA/play while also showing how often they attempt to pass.</p>
+<h2 id="the-data">The Data</h2>
+<p>After we’ve pulled in the 2019 play-by-play data from the nflfastR data repository, we need to start thinking about what cuts of data we should exclude from our sample. I’ve chosen to include only 1st and 2nd down here, as teams are not burdened on these plays with having to advance the ball to the first down marker to keep their drive alive. I’m also going to only include plays where the game was reasonably competitive, which I’m defining here as win probability between 20% and 80%. Lastly, I’m going to remove plays that begin inside the final two minutes of the half, where teams are more likely to be passing (unless they are salting away a lead, of course). Keeping only the plays described above ensures that the offense is not in an obvious passing or running situation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+
+pbp_df &lt;- readRDS(url(&#39;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds&#39;))
+
+prem_epa_df &lt;- pbp_df %&gt;% 
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;% 
+  group_by(posteam) %&gt;% 
+  summarize(
+    pass_freq = mean(pass),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm  = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm  = T),
+    pass_epa_prem = pass_epa - run_epa
+  )</code></pre>
+</div>
+<h2 id="plot-extras">Plot Extras</h2>
+<p>It doesn’t hurt to label the four corners of the plot so it can be understood more easily. We also want to include some gridlines that show the league averages.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+label_df &lt;- data.frame(
+  pass_freq = c(.675,.425,.675,.425),
+  pass_epa_prem = c(.42,.42,-.02,-.02),
+  label = c(
+    &#39;Better at Passing\nPass A Lot&#39;,
+    &#39;Better at Passing\nRun A Lot&#39;,
+    &#39;Better at Running\nPass A Lot&#39;,
+    &#39;Better at Running\nRun A Lot&#39;
+    )
+  )
+
+pbp_df %&gt;% 
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;% 
+  group_by(season) %&gt;% 
+  summarize(
+    pass_freq = mean(pass),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm  = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm  = T),
+    pass_epa_prem = pass_epa - run_epa
+  )</code></pre>
+<pre><code>
+# A tibble: 1 x 5
+  season pass_freq pass_epa run_epa pass_epa_prem
+   &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;
+1   2019     0.524   0.0894  -0.117         0.206</code></pre>
+</div>
+<p>We can use this function to turn team abbreviations into the URL needed get high quality logos from ESPN.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ESPN_logo_url = function(x) paste0(&#39;https://a.espncdn.com/i/teamlogos/nfl/500/&#39;,x,&#39;.png&#39;)</code></pre>
+</div>
+<h2 id="basic-plot">Basic Plot</h2>
+<p>I typically make some cosmetic changes to my graphs to make them more visually appealing. If that isn’t your thing, this is the bare bones version.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+library(ggimage) # I&#39;m going to use ggimage&#39;s geom_image to add team logos here
+library(scales) # percent_format will convert the y-axis to percentages
+
+ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
+  geom_hline(yintercept = 0.525, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
+  geom_text(data = label_df, aes(label = label), color = &#39;red&#39;, size = 1.5) +
+  geom_image(aes(image = ESPN_logo_url(posteam)), size = 0.04) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(title = &#39;Dropback Premium vs Droback Frequency&#39;,
+       subtitle = &#39;Early Downs with Win Probability Between 20% and 80% Outside of\nLast Two Minutes of The Half&#39;,
+       y = &#39;Dropback Freq&#39;,
+       x = &#39;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&#39;) +
+  theme_minimal()</code></pre>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png" width="1650" data-distill-preview=1 /></p>
+</div>
+<h2 id="fancier-plot">Fancier Plot</h2>
+<p>Adding a bunch of junk to this plot will require loading some additional packages…</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(scales) # fixes labels
+library(shadowtext) # geom_shadowtext adds a thin border around your text, making it more readable
+library(ggpmisc) # geom_grob is my preferred function for placing images on plots
+library(grid) # convert an image to a raster object
+library(magick) # read our image in so we can make manipulations, if needed</code></pre>
+</div>
+<p>I like to use +/- signs for positive &amp; negative sometimes. This function usually gets the job done and can be applied directly to label argument of the axis layer.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plus_lab = function(x, accuracy = NULL, suffix = &#39;&#39;) paste0(ifelse(x&gt;0,&#39;+&#39;,&#39;&#39;),number(x, accuracy = accuracy, suffix = suffix, scale = ifelse(suffix == &#39;%&#39;, 100, 1)))
+plus_lab_format &lt;- function (accuracy = NULL, suffix = &#39;&#39;) function(x) plus_lab(x, accuracy = accuracy, suffix = suffix)</code></pre>
+</div>
+<p>This function will take a URL and return a grob with a modified color or transparency. It will produce an image when set as the label aesthetic for geom_grob. Processing graphs takes longer with geom_grob than it does with geom_image, but aspect ratios are always perfect for each image.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grob_img_adj &lt;- function(img_url, alpha = 1, whitewash = 0) {
+  return(lapply(img_url, function(x) {
+    if(is.na(x)) {
+      return(NULL)
+    } else {     
+      img &lt;- magick::image_read(x)[[1]]
+      img[1,,] &lt;- as.raw(255 - (255 - as.integer(img[1,,])) * (1-whitewash))
+      img[2,,] &lt;- as.raw(255 - (255 - as.integer(img[2,,])) * (1-whitewash))
+      img[3,,] &lt;- as.raw(255 - (255 - as.integer(img[3,,])) * (1-whitewash))
+      img[4,,] &lt;- as.raw(as.integer(img[4,,]) * alpha)
+      return(grid::rasterGrob(image = magick::image_read(img)))
+    }
+  }))
+}</code></pre>
+</div>
+<p>This is my own personal theme that I use for all my graphs. I typically use a different font, but I’ll use the default here. I’m also going to leave out my personal branding for this one.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theme_SB &lt;-  theme(
+  line = element_line(lineend = &#39;round&#39;, color=&#39;darkblue&#39;),
+  text = element_text(color=&#39;darkblue&#39;),
+  plot.background = element_rect(fill = &#39;grey95&#39;, color = &#39;transparent&#39;),
+  panel.border = element_rect(color = &#39;darkblue&#39;, fill = NA),
+  panel.background = element_rect(fill = &#39;white&#39;, color = &#39;transparent&#39;),
+  axis.ticks = element_line(color = &#39;darkblue&#39;, size = 0.5),
+  axis.ticks.length = unit(2.75, &#39;pt&#39;),
+  axis.title = element_text(size = 8),
+  axis.text = element_text(size = 7, color = &#39;darkblue&#39;),
+  plot.title = element_text(size = 14),
+  plot.subtitle = element_text(size = 8),
+  plot.caption = element_text(size = 5),
+  legend.background = element_rect(fill = &#39;grey90&#39;, color = &#39;darkblue&#39;),
+  legend.key = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.grid.major = element_line(color=&#39;grey85&#39;, size = 0.3),
+  axis.title.y = element_text(angle = 0, vjust = 0.5),
+  strip.background = element_blank(),
+  strip.text = element_text(size = 6, color = &#39;darkblue&#39;),
+  legend.position = &#39;bottom&#39;
+) </code></pre>
+</div>
+<p>And here is the final graph!</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
+  geom_hline(yintercept = 0.525, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
+  geom_shadowtext(data = label_df, aes(label = label), color = &#39;red&#39;, size = 1.5, bg.color = &#39;white&#39;, bg.r = 0.2) +
+  geom_grob(aes(x = pass_epa_prem, y = pass_freq, label = grob_img_adj(ESPN_logo_url(posteam), alpha = 0.7), vp.height = 0.06)) +
+  scale_x_continuous(labels = plus_lab_format(accuracy = .01), breaks = seq(-1,1,.1), limits = c(-0.1,0.5), expand = expansion(mult = c(0.02,0.02))) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), breaks = seq(0,1,.05), limits = c(.4,.7), expand = expansion(mult = c(0.03,0.03))) +
+  labs(title = &#39;Dropback Premium vs Droback Frequency&#39;,
+       subtitle = &#39;Early Downs with Win Probability Between 20% and 80% Outside of Last Two\nMinutes of The Half&#39;,
+       y = &#39;Dropback\nFreq&#39;,
+       x = &#39;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&#39;) +
+  theme_SB</code></pre>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" width="1650" data-distill-preview=1 /></p>
+</div>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Visualizing%20the%20Run%2FPass%20Efficiency%20Gap&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-visualizing-the-runpass-efficiency-gap%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-19-visualizing-the-runpass-efficiency-gap%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Reinhard (2020, Aug. 20). Open Source Football: Visualizing the Run/Pass Efficiency Gap. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{reinhard2020visualizing,
+  author = {Reinhard, Anthony},
+  title = {Open Source Football: Visualizing the Run/Pass Efficiency Gap},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>
