@@ -65,7 +65,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["neural-nets-using-r_files/bowser-1.9.3/bowser.min.js","neural-nets-using-r_files/distill-2.2.21/template.v2.js","neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png","neural-nets-using-r_files/header-attrs-2.3/header-attrs.js","neural-nets-using-r_files/jquery-1.11.3/jquery.min.js","neural-nets-using-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["neural-nets-using-r_files/bowser-1.9.3/bowser.min.js","neural-nets-using-r_files/distill-2.2.21/template.v2.js","neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-8-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png","neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png","neural-nets-using-r_files/header-attrs-2.3/header-attrs.js","neural-nets-using-r_files/jquery-1.11.3/jquery.min.js","neural-nets-using-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1353,7 +1353,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Neural Nets using R","description":"Using Keras in R to build neural networks.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000+00:00","citationText":"Darkweb, 2020"}
+{"title":"Neural Nets using R","description":"Using Keras in R to build neural networks.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000-07:00","citationText":"Darkweb, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1575,7 +1575,7 @@ history &lt;- model %&gt;% fit(
 )</code></pre>
 <pre><code>
 ....................
-............</code></pre>
+.................</code></pre>
 </div>
 <p>Now to check the results!</p>
 <p>Here we visualize how our nnet trained over our epochs. We define epochs here since we had some early stopping.</p>
@@ -1596,19 +1596,19 @@ c(loss, mae) %&lt;-% (model %&gt;% evaluate(test_df %&gt;% select(-label), test_
 
 loss</code></pre>
 <pre><code>
-[1] 46.7482</code></pre>
+[1] 46.37026</code></pre>
 <pre class="r"><code>
 mae</code></pre>
 <pre><code>
-[1] 4.154294</code></pre>
-</div>
-<p>Lastly, let’s visualize our trained model versus both actual YAC yardage and nflfastR’s XYAC mean yards model.</p>
-<div class="layout-chunk" data-layout="l-body">
+[1] 4.239087</code></pre>
 <pre class="r"><code>
 test_predictions &lt;- test_predictions %&gt;% as.data.frame()
 
 test_predictions %&gt;% ggplot(aes(V1)) + geom_density()</code></pre>
-<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-8-1.png" width="1950" /></p>
+</div>
+<p>Lastly, let’s visualize our trained model versus both actual YAC yardage and nflfastR’s XYAC mean yards model.</p>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 df &lt;-
   pbp %&gt;%
@@ -1646,7 +1646,7 @@ df %&gt;%
     subtitle = &quot;Actual: Black, NNet: Blue, XYAC_Mean: Red&quot;
     
   )</code></pre>
-<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-2.png" width="1950" data-distill-preview=1 /></p>
+<p><img src="neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
 <p>There you have it, your own little nnet done completely in R using the Keras/tensorflow backend.</p>
 <!--radix_placeholder_article_footer-->
@@ -1688,7 +1688,7 @@ df %&gt;%
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

@@ -28,12 +28,16 @@
       }
     ],
     "date": "2020-08-19",
-    "categories": [],
-    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png",
-    "last_modified": "2020-08-20T13:10:38+00:00",
-    "input_file": {},
-    "preview_width": 1248,
-    "preview_height": 768
+    "categories": [
+      "Keras",
+      "Tensorflow",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-08-20T14:49:53-07:00",
+    "input_file": "neural-nets-using-r.utf8.md",
+    "preview_width": 3900,
+    "preview_height": 2400
   },
   {
     "path": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/",
