@@ -1,5 +1,24 @@
 [
   {
+    "path": "posts/2020-08-20-python-contributing-example/",
+    "title": "Python contributing example",
+    "description": "Showing how to contribute using Python code",
+    "author": [
+      {
+        "name": "Ben Baldwin",
+        "url": "https://twitter.com/benbbaldwin"
+      }
+    ],
+    "date": "2020-08-20",
+    "categories": [
+      "nflfastR",
+      "python"
+    ],
+    "preview": {},
+    "last_modified": "2020-08-20T14:48:57-04:00",
+    "input_file": "python-contributing-example.utf8.md"
+  },
+  {
     "path": "posts/2020-08-19-wins-above-expectation/",
     "title": "Wins Above Expectation",
     "description": "This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.",
