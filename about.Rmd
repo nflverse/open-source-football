@@ -49,6 +49,7 @@ Their names we will maintain in this list (chronological order).
 * [Ben Baldwin](https://twitter.com/benbbaldwin)
 * [Analytics Darkweb](https://twitter.com/footballdaRkweb)
 * [Anthony Reinhard](https://twitter.com/reinhurdler)
+* [Jonathan Goldberg](https://twitter.com/gberg1303)
 * ...
 
 ## Design
