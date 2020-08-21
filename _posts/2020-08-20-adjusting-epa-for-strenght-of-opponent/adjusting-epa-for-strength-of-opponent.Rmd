@@ -9,10 +9,20 @@ date: 08-20-2020
 output:
   distill::distill_article:
     self_contained: false
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories: 
+  - Opponent adjusted EPA
+  - Figures
+  - nflfastR
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300,
+  tidy = 'styler')
 ```
 
 Here we are going to take a look at how to adjust a team's epa per play to the strength of their opponent. This technique will use weekly epa/play metrics, which can ultimately summarize a team's season-long performance. It is also possible to adjust the epa of individual plays with this process if you are so inclined to do so.
