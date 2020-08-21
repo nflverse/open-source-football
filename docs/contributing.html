@@ -25,8 +25,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2020-08-20"/>
-  <meta property="article:created" itemprop="dateCreated" content="2020-08-20"/>
+  <meta property="article:published" itemprop="datePublished" content="2020-08-21"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-21"/>
   <meta name="article:author" content="Sebastian Carl"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -45,7 +45,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","repository_url","output"]}},"value":[{"type":"character","attributes":{},"value":["Contributing to Open Source Football"]},{"type":"character","attributes":{},"value":["A brief guide how to contribute content.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-20-2020"]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","repository_url","output"]}},"value":[{"type":"character","attributes":{},"value":["Contributing to Open Source Football"]},{"type":"character","attributes":{},"value":["A brief guide how to contribute content.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-21-2020"]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1334,7 +1334,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Contributing to Open Source Football","description":"A brief guide how to contribute content.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR"}],"publishedDate":"2020-08-20T00:00:00.000+00:00","citationText":"Carl, 2020"}
+{"title":"Contributing to Open Source Football","description":"A brief guide how to contribute content.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR"}],"publishedDate":"2020-08-21T00:00:00.000+00:00","citationText":"Carl, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1367,7 +1367,7 @@
 <div class="d-byline">
   Sebastian Carl <a href="https://twitter.com/mrcaseb" class="uri">https://twitter.com/mrcaseb</a> (nflfastR)<a href="https://twitter.com/nflfastR" class="uri">https://twitter.com/nflfastR</a>
   
-<br/>08-20-2020
+<br/>08-21-2020
 </div>
 
 <div class="d-article">
@@ -1398,7 +1398,7 @@
 <li>Create a copy of the website repo to your GitHub (you’ll need a free account)</li>
 <li>Load it into a new RStudio project and start working in a new branch</li>
 <li>Create the new article (see <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the repo</a> for some examples and check the <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> website) and please don’t forget to add <a href="#start-working-on-the-post">metadata and chunk options</a> like suggested in the next section</li>
-<li>Commit all to your post related files and push them into the new branch in your GitHub repo</li>
+<li>Commit all to your post related files and push them into the new branch in your GitHub repo (please see <a href="#push-your-work-into-your-repo">Push your work into your repo</a> for details which files <strong>should not be pushed</strong>)</li>
 <li>Visit your repo and create a pull request to merge your post into the open-source-football repo</li>
 </ol>
 <p>With the last step we will be notified and will take a look at your article, suggest changes as necessary, then publish it when it’s ready by merging it into the main repo.</p>
@@ -1450,7 +1450,13 @@ distill::create_post(&quot;Title of your post&quot;)</code></pre>
 <li>The short one is <a href="https://happygitwithr.com/rstudio-git-github.html">happygitwithr.com</a></li>
 <li>The detailed one is <a href="http://r-pkgs.had.co.nz/git.html">Hadley’s section</a></li>
 </ul>
-<p>Commit all file which are related to your post and go on with the last step.</p>
+<p>Commit all files <strong>which are related to your post</strong> and go on with the last step. There are 4 files not related to your post causing merge conflicts when you push them so please don’t push them and instead just delete them:</p>
+<ol type="1">
+<li><code>docs/index.html</code></li>
+<li><code>docs/index.xml</code></li>
+<li><code>docs/posts/posts.json</code></li>
+<li><code>docs/sitemap.xml</code></li>
+</ol>
 <h3 id="create-the-pull-request">Create the Pull Request</h3>
 <p>To create the Pull Request visit your GitHub repo and you will notice a banner indicating that you’ve recently pushed a new branch and that you can “compare &amp; pull request”. Follow the steps for <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork">creating a pull request from a fork</a> and you are finally done.</p>
 <!--radix_placeholder_article_footer-->
