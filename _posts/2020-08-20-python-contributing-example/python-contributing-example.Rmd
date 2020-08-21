@@ -40,7 +40,7 @@ library(reticulate)
 
 ### Once setup is done:
 
-Start working on your document. You can put in python code chunks as in the examples below.
+Start working on your document. You can put in python code chunks as in the examples below ([see here](https://github.com/mrcaseb/open-source-football/blob/master/_posts/2020-08-20-python-contributing-example/python-contributing-example.Rmd) for the source code).
 
 * Once you have everything ready in your document, press the "Knit" button on the top and it will create the document.
 * Then you can committ all the files using the Git tab
