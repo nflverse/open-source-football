@@ -80,6 +80,16 @@ jsonlite::fromJSON(
     ) %>%
 
     # format some columns with a number of decimal digits
-    DT::formatDate(columns = 2)
+    DT::formatDate(
+      columns = 2,
+      method =  "toLocaleDateString", 
+      params = list(
+      'en-US', 
+      list(
+        year = 'numeric', 
+        month = 'numeric',
+        day = 'numeric')
+      )
+      )
 ```
 
