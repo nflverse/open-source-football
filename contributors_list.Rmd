@@ -33,63 +33,50 @@ jsonlite::fromJSON(
   "https://raw.githubusercontent.com/mrcaseb/open-source-football/master/docs/posts/posts.json",
   flatten = TRUE
 ) %>%
-  tidyr::unnest_wider(author) %>% 
+  tidyr::unnest_wider(author) %>%
   dplyr::mutate(
-  name = glue::glue('<a href = "{url}">{name}</a>'),
-  title = glue::glue('<a href = "https://mrcaseb.github.io/open-source-football/{path}">{title}</a>')
+    name = glue::glue('<a href = "{url}">{name}</a>'),
+    title = glue::glue('<a href = "https://mrcaseb.github.io/open-source-football/{path}">{title}</a>')
   ) %>%
   dplyr::select(name, date, title) %>%
   DT::datatable(
-    extensions = c('FixedHeader'),
+    extensions = c("FixedHeader"),
 
-      # set some options
-      options = list(
+    # set some options
+    options = list(
 
-        # Show table and table info
-        # dom = "ti",
+      # Show table and table info
+      # dom = "ti",
 
-        # format all columns to align center
-        # no searching or ordering for the rownames col
-        # only descending order starting with col 2
-        columnDefs = list(
-          list(className = 'dt-center', targets = "_all")
-          # list(targets = 1,
-          #      render = JS(
-          #        "function(data, type, row, meta) {",
-          #        "return '<img src=\"' + data + '\" height=\"10%\">';",
-          #        "}"))
-          # list(orderSequence = c("desc"), targets = c(2:7))
-          ),
+      # format all columns to align center
+      columnDefs = list(list(className = "dt-center", targets = "_all")),
 
-        # Highlight order column
-        orderClasses = TRUE,
+      # Highlight order column
+      orderClasses = TRUE,
 
-        # fix the table header
-        fixedHeader = TRUE
+      # fix the table header
+      fixedHeader = TRUE
+    ),
 
-        ),
+    # change column names
+    colnames = c("Author", "Published", "Title"),
 
-      # change column names
-      colnames = c("Author", "Published", "Title"),
+    rownames = FALSE,
+    escape = FALSE
+  ) %>%
 
-      rownames = FALSE,
-
-      # enable column filtering and put the filter at the top (can be bottom as well)
-      filter = "bottom",
-      escape = FALSE
-    ) %>%
-
-    # format some columns with a number of decimal digits
-    DT::formatDate(
-      columns = 2,
-      method =  "toLocaleDateString", 
-      params = list(
-      'en-US', 
+  # format some columns with a number of decimal digits
+  DT::formatDate(
+    columns = 2,
+    method = "toLocaleDateString",
+    params = list(
+      "en-US",
       list(
-        year = 'numeric', 
-        month = 'numeric',
-        day = 'numeric')
+        year = "numeric",
+        month = "numeric",
+        day = "numeric"
       )
-      )
+    )
+  )
 ```
 
