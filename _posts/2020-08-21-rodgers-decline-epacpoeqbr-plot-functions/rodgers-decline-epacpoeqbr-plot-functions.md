@@ -1,9 +1,4 @@
 ---
-output:
-  html_document:
-    keep_md: true
----
-
 # A Look Into Rodgers Efficiency Decline
 Austin Ryan | @packeRanalytics
 August 20, 2020
@@ -18,7 +13,7 @@ If people in the NFL still consider Rodgers a near top talent and PFF grade has 
 
 The Computer Cowboy's EPA + CPOE composite metric on [rbsdm.com](https://rbsdm.com/stats/stats/) ranked Rodgers as the 16th best since 2016, one spot below Ryan Fitzpatrick and three spots below Kirk Cousins. 
 
-<img src="C:/Users/ausryan/Desktop/MBA/packeRanalytics/98_proj/rodgers/git/Rodgers/rbsdm.png" width="1475" />
+<img src="path/rbsdm.png" width="1475" />
 
 [Football Outsiders DVOA](https://www.footballoutsiders.com/stats/nfl/qb/2019) placed Rodgers outside the top 10 in each of the last three seasons. [QBR](https://www.espn.com/nfl/qbr) lists Rodgers one spot below Andy Dalton in 2018 (16th) and one spot ahead of Jacoby Brissett in 2019 (20th).  
 
