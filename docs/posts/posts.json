@@ -1,0 +1,130 @@
+[
+  {
+    "path": "posts/2020-08-20-python-contributing-example/",
+    "title": "Python contributing example",
+    "description": "Showing how to contribute using Python code",
+    "author": [
+      {
+        "name": "Ben Baldwin",
+        "url": "https://twitter.com/benbbaldwin"
+      }
+    ],
+    "date": "2020-08-20",
+    "categories": [
+      "nflfastR",
+      "python"
+    ],
+    "preview": {},
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2020-08-19-matching-players-without-id-keys/",
+    "title": "Matching players without ID keys",
+    "description": "Rebuilding player graphs when ID keys go missing or are corrupted.",
+    "author": [
+      {
+        "name": "Analytics Darkweb",
+        "url": "https://twitter.com/footballdaRkweb"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [
+      "Figures",
+      "Roster",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {},
+    "preview_width": 12000,
+    "preview_height": 9600
+  },
+  {
+    "path": "posts/2020-08-19-neural-nets-using-r/",
+    "title": "Neural Nets using R",
+    "description": "Using Keras in R to build neural networks.",
+    "author": [
+      {
+        "name": "Analytics Darkweb",
+        "url": "https://twitter.com/footballdaRkweb"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [
+      "Keras",
+      "Tensorflow",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {},
+    "preview_width": 3900,
+    "preview_height": 2400
+  },
+  {
+    "path": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/",
+    "title": "The accumulation of QB hits vs passing efficiency",
+    "description": "Do quarterbacks who get hit see their performance decline throughout the game?",
+    "author": [
+      {
+        "name": "Ben Baldwin",
+        "url": "https://twitter.com/benbbaldwin"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [
+      "Figures",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png",
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {},
+    "preview_width": 3900,
+    "preview_height": 3300
+  },
+  {
+    "path": "posts/2020-08-19-wins-above-expectation/",
+    "title": "Wins Above Expectation",
+    "description": "This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.",
+    "author": [
+      {
+        "name": "Sebastian Carl",
+        "url": "https://twitter.com/mrcaseb"
+      }
+    ],
+    "date": "2020-08-19",
+    "categories": [
+      "Figures",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {},
+    "preview_width": 3900,
+    "preview_height": 3000
+  },
+  {
+    "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
+    "title": "PFR's Bad Throw Percentage for Quarterbacks",
+    "description": "This article shows how to scrape football data from Pro Football Reference and\nhow to plot the bad throw percentage data for quarterbacks.",
+    "author": [
+      {
+        "name": "Sebastian Carl",
+        "url": "https://twitter.com/mrcaseb"
+      }
+    ],
+    "date": "2020-08-18",
+    "categories": [
+      "Scraping",
+      "PFR",
+      "Figures",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
+    "last_modified": "2020-08-21T08:09:53+00:00",
+    "input_file": {},
+    "preview_width": 3900,
+    "preview_height": 3300
+  }
+]
