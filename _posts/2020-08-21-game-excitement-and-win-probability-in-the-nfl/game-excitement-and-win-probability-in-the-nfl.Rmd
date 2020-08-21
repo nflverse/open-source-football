@@ -1,7 +1,7 @@
 ---
 title: "Game Excitement and Win Probability in the NFL"
 description: |
-  A short description of the post.
+  Game excitement calculation and a win probability figure.
 author:
   - name: Max Bolger
     url: https://twitter.com/mnpykings
