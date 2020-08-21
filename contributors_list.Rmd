@@ -24,8 +24,7 @@ knitr::opts_chunk$set(
 ```
 
 We hope that we can get as many volunteers as possible to publish their code on
-this website. This section provides a full list of posts, their authors as well
-as other meta data.
+this website. This section provides a full list of posts and their authors.
 
 ```{r, layout="l-page"}
 library(DT)
@@ -35,7 +34,11 @@ jsonlite::fromJSON(
   flatten = TRUE
 ) %>%
   tidyr::unnest_wider(author) %>% 
-  dplyr::select(name, url, date, title, path) %>%
+  dplyr::mutate(
+  name = glue::glue('<a href = "{url}">{name}</a>'),
+  title = glue::glue('<a href = "https://mrcaseb.github.io/open-source-football/{path}">{title}</a>')
+  ) %>%
+  dplyr::select(name, date, title) %>%
   DT::datatable(
     extensions = c('FixedHeader'),
 
@@ -66,34 +69,17 @@ jsonlite::fromJSON(
 
         ),
 
-      # create index column with this callback. The if else statement only work
-      # with the rendertDT option `server = FALSE` but this breaks the ggplot
-      # callback = JS(
-      #   "table.on('order.dt, search.dt', function () {
-      #      var torder = table.order();
-      #     table.column(0, {search:'none', order:'current'}).nodes().each( function (cell, i) {
-      #       if (torder[0][1] === 'asc') {
-      #         cell.innerHTML = table.page.info().recordsDisplay-i;
-      #       }
-      #       else {
-      #         cell.innerHTML = i+1;
-      #       }
-      #       table.cell(cell).invalidate('dom');
-      #     } );
-      #   } ).draw();"
-      # ),
-
       # change column names
-      colnames = c("Author", "Contact", "Published", "Title", "URL"),
+      colnames = c("Author", "Published", "Title"),
 
       rownames = FALSE,
 
       # enable column filtering and put the filter at the top (can be bottom as well)
       filter = "bottom",
-      escape = TRUE
+      escape = FALSE
     ) %>%
 
     # format some columns with a number of decimal digits
-    DT::formatDate(columns = 3)
+    DT::formatDate(columns = 2)
 ```
 
