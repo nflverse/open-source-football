@@ -11,10 +11,12 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
     - text: "Contributing"
       href: contributing.html
+    - text: "Authors"
+      href: contributors_list.html
+    - text: "About"
+      href: about.html
     - icon: fa fa-github
       href: https://github.com/mrcaseb/open-source-football
 output:
