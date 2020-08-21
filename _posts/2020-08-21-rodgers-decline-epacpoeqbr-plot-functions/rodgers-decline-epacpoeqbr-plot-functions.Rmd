@@ -70,22 +70,18 @@ If you are not familiar with EPA, QBR, DVOA, or CPOE please check out the below.
   library(glue)
 
 # Set working directory
-  setwd("C:/Users/ausryan/Desktop/MBA/packeRanalytics/99_data/nflfastR")
+  setwd("path")
 
 # Read in all play by play data since 1999
   pbp <- readRDS("1999-2019_pbp_raw.rds")
 
 # Import team logos & colors
-  setwd("C:/Users/ausryan/Desktop/MBA/packeRanalytics/99_data/leesharpe")
   df_logo_colors <- readRDS("df_logo_colors.rds")
   
 # Join team colors & logos with pbp data
   pbp <- pbp %>% 
     inner_join(df_logo_colors, by = c("posteam" = "team"))  
-
-# Set working directory
-  setwd("C:/Users/ausryan/Desktop/MBA/packeRanalytics/98_proj/rodgers/git/Rodgers")  
-  
+ 
 ```
 ```{r echo=FALSE, warning = FALSE, message=FALSE} 
 #### Function to plot rolling epa for qb
