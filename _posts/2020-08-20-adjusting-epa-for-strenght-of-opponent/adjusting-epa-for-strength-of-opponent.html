@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mrcaseb.github.io/open-source-football/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -20,366 +19,39 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Open Source Football: Latest posts</title>
+  <title>Adjusting EPA for Strength of Opponent</title>
+  
+  <meta property="description" itemprop="description" content="This article shows how to adjust a team&#39;s EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!"/>
   
   
-  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-20"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-20"/>
+  <meta name="article:author" content="Jonathan Goldberg"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Open Source Football: Latest posts"/>
+  <meta property="og:title" content="Adjusting EPA for Strength of Opponent"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This article shows how to adjust a team&#39;s EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Open Source Football"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Open Source Football: Latest posts"/>
+  <meta property="twitter:title" content="Adjusting EPA for Strength of Opponent"/>
+  <meta property="twitter:description" content="This article shows how to adjust a team&#39;s EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["Latest posts"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Adjusting EPA for Strength of Opponent"]},{"type":"character","attributes":{},"value":["This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Jonathan Goldberg"]},{"type":"character","attributes":{},"value":["https://twitter.com/gberg1303"]}]}]},{"type":"character","attributes":{},"value":["08-20-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
   
-  <script type="application/javascript">
-  
-    window.headroom_prevent_pin = false;
-  
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-  
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-  
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-  
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-  
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["adjusting-epa-for-strength-of-opponent_files/bowser-1.9.3/bowser.min.js","adjusting-epa-for-strength-of-opponent_files/distill-2.2.21/template.v2.js","adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png","adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-2.png","adjusting-epa-for-strength-of-opponent_files/jquery-1.11.3/jquery.min.js","adjusting-epa-for-strength-of-opponent_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-  
-  <style type="text/css">
-  
-  /* Theme (user-documented overrideables for nav appearance) */
-  
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-  }
-  
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-  
-  .distill-site-header {
-  
-  }
-  
-  .distill-site-footer {
-  
-  }
-  
-  
-  /* Site Header */
-  
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-  
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-  
-  
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-  
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-  
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-  
-  .distill-site-header .logo {
-    padding: 0;
-  }
-  
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-  
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-  
-  
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-  
-  
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-  
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-  
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-dropdown-active {
-    display: block;
-  }
-  
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-  
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-  
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-  
-  /* Site Footer */
-  
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  /* Headroom */
-  
-  d-title {
-    padding-top: 6rem;
-  }
-  
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-  
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-  
-  .headroom--unpinned {
-    top: -100px;
-  }
-  
-  .headroom--pinned {
-    top: 0;
-  }
-  
-  </style>
-  
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -1265,531 +937,158 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="adjusting-epa-for-strength-of-opponent_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="adjusting-epa-for-strength-of-opponent_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="adjusting-epa-for-strength-of-opponent_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="adjusting-epa-for-strength-of-opponent_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <style type="text/css">
-  d-article > d-code, d-article section > d-code {
-  padding: 16px;
-  overflow: auto;
-      overflow-x: auto;
-      overflow-y: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-left-radius: 6px;
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-  }
-  
-  pre d-code{
-    border-left: 0;
-  }
-  
-  .distill-site-nav {
-    color: #ffffff;
-    font-weight: 400;
-    background: #24292e;
-    border-bottom: 2px solid #DECF40;
-    -webkit-box-shadow: 1px 1px 18px #4d4d4d;
-    -moz-box-shadow: 1px 1px 18px #4d4d4d;
-    box-shadow: 1px 1px 18px #4d4d4d;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-    font-weight: 700;
-  }
-  
-  d-title {
-  background: #575757;
-  color: white;
-  }
-  
-  .distill-site-footer {
-    border-top: 2px solid #DECF40;
-    border-bottom: 0;
-  }
-  
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Latest posts","authors":[]}
+{"title":"Adjusting EPA for Strength of Opponent","description":"This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!","authors":[{"author":"Jonathan Goldberg","authorURL":"https://twitter.com/gberg1303","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-20T00:00:00.000-04:00","citationText":"Goldberg, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Open Source Football</a>
-</div>
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="contributing.html">Contributing</a>
-<a href="https://github.com/mrcaseb/open-source-football">
-<i class="fa fa-github" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if (category == page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
-<div class="posts-list">
-<h1 class="posts-list-caption">Latest posts</h1>
-<a href="posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 20, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png"/>
-</div>
-<div class="description">
-<h2>Adjusting EPA for Strength of Opponent</h2>
-<p>This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!</p>
-</div>
-</a>
-<a href="posts/2020-08-19-matching-players-without-id-keys/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
-</div>
-<div class="description">
-<h2>Matching players without ID keys</h2>
-<p>Rebuilding player graphs when ID keys go missing or are corrupted.</p>
-</div>
-</a>
-<a href="posts/2020-08-19-neural-nets-using-r/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-7-1.png"/>
-</div>
-<div class="description">
-<h2>Neural Nets using R</h2>
-<p>Using Keras in R to build neural networks.</p>
-</div>
-</a>
-<a href="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
-</div>
-<div class="description">
-<h2>The accumulation of QB hits vs passing efficiency</h2>
-<p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
-</div>
-</a>
-<a href="posts/2020-08-19-wins-above-expectation/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
-</div>
-<div class="description">
-<h2>Wins Above Expectation</h2>
-<p>This article looks at the percentage of snaps with win probability over an 
-arbitralily chosen critical value and compares it with the true win percentage.</p>
-</div>
-</a>
-<a href="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Scraping","PFR","Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 18, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png"/>
-</div>
-<div class="description">
-<h2>PFR's Bad Throw Percentage for Quarterbacks</h2>
-<p>This article shows how to scrape football data from Pro Football Reference and
-how to plot the bad throw percentage data for quarterbacks.</p>
-</div>
-</a>
-</div>
-<div class="posts-sidebar">
-<div class="sidebar-section categories">
-<h3>Categories</h3>
-<ul>
-<li>
-<a href="#Figures">Figures</a>
-<span class="category-count">(3)</span>
-</li>
-<li>
-<a href="#nflfastR">nflfastR</a>
-<span class="category-count">(3)</span>
-</li>
-<li>
-<a href="#PFR">PFR</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Scraping">Scraping</a>
-<span class="category-count">(1)</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Latest posts</h1>
-
+<h1>Adjusting EPA for Strength of Opponent</h1>
+<p><p>This article shows how to adjust a team’s EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!</p></p>
 </div>
 
+<div class="d-byline">
+  Jonathan Goldberg <a href="https://twitter.com/gberg1303" class="uri">https://twitter.com/gberg1303</a> 
+  
+<br/>08-20-2020
+</div>
 
 <div class="d-article">
+<p>Here we are going to take a look at how to adjust a team’s epa per play to the strength of their opponent. This technique will use weekly epa/play metrics, which can ultimately summarize a team’s season-long performance. It is also possible to adjust the epa of individual plays with this process if you are so inclined to do so.</p>
+<p>Quick note: the adjustments were inspired by the work done in this <a href="%22https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">paper</a>. It’s a bit technical but a good additional read!</p>
+<p>Alright, let’s get into it by first loading up our data!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+NFL_PBP &lt;- purrr::map_df(2009:2019, function(x) {
+  readr::read_csv(
+    glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz&quot;)
+  )
+})</code></pre>
+</div>
+<p>With the data loaded, we can finally get down to business by summarizing each team’s weekly epa/play.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+ epa_data &lt;- NFL_PBP %&gt;%
+    dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam), play_type==&quot;pass&quot; | play_type==&quot;run&quot;) %&gt;%
+    dplyr::group_by(game_id, season, week, posteam, home_team) %&gt;%
+    dplyr::summarise(
+      off_epa= mean(epa),
+    ) %&gt;%
+    dplyr::left_join(NFL_PBP %&gt;%
+                filter(!is.na(epa), !is.na(ep), !is.na(posteam), play_type==&quot;pass&quot; | play_type==&quot;run&quot;) %&gt;%
+                dplyr::group_by(game_id, season, week, defteam, away_team) %&gt;%
+                  dplyr::summarise(def_epa=mean(epa)),
+              by = c(&quot;game_id&quot;, &quot;posteam&quot; = &quot;defteam&quot;, &quot;season&quot;, &quot;week&quot;),
+              all.x = TRUE) %&gt;%
+    dplyr::mutate(opponent = ifelse(posteam == home_team, away_team, home_team)) %&gt;%
+    dplyr::select(game_id, season, week, home_team, away_team, posteam, opponent, off_epa, def_epa) </code></pre>
+</div>
+<p>Now we can get into the fun part: adjusting a team’s epa/play based on the strength of the opponent they are up against.</p>
+<ol type="1">
+<li>We are going to reframe each team’s epa/play as a team’s weekly opponent.</li>
+<li>We are going to convert each statistic into a moving average of the last ten games — this decision was based on <a href="%22https://twitter.com/PFF_Moo/status/1098241199171923968?s=20%22">this research</a> and this <a href="%22https://twitter.com/gberg1303/status/1282840171126427648?s=20%22">model</a> — and lag that statistic by one week. The lag is important because we need to be comparing a team’s weekly performance against their opponent’s average performance <strong>up to that point in the season.</strong></li>
+<li>We are going to join the data back to the epa_dataset.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Construct opponent dataset and lag the moving average of their last ten games.
+opponent_data &lt;- epa_data %&gt;%
+  dplyr::select(-opponent) %&gt;%
+  dplyr::rename(
+    opp_off_epa = off_epa,
+    opp_def_epa = def_epa
+    ) %&gt;%
+  dplyr::group_by(posteam) %&gt;%
+  dplyr::arrange(season, week) %&gt;%
+  dplyr::mutate(
+    opp_def_epa = pracma::movavg(opp_def_epa, n = 10, type = &quot;s&quot;),
+    opp_def_epa = dplyr::lag(opp_def_epa),
+    opp_off_epa = pracma::movavg(opp_off_epa, n = 10, type = &quot;s&quot;),
+    opp_off_epa = dplyr::lag(opp_off_epa))
 
+# Merge opponent data back in with the weekly epa data
+epa_data &lt;- epa_data %&gt;%
+  left_join(
+    opponent_data, 
+    by = c(&quot;game_id&quot;, &quot;season&quot;, &quot;week&quot;, &quot;home_team&quot;, &quot;away_team&quot;, &quot;opponent&quot; = &quot;posteam&quot;),
+    all.x = TRUE)</code></pre>
+</div>
+<p>Don’t fret that the opponent’s epa columns will have NAs in the first week. You simply can’t lag from the first observation.</p>
+<p>The final piece of the equation needed to make the adjustments is the league mean for epa/play on offense and defense. We need to know how strong the opponent is relative to the average team in the league.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+  epa_data &lt;- epa_data %&gt;%
+    dplyr::left_join(epa_data %&gt;%
+                       dplyr::filter(posteam == home_team) %&gt;%
+                       dplyr::group_by(season, week) %&gt;%
+                       dplyr::summarise(
+                         league_mean = mean(off_epa + def_epa)
+                         ) %&gt;%
+                       dplyr::ungroup() %&gt;%
+                       dplyr::group_by(season) %&gt;%
+                       dplyr::mutate(
+                         league_mean = lag(pracma::movavg(league_mean, n = 10, type = &quot;s&quot;),) # We lag because we need to know the league mean up to that point in the season
+                ),
+              by = c(&quot;season&quot;, &quot;week&quot;),
+              all.x = TRUE)</code></pre>
+</div>
+<p>Finally, we can get to adjusting a team’s epa/play. We’ll create an adjustment measure by subtracting the opponent’s epa/play metrics from the league mean. Then we add the adjustment measure to each team’s weekly performance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+  #Adjust EPA
+  epa_data &lt;- epa_data %&gt;%
+    dplyr::mutate(
+      off_adjustment_factor = ifelse(!is.na(league_mean), league_mean-opp_def_epa, 0),
+      def_adjustment_factor = ifelse(!is.na(league_mean), league_mean-opp_off_epa, 0),
+      adjusted_off_epa = off_epa + off_adjustment_factor,
+      adjusted_def_epa = def_epa + def_adjustment_factor,
+    )</code></pre>
+</div>
+<p>We’re done! You can now view each team’s epa/play adjusted for their strength of schedule. Let’s check out how different the league looks by comparing unadjusted epa to adjusted epa stats.</p>
+<div class="layout-chunk" data-layout="l-page">
+<p><img src="adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png" width="624" data-distill-preview=1 /><img src="adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-2.png" width="624" data-distill-preview=1 /></p>
+</div>
+<p>Above, you can see that some teams are revealed to be stronger after adjusting their epa/play while other teams appear to be weaker. We can use these adjustments to make more accurate predictions of individual NFL games.</p>
+<p>Here, each metrics are used in separate glm models to predict the outcome of games from the past two seasons. Their accuracy is below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;Adjusted EPA Accuracy&quot;</code></pre>
+<pre><code>
+[1] 0.6404494</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+[1] &quot;Normal EPA Accuracy&quot;</code></pre>
+<pre><code>
+[1] 0.6348315</code></pre>
+</div>
+<p>There is a slight edge to the adjusted EPA model. Its a solid start but there is more work to be done in finding the best version on epa/play.</p>
+<ol type="1">
+<li>There is good work being done on properly weighting epa on a given type of play. For instance, DVOA is a does well in predicting future team performance because the downweight the impact of interceptions in their metric. More work can be done to properly weight epa based on its play type!</li>
+<li>It is possible to make these adjustments at the individual play level and with more specificity. For instance, you could adjust run plays based on the team’s run defense rather than adjusting the entire offense to the team’s entire defense. I think more work should be done to determine if these more detailed techniques can improve the predictiveness of the stat.</li>
+<li>There may be other ways to construct epa/play that improve its strength as a predictor <a href="%22https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">The paper that inspired this article</a> uses the solution of an optimization problem to construct a team’s true offensive epa/play and defensive epa/play. Perhaps a moving averaged should be eschewed in favor of a technique that more properly accounts for common regression to the mean over the offseason.</li>
+</ol>
+<p>Thanks to Sebastian Carl and Ben Baldwin for setting this forum up! I can’t wait to see others’ works and improvements to my own make its way on here.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1804,9 +1103,6 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>

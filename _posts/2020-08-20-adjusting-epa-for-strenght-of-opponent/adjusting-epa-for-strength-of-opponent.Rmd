@@ -1,0 +1,254 @@
+---
+title: "Adjusting EPA for Strength of Opponent"
+description: |
+  This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!
+author:
+  - name: Jonathan Goldberg
+    url: https://twitter.com/gberg1303
+date: 08-20-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Here we are going to take a look at how to adjust a team's epa per play to the strength of their opponent. This technique will use weekly epa/play metrics, which can ultimately summarize a team's season-long performance. It is also possible to adjust the epa of individual plays with this process if you are so inclined to do so.
+
+Quick note: the adjustments were inspired by the work done in this [paper]("https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf). It's a bit technical but a good additional read!
+
+Alright, let's get into it by first loading up our data!
+
+```{r, echo=TRUE, include=TRUE}
+NFL_PBP <- purrr::map_df(2009:2019, function(x) {
+  readr::read_csv(
+    glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
+  )
+})
+```
+
+With the data loaded, we can finally get down to business by summarizing each team's weekly epa/play.
+
+```{r, echo=TRUE, include=TRUE}
+library(tidyverse)
+ epa_data <- NFL_PBP %>%
+    dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam), play_type=="pass" | play_type=="run") %>%
+    dplyr::group_by(game_id, season, week, posteam, home_team) %>%
+    dplyr::summarise(
+      off_epa= mean(epa),
+    ) %>%
+    dplyr::left_join(NFL_PBP %>%
+                filter(!is.na(epa), !is.na(ep), !is.na(posteam), play_type=="pass" | play_type=="run") %>%
+                dplyr::group_by(game_id, season, week, defteam, away_team) %>%
+                  dplyr::summarise(def_epa=mean(epa)),
+              by = c("game_id", "posteam" = "defteam", "season", "week"),
+              all.x = TRUE) %>%
+    dplyr::mutate(opponent = ifelse(posteam == home_team, away_team, home_team)) %>%
+    dplyr::select(game_id, season, week, home_team, away_team, posteam, opponent, off_epa, def_epa) 
+```
+
+Now we can get into the fun part: adjusting a team's epa/play based on the strength of the opponent they are up against. 
+
+1. We are going to reframe each team's epa/play as a team's weekly opponent.
+2. We are going to convert each statistic into a moving average of the last ten games — this decision was based on [this research]("https://twitter.com/PFF_Moo/status/1098241199171923968?s=20") and this [model]("https://twitter.com/gberg1303/status/1282840171126427648?s=20") — and lag that statistic by one week. The lag is important because we need to be comparing a team's weekly performance against their opponent's average performance **up to that point in the season.**
+3. We are going to join the data back to the epa_dataset.
+
+```{r, echo=TRUE, include=TRUE}
+
+# Construct opponent dataset and lag the moving average of their last ten games.
+opponent_data <- epa_data %>%
+  dplyr::select(-opponent) %>%
+  dplyr::rename(
+    opp_off_epa = off_epa,
+    opp_def_epa = def_epa
+    ) %>%
+  dplyr::group_by(posteam) %>%
+  dplyr::arrange(season, week) %>%
+  dplyr::mutate(
+    opp_def_epa = pracma::movavg(opp_def_epa, n = 10, type = "s"),
+    opp_def_epa = dplyr::lag(opp_def_epa),
+    opp_off_epa = pracma::movavg(opp_off_epa, n = 10, type = "s"),
+    opp_off_epa = dplyr::lag(opp_off_epa))
+
+# Merge opponent data back in with the weekly epa data
+epa_data <- epa_data %>%
+  left_join(
+    opponent_data, 
+    by = c("game_id", "season", "week", "home_team", "away_team", "opponent" = "posteam"),
+    all.x = TRUE)
+
+```
+
+Don't fret that the opponent's epa columns will have NAs in the first week. You simply can't lag from the first observation. 
+
+The final piece of the equation needed to make the adjustments is the league mean for epa/play on offense and defense. We need to know how strong the opponent is relative to the average team in the league. 
+
+```{r, echo=TRUE, include=TRUE}
+  epa_data <- epa_data %>%
+    dplyr::left_join(epa_data %>%
+                       dplyr::filter(posteam == home_team) %>%
+                       dplyr::group_by(season, week) %>%
+                       dplyr::summarise(
+                         league_mean = mean(off_epa + def_epa)
+                         ) %>%
+                       dplyr::ungroup() %>%
+                       dplyr::group_by(season) %>%
+                       dplyr::mutate(
+                         league_mean = lag(pracma::movavg(league_mean, n = 10, type = "s"),) # We lag because we need to know the league mean up to that point in the season
+                ),
+              by = c("season", "week"),
+              all.x = TRUE)
+```
+
+Finally, we can get to adjusting a team's epa/play. We'll create an adjustment measure by subtracting the opponent's epa/play metrics from the league mean. Then we add the adjustment measure to each team's weekly performance. 
+
+```{r, echo=TRUE, include=TRUE}
+  #Adjust EPA
+  epa_data <- epa_data %>%
+    dplyr::mutate(
+      off_adjustment_factor = ifelse(!is.na(league_mean), league_mean-opp_def_epa, 0),
+      def_adjustment_factor = ifelse(!is.na(league_mean), league_mean-opp_off_epa, 0),
+      adjusted_off_epa = off_epa + off_adjustment_factor,
+      adjusted_def_epa = def_epa + def_adjustment_factor,
+    )
+```
+
+We're done! You can now view each team's epa/play adjusted for their strength of schedule. Let's check out how different the league looks by comparing unadjusted epa to adjusted epa stats.
+
+```{r, layout="l-page", fig.height=5.5, preview=TRUE}
+
+# Offense
+epa_data %>%
+  dplyr::group_by(posteam, season) %>%
+  dplyr::summarise_all(mean, na.rm = TRUE) %>%
+  dplyr::select(posteam, season, off_epa, def_epa, adjusted_off_epa, adjusted_def_epa) %>%
+  dplyr::filter(season == 2019) %>%
+  dplyr::ungroup() %>%
+  dplyr::arrange(off_epa) %>%
+  dplyr::mutate(posteam = factor(posteam, levels = posteam[order(off_epa)])) %>% 
+  ggplot2::ggplot(aes(x = off_epa, xend = adjusted_off_epa, y = posteam, group = posteam)) +
+  ggalt::geom_dumbbell(
+                      size_x=3.5, 
+                      size_xend = 3.5,
+                      colour_x="dark blue", 
+                      colour_xend = "light blue") +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    title = "Offensive EPA/Play v. Adjusted Offensive EPA/Play",
+    y = "Team",
+    x = "Off EPA/Play (Dark Blue) v. Adj Off EPA/Play (Light Blue)"
+  ) +
+  ggplot2::theme(legend.position = "none", 
+            plot.title = element_text(face = "bold"), 
+            axis.title.x = element_text(face = "bold"),
+            axis.title.y = element_text(face = "bold"))
+
+# Defense
+epa_data %>%
+  dplyr::group_by(posteam, season) %>%
+  dplyr::summarise_all(mean, na.rm = TRUE) %>%
+  dplyr::select(posteam, season, off_epa, def_epa, adjusted_off_epa, adjusted_def_epa) %>%
+  dplyr::filter(season == 2019) %>%
+  dplyr::ungroup() %>%
+  dplyr::arrange(def_epa) %>%
+  dplyr::mutate(posteam = factor(posteam, levels = posteam[order(-def_epa)])) %>% 
+  ggplot2::ggplot(aes(x = def_epa, xend = adjusted_def_epa, y = posteam, group = posteam)) +
+  ggalt::geom_dumbbell(
+                      size_x=3.5, 
+                      size_xend = 3.5,
+                      colour_x="dark blue", 
+                      colour_xend = "light blue") +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    title = "Defensive EPA/Play v. Adjusted Defensive EPA/Play",
+    y = "Team",
+    x = "Def EPA/Play (Dark Blue) v. Def EPA/Play (Light Blue)"
+  ) +
+  ggplot2::theme(legend.position = "none", 
+            plot.title = element_text(face = "bold"), 
+            axis.title.x = element_text(face = "bold"),
+            axis.title.y = element_text(face = "bold"))
+
+```
+
+
+Above, you can see that some teams are revealed to be stronger after adjusting their epa/play while other teams appear to be weaker. We can use these adjustments to make more accurate predictions of individual NFL games. 
+
+```{r, echo=FALSE, include=FALSE}
+
+predictions_adjusted <- goldbeRg::generate_nfl_predictions(2018:2019)
+
+### Remake function for model without adjusted epa
+generate_epa_predictions <- function(years, seed = 123){
+
+  ### Grab Model Dataset
+  message(paste("Getting Dataset"))
+  dataset <- goldbeRg::create_nfl_modeldataset()
+
+  ### Create Predictions
+  message(paste("Mapping Years"))
+  results <- purrr::map_df(years, function(years){
+
+  # Create Model
+  set.seed(seed)
+  model <- caret::train(win ~
+                            point_differential + off_epa + def_epa +
+                            opp_point_differential + opp_off_epa + opp_def_epa +
+                              location,
+                          data = dataset %>% mutate(win = as.factor(win)) %>% filter(season < years),
+                          method = 'glm',
+                          family = "binomial",
+                          preProc = c("scale"),
+                          trControl = caret::trainControl(method = "repeatedcv", number = 10, repeats = 3))
+
+    # Generate Predictions
+    predictions <- dataset %>%
+      dplyr::filter(season == years) %>%
+      dplyr::mutate(model_home_wp = caret::predict.train(newdata = dataset %>% dplyr::mutate(win = as.factor(win)) %>% dplyr::filter(season == years), object = model, type = "prob")[,2]) %>%
+      dplyr::select(game_id, game_completed, win, home_team, away_team, model_home_wp)
+
+    return(predictions)
+  })
+  return(results)
+}
+
+predictions_epa <- generate_epa_predictions(2018:2019)
+
+
+
+```
+
+Here, each metrics are used in separate glm models to predict the outcome of games from the past two seasons. Their accuracy is below.
+
+
+```{r, echo=FALSE, include=TRUE}
+# Adjusted EPA accuracy:
+print("Adjusted EPA Accuracy")
+predictions_adjusted %>% 
+  dplyr::mutate(correct = ifelse(win == 1 & model_home_wp > .5 | win == 0 & model_home_wp < .5, 1, 0)) %>%
+  dplyr::pull(correct) %>%
+  mean()
+
+ 
+```
+
+
+```{r, echo=FALSE, include=TRUE}
+# Normal EPA Accuracy
+print("Normal EPA Accuracy")
+predictions_epa %>% 
+  dplyr::mutate(correct = ifelse(win == 1 & model_home_wp > .5 | win == 0 & model_home_wp < .5, 1, 0)) %>%
+  dplyr::pull(correct) %>%
+  mean()
+
+```
+
+There is a slight edge to the adjusted EPA model. Its a solid start but there is more work to be done in finding the best version on epa/play.
+
+1. There is good work being done on properly weighting epa on a given type of play. For instance, DVOA is a does well in predicting future team performance because the downweight the impact of interceptions in their metric. More work can be done to properly weight epa based on its play type!
+2. It is possible to make these adjustments at the individual play level and with more specificity. For instance, you could adjust run plays based on the team's run defense rather than adjusting the entire offense to the team's entire defense. I think more work should be done to determine if these more detailed techniques can improve the predictiveness of the stat.
+3. There may be other ways to construct epa/play that improve its strength as a predictor [The paper that inspired this article]("https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf) uses the solution of an optimization problem to construct a team's true offensive epa/play and defensive epa/play. Perhaps a moving averaged should be eschewed in favor of a technique that more properly accounts for common regression to the mean over the offseason. 
+
+Thanks to Sebastian Carl and Ben Baldwin for setting this forum up! I can't wait to see others' works and improvements to my own make its way on here. 
