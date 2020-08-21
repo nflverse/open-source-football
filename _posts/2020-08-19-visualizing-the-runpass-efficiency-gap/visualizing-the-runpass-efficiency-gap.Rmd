@@ -87,7 +87,7 @@ ESPN_logo_url = function(x) paste0('https://a.espncdn.com/i/teamlogos/nfl/500/',
 
 I typically make some cosmetic changes to my graphs to make them more visually appealing. If that isn't your thing, this is the bare bones version.
 
-```{r, layout="l-page", fig.height=5.5, fig.width=5.5, preview=TRUE}
+```{r, layout="l-page", fig.height=5.5, fig.width=5.5}
 library(ggimage) # I'm going to use ggimage's geom_image to add team logos here
 library(scales) # percent_format will convert the y-axis to percentages
 
@@ -172,7 +172,7 @@ theme_SB <-  theme(
 
 And here is the final graph!
 
-```{r, layout="l-page", fig.height=5.5, fig.width=5.5, preview=TRUE}
+```{r, layout="l-page", fig.height=5.5, preview=TRUE}
 ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
   geom_hline(yintercept = 0.525, color = 'red', linetype = '52', size = 0.2) +
   geom_vline(xintercept = 0.198, color = 'red', linetype = '52', size = 0.2) +

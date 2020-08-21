@@ -952,7 +952,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Visualizing the Run/Pass Efficiency Gap","description":"Using nflfastR data to show how much more efficient passing is than rushing at the team level","authors":[{"author":"Anthony Reinhard","authorURL":"https://twitter.com/reinhurdler","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-20T00:00:00.000-04:00","citationText":"Reinhard, 2020"}
+{"title":"Visualizing the Run/Pass Efficiency Gap","description":"Using nflfastR data to show how much more efficient passing is than rushing at the team level","authors":[{"author":"Anthony Reinhard","authorURL":"https://twitter.com/reinhurdler","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-20T00:00:00.000+02:00","citationText":"Reinhard, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -992,15 +992,15 @@
 <pre class="r"><code>
 library(tidyverse)
 
-pbp_df &lt;- readRDS(url(&#39;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds&#39;))
+pbp_df &lt;- readRDS(url(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds&quot;))
 
-prem_epa_df &lt;- pbp_df %&gt;% 
-  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;% 
-  group_by(posteam) %&gt;% 
+prem_epa_df &lt;- pbp_df %&gt;%
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;%
+  group_by(posteam) %&gt;%
   summarize(
     pass_freq = mean(pass),
-    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm  = T),
-    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm  = T),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm = T),
     pass_epa_prem = pass_epa - run_epa
   )</code></pre>
 </div>
@@ -1009,23 +1009,23 @@ prem_epa_df &lt;- pbp_df %&gt;%
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 label_df &lt;- data.frame(
-  pass_freq = c(.675,.425,.675,.425),
-  pass_epa_prem = c(.42,.42,-.02,-.02),
+  pass_freq = c(.675, .425, .675, .425),
+  pass_epa_prem = c(.42, .42, -.02, -.02),
   label = c(
-    &#39;Better at Passing\nPass A Lot&#39;,
-    &#39;Better at Passing\nRun A Lot&#39;,
-    &#39;Better at Running\nPass A Lot&#39;,
-    &#39;Better at Running\nRun A Lot&#39;
-    )
+    &quot;Better at Passing\nPass A Lot&quot;,
+    &quot;Better at Passing\nRun A Lot&quot;,
+    &quot;Better at Running\nPass A Lot&quot;,
+    &quot;Better at Running\nRun A Lot&quot;
   )
+)
 
-pbp_df %&gt;% 
-  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;% 
-  group_by(season) %&gt;% 
+pbp_df %&gt;%
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;%
+  group_by(season) %&gt;%
   summarize(
     pass_freq = mean(pass),
-    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm  = T),
-    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm  = T),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm = T),
     pass_epa_prem = pass_epa - run_epa
   )</code></pre>
 <pre><code>
@@ -1037,7 +1037,7 @@ pbp_df %&gt;%
 <p>We can use this function to turn team abbreviations into the URL needed get high quality logos from ESPN.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-ESPN_logo_url = function(x) paste0(&#39;https://a.espncdn.com/i/teamlogos/nfl/500/&#39;,x,&#39;.png&#39;)</code></pre>
+ESPN_logo_url &lt;- function(x) paste0(&quot;https://a.espncdn.com/i/teamlogos/nfl/500/&quot;, x, &quot;.png&quot;)</code></pre>
 </div>
 <h2 id="basic-plot">Basic Plot</h2>
 <p>I typically make some cosmetic changes to my graphs to make them more visually appealing. If that isn’t your thing, this is the bare bones version.</p>
@@ -1047,17 +1047,19 @@ library(ggimage) # I&#39;m going to use ggimage&#39;s geom_image to add team log
 library(scales) # percent_format will convert the y-axis to percentages
 
 ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
-  geom_hline(yintercept = 0.525, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
-  geom_vline(xintercept = 0.198, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
-  geom_text(data = label_df, aes(label = label), color = &#39;red&#39;, size = 1.5) +
+  geom_hline(yintercept = 0.525, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_text(data = label_df, aes(label = label), color = &quot;red&quot;, size = 1.5) +
   geom_image(aes(image = ESPN_logo_url(posteam)), size = 0.04) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) +
-  labs(title = &#39;Dropback Premium vs Droback Frequency&#39;,
-       subtitle = &#39;Early Downs with Win Probability Between 20% and 80% Outside of\nLast Two Minutes of The Half&#39;,
-       y = &#39;Dropback Freq&#39;,
-       x = &#39;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&#39;) +
+  labs(
+    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of\nLast Two Minutes of The Half&quot;,
+    y = &quot;Dropback Freq&quot;,
+    x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
+  ) +
   theme_minimal()</code></pre>
-<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png" width="1650" data-distill-preview=1 /></p>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png" width="1650" /></p>
 </div>
 <h2 id="fancier-plot">Fancier Plot</h2>
 <p>Adding a bunch of junk to this plot will require loading some additional packages…</p>
@@ -1072,22 +1074,22 @@ library(magick) # read our image in so we can make manipulations, if needed</cod
 <p>I like to use +/- signs for positive &amp; negative sometimes. This function usually gets the job done and can be applied directly to label argument of the axis layer.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plus_lab = function(x, accuracy = NULL, suffix = &#39;&#39;) paste0(ifelse(x&gt;0,&#39;+&#39;,&#39;&#39;),number(x, accuracy = accuracy, suffix = suffix, scale = ifelse(suffix == &#39;%&#39;, 100, 1)))
-plus_lab_format &lt;- function (accuracy = NULL, suffix = &#39;&#39;) function(x) plus_lab(x, accuracy = accuracy, suffix = suffix)</code></pre>
+plus_lab &lt;- function(x, accuracy = NULL, suffix = &quot;&quot;) paste0(ifelse(x &gt; 0, &quot;+&quot;, &quot;&quot;), number(x, accuracy = accuracy, suffix = suffix, scale = ifelse(suffix == &quot;%&quot;, 100, 1)))
+plus_lab_format &lt;- function(accuracy = NULL, suffix = &quot;&quot;) function(x) plus_lab(x, accuracy = accuracy, suffix = suffix)</code></pre>
 </div>
 <p>This function will take a URL and return a grob with a modified color or transparency. It will produce an image when set as the label aesthetic for geom_grob. Processing graphs takes longer with geom_grob than it does with geom_image, but aspect ratios are always perfect for each image.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 grob_img_adj &lt;- function(img_url, alpha = 1, whitewash = 0) {
   return(lapply(img_url, function(x) {
-    if(is.na(x)) {
+    if (is.na(x)) {
       return(NULL)
-    } else {     
+    } else {
       img &lt;- magick::image_read(x)[[1]]
-      img[1,,] &lt;- as.raw(255 - (255 - as.integer(img[1,,])) * (1-whitewash))
-      img[2,,] &lt;- as.raw(255 - (255 - as.integer(img[2,,])) * (1-whitewash))
-      img[3,,] &lt;- as.raw(255 - (255 - as.integer(img[3,,])) * (1-whitewash))
-      img[4,,] &lt;- as.raw(as.integer(img[4,,]) * alpha)
+      img[1, , ] &lt;- as.raw(255 - (255 - as.integer(img[1, , ])) * (1 - whitewash))
+      img[2, , ] &lt;- as.raw(255 - (255 - as.integer(img[2, , ])) * (1 - whitewash))
+      img[3, , ] &lt;- as.raw(255 - (255 - as.integer(img[3, , ])) * (1 - whitewash))
+      img[4, , ] &lt;- as.raw(as.integer(img[4, , ]) * alpha)
       return(grid::rasterGrob(image = magick::image_read(img)))
     }
   }))
@@ -1096,45 +1098,47 @@ grob_img_adj &lt;- function(img_url, alpha = 1, whitewash = 0) {
 <p>This is my own personal theme that I use for all my graphs. I typically use a different font, but I’ll use the default here. I’m also going to leave out my personal branding for this one.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-theme_SB &lt;-  theme(
-  line = element_line(lineend = &#39;round&#39;, color=&#39;darkblue&#39;),
-  text = element_text(color=&#39;darkblue&#39;),
-  plot.background = element_rect(fill = &#39;grey95&#39;, color = &#39;transparent&#39;),
-  panel.border = element_rect(color = &#39;darkblue&#39;, fill = NA),
-  panel.background = element_rect(fill = &#39;white&#39;, color = &#39;transparent&#39;),
-  axis.ticks = element_line(color = &#39;darkblue&#39;, size = 0.5),
-  axis.ticks.length = unit(2.75, &#39;pt&#39;),
+theme_SB &lt;- theme(
+  line = element_line(lineend = &quot;round&quot;, color = &quot;darkblue&quot;),
+  text = element_text(color = &quot;darkblue&quot;),
+  plot.background = element_rect(fill = &quot;grey95&quot;, color = &quot;transparent&quot;),
+  panel.border = element_rect(color = &quot;darkblue&quot;, fill = NA),
+  panel.background = element_rect(fill = &quot;white&quot;, color = &quot;transparent&quot;),
+  axis.ticks = element_line(color = &quot;darkblue&quot;, size = 0.5),
+  axis.ticks.length = unit(2.75, &quot;pt&quot;),
   axis.title = element_text(size = 8),
-  axis.text = element_text(size = 7, color = &#39;darkblue&#39;),
+  axis.text = element_text(size = 7, color = &quot;darkblue&quot;),
   plot.title = element_text(size = 14),
   plot.subtitle = element_text(size = 8),
   plot.caption = element_text(size = 5),
-  legend.background = element_rect(fill = &#39;grey90&#39;, color = &#39;darkblue&#39;),
+  legend.background = element_rect(fill = &quot;grey90&quot;, color = &quot;darkblue&quot;),
   legend.key = element_blank(),
   panel.grid.minor = element_blank(),
-  panel.grid.major = element_line(color=&#39;grey85&#39;, size = 0.3),
+  panel.grid.major = element_line(color = &quot;grey85&quot;, size = 0.3),
   axis.title.y = element_text(angle = 0, vjust = 0.5),
   strip.background = element_blank(),
-  strip.text = element_text(size = 6, color = &#39;darkblue&#39;),
-  legend.position = &#39;bottom&#39;
-) </code></pre>
+  strip.text = element_text(size = 6, color = &quot;darkblue&quot;),
+  legend.position = &quot;bottom&quot;
+)</code></pre>
 </div>
 <p>And here is the final graph!</p>
 <div class="layout-chunk" data-layout="l-page">
 <pre class="r"><code>
 ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
-  geom_hline(yintercept = 0.525, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
-  geom_vline(xintercept = 0.198, color = &#39;red&#39;, linetype = &#39;52&#39;, size = 0.2) +
-  geom_shadowtext(data = label_df, aes(label = label), color = &#39;red&#39;, size = 1.5, bg.color = &#39;white&#39;, bg.r = 0.2) +
+  geom_hline(yintercept = 0.525, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_shadowtext(data = label_df, aes(label = label), color = &quot;red&quot;, size = 1.5, bg.color = &quot;white&quot;, bg.r = 0.2) +
   geom_grob(aes(x = pass_epa_prem, y = pass_freq, label = grob_img_adj(ESPN_logo_url(posteam), alpha = 0.7), vp.height = 0.06)) +
-  scale_x_continuous(labels = plus_lab_format(accuracy = .01), breaks = seq(-1,1,.1), limits = c(-0.1,0.5), expand = expansion(mult = c(0.02,0.02))) +
-  scale_y_continuous(labels = percent_format(accuracy = 1), breaks = seq(0,1,.05), limits = c(.4,.7), expand = expansion(mult = c(0.03,0.03))) +
-  labs(title = &#39;Dropback Premium vs Droback Frequency&#39;,
-       subtitle = &#39;Early Downs with Win Probability Between 20% and 80% Outside of Last Two\nMinutes of The Half&#39;,
-       y = &#39;Dropback\nFreq&#39;,
-       x = &#39;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&#39;) +
+  scale_x_continuous(labels = plus_lab_format(accuracy = .01), breaks = seq(-1, 1, .1), limits = c(-0.1, 0.5), expand = expansion(mult = c(0.02, 0.02))) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), breaks = seq(0, 1, .05), limits = c(.4, .7), expand = expansion(mult = c(0.03, 0.03))) +
+  labs(
+    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of Last Two\nMinutes of The Half&quot;,
+    y = &quot;Dropback\nFreq&quot;,
+    x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
+  ) +
   theme_SB</code></pre>
-<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" width="1650" data-distill-preview=1 /></p>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
