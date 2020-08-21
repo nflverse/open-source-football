@@ -2,7 +2,7 @@
   {
     "path": "posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/",
     "title": "Game Excitement and Win Probability in the NFL",
-    "description": "A short description of the post.",
+    "description": "Game excitement calculation and a win probability figure.",
     "author": [
       {
         "name": "Max Bolger",
@@ -15,7 +15,7 @@
       "python"
     ],
     "preview": "posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 9600,
     "preview_height": 4800
@@ -36,7 +36,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -58,7 +58,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -79,7 +79,7 @@
       "python"
     ],
     "preview": {},
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {}
   },
   {
@@ -99,7 +99,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 4800
@@ -121,7 +121,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -142,7 +142,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -163,7 +163,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3000
@@ -186,7 +186,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2020-08-21T23:02:26+00:00",
+    "last_modified": "2020-08-21T23:11:05+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
