@@ -1,0 +1,82 @@
+---
+title: "Contributors and their content"
+description: |
+  A list of all contributors and the content they have provided.
+author:
+  - name: Sebastian Carl
+    url: https://twitter.com/mrcaseb
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: 08-21-2020
+repository_url: "https://github.com/mrcaseb/open-source-football"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE, 
+  warning = FALSE 
+  )
+```
+
+We hope that we can get as many volunteers as possible to publish their code on
+this website. This section provides a full list of posts and their authors.
+
+```{r, layout="l-page"}
+library(DT)
+
+jsonlite::fromJSON(
+  "https://raw.githubusercontent.com/mrcaseb/open-source-football/master/docs/posts/posts.json",
+  flatten = TRUE
+) %>%
+  tidyr::unnest_wider(author) %>%
+  dplyr::mutate(
+    name = glue::glue('<a href = "{url}">{name}</a>'),
+    title = glue::glue('<a href = "https://mrcaseb.github.io/open-source-football/{path}">{title}</a>')
+  ) %>%
+  dplyr::select(name, date, title) %>%
+  DT::datatable(
+    extensions = c("FixedHeader"),
+
+    # set some options
+    options = list(
+
+      # Show table and table info
+      # dom = "ti",
+
+      # format all columns to align center
+      columnDefs = list(list(className = "dt-center", targets = "_all")),
+
+      # Highlight order column
+      orderClasses = TRUE,
+
+      # fix the table header
+      fixedHeader = TRUE
+    ),
+
+    # change column names
+    colnames = c("Author", "Published", "Title"),
+
+    rownames = FALSE,
+    escape = FALSE
+  ) %>%
+
+  # format some columns with a number of decimal digits
+  DT::formatDate(
+    columns = 2,
+    method = "toLocaleDateString",
+    params = list(
+      "en-US",
+      list(
+        year = "numeric",
+        month = "numeric",
+        day = "numeric"
+      )
+    )
+  )
+```
+
