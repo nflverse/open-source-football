@@ -1,0 +1,49 @@
+---
+title: "Title"
+description: |
+  A short description of the post.
+author:
+  - name: First Last
+    url: https://twitter.com/XXXYYYYZZZ
+date: MM-DD-YYYY
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - Figures
+  - nflfastR
+  - Another categorie
+---
+
+NOTE: The below options apply to all code chunks!
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+```
+
+When creating a plot with a code chunk please consider using the whole page width 
+and just choose an appropriate height (in inches) with a chunk as follows
+
+```{r, layout="l-page", fig.height=X.Y}
+
+# code
+
+```
+
+If you want to use a plot as preview of your post, just add the option `preview=TRUE`
+like
+
+```{r, layout="l-page", fig.height=X.Y, preview=TRUE}
+
+# code
+
+```

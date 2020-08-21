@@ -59,7 +59,7 @@ to add [metadata and chunk options](#start-working-on-the-post) like suggested
 in the next section
 1. Commit all to your post related files and push them into the new branch in 
 your GitHub repo (please see [Push your work into your repo](#push-your-work-into-your-repo)
-for details which files **should not be pushed**)
+for details what you should do to **avoid merge conflicts**)
 1. Visit your repo and create a pull request to merge your post into the 
 open-source-football repo
 
@@ -132,9 +132,9 @@ knitr::include_graphics("https://user-images.githubusercontent.com/38586519/9062
 ```
 
 We need to tweak the metadata as well as the chunk setup a little bit in order
-for the post to meet our expectations. You can have a look at [the 
-repo](https://github.com/mrcaseb/open-source-football/tree/master/_posts) for 
-some examples. 
+for the post to meet our expectations. Please have a look at [example 
+file](https://github.com/mrcaseb/open-source-football/blob/master/_sample_meta_and_options.Rmd) 
+for a little template. 
 
 ```{r, echo=FALSE, fig.align='center'}
 knitr::include_graphics("https://user-images.githubusercontent.com/38586519/90628632-3e47a380-e21e-11ea-9bae-a01ac6720026.png")
@@ -149,7 +149,7 @@ to check the [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook
 ### Push your work into your repo
 
 Using git within RStudio is easy because you can do it graphically. However, it 
-doersn't make sense to provide a ton of screenshots and text here. Instead I 
+doesn't make sense to provide a ton of screenshots and text here. Instead I 
 recommend two sources:
 
 * The short one is [happygitwithr.com](https://happygitwithr.com/rstudio-git-github.html)
@@ -157,12 +157,19 @@ recommend two sources:
 
 Commit all files **which are related to your post** and go on with the last step.
 There are 4 files not related to your post causing merge conflicts when you push
-them so please don't push them and instead just delete them:
+them without updating them before your pull request. To avoid this please run the
+following code right before you commit all your files.
 
-1. `docs/index.html`
-1. `docs/index.xml`
-1. `docs/posts/posts.json`
-1. `docs/sitemap.xml` 
+```{r, eval=FALSE}
+source("https://raw.githubusercontent.com/mrcaseb/open-source-football/master/_update_con_files.R")
+update_con_files()
+```
+
+Never mind if you forget that. You can create the pull request anyway and GitHub
+will inform you if there are conflicts. Just run the above lines and commit and 
+push the updated files `docs/index.html`, `docs/index.xml`, `docs/posts/posts.json`,
+`docs/sitemap.xml`.
+
 
 ### Create the Pull Request
 
