@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mrcaseb.github.io/open-source-football/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -20,366 +19,39 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Open Source Football: Latest posts</title>
+  <title>Visualizing the Run/Pass Efficiency Gap</title>
+  
+  <meta property="description" itemprop="description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
   
   
-  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-20"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-20"/>
+  <meta name="article:author" content="Anthony Reinhard"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Open Source Football: Latest posts"/>
+  <meta property="og:title" content="Visualizing the Run/Pass Efficiency Gap"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Open Source Football"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Open Source Football: Latest posts"/>
+  <meta property="twitter:title" content="Visualizing the Run/Pass Efficiency Gap"/>
+  <meta property="twitter:description" content="Using nflfastR data to show how much more efficient passing is than rushing at the team level"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["Latest posts"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Visualizing the Run/Pass Efficiency Gap"]},{"type":"character","attributes":{},"value":["Using nflfastR data to show how much more efficient passing is than rushing at the team level\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Anthony Reinhard"]},{"type":"character","attributes":{},"value":["https://twitter.com/reinhurdler"]}]}]},{"type":"character","attributes":{},"value":["08-20-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
   
-  <script type="application/javascript">
-  
-    window.headroom_prevent_pin = false;
-  
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-  
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-  
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-  
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-  
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["visualizing-the-runpass-efficiency-gap_files/bowser-1.9.3/bowser.min.js","visualizing-the-runpass-efficiency-gap_files/distill-2.2.21/template.v2.js","visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png","visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png","visualizing-the-runpass-efficiency-gap_files/jquery-1.11.3/jquery.min.js","visualizing-the-runpass-efficiency-gap_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-  
-  <style type="text/css">
-  
-  /* Theme (user-documented overrideables for nav appearance) */
-  
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-  }
-  
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-  
-  .distill-site-header {
-  
-  }
-  
-  .distill-site-footer {
-  
-  }
-  
-  
-  /* Site Header */
-  
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-  
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-  
-  
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-  
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-  
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-  
-  .distill-site-header .logo {
-    padding: 0;
-  }
-  
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-  
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-  
-  
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-  
-  
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-  
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-  
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-dropdown-active {
-    display: block;
-  }
-  
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-  
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-  
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-  
-  /* Site Footer */
-  
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  /* Headroom */
-  
-  d-title {
-    padding-top: 6rem;
-  }
-  
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-  
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-  
-  .headroom--unpinned {
-    top: -100px;
-  }
-  
-  .headroom--pinned {
-    top: 0;
-  }
-  
-  </style>
-  
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -1265,547 +937,209 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="visualizing-the-runpass-efficiency-gap_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="visualizing-the-runpass-efficiency-gap_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="visualizing-the-runpass-efficiency-gap_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="visualizing-the-runpass-efficiency-gap_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <style type="text/css">
-  d-article > d-code, d-article section > d-code {
-  padding: 16px;
-  overflow: auto;
-      overflow-x: auto;
-      overflow-y: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-left-radius: 6px;
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-  }
-  
-  pre d-code{
-    border-left: 0;
-  }
-  
-  .distill-site-nav {
-    color: #ffffff;
-    font-weight: 400;
-    background: #24292e;
-    border-bottom: 2px solid #DECF40;
-    -webkit-box-shadow: 1px 1px 18px #4d4d4d;
-    -moz-box-shadow: 1px 1px 18px #4d4d4d;
-    box-shadow: 1px 1px 18px #4d4d4d;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-    font-weight: 700;
-  }
-  
-  d-title {
-  background: #575757;
-  color: white;
-  }
-  
-  .distill-site-footer {
-    border-top: 2px solid #DECF40;
-    border-bottom: 0;
-  }
-  
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Latest posts","authors":[]}
+{"title":"Visualizing the Run/Pass Efficiency Gap","description":"Using nflfastR data to show how much more efficient passing is than rushing at the team level","authors":[{"author":"Anthony Reinhard","authorURL":"https://twitter.com/reinhurdler","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-20T00:00:00.000+02:00","citationText":"Reinhard, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">Open Source Football</a>
-</div>
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="contributing.html">Contributing</a>
-<a href="https://github.com/mrcaseb/open-source-football">
-<i class="fa fa-github" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if (category == page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
-<div class="posts-list">
-<h1 class="posts-list-caption">Latest posts</h1>
-<a href="posts/2020-08-20-python-contributing-example/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 20, 2020</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Python contributing example</h2>
-<p>Showing how to contribute using Python code</p>
-</div>
-</a>
-<a href="posts/2020-08-19-matching-players-without-id-keys/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","Roster","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
-</div>
-<div class="description">
-<h2>Matching players without ID keys</h2>
-<p>Rebuilding player graphs when ID keys go missing or are corrupted.</p>
-</div>
-</a>
-<a href="posts/2020-08-19-neural-nets-using-r/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Keras","Tensorflow","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png"/>
-</div>
-<div class="description">
-<h2>Neural Nets using R</h2>
-<p>Using Keras in R to build neural networks.</p>
-</div>
-</a>
-<a href="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
-</div>
-<div class="description">
-<h2>The accumulation of QB hits vs passing efficiency</h2>
-<p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
-</div>
-</a>
-<a href="posts/2020-08-19-wins-above-expectation/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 19, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
-</div>
-<div class="description">
-<h2>Wins Above Expectation</h2>
-<p>This article looks at the percentage of snaps with win probability over an
-arbitralily chosen critical value and compares it with the true win percentage.</p>
-</div>
-</a>
-<a href="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Scraping","PFR","Figures","nflfastR"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 18, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png"/>
-</div>
-<div class="description">
-<h2>PFR's Bad Throw Percentage for Quarterbacks</h2>
-<p>This article shows how to scrape football data from Pro Football Reference and
-how to plot the bad throw percentage data for quarterbacks.</p>
-</div>
-</a>
-</div>
-<div class="posts-sidebar">
-<div class="sidebar-section categories">
-<h3>Categories</h3>
-<ul>
-<li>
-<a href="#Figures">Figures</a>
-<span class="category-count">(4)</span>
-</li>
-<li>
-<a href="#Keras">Keras</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#nflfastR">nflfastR</a>
-<span class="category-count">(6)</span>
-</li>
-<li>
-<a href="#PFR">PFR</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#python">python</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Roster">Roster</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Scraping">Scraping</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Tensorflow">Tensorflow</a>
-<span class="category-count">(1)</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Latest posts</h1>
-
+<h1>Visualizing the Run/Pass Efficiency Gap</h1>
+<p><p>Using nflfastR data to show how much more efficient passing is than rushing at the team level</p></p>
 </div>
 
+<div class="d-byline">
+  Anthony Reinhard <a href="https://twitter.com/reinhurdler" class="uri">https://twitter.com/reinhurdler</a> 
+  
+<br/>08-20-2020
+</div>
 
 <div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#the-data">The Data</a></li>
+<li><a href="#plot-extras">Plot Extras</a></li>
+<li><a href="#basic-plot">Basic Plot</a></li>
+<li><a href="#fancier-plot">Fancier Plot</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="intro">Intro</h2>
+<p>The football philosophers of Twitter know that the passing game reigns supreme over the rushing game. As easy as it is to just say this, we need to be able to prove it. We also need to acknowledge that there could come a time where a team is so good at running the ball or so bad at passing that they should be running the ball more often. I thought an easy way to communicate this would be show the difference between a team’s dropback EPA/play and their designed rush EPA/play while also showing how often they attempt to pass.</p>
+<h2 id="the-data">The Data</h2>
+<p>After we’ve pulled in the 2019 play-by-play data from the nflfastR data repository, we need to start thinking about what cuts of data we should exclude from our sample. I’ve chosen to include only 1st and 2nd down here, as teams are not burdened on these plays with having to advance the ball to the first down marker to keep their drive alive. I’m also going to only include plays where the game was reasonably competitive, which I’m defining here as win probability between 20% and 80%. Lastly, I’m going to remove plays that begin inside the final two minutes of the half, where teams are more likely to be passing (unless they are salting away a lead, of course). Keeping only the plays described above ensures that the offense is not in an obvious passing or running situation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
 
+pbp_df &lt;- readRDS(url(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds&quot;))
+
+prem_epa_df &lt;- pbp_df %&gt;%
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;%
+  group_by(posteam) %&gt;%
+  summarize(
+    pass_freq = mean(pass),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm = T),
+    pass_epa_prem = pass_epa - run_epa
+  )</code></pre>
+</div>
+<h2 id="plot-extras">Plot Extras</h2>
+<p>It doesn’t hurt to label the four corners of the plot so it can be understood more easily. We also want to include some gridlines that show the league averages.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+label_df &lt;- data.frame(
+  pass_freq = c(.675, .425, .675, .425),
+  pass_epa_prem = c(.42, .42, -.02, -.02),
+  label = c(
+    &quot;Better at Passing\nPass A Lot&quot;,
+    &quot;Better at Passing\nRun A Lot&quot;,
+    &quot;Better at Running\nPass A Lot&quot;,
+    &quot;Better at Running\nRun A Lot&quot;
+  )
+)
+
+pbp_df %&gt;%
+  filter(down &lt;= 2 &amp; wp &lt;= .8 &amp; wp &gt;= .2 &amp; half_seconds_remaining &gt;= 120) %&gt;%
+  group_by(season) %&gt;%
+  summarize(
+    pass_freq = mean(pass),
+    pass_epa = mean(ifelse(pass == 1, epa, NA), na.rm = T),
+    run_epa = mean(ifelse(rush == 1, epa, NA), na.rm = T),
+    pass_epa_prem = pass_epa - run_epa
+  )</code></pre>
+<pre><code>
+# A tibble: 1 x 5
+  season pass_freq pass_epa run_epa pass_epa_prem
+   &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;
+1   2019     0.524   0.0894  -0.117         0.206</code></pre>
+</div>
+<p>We can use this function to turn team abbreviations into the URL needed get high quality logos from ESPN.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ESPN_logo_url &lt;- function(x) paste0(&quot;https://a.espncdn.com/i/teamlogos/nfl/500/&quot;, x, &quot;.png&quot;)</code></pre>
+</div>
+<h2 id="basic-plot">Basic Plot</h2>
+<p>I typically make some cosmetic changes to my graphs to make them more visually appealing. If that isn’t your thing, this is the bare bones version.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+library(ggimage) # I&#39;m going to use ggimage&#39;s geom_image to add team logos here
+library(scales) # percent_format will convert the y-axis to percentages
+
+ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
+  geom_hline(yintercept = 0.525, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_text(data = label_df, aes(label = label), color = &quot;red&quot;, size = 1.5) +
+  geom_image(aes(image = ESPN_logo_url(posteam)), size = 0.04) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of\nLast Two Minutes of The Half&quot;,
+    y = &quot;Dropback Freq&quot;,
+    x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-4-1.png" width="1650" /></p>
+</div>
+<h2 id="fancier-plot">Fancier Plot</h2>
+<p>Adding a bunch of junk to this plot will require loading some additional packages…</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(scales) # fixes labels
+library(shadowtext) # geom_shadowtext adds a thin border around your text, making it more readable
+library(ggpmisc) # geom_grob is my preferred function for placing images on plots
+library(grid) # convert an image to a raster object
+library(magick) # read our image in so we can make manipulations, if needed</code></pre>
+</div>
+<p>I like to use +/- signs for positive &amp; negative sometimes. This function usually gets the job done and can be applied directly to label argument of the axis layer.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plus_lab &lt;- function(x, accuracy = NULL, suffix = &quot;&quot;) paste0(ifelse(x &gt; 0, &quot;+&quot;, &quot;&quot;), number(x, accuracy = accuracy, suffix = suffix, scale = ifelse(suffix == &quot;%&quot;, 100, 1)))
+plus_lab_format &lt;- function(accuracy = NULL, suffix = &quot;&quot;) function(x) plus_lab(x, accuracy = accuracy, suffix = suffix)</code></pre>
+</div>
+<p>This function will take a URL and return a grob with a modified color or transparency. It will produce an image when set as the label aesthetic for geom_grob. Processing graphs takes longer with geom_grob than it does with geom_image, but aspect ratios are always perfect for each image.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+grob_img_adj &lt;- function(img_url, alpha = 1, whitewash = 0) {
+  return(lapply(img_url, function(x) {
+    if (is.na(x)) {
+      return(NULL)
+    } else {
+      img &lt;- magick::image_read(x)[[1]]
+      img[1, , ] &lt;- as.raw(255 - (255 - as.integer(img[1, , ])) * (1 - whitewash))
+      img[2, , ] &lt;- as.raw(255 - (255 - as.integer(img[2, , ])) * (1 - whitewash))
+      img[3, , ] &lt;- as.raw(255 - (255 - as.integer(img[3, , ])) * (1 - whitewash))
+      img[4, , ] &lt;- as.raw(as.integer(img[4, , ]) * alpha)
+      return(grid::rasterGrob(image = magick::image_read(img)))
+    }
+  }))
+}</code></pre>
+</div>
+<p>This is my own personal theme that I use for all my graphs. I typically use a different font, but I’ll use the default here. I’m also going to leave out my personal branding for this one.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theme_SB &lt;- theme(
+  line = element_line(lineend = &quot;round&quot;, color = &quot;darkblue&quot;),
+  text = element_text(color = &quot;darkblue&quot;),
+  plot.background = element_rect(fill = &quot;grey95&quot;, color = &quot;transparent&quot;),
+  panel.border = element_rect(color = &quot;darkblue&quot;, fill = NA),
+  panel.background = element_rect(fill = &quot;white&quot;, color = &quot;transparent&quot;),
+  axis.ticks = element_line(color = &quot;darkblue&quot;, size = 0.5),
+  axis.ticks.length = unit(2.75, &quot;pt&quot;),
+  axis.title = element_text(size = 8),
+  axis.text = element_text(size = 7, color = &quot;darkblue&quot;),
+  plot.title = element_text(size = 14),
+  plot.subtitle = element_text(size = 8),
+  plot.caption = element_text(size = 5),
+  legend.background = element_rect(fill = &quot;grey90&quot;, color = &quot;darkblue&quot;),
+  legend.key = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.grid.major = element_line(color = &quot;grey85&quot;, size = 0.3),
+  axis.title.y = element_text(angle = 0, vjust = 0.5),
+  strip.background = element_blank(),
+  strip.text = element_text(size = 6, color = &quot;darkblue&quot;),
+  legend.position = &quot;bottom&quot;
+)</code></pre>
+</div>
+<p>And here is the final graph!</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
+  geom_hline(yintercept = 0.525, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_vline(xintercept = 0.198, color = &quot;red&quot;, linetype = &quot;52&quot;, size = 0.2) +
+  geom_shadowtext(data = label_df, aes(label = label), color = &quot;red&quot;, size = 1.5, bg.color = &quot;white&quot;, bg.r = 0.2) +
+  geom_grob(aes(x = pass_epa_prem, y = pass_freq, label = grob_img_adj(ESPN_logo_url(posteam), alpha = 0.7), vp.height = 0.06)) +
+  scale_x_continuous(labels = plus_lab_format(accuracy = .01), breaks = seq(-1, 1, .1), limits = c(-0.1, 0.5), expand = expansion(mult = c(0.02, 0.02))) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), breaks = seq(0, 1, .05), limits = c(.4, .7), expand = expansion(mult = c(0.03, 0.03))) +
+  labs(
+    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of Last Two\nMinutes of The Half&quot;,
+    y = &quot;Dropback\nFreq&quot;,
+    x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
+  ) +
+  theme_SB</code></pre>
+<p><img src="visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1817,12 +1151,12 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
 
 </body>
