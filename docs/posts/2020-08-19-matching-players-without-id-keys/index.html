@@ -36,8 +36,8 @@
 <meta property="og:description" content="Rebuilding player graphs when ID keys go missing or are corrupted."/>
 <meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
 <meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
-<meta property="og:image:width" content="12000"/>
-<meta property="og:image:height" content="9600"/>
+<meta property="og:image:width" content="3900"/>
+<meta property="og:image:height" content="4800"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Open Source Football"/>
 
@@ -47,8 +47,8 @@
 <meta property="twitter:description" content="Rebuilding player graphs when ID keys go missing or are corrupted."/>
 <meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/"/>
 <meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
-<meta property="twitter:image:width" content="12000"/>
-<meta property="twitter:image:height" content="9600"/>
+<meta property="twitter:image:width" content="3900"/>
+<meta property="twitter:image:height" content="4800"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="Open Source Football: Matching players without ID keys"/>
@@ -1353,7 +1353,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Matching players without ID keys","description":"Rebuilding player graphs when ID keys go missing or are corrupted.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000+00:00","citationText":"Darkweb, 2020"}
+{"title":"Matching players without ID keys","description":"Rebuilding player graphs when ID keys go missing or are corrupted.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-19T00:00:00.000-07:00","citationText":"Darkweb, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1396,7 +1396,13 @@ color: white;
 <pre class="r"><code>
 library(tidyverse)
 library(nflfastR)
-pbp &lt;- data.table::fread(&quot;../../../Darkweb/pbp_2010-2019.csv&quot;) %&gt;% filter(season == 2019)
+seasons &lt;- 2019
+pbp &lt;- purrr::map_df(seasons, function(x) {
+  readr::read_csv(
+    glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz&quot;)
+  )
+})
+
 roster &lt;-
   readRDS(url(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/roster-data/roster.rds&quot;)) %&gt;%
   filter(teamPlayers.position == &quot;QB&quot;, team.season == 2019)
@@ -1412,38 +1418,28 @@ cpoe &lt;-
 
 season &lt;- 2019</code></pre>
 </div>
-<p>Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster lists them or the data is missing. We can quickly fill in a couple missing entries like below.</p>
+<p>Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster has a different nfl ID structure than what we get from nflfastR.</p>
+<p>So instead we can match on first initial, last name, and jersey number. I’ve renamed posteam to team.abbr below to change as little of Seb’s code as possible. Also, we have to update the roster file to indicate that the Raiders have moved to Las Vegas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 summary &lt;-
   pbp %&gt;%
   separate(passer_player_name, c(&quot;firstName&quot;, &quot;lastName&quot;), sep = &quot;\\.&quot;) %&gt;%
   filter(!is.na(cpoe)) %&gt;%
-  group_by(lastName, posteam, firstName, passer_player_id) %&gt;%
+  group_by(lastName, posteam, firstName, passer_player_id, jersey_number) %&gt;%
   summarise(plays = n()) %&gt;%
   ungroup() %&gt;%
   arrange(desc(plays)) %&gt;%
   head(30) %&gt;%
   mutate(
-    posteam = 
-      ifelse(
-        lastName == &quot;Brady&quot;, &quot;NE&quot;,
-      ifelse(
-        lastName == &quot;Flacco&quot;, &quot;DEN&quot;,
-      ifelse(
-        lastName == &quot;Carr&quot;, &quot;LV&quot;,
-      ifelse(
-        lastName == &quot;Tannehill&quot;, &quot;TEN&quot;,
-      posteam
-      )
-      )
-      )
-      ),
-    lastName = ifelse(lastName == &quot;Minshew II&quot;, &quot;Minshew&quot;, lastName)
-  ) %&gt;%
+     lastName = ifelse(lastName == &quot;Minshew II&quot;, &quot;Minshew&quot;, lastName)
+   ) %&gt;%
   left_join(
-    roster %&gt;% filter(team.season == season) %&gt;% mutate(firstInit = str_extract(teamPlayers.firstName, &quot;\\w&quot;)) %&gt;% select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url),
-    by = c(&quot;lastName&quot; = &quot;teamPlayers.lastName&quot;, &quot;firstName&quot; = &quot;firstInit&quot;)
+    roster %&gt;% 
+      filter(team.season == seasons) %&gt;% 
+      mutate(firstInit = str_extract(teamPlayers.firstName, &quot;\\w&quot;), team.abbr = ifelse(team.abbr == &quot;OAK&quot;, &quot;LV&quot;, team.abbr)) %&gt;% 
+      select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url, teamPlayers.jerseyNumber),
+      by = c(&quot;lastName&quot; = &quot;teamPlayers.lastName&quot;, &quot;firstName&quot; = &quot;firstInit&quot;, &quot;jersey_number&quot; = &quot;teamPlayers.jerseyNumber&quot;, &quot;posteam&quot; = &quot;team.abbr&quot;)
   ) %&gt;%
   mutate(# some headshot urls are broken. They are checked here and set to a default 
     teamPlayers.headshot_url = dplyr::if_else(
@@ -1455,8 +1451,9 @@ summary &lt;-
   left_join(cpoe, by = &quot;passer_player_id&quot;) %&gt;%
   left_join(
     teams_colors_logos %&gt;% select(team_abbr, team_color, team_logo_espn),
-    by = c(&quot;team.abbr&quot; = &quot;team_abbr&quot;)
-  )
+    by = c(&quot;posteam&quot; = &quot;team_abbr&quot;)
+  ) %&gt;%
+  rename(team.abbr = posteam)
 
 colors_raw &lt;-
   summary %&gt;%
@@ -1516,7 +1513,7 @@ plot &lt;-
     y = &quot;Completion Percentage Over Expectation (CPOE in percentage points)&quot;,
     caption = &quot;Figure: @mrcaseb | Data: @nflfastR | Update: AnalyticsDarkweb&quot;,
     title = glue::glue(&quot;Passing Efficiency {season}&quot;),
-    subtitle = &quot;CPOE as a function of target depth. Dotsize equivalent to number of targets. Smoothed for -10 ??? DOT ??? 40 Yards. Red Line = League Average.&quot;
+    subtitle = &quot;CPOE function of depth. Dotsize equivalent to num targets. Red Line = League Average.&quot;
   ) +
   theme_bw() +
   theme(
@@ -1534,10 +1531,10 @@ plot &lt;-
   facet_wrap(vars(name), ncol = 6, scales = &quot;free&quot;)</code></pre>
 </div>
 <p>Lastly, we can kick out a save of our image file as before.</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="r"><code>
 plot</code></pre>
-<p><img src="matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" width="6000" /></p>
+<p><img src="matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" width="1950" /></p>
 <pre class="r"><code>
 ggsave(glue::glue(&quot;cpoe_vs_dot_{season}.png&quot;), dpi = 600, width = 24, height = 21, units = &quot;cm&quot;)</code></pre>
 </div>
@@ -1580,7 +1577,7 @@ ggsave(glue::glue(&quot;cpoe_vs_dot_{season}.png&quot;), dpi = 600, width = 24, 
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

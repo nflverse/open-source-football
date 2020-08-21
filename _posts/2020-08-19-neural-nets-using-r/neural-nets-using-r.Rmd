@@ -184,15 +184,15 @@ c(loss, mae) %<-% (model %>% evaluate(test_df %>% select(-label), test_df$label,
 loss
 
 mae
+
+test_predictions <- test_predictions %>% as.data.frame()
+
+test_predictions %>% ggplot(aes(V1)) + geom_density()
 ```
 
 Lastly, let's visualize our trained model versus both actual YAC yardage and nflfastR's XYAC mean yards model.
 
 ```{r, preview=TRUE}
-test_predictions <- test_predictions %>% as.data.frame()
-
-test_predictions %>% ggplot(aes(V1)) + geom_density()
-
 df <-
   pbp %>%
   filter(pass == 1) %>%
