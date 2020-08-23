@@ -1,0 +1,101 @@
+---
+title: "Homefield advantage in the NFL"
+description: |
+  An interactive plot
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: 08-23-2020
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+runtime: shiny_prerendered
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - Scraping
+  - PFR
+  - Figures
+  - nflfastR
+---
+
+```{r, context="setup", include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+
+library(tidyverse)
+data <- readRDS('data.rds')
+league_data <- data %>% filter(team == "League Avg")
+data <- data %>% filter(team != "League Avg")
+teams <- data %>%
+  pull(team) %>% 
+  unique()
+```
+
+This is a quick post demonstrating how to create an interactive document.
+
+In the figure, I show homefield advantage over time for each team. [This is the reference I used](https://rmarkdown.rstudio.com/authoring_shiny_prerendered.html).
+
+```{r, echo=FALSE, layout="l-page", fig.height=5.5}
+selectInput("team",
+            "Team:",
+            c(unique(as.character(data$team))), selected = "SEA")
+
+plotOutput("hfa")
+```
+
+```{r, context="server"}
+output$hfa <- renderPlot({
+  
+ggplot(data = data, aes(season, home_adv)) +
+  geom_jitter(width = .15, color = if_else(data$team == 'SEA', data$team_color2, data$team_color), size = 3, alpha = .2) +
+  geom_point(
+    data = filter(data, team == input$team), 
+    size = 6,
+    color = if_else(
+      input$team == "SEA",
+      data %>% filter(team == input$team) %>% slice(1) %>% pull(team_color2),
+      data %>% filter(team == input$team) %>% slice(1) %>% pull(team_color)
+    )
+    ) +
+  geom_line(
+  data = filter(data, team == input$team), 
+  size = 2,
+  color = if_else(
+    input$team == "SEA",
+    data %>% filter(team == input$team) %>% slice(1) %>% pull(team_color),
+    data %>% filter(team == input$team) %>% slice(1) %>% pull(team_color2)
+  )
+  ) +
+  geom_smooth(data = league_data, aes(x=season, y=home_adv), color="gray", size=1, alpha = 0.2, se = F) +
+  geom_hline(yintercept = 0, color = "black", size = 1) +
+  ylab("Homefield Advantage") + xlab("Season") + 
+  scale_x_continuous(expand = c(.025,.025), breaks = scales::pretty_breaks(10)) +
+  scale_y_continuous(expand = c(0.01,0.01), breaks = scales::pretty_breaks(10)) +
+  theme_bw() + 
+  theme(
+    # panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    # panel.background = element_blank(), 
+    panel.border = element_blank(),
+    plot.title = element_text(size=20,face = 2,hjust=.5),
+    plot.subtitle = element_text(size=16),
+    axis.title.x = element_text(size=14),
+    axis.title.y = element_text(size=14),
+    axis.text.x = element_text(size=12),
+    axis.text.y = element_text(size=12)) +
+  labs(
+    title=glue::glue('{input$team} homefield advantage'),
+       caption = "Figure: @benbbaldwin | Data: Lee Sharpe"
+    )
+
+})
+```
+
