@@ -3,7 +3,7 @@ title: "Exploring Wins with nflfastR"
 description: |
   Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.
 author:
-  - name: Austin Ryan | @packeRanalytics
+  - name: Austin Ryan
     url: https://twitter.com/packeRanalytics
 date: 08-23-2020
 output:
