@@ -36,6 +36,7 @@ I get a lot of emails asking about how to start learning things. Rather than bei
 
 * I wrote a [beginner's guide](https://mrcaseb.github.io/nflfastR/articles/beginners_guide.html) for working with NFL data in R that people seem to find useful
 * [This book](https://r4ds.had.co.nz/index.html) "R for Data Science" is the go-to for getting started
+* For later on: [Advanced R by Hadley Wickham](http://adv-r.had.co.nz/)
 
 ## Should I learn R or python?
 
@@ -55,7 +56,7 @@ Unfortunately, economics doesn't give much training in machine learning. I too c
 
 This course is very similar to the famous [Stanford 231n course](http://cs231n.stanford.edu/) -- the instructor used to teach 231n -- but the homeworks are in Colab so there's much less setup involved with getting python up and running. I did the first four assignments and finally could understand the [Big Data Bowl winning solution](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400).
 
-I also highly recommend [An Introduction to Statistical Learning](https://faculty.marshall.usc.edu/gareth-james/ISL/ISLR%20Seventh%20Printing.pdf).
+I also highly recommend [An Introduction to Statistical Learning](https://faculty.marshall.usc.edu/gareth-james/ISL/ISLR%20Seventh%20Printing.pdf), and I have been recommended this book, [Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/book/BDA3.pdf).
 
 ## What degree should I get?
 
