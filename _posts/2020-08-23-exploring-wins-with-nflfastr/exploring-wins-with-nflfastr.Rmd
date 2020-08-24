@@ -9,6 +9,13 @@ date: 08-23-2020
 output:
   distill::distill_article:
     self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - Tidymodels
+  - Figures
+  - nflfastR
 ---
 ```{r setup, include =FALSE}
 knitr::opts_chunk$set(
@@ -21,6 +28,8 @@ knitr::opts_chunk$set(
 ```
 
 What can two decades worth of play-by-play data and some math tell us about what wins games in the NFL? Let's look at some simple linear regressions using metrics we can easily compute with nflfastR data. 
+
+Please note code chunks have been intentionally hidden in this post for readability. See the rmd file at https://github.com/mrcaseb/open-source-football/ if you would like to see the underlying code.
 
 ## Simple Linear Regression
 
@@ -227,7 +236,7 @@ What can two decades worth of play-by-play data and some math tell us about what
         axis.text = element_text(size = 10,
                                  color = "black"))
 ```
-```{r echo = FALSE, warning = FALSE, message=FALSE, dpi=200, preview = TRUE}
+```{r echo = FALSE, warning = FALSE, message=FALSE, preview = TRUE}
 p1
 ```
 We can see passing efficiency metrics have the strongest relationships with wins. Furthermore, offensive passing efficiency metrics have stronger relationships than defensive passing metrics do. 
@@ -346,7 +355,7 @@ A team's expected points added per dropback explains nearly half of the variatio
 ## Random Forest Variable Importance 
 We can also build a random forest model and let the model tell us what features yield the most information gain. Again, passing efficiency is the largest driver of wins and it is not particularly close. 
 
-```{r echo=FALSE, warning = FALSE, message=FALSE, dpi=200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p2
 ```
 ```{r echo = FALSE, warning = FALSE, message=FALSE}
@@ -419,7 +428,7 @@ p4 <- p3 +
     geom_area(data = sd_pos_area, aes(x = x, y = y), fill = "pink", alpha = 0.5) +
     geom_area(data = sd_neg_area, aes(x = x, y = y), fill = "pink", alpha = 0.5)
 ```
-```{r echo=FALSE, warning = FALSE, message=FALSE, dpi=200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p4
 ```
 ## How did expected and actual wins look in 2019? 
@@ -470,7 +479,7 @@ df <- df %>%
       scale_y_continuous(breaks = c(-4:4))
   }
 ```
-```{r echo=FALSE, warning = FALSE, message=FALSE, dpi=200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p5 <- plot_function(df, 2019)
 p5
 ```
@@ -585,19 +594,19 @@ plot_function2 <- function(df, tm) {
                 position = position_stack(.5), show.legend = FALSE)
   }
 ```
-```{r echo=FALSE, warning = FALSE, message=FALSE, DPI = 200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p6 <- plot_function2(df, "LAC")
 p6
 ```
 The Browns have not over performed since 2009 when they won 5 games but this model saw them as more of a 2 win team.
 
-```{r echo=FALSE, warning = FALSE, message=FALSE, DPI = 200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p7 <- plot_function2(df, "CLE")
 p7
 ```
-On the other end of the spectrum the Patriots have only underperformed by more than half a game two times.
+On the other end of the spectrum the Patriots have only under performed by more than half a game two times.
 
-```{r echo=FALSE, warning = FALSE, message=FALSE, DPI = 200}
+```{r echo=FALSE, warning = FALSE, message=FALSE}
 p8 <- plot_function2(df, "NE")
 p8
 ```
