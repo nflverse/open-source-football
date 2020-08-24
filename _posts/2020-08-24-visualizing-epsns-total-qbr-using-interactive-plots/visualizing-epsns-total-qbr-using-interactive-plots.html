@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
+  
+  <meta property="description" itemprop="description" content="A short description of the post."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-24"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-24"/>
+  <meta name="article:author" content="Sebastian Carl"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Visualizing EPSN&#39;s Total QBR Using Interactive Plots"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Visualizing EPSN&#39;s Total QBR Using Interactive Plots"/>
+  <meta property="twitter:description" content="A short description of the post."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Visualizing EPSN's Total QBR Using Interactive Plots"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-24-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Scraping","espnscrapeR","Total QBR","Figures"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["all_qbr.csv","visualizing-epsns-total-qbr-using-interactive-plots_files/bowser-1.9.3/bowser.min.js","visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/css/crosstalk.css","visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/js/crosstalk.js","visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/js/crosstalk.js.map","visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/js/crosstalk.min.js","visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map","visualizing-epsns-total-qbr-using-interactive-plots_files/distill-2.2.21/template.v2.js","visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png","visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-7-1.png","visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-7-2.png","visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-8-1.png","visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-9-1.png","visualizing-epsns-total-qbr-using-interactive-plots_files/htmlwidgets-1.5.1/htmlwidgets.js","visualizing-epsns-total-qbr-using-interactive-plots_files/jquery-1.11.3/jquery-AUTHORS.txt","visualizing-epsns-total-qbr-using-interactive-plots_files/jquery-1.11.3/jquery.js","visualizing-epsns-total-qbr-using-interactive-plots_files/jquery-1.11.3/jquery.min.js","visualizing-epsns-total-qbr-using-interactive-plots_files/jquery-1.11.3/jquery.min.map","visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-binding-4.9.2.1/plotly.js","visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css","visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-main-1.52.2/plotly-latest.min.js","visualizing-epsns-total-qbr-using-interactive-plots_files/typedarray-0.1/typedarray.min.js","visualizing-epsns-total-qbr-using-interactive-plots_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-binding-4.9.2.1/plotly.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/typedarray-0.1/typedarray.min.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/plotly-main-1.52.2/plotly-latest.min.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="visualizing-epsns-total-qbr-using-interactive-plots_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Visualizing EPSN's Total QBR Using Interactive Plots","description":"A short description of the post.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR"}],"publishedDate":"2020-08-24T00:00:00.000+02:00","citationText":"Carl, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Visualizing EPSN’s Total QBR Using Interactive Plots</h1>
+<p><p>A short description of the post.</p></p>
+</div>
+
+<div class="d-byline">
+  Sebastian Carl <a href="https://twitter.com/mrcaseb" class="uri">https://twitter.com/mrcaseb</a> (nflfastR)<a href="https://twitter.com/nflfastR" class="uri">https://twitter.com/nflfastR</a>
+  
+<br/>08-24-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#preface">Preface</a></li>
+<li><a href="#how-to-get-the-data">How to get the data</a></li>
+<li><a href="#create-some-static-weekly-qbr-plots">Create some static weekly QBR plots</a></li>
+<li><a href="#lets-make-it-interactive">Let’s make it interactive</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="preface">Preface</h2>
+<p>When I first started working with ESPN’s Total QBR data I developed my own code to scrape the website. For this post I dug out the old (bad) code and wanted to make it prettier. But at the last minute I remembered something: there is this undervalued R package <a href="https://github.com/jthomasmock/espnscrapeR"><code>espnscrapeR</code></a> developed and maintained by <a href="https://twitter.com/thomas_mock">Thomas Mock</a>. So instead of implementing the scraper by myself in this post I’ll show off, how to get all the data and save it locally for later reuse.</p>
+<p>And as the title suggests we want to try out something new here: interactive plots</p>
+<h2 id="how-to-get-the-data">How to get the data</h2>
+<p>We want to use the <code>espnscrapeR</code> in this section. So let’s install it by running the following code block.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+if (!requireNamespace(&quot;remotes&quot;, quietly = TRUE)) {
+  install.packages(&quot;remotes&quot;)
+}
+remotes::install_github(&quot;jthomasmock/espnscrapeR&quot;)</code></pre>
+</div>
+<p>Now that <code>espnscrapeR</code> is installed we will load weekly Total QBR.</p>
+<p>We’ll do this by writing the function <code>get_week_qbr</code> which loads the QBR data for a given week and season.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+get_week_qbr &lt;- function(s, wk) {
+  if (wk &lt;= 17) {
+    out &lt;- espnscrapeR::get_nfl_qbr(season = s, season_type = &quot;Regular&quot;, week = wk)
+  } else if (wk &gt; 17 &amp; s != 2017) {
+    out &lt;- espnscrapeR::get_nfl_qbr(season = s, season_type = &quot;Playoffs&quot;, week = wk - 17)
+  }
+}</code></pre>
+</div>
+<p>Then we call this function to actually do the job and save the output. Note: We call the function for the weeks 1 to 21 although the SB is week 22 because of the Pro Bowl. The package automatically converts to week 22 for us.</p>
+<p>The code is somewhat advanced and You may need to do some more background reading to understand it. The short version: we call the above function for all seasons between 2006 and 2019 and all available weeks in parallel running processes and bind everything together in a dataframe which will saved to disc for further usage.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+library(dplyr)
+future::plan(&quot;multiprocess&quot;)
+
+# Total QBR data as available beginning in 2006
+# Note: Playoffs 2017 are missing
+seasons &lt;- 2006:2019
+
+all_qbr &lt;-
+  furrr::future_pmap_dfr(purrr::transpose(purrr::cross2(seasons, 1:21)), get_week_qbr) %&gt;%
+  dplyr::mutate(
+    game_week = as.numeric(game_week),
+    game_week = dplyr::if_else(season_type == &quot;Playoffs&quot;, game_week + 17, game_week)
+  ) %&gt;%
+  dplyr::arrange(season, game_week)
+
+# save to disk------------------------------------------------------------------
+# binary
+saveRDS(all_qbr, file = &quot;all_qbr.rds&quot;)
+
+# ASCII
+readr::write_csv(all_qbr, &quot;all_qbr.csv&quot;)</code></pre>
+</div>
+<h2 id="create-some-static-weekly-qbr-plots">Create some static weekly QBR plots</h2>
+<p>Let’s have a look at the data by plotting weekly QBR for some selected QBs (the insane numbers). We want to plot multiple QBs so let’s create a function again.</p>
+<p>Before we do this please note there are some Quarterbacks appearing with special team names (e.g. <code>"DEN/KC"</code>) in the data because they changed their team within a season. Our new function won’t work for those QBS but I was too lazy to rewrite it because I honestly don’t care about those QBs. So please be careful when trying to run the code with one of the following QB names and corresponding seasons.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+readRDS(&quot;all_qbr.rds&quot;) %&gt;%
+  dplyr::filter(stringr::str_length(team) &gt; 3) %&gt;%
+  dplyr::group_by(season, short_name, team) %&gt;%
+  dplyr::summarise() %&gt;%
+  knitr::kable(&quot;simple&quot;, align = &quot;c&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">season</th>
+<th style="text-align: center;">short_name</th>
+<th style="text-align: center;">team</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">K. Orton</td>
+<td style="text-align: center;">DEN/KC</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">J. Freeman</td>
+<td style="text-align: center;">MIN/TB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">M. Flynn</td>
+<td style="text-align: center;">GB/OAK</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">C. Keenum</td>
+<td style="text-align: center;">STL/HOU</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">M. Cassel</td>
+<td style="text-align: center;">BUF/DAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">R. Mallett</td>
+<td style="text-align: center;">BAL/HOU</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">M. Barkley</td>
+<td style="text-align: center;">CHI/ARI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">M. Sanchez</td>
+<td style="text-align: center;">DAL/DEN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">T.J. Yates</td>
+<td style="text-align: center;">BUF/HOU</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">M. Barkley</td>
+<td style="text-align: center;">BUF/CIN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">J. Driskel</td>
+<td style="text-align: center;">CIN/DET</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Now let’s write the plotting function</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot_weekly_qbr &lt;- function(year, QB, all_qbr_file) {
+  # Filter the QB we want to look at and modify team names and week numbers
+  # to fit nflfastR convention
+  single_qbr &lt;- all_qbr_file %&gt;%
+    dplyr::filter(season == year &amp; name == QB) %&gt;%
+    dplyr::mutate(
+      team = dplyr::case_when(
+        team == &quot;LAR&quot; ~ &quot;LA&quot;,
+        team == &quot;WSH&quot; ~ &quot;WAS&quot;,
+        TRUE ~ team
+      ),
+      game_week = dplyr::if_else(game_week &gt; 21, 21, game_week)
+    ) %&gt;%
+    dplyr::left_join(
+      nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_color),
+      by = c(&quot;team&quot; = &quot;team_abbr&quot;)
+    )
+
+  # Search for the QBs opponents
+  opponents &lt;- nflfastR::fast_scraper_schedules(year) %&gt;%
+    dplyr::filter(home_team == single_qbr$team | away_team == single_qbr$team) %&gt;%
+    dplyr::mutate(
+      opp = dplyr::if_else(home_team == single_qbr$team, away_team, home_team)
+    ) %&gt;%
+    dplyr::left_join(
+      nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_logo_espn),
+      by = c(&quot;opp&quot; = &quot;team_abbr&quot;)
+    ) %&gt;%
+    dplyr::mutate(
+      grob = purrr::map(seq_along(team_logo_espn), function(x) {
+        grid::rasterGrob(magick::image_read(team_logo_espn[[x]]))
+      })
+    )
+
+  chart &lt;- single_qbr %&gt;%
+    dplyr::left_join(opponents, by = c(&quot;game_week&quot; = &quot;week&quot;))
+
+  if (max(chart$game_week) &gt; 17) {
+    title_string &lt;- glue::glue(&quot;{QB} Weekly Total QBR {year} including Playoffs&quot;)
+  } else {
+    title_string &lt;- glue::glue(&quot;{QB} Weekly Total QBR {year} Regular Season&quot;)
+  }
+
+  # going to draw some quantile lines and combine them here
+  quantiles &lt;- c(
+    quantile(all_qbr_file$qbr_total, 0.10),
+    quantile(all_qbr_file$qbr_total, 0.25),
+    quantile(all_qbr_file$qbr_total, 0.75),
+    quantile(all_qbr_file$qbr_total, 0.90),
+    quantile(all_qbr_file$qbr_total, 0.98)
+  )
+
+  chart %&gt;%
+    ggplot(aes(x = game_week, y = qbr_total)) +
+    geom_hline(yintercept = quantiles, color = &quot;black&quot;, linetype = &quot;dashed&quot;, alpha = 0.7) +
+    geom_hline(yintercept = quantile(all_qbr_file$qbr_total, 0.50), color = &quot;black&quot;, linetype = &quot;solid&quot;, alpha = 0.7) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = &quot;10th Percentile&quot;, hjust = 1, size = 2) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = &quot;25th Percentile&quot;, hjust = 1, size = 2) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = &quot;50th Percentile&quot;, hjust = 1, size = 2) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = &quot;75th Percentile&quot;, hjust = 1, size = 2) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = &quot;90th Percentile&quot;, hjust = 1, size = 2) +
+    geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = &quot;98th Percentile&quot;, hjust = 1, size = 2) +
+    geom_line(colour = chart$team_color) +
+    xlim(-1.4, NA) +
+    ggpmisc::geom_grob(aes(x = game_week, y = qbr_total, label = grob), vp.width = 0.05) +
+    labs(
+      x = &quot;Game Week&quot;,
+      y = &quot;ESPN Total QBR&quot;,
+      caption = &quot;Figure: @mrcaseb | Data: espnscrapeR by @thomas_mock&quot;,
+      title = title_string,
+      subtitle = &quot;Percentiles of the whole NFL 2006 - 2019 are drawn for orientation\nTo qualify, a player must play a minimum of 20 action plays per team game&quot;
+    ) +
+    ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
+    theme(
+      plot.title = element_text(face = &quot;bold&quot;),
+      plot.caption = element_text(hjust = 1),
+      axis.text.y = element_text(angle = 0, vjust = 0.5),
+      legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
+      legend.position = &quot;top&quot;,
+      aspect.ratio = 1 / 1.618
+    ) +
+    NULL
+}</code></pre>
+</div>
+<p>Well, that’s a lot of code. Let’s see if it is working properly by choosing the insane 2007 season of Tom Brady (in terms of Total QBR the all-time best season).</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+all_qbr &lt;- readRDS(&quot;all_qbr.rds&quot;)
+plot_weekly_qbr(2007, &quot;Tom Brady&quot;, all_qbr)</code></pre>
+<p><img src="visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<p>Ok let’s look at the other top 3 seasons</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot_weekly_qbr(2006, &quot;Peyton Manning&quot;, all_qbr)</code></pre>
+<p><img src="visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-7-1.png" width="1950" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot_weekly_qbr(2011, &quot;Aaron Rodgers&quot;, all_qbr)</code></pre>
+<p><img src="visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-8-1.png" width="1950" /></p>
+</div>
+<p>And what does it look like if the season wasn’t that good?</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot_weekly_qbr(2019, &quot;Mitchell Trubisky&quot;, all_qbr)</code></pre>
+<p><img src="visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-9-1.png" width="1950" /></p>
+</div>
+<h2 id="lets-make-it-interactive">Let’s make it interactive</h2>
+<p>Those plots are nice and all but actually we may miss a lot of information when looking at them. For example we might want to know if the game was home or away, what the result was or how many QB plays were counted for Total QBR.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+interactive_weekly_qbr &lt;- function(year, QB, all_qbr_file) {
+  # Filter the QB we want to look at and modify team names and week numbers
+  # to fit nflfastR convention
+  single_qbr &lt;- all_qbr_file %&gt;%
+    dplyr::filter(season == year &amp; name == QB) %&gt;%
+    dplyr::mutate(
+      team = dplyr::case_when(
+        team == &quot;LAR&quot; ~ &quot;LA&quot;,
+        team == &quot;WSH&quot; ~ &quot;WAS&quot;,
+        TRUE ~ team
+      ),
+      game_week = dplyr::if_else(game_week &gt; 21, 21, game_week)
+    ) %&gt;%
+    dplyr::left_join(
+      nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_color),
+      by = c(&quot;team&quot; = &quot;team_abbr&quot;)
+    )
+
+  # Search for the QBs opponents
+  opponents &lt;- nflfastR::fast_scraper_schedules(year) %&gt;%
+    dplyr::filter(home_team == single_qbr$team | away_team == single_qbr$team) %&gt;%
+    dplyr::mutate(
+      opp = dplyr::if_else(home_team == single_qbr$team, away_team, home_team),
+      loc_desc = dplyr::if_else(
+        home_team == single_qbr$team,
+        glue::glue(&quot;vs. {away_team}&quot;),
+        glue::glue(&quot;@ {home_team}&quot;)
+      ),
+      game_desc = dplyr::case_when(
+        week == 18 ~ &quot;Wild Card&quot;,
+        week == 19 ~ &quot;Divisional Round&quot;,
+        week == 20 ~ &quot;Conference Championship&quot;,
+        week == 21 ~ &quot;Super Bowl&quot;,
+        TRUE ~ &quot;Regular Season&quot;
+      )
+    ) %&gt;%
+    dplyr::left_join(
+      nflfastR::teams_colors_logos %&gt;% select(team_abbr, opp_color = team_color, team_logo_espn),
+      by = c(&quot;opp&quot; = &quot;team_abbr&quot;)
+    )
+
+  chart &lt;- single_qbr %&gt;%
+    dplyr::left_join(opponents, by = c(&quot;game_week&quot; = &quot;week&quot;)) %&gt;%
+    dplyr::mutate(
+      outcome = dplyr::case_when(
+        team == home_team &amp; home_result &gt; 0 ~ &quot;Won&quot;,
+        team == home_team &amp; home_result &lt; 0 ~ &quot;Lost&quot;,
+        team == away_team &amp; home_result &gt; 0 ~ &quot;Lost&quot;,
+        team == away_team &amp; home_result &lt; 0 ~ &quot;Won&quot;,
+        home_result == 0 ~ &quot;Tie&quot;,
+        TRUE ~ NA_character_
+      )
+    )
+
+
+  if (max(chart$game_week) &gt; 17) {
+    title_string &lt;- glue::glue(&quot;{QB} Weekly Total QBR {year} including Playoffs&quot;)
+  } else {
+    title_string &lt;- glue::glue(&quot;{QB} Weekly Total QBR {year} Regular Season&quot;)
+  }
+
+  # going to draw some quantile lines and combine them here
+  quantiles &lt;- c(
+    quantile(all_qbr_file$qbr_total, 0.10),
+    quantile(all_qbr_file$qbr_total, 0.25),
+    quantile(all_qbr_file$qbr_total, 0.75),
+    quantile(all_qbr_file$qbr_total, 0.90),
+    quantile(all_qbr_file$qbr_total, 0.98)
+  )
+
+  chart %&gt;%
+    ggplot(aes(x = game_week, y = qbr_total)) +
+    geom_hline(yintercept = quantiles, color = &quot;black&quot;, linetype = &quot;dashed&quot;, alpha = 0.7) +
+    geom_hline(yintercept = quantile(all_qbr_file$qbr_total, 0.50), color = &quot;black&quot;, linetype = &quot;solid&quot;, alpha = 0.7) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = &quot;10th Percentile&quot;, size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = &quot;25th Percentile&quot;, size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = &quot;50th Percentile&quot;, size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = &quot;75th Percentile&quot;, size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = &quot;90th Percentile&quot;, size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = &quot;98th Percentile&quot;, size = 2) +
+    geom_line(color = chart$team_color) +
+    geom_point(
+      aes(text = glue::glue(
+        &quot;Week: {game_week} ({game_desc})\n{outcome} {away_score}:{home_score} {loc_desc}\n Total QBR: {qbr_total}\nNumber of QB plays: {qb_plays}&quot;
+      )),
+      color = chart$opp_color,
+      size = 4
+    ) +
+    xlim(-1.4, NA) +
+    # ggpmisc::geom_grob(aes(x = game_week, y = qbr_total, label = grob), vp.width = 0.05) +
+    labs(
+      x = &quot;Game Week&quot;,
+      y = &quot;ESPN Total QBR&quot;,
+      caption = &quot;Figure: @mrcaseb | Data: espnscrapeR by @thomas_mock&quot;,
+      title = title_string,
+      subtitle = &quot;Percentiles of the whole NFL 2006 - 2019 are drawn for orientation\nTo qualify, a player must play a minimum of 20 action plays per team game&quot;
+    ) +
+    theme_bw() +
+    # theme(
+    #   plot.title = element_text(face = &quot;bold&quot;),
+    #   plot.caption = element_text(hjust = 1),
+    #   axis.text.y = element_text(angle = 0, vjust = 0.5),
+    #   legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
+    #   legend.position = &quot;top&quot;,
+    #   # aspect.ratio = 1 / 1.618
+    # ) +
+    NULL
+}</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+library(plotly)
+ggplotly(interactive_weekly_qbr(2007, &quot;Tom Brady&quot;, all_qbr), tooltip = &quot;text&quot;)</code></pre>
+<div id="htmlwidget-713cce0d970ab649d2f6" style="width:1950px;height:1200px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-713cce0d970ab649d2f6">{"x":{"data":[{"x":[-2.52,22.12,null,-2.52,22.12,null,-2.52,22.12,null,-2.52,22.12,null,-2.52,22.12],"y":[16.4,16.4,null,32.3,32.3,null,75.725,75.725,null,88.33,88.33,null,96.1,96.1],"text":"","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,0.7)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-2.52,22.12],"y":[54.9,54.9],"text":"","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,0.7)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4,18.4],"text":["10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile","10th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3,34.3],"text":["25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile","25th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9,56.9],"text":["50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile","50th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725,77.725],"text":["75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile","75th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33,90.33],"text":["90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile","90th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1,98.1],"text":["98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile","98th Percentile"],"hovertext":["","","","","","","","","","","","","","","","","","",""],"textfont":{"size":7.55905511811024,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,19,20,21],"y":[97.3,88.6,87.8,82.1,76.4,87.6,99.7,90.9,88.8,98.9,75,74.2,92.2,51.1,70.7,89.2,98,39.5,58.1],"text":"","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,34,68,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,19,20,21],"y":[97.3,88.6,87.8,82.1,76.4,87.6,99.7,90.9,88.8,98.9,75,74.2,92.2,51.1,70.7,89.2,98,39.5,58.1],"text":["Week: 1 (Regular Season)<br />Won 38:14 @ NYJ<br /> Total QBR: 97.3<br />Number of QB plays: 29","Week: 2 (Regular Season)<br />Won 14:38 vs. SD<br /> Total QBR: 88.6<br />Number of QB plays: 39","Week: 3 (Regular Season)<br />Won 7:38 vs. BUF<br /> Total QBR: 87.8<br />Number of QB plays: 33","Week: 4 (Regular Season)<br />Won 34:13 @ CIN<br /> Total QBR: 82.1<br />Number of QB plays: 36","Week: 5 (Regular Season)<br />Won 17:34 vs. CLE<br /> Total QBR: 76.4<br />Number of QB plays: 41","Week: 6 (Regular Season)<br />Won 48:27 @ DAL<br /> Total QBR: 87.6<br />Number of QB plays: 56","Week: 7 (Regular Season)<br />Won 49:28 @ MIA<br /> Total QBR: 99.7<br />Number of QB plays: 28","Week: 8 (Regular Season)<br />Won 7:52 vs. WAS<br /> Total QBR: 90.9<br />Number of QB plays: 47","Week: 9 (Regular Season)<br />Won 24:20 @ IND<br /> Total QBR: 88.8<br />Number of QB plays: 35","Week: 11 (Regular Season)<br />Won 56:10 @ BUF<br /> Total QBR: 98.9<br />Number of QB plays: 41","Week: 12 (Regular Season)<br />Won 28:31 vs. PHI<br /> Total QBR: 75<br />Number of QB plays: 63","Week: 13 (Regular Season)<br />Won 27:24 @ BAL<br /> Total QBR: 74.2<br />Number of QB plays: 49","Week: 14 (Regular Season)<br />Won 13:34 vs. PIT<br /> Total QBR: 92.2<br />Number of QB plays: 49","Week: 15 (Regular Season)<br />Won 10:20 vs. NYJ<br /> Total QBR: 51.1<br />Number of QB plays: 36","Week: 16 (Regular Season)<br />Won 7:28 vs. MIA<br /> Total QBR: 70.7<br />Number of QB plays: 41","Week: 17 (Regular Season)<br />Won 38:35 @ NYG<br /> Total QBR: 89.2<br />Number of QB plays: 44","Week: 19 (Divisional Round)<br />Won 20:31 vs. JAX<br /> Total QBR: 98<br />Number of QB plays: 30","Week: 20 (Conference Championship)<br />Won 12:21 vs. SD<br /> Total QBR: 39.5<br />Number of QB plays: 35","Week: 21 (Super Bowl)<br />Lost 17:14 vs. NYG<br /> Total QBR: 58.1<br />Number of QB plays: 57"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":["rgba(32,55,49,1)","rgba(0,34,68,1)","rgba(0,51,141,1)","rgba(0,0,0,1)","rgba(251,79,20,1)","rgba(0,34,68,1)","rgba(0,142,151,1)","rgba(119,49,65,1)","rgba(0,44,95,1)","rgba(0,51,141,1)","rgba(0,73,83,1)","rgba(36,23,115,1)","rgba(0,0,0,1)","rgba(32,55,49,1)","rgba(0,142,151,1)","rgba(11,34,101,1)","rgba(0,0,0,1)","rgba(0,34,68,1)","rgba(11,34,101,1)"],"opacity":1,"size":15.1181102362205,"symbol":"circle","line":{"width":1.88976377952756,"color":["rgba(32,55,49,1)","rgba(0,34,68,1)","rgba(0,51,141,1)","rgba(0,0,0,1)","rgba(251,79,20,1)","rgba(0,34,68,1)","rgba(0,142,151,1)","rgba(119,49,65,1)","rgba(0,44,95,1)","rgba(0,51,141,1)","rgba(0,73,83,1)","rgba(36,23,115,1)","rgba(0,0,0,1)","rgba(32,55,49,1)","rgba(0,142,151,1)","rgba(11,34,101,1)","rgba(0,0,0,1)","rgba(0,34,68,1)","rgba(11,34,101,1)"]}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":41.8264840182648,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Tom Brady Weekly Total QBR 2007 including Playoffs","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.52,22.12],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Game Week","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[12.235,103.865],"tickmode":"array","ticktext":["25","50","75","100"],"tickvals":[25,50,75,100],"categoryorder":"array","categoryarray":["25","50","75","100"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"ESPN Total QBR","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"3a8c45a95c43":{"yintercept":{},"type":"scatter"},"3a8c77b02da1":{"yintercept":{}},"3a8c6bef851":{"x":{},"y":{}},"3a8c72af1ac3":{"x":{},"y":{}},"3a8c46c22965":{"x":{},"y":{}},"3a8c43fa7359":{"x":{},"y":{}},"3a8c622b6198":{"x":{},"y":{}},"3a8c21717c5e":{"x":{},"y":{}},"3a8c39a040dc":{"x":{},"y":{}},"3a8c2def17a":{"text":{},"x":{},"y":{}}},"cur_data":"3a8c45a95c43","visdat":{"3a8c45a95c43":["function (y) ","x"],"3a8c77b02da1":["function (y) ","x"],"3a8c6bef851":["function (y) ","x"],"3a8c72af1ac3":["function (y) ","x"],"3a8c46c22965":["function (y) ","x"],"3a8c43fa7359":["function (y) ","x"],"3a8c622b6198":["function (y) ","x"],"3a8c21717c5e":["function (y) ","x"],"3a8c39a040dc":["function (y) ","x"],"3a8c2def17a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
