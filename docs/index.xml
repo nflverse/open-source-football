@@ -31,6 +31,18 @@
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
     </item>
     <item>
+      <title>Exploring Wins with nflfastR</title>
+      <dc:creator>Austin Ryan | @packeRanalytics</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</link>
+      <description>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</description>
+      <category>Tidymodels</category>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
+      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
       <title>Rodgers Efficiency Decline</title>
       <dc:creator>Austin Ryan</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</link>
