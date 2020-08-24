@@ -7,7 +7,16 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 23 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Getting into sports analytics</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</link>
+      <description>Collection of short answers to common questions.</description>
+      <category>Getting started</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</guid>
+      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Exploring Wins with nflfastR</title>
       <dc:creator>Austin Ryan</dc:creator>
