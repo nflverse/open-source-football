@@ -1,0 +1,76 @@
+---
+title: "Getting into sports analytics"
+description: |
+  Collection of short answers to common questions.
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: 08-24-2020
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - Getting started
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+```
+
+## Introduction
+
+I get a lot of emails asking about how to start learning things. Rather than being useful to one person, I'm going to start collecting the questions (anonymized) and answers here.
+
+## Learning R
+
+*Q: How can I get started learning R?*
+
+* I wrote a [beginner's guide](https://mrcaseb.github.io/nflfastR/articles/beginners_guide.html) for working with NFL data in R that people seem to find useful
+* [This book](https://r4ds.had.co.nz/index.html) "R for Data Science" is the go-to for getting started
+
+## Should I learn R or python?
+
+Short answer: it doesn't matter, just pick one and get good at it.
+
+Longer answer: More people in the football public analytics community use R, so there are more resources for getting up and running faster. In addition, if there is one thing that R is better at python at, it is cleaning and manipulating data, so if all you care about is working with data, R might be a better choice to start. At the same time, python is also great, and in the long run if you end up doing data analysis for a career, you're probably going to end up learning both at some point anyway. And if you start doing machine learning (ML) stuff (see next question), python generally has more packages and tools available, and most ML courses are taught using python.
+
+## Big Data Bowl / Machine Learning
+
+*Q: I know about the NFL big data bowl and that the papers of many finalists are available on the internet. But I believe that I lack the skills needed to understand those papers and use them to answer my questions. What statistics and machine learning resources do you recommend I use to learn the necessary machine learning that can be applied to football, when appropriate, to answer my questions?*
+
+Unfortunately, economics doesn't give much training in machine learning. I too couldn't really understand the Big Data Bowl stuff until I took [this course](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2019/) (all the videos and homeworks are free and posted online), which was pretty challenging but gives a great foundation for what ML means and how to think about it.
+
+* [Lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r)
+* [Lecture slides](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2019/schedule.html)
+* [Homework assignments](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2019/): bottom of page. Completed in python
+
+This course is very similar to the famous [Stanford 231n course](http://cs231n.stanford.edu/) -- the instructor used to teach 231n -- but the homeworks are in Colab so there's much less setup involved with getting python up and running. I did the first four assignments and finally could understand the [Big Data Bowl winning solution](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400).
+
+I also highly recommend [An Introduction to Statistical Learning](https://faculty.marshall.usc.edu/gareth-james/ISL/ISLR%20Seventh%20Printing.pdf).
+
+## What degree should I get?
+
+*Q: Do I need a PhD to get into football analytics?*
+
+No, definitely not. Getting a PhD is not required and certainly not even expected for doing this kind of stuff, although there are certainly benefits to having one if you enjoy research (note: maximizing earnings is not one of those benefits). The big question is what you want to do. If it's work for a team, you'd want to beef up your technical skills, perhaps through a Master's program, and do stuff like compete in the Big Data Bowls, conduct research and get it out to the public, etc. If you want to go to grad school in econ, you'd probably want to do something like gaining research experience working under a professor and, if needed, taking the math/stats classes needed to be a good candidate for grad school. Ultimately this comes down to what you value so there's no right answer imo, but earning a PhD is way, way overkill if what you want to do is work for a team. And finally, getting into sports (especially with a team) is hard so thinking about what you'd want to do if you don't is also useful- i.e. ideally one would pick a field that is employable and inherently interesting to them.
+
+*Q: What field should I choose?*
+
+My background was in econ and that's not the best preparation for getting into sports analytics (something like statistics or other fields with more exposure to data science / machine learning tools gives better training), with the caveat that I was in school a long time ago so maybe what is taught has chagned since then. With that said, [here's an example program](https://exploredegrees.stanford.edu/schoolofengineering/instituteforcomputationalandmathematicalengineering/#masterstext)- this is what Sean Clement did prior to getting hired by the Ravens (see in particular the Data Science track). Derrick Yam (Ravens) has a Master's in biostatistics, Sarah Bailey (Rams) a Master's in statistics, Sarah Mallepalle (Ravens) a B.S. in [Statistics and Machine Learning](http://coursecatalog.web.cmu.edu/previous/2017-2018/dietrichcollegeofhumanitiesandsocialsciences/departmentofstatistics/#:~:text=The%20Bachelor%20of%20Science%20in%20Statistics%20and%20Machine%20Learning%20is,the%20Department%20of%20Machine%20Learning.&text=The%20program%20is%20geared%20toward,and%20%22big%20data%22%20problems.), etc. These programs are a lot more technical than what you'd get in an MBA (which don't make them better or worse, just more aligned with what the people getting these jobs are doing). Finally, I've heard good things about Coursera but haven't personally used it.
+
+## I'm in college, what should I do?
+
+There's no one path, but some good answers to this when I [posed this question on twitter](https://twitter.com/benbbaldwin/status/1214553249832935429):
+
+* [Ethan: "learn to code (R/Python), learn stats, start doing projects, ideally publicly, focus on communicating your results, get domain knowledge, including coach vocabulary"](https://twitter.com/ChiefsAnalytics/status/1214554410342371328)
+* [From NESSIS talks: "Do analytics and publish it"](https://twitter.com/benbbaldwin/status/1214557447345586177)
+* [Canzhi: "dont major in one of those sports management programs or whatever. learn math / stats. learn to write code. learn how web technologies work so you can scrape your own data. then build stuff and show people :)"](https://twitter.com/canzhiye/status/1214798427814424577)
