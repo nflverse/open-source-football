@@ -78,9 +78,17 @@ There's no one path, but some good answers to this when I [posed this question o
 
 ## Advice from people in the industry
 
-[See Namita Nandakumar's excellent thread here](https://twitter.com/nnstats/status/1232146533673553920). To highlight two tweets:
+[See **Namita Nandakumar**'s excellent thread here](https://twitter.com/nnstats/status/1232146533673553920). To highlight two tweets:
 
 * ["1) ideally you would be great at both the "sports" and "analytics" parts but it's especially crucial to bring the technical background (i.e. coding, statistical modeling, database stuff) because teams already have a wealth of sport-specific domain knowledge to draw from."](https://twitter.com/nnstats/status/1232146697192603649)
 * ["3) after doing the work, put it out there. it's by far the easiest way to prove you're qualified. I won't pretend that other factors like my degree didn't matter, but every team I've talked to has been primarily interested in my public research and how it might help them."](https://twitter.com/nnstats/status/1232147414133460994)
 
-And from Matthew Barlowe: ["If you're wanting to get started in analytics and don't know where to start just replicate the work other people have already done. That's it. It will teach you the skills you need to know once you know enough about the subject to start asking questions yourself."](https://twitter.com/matthew_barlowe/status/1293325909202698241)
+**Matthew Barlowe**: ["If you're wanting to get started in analytics and don't know where to start just replicate the work other people have already done. That's it. It will teach you the skills you need to know once you know enough about the subject to start asking questions yourself."](https://twitter.com/matthew_barlowe/status/1293325909202698241)
+
+[**Caio Brighenti** thread](https://twitter.com/CaioBrighenti/status/1281941596041248769): 
+
+1. Do work and put it online, even if you have no audience to start with.
+2. Join conversations in the analytics space of whatever sport you're into. That's how you make the connections.
+3. Be forward with connections but never entitled.
+4. Educate yourself. There's an incredible wealth of blogs, papers, threads, articles, and podcasts highlighting analytics work accross sports. Keep track of what you find interesting and relevant or what you'd like to build on.
+5. If you have the means, conferences can help.
