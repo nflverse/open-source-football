@@ -20,6 +20,17 @@
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
     </item>
     <item>
+      <title>Ranking QBs Using Era Adjusted Elo</title>
+      <dc:creator>Robby Greer</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</link>
+      <description>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</description>
+      <category>Elo</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
+      <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
       <title>Visualizing the Run/Pass Efficiency Gap</title>
       <dc:creator>Anthony Reinhard</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</link>

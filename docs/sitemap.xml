@@ -2,23 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/about.html</loc>
-    <lastmod>2020-08-22T05:02:57+00:00</lastmod>
+    <lastmod>2020-08-22T02:06:29-07:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/contributing.html</loc>
-    <lastmod>2020-08-22T05:02:57+00:00</lastmod>
+    <lastmod>2020-08-22T02:06:29-07:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/contributors_list.html</loc>
-    <lastmod>2020-08-22T05:02:57+00:00</lastmod>
+    <lastmod>2020-08-22T02:06:29-07:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/</loc>
-    <lastmod>2020-08-22T05:02:57+00:00</lastmod>
+    <lastmod>2020-08-22T02:06:29-07:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/</loc>
     <lastmod>2020-08-22T05:02:57+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/</loc>
+    <lastmod>2020-08-23T18:22:11-07:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/</loc>

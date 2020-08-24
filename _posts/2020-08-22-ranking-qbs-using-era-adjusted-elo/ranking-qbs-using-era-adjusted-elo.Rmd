@@ -31,16 +31,16 @@ library(reticulate)
 
 ## Part 0: Background and summary
 
-Elo is a widely used framework for ranking players or teams within leagues and predicting the outcomes of their head-to-head matchups. 538 has found success in applying this framework to the NFL. Because QB performance plays such a strong role in overall team performance, 538's application separates the Elo value provided by individual QBs.
+Elo is a ranking and prediction framework that 538 has successfully applied to the NFL. Because QB performance plays such a strong role in overall team performance, 538's Elo framework models QB contributions separately before adding them back to the overall team grade.
 
-These rankings significantly improve the overall predictive power of the framework, and as a result, represent a good measure of a QB's on the field value. Every 25 points of Elo are equivalent to roughly 1 point of expected game margin. For instance, A QB that has an Elo value of 100 would be worth roughly 4 points more than a replacement QB.
+These QB rankings significantly improve the overall predictive power of the framework, making them a fairly accurate measure of a QB's value. Every 25 points of Elo are equivalent to roughly 1 point of expected game margin. For instance, a QB with an Elo of 100 would be worth roughly 4 points more per game than a replacement level QB.
 
-Measuring the cumulative Elo added by a QB over the course of their career is akin to measuring the total points that QB added above a replacement level player. In this post, QB Elo values are pulled from 538 and normalized by era, allowing for an interesting comparison of QB careers throughout the history of the NFL. As QB rankings can be a touchy subject, it is worth noting that these rankings are just one quantitative view of a QBs overall performance.
+Measuring the cumulative Elo added by a QB over the course of their career is akin to measuring the total points added above a replacement level player. In this post, QB Elo values are pulled from 538 and normalized by era, allowing for an interesting comparison of QB careers throughout the history of the NFL. As QB rankings can be a touchy subject, it is worth noting that these rankings are just one quantitative view of a QBs overall performance.
 
 
 ## Part 1: Importing and cleaning data
 
-First import packages:
+First, import packages:
 
 ``` {python import}
 import pandas as pd
@@ -50,7 +50,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 ```
 
-Next, pull Elo data from 538 and load it into a pandas DataFrame:
+Next, pull Elo data from 538 and load it into a pandas data frame:
 
 ``` {python pull}
 data_link = 'https://projects.fivethirtyeight.com/nfl-api/nfl_elo.csv'
@@ -81,7 +81,7 @@ data_df['date_time'] = data_df['date_time'] - pd.Timedelta(days=1)
 data_df['week_of'] = data_df['date_time'].dt.week
 ```
 
-Next, separate Home and Away data into a single flat file, filtering out unnecessary fields and renaming columns in the process:
+Next, separate Home and Away data and merge it into a single flat file, filtering out unnecessary fields and renaming columns in the process:
 
 ``` {python flat_file}
 ## create a flat file ##
@@ -183,7 +183,7 @@ flat_df['cumulative_top_3_starts'] = flat_df.groupby('qb_name')['top_3_qb'].tran
 flat_df['cumulative_top_5_starts'] = flat_df.groupby('qb_name')['top_5_qb'].transform(pd.Series.cumsum)
 ```
 
-After adding stats, compile at the QB level to get look at their career:
+After adding stats, compile at the QB level to get a look at their career:
 
 ``` {python compile_cumulative_stats}
 ## aggregate ##
@@ -214,12 +214,12 @@ agg_df = agg_df.sort_values(by=['cumulative_era_adjusted_elo_value'],ascending=[
     'pct_of_starts_as_top5_qb'
 ]]
 
-agg_df.head(15)
+agg_df[['qb_name','total_starts','cumulative_era_adjusted_elo_value']].head(15)
 ```
 
 ## Part 4: Graphing careers
 
-Though simple, era adjusted QB Elo appears to provide a fairly good ranking of QBs across era. One interesting way to leverage this measure further is by comparing cumulative QB Elo gained over the course of a QBs career.
+Though simple, era adjusted QB Elo appears to provide a fairly good ranking of QBs across era. One interesting way to leverage this measure further is by comparing cumulative QB Elo gained over the course of a QB's career.
 
 Create a function for graphing career Elo based on a list of QBs:
 
@@ -249,10 +249,11 @@ def create_qb_chart(qbs_to_plot):
         data=chart_df
     )
     sns.despine()
-    ## set axis titles ##
-    plt.xlabel('Games Played', labelpad=25, fontsize='large', weight='bold')
-    plt.ylabel('Cumulative Elo Value Added (era-adjusted)', labelpad=25, fontsize='large', weight='bold')
-    plt.tight_layout()
+    ## set axis titles and sizes ##
+    plt.xlabel('Games Played', labelpad=10, fontsize='small', weight='bold')
+    plt.ylabel('Cumulative Elo Value Added', labelpad=10, fontsize='small', weight='bold')
+    plt.rc('xtick',labelsize='x-small')
+    plt.rc('ytick',labelsize='x-small')
     ## define plot ranges, leaving a little room for padding ##
     xmin = 0
     xmax = chart_df['game_number'].max() * 1.2
@@ -272,10 +273,13 @@ def create_qb_chart(qbs_to_plot):
             y = chart_df[chart_df['qb_name'] == i]['cumulative_era_adjusted_value'].iloc[-1] + 5,
             s = i,
             weight = 'bold',
+            fontsize = 'small',
             backgroundcolor = '#ffffff'
         )
     ## remove legend ##
     plt.legend([],[], frameon=False)
+    plt.tight_layout()
+
 ```
 
 Make your comparisons...
@@ -288,7 +292,7 @@ create_qb_chart(qb_list)
 plt.show()
 ```
 
-Romo > Dak > Aikman??:
+Romo > Dak > Aikman?:
 
 ``` {python cowboys}
 qb_list = ['Tony Romo', 'Troy Aikman', 'Dak Prescott']
@@ -313,7 +317,7 @@ create_qb_chart(qb_list)
 plt.show()
 ```
 
-Mahomes:
+Mahomes, off to one of the best starts ever:
 
 ``` {python mahomes}
 qb_list = ['Patrick Mahomes', 'Aaron Rodgers', 'Dan Marino']
@@ -321,7 +325,7 @@ create_qb_chart(qb_list)
 plt.show()
 ```
 
-Just going to leave this here...
+Josh Allen, not so much ...
 
 ``` {python allen}
 qb_list = ['Josh Allen', 'Sam Darnold', 'Mitchell Trubisky', 'Baker Mayfield']
