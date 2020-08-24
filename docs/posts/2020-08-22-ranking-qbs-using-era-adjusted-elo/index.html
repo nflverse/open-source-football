@@ -35,9 +35,9 @@
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Use 538&#39;s QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era"/>
 <meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/"/>
-<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png"/>
 <meta property="og:image:width" content="3900"/>
-<meta property="og:image:height" content="2400"/>
+<meta property="og:image:height" content="2700"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Open Source Football"/>
 
@@ -46,9 +46,9 @@
 <meta property="twitter:title" content="Open Source Football: Ranking QBs Using Era Adjusted Elo"/>
 <meta property="twitter:description" content="Use 538&#39;s QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era"/>
 <meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/"/>
-<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png"/>
 <meta property="twitter:image:width" content="3900"/>
-<meta property="twitter:image:height" content="2400"/>
+<meta property="twitter:image:height" content="2700"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="Open Source Football: Ranking QBs Using Era Adjusted Elo"/>
@@ -65,7 +65,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/allen-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/cowboys-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/jamarcus-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/leaf-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/mahomes-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png"]}
+  {"type":"character","attributes":{},"value":["ranking-qbs-using-era-adjusted-elo_files/bowser-1.9.3/bowser.min.js","ranking-qbs-using-era-adjusted-elo_files/distill-2.2.21/template.v2.js","ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/allen-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/cowboys-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/jamarcus-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/leaf-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/mahomes-1.png","ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png","ranking-qbs-using-era-adjusted-elo_files/jquery-1.11.3/jquery.min.js","ranking-qbs-using-era-adjusted-elo_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 
@@ -1352,7 +1352,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Ranking QBs Using Era Adjusted Elo","description":"Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era","authors":[{"author":"Robby Greer","authorURL":"https://twitter.com/greerreNFL","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-22T00:00:00.000-07:00","citationText":"Greer, 2020"}
+{"title":"Ranking QBs Using Era Adjusted Elo","description":"Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era","authors":[{"author":"Robby Greer","authorURL":"https://twitter.com/greerreNFL","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-22T00:00:00.000+02:00","citationText":"Greer, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1407,7 +1407,7 @@ color: white;
 <p>Measuring the cumulative Elo added by a QB over the course of their career is akin to measuring the total points added above a replacement level player. In this post, QB Elo values are pulled from 538 and normalized by era, allowing for an interesting comparison of QB careers throughout the history of the NFL. As QB rankings can be a touchy subject, it is worth noting that these rankings are just one quantitative view of a QBs overall performance.</p>
 <h2 id="part-1-importing-and-cleaning-data">Part 1: Importing and cleaning data</h2>
 <p>First, import packages:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 import pandas as pd
 import numpy
@@ -1416,31 +1416,31 @@ import seaborn as sns
 import matplotlib.pyplot as plt</code></pre>
 </div>
 <p>Next, pull Elo data from 538 and load it into a pandas data frame:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 data_link = &#39;https://projects.fivethirtyeight.com/nfl-api/nfl_elo.csv&#39;
 data_df = pd.read_csv(data_link)</code></pre>
 </div>
 <p>We only want data with QB grades, and we’ll exclude playoffs:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 data_df = data_df[(~numpy.isnan(data_df[&#39;qbelo1_pre&#39;])) &amp; (~numpy.isnan(data_df[&#39;qbelo2_pre&#39;]))]
 data_df = data_df[data_df[&#39;playoff&#39;].isna()]</code></pre>
 </div>
 <p>Elo game data comes with game dates, not weeks:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 data_df[&#39;date&#39;].sample(5)</code></pre>
 <pre><code>
-6705     1980-11-16
-15546    2016-10-09
-5969     1977-10-24
-7525     1984-11-04
-16474    2019-12-08
+12007    2003-09-07
+12393    2004-11-07
+9108     1991-10-20
+4180     1968-09-15
+3363     1963-09-15
 Name: date, dtype: object</code></pre>
 </div>
 <p>Which we’ll want to convert to weeks to make them easier to group:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## create a datetime series from the date ##
 data_df[&#39;date_time&#39;] = pd.to_datetime(data_df[&#39;date&#39;])
@@ -1450,7 +1450,7 @@ data_df[&#39;date_time&#39;] = data_df[&#39;date_time&#39;] - pd.Timedelta(days=
 data_df[&#39;week_of&#39;] = data_df[&#39;date_time&#39;].dt.week</code></pre>
 </div>
 <p>Next, separate Home and Away data and merge it into a single flat file, filtering out unnecessary fields and renaming columns in the process:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## create a flat file ##
 home_data_df = data_df.copy()[[
@@ -1485,26 +1485,28 @@ flat_df = pd.concat([home_data_df,away_data_df])
 flat_df = flat_df.sort_values(by=[&#39;season&#39;,&#39;week_of&#39;])</code></pre>
 </div>
 <p>This yields a data frame with individual QB games:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 flat_df.sample(5)</code></pre>
 <pre><code>
-      season  week_of         qb_name  qb_elo_value  points_for  points_against
-5187    1973       42      Len Dawson    102.278932           6              14
-4980    1972       41      Joe Namath     88.844342          41              13
-4918    1971       50     Bill Nelsen     53.150019          20              13
-8590    1989       39   Bubby Brister     25.161452          23               3
-4198    1968       38  Fran Tarkenton    159.860632          34              25</code></pre>
+       season  week_of  ... points_for  points_against
+11821    2002       41  ...         10              17
+2500     1954       44  ...         30               6
+5913     1977       38  ...         30              27
+12046    2003       38  ...         12              13
+5502     1975       38  ...         14              42
+
+[5 rows x 6 columns]</code></pre>
 </div>
 <p>Note that the above data are Elo values. To convert Elo values to Elo, you’d need to multiply by 3.3 per 538’s methodology. Add some addition stats:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 flat_df[&#39;point_margin&#39;] = flat_df[&#39;points_for&#39;] - flat_df[&#39;points_against&#39;]
 flat_df[&#39;win&#39;] = numpy.where(flat_df[&#39;point_margin&#39;] &gt; 0,1,0)</code></pre>
 </div>
 <h2 id="part-2-adjusting-for-era">Part 2: Adjusting for era</h2>
 <p>538’s QB ratings are based on stats that have increased overtime alongside improved QB play. This can be seen by looking at the median QB Elo value overtime:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## calculate median QB values by season week ##
 median_df = flat_df.groupby([&#39;season&#39;,&#39;week_of&#39;]).agg(
@@ -1519,7 +1521,7 @@ plt.show()</code></pre>
 <p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/plot_median-1.png" width="624" /></p>
 </div>
 <p>To make 538’s Elo values comparable across era, this stat inflation needs to be removed:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## add weekly median to flat file ##
 flat_df = pd.merge(
@@ -1534,7 +1536,7 @@ flat_df[&#39;qb_elo_value_era_adjusted&#39;] = flat_df[&#39;qb_elo_value&#39;] -
 </div>
 <h2 id="part-3-adding-stats-and-compiling-careers">Part 3: Adding stats and compiling careers</h2>
 <p>To compare quarterbacks, we’ll need to aggregate all of their QB values, but first, some additional stats can be added to make the ultimate comparisons more interesting. Namely, Elo ranking relative to other starters at a point in time, total starts, and win percentages:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## add weekly ranking ##
 flat_df[&#39;qb_rank&#39;] = flat_df.groupby([&#39;season&#39;,&#39;week_of&#39;])[&#39;qb_elo_value&#39;].rank(method=&#39;max&#39;, ascending=False)
@@ -1551,7 +1553,7 @@ flat_df[&#39;cumulative_top_3_starts&#39;] = flat_df.groupby(&#39;qb_name&#39;)[
 flat_df[&#39;cumulative_top_5_starts&#39;] = flat_df.groupby(&#39;qb_name&#39;)[&#39;top_5_qb&#39;].transform(pd.Series.cumsum)</code></pre>
 </div>
 <p>After adding stats, compile at the QB level to get a look at their career:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## aggregate ##
 agg_df = flat_df.groupby(&#39;qb_name&#39;).agg(
@@ -1566,7 +1568,7 @@ agg_df = flat_df.groupby(&#39;qb_name&#39;).agg(
 agg_df[&#39;average_era_adjusted_elo_value&#39;] = agg_df[&#39;cumulative_era_adjusted_elo_value&#39;] / agg_df[&#39;total_starts&#39;]</code></pre>
 </div>
 <p>Sort by total Elo value to see the era adjusted rankings:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 ## sort ##
 agg_df = agg_df.sort_values(by=[&#39;cumulative_era_adjusted_elo_value&#39;],ascending=[False])[[
@@ -1602,7 +1604,7 @@ agg_df[[&#39;qb_name&#39;,&#39;total_starts&#39;,&#39;cumulative_era_adjusted_el
 <h2 id="part-4-graphing-careers">Part 4: Graphing careers</h2>
 <p>Though simple, era adjusted QB Elo appears to provide a fairly good ranking of QBs across era. One interesting way to leverage this measure further is by comparing cumulative QB Elo gained over the course of a QB’s career.</p>
 <p>Create a function for graphing career Elo based on a list of QBs:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 def create_qb_chart(qbs_to_plot):
     ## plot career cumulative Elo value based on a list of QBs ##
@@ -1662,18 +1664,15 @@ def create_qb_chart(qbs_to_plot):
 </div>
 <p>Make your comparisons…</p>
 <p>Manning, Brady, and Brees:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;Tom Brady&#39;, &#39;Peyton Manning&#39;,&#39;Drew Brees&#39;]
-create_qb_chart(qb_list)</code></pre>
-<pre><code>
-/usr/local/bin/python3:55: UserWarning: Tight layout not applied. The left and right margins cannot be made large enough to accommodate all axes decorations. </code></pre>
-<pre class="python"><code>
+create_qb_chart(qb_list)
 plt.show()</code></pre>
-<p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" width="624" /></p>
+<p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" width="624" data-distill-preview=1 /></p>
 </div>
 <p>Romo &gt; Dak &gt; Aikman?:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;Tony Romo&#39;, &#39;Troy Aikman&#39;, &#39;Dak Prescott&#39;]
 create_qb_chart(qb_list)
@@ -1681,7 +1680,7 @@ plt.show()</code></pre>
 <p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/cowboys-1.png" width="624" /></p>
 </div>
 <p>JaMarcus Russell, it could have been worse:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;JaMarcus Russell&#39;, &#39;Johnny Manziel&#39;, &#39;Ryan Leaf&#39;]
 create_qb_chart(qb_list)
@@ -1689,7 +1688,7 @@ plt.show()</code></pre>
 <p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/jamarcus-1.png" width="624" /></p>
 </div>
 <p>Maybe Leaf just needed more time and a better defense:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;Ryan Leaf&#39;, &#39;Trent Dilfer&#39;]
 create_qb_chart(qb_list)
@@ -1697,7 +1696,7 @@ plt.show()</code></pre>
 <p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/leaf-1.png" width="624" /></p>
 </div>
 <p>Mahomes, off to one of the best starts ever:</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;Patrick Mahomes&#39;, &#39;Aaron Rodgers&#39;, &#39;Dan Marino&#39;]
 create_qb_chart(qb_list)
@@ -1705,7 +1704,7 @@ plt.show()</code></pre>
 <p><img src="ranking-qbs-using-era-adjusted-elo_files/figure-html5/mahomes-1.png" width="624" /></p>
 </div>
 <p>Josh Allen, not so much …</p>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-page">
 <pre class="python"><code>
 qb_list = [&#39;Josh Allen&#39;, &#39;Sam Darnold&#39;, &#39;Mitchell Trubisky&#39;, &#39;Baker Mayfield&#39;]
 create_qb_chart(qb_list)
@@ -1753,7 +1752,7 @@ plt.show()</code></pre>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

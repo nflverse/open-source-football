@@ -20,12 +20,21 @@ categories:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE, 
-  message = FALSE, 
-  warning = FALSE, 
+  message = FALSE,
+  warning = FALSE,
   dpi = 300, 
-  tidy = 'styler'
+  tidy = 'styler',
+  layout="l-page",
+  fig.height = 4.5
   )
 library(reticulate)
+```
+
+```{python, include=FALSE}
+# some of the plot chunks printed a warning that revealed the path to the local 
+# Python installation including username. This chunk suppresses those warnings.
+import warnings
+warnings.filterwarnings('ignore')
 ```
 
 
@@ -42,7 +51,7 @@ Measuring the cumulative Elo added by a QB over the course of their career is ak
 
 First, import packages:
 
-``` {python import}
+```{python import}
 import pandas as pd
 import numpy
 import requests
@@ -52,27 +61,27 @@ import matplotlib.pyplot as plt
 
 Next, pull Elo data from 538 and load it into a pandas data frame:
 
-``` {python pull}
+```{python pull}
 data_link = 'https://projects.fivethirtyeight.com/nfl-api/nfl_elo.csv'
 data_df = pd.read_csv(data_link)
 ```
 
 We only want data with QB grades, and we'll exclude playoffs:
 
-``` {python filter}
+```{python filter}
 data_df = data_df[(~numpy.isnan(data_df['qbelo1_pre'])) & (~numpy.isnan(data_df['qbelo2_pre']))]
 data_df = data_df[data_df['playoff'].isna()]
 ```
 
 Elo game data comes with game dates, not weeks:
 
-``` {python date sample}
+```{python date sample}
 data_df['date'].sample(5)
 ```
 
 Which we'll want to convert to weeks to make them easier to group:
 
-``` {python date_convert}
+```{python date_convert}
 ## create a datetime series from the date ##
 data_df['date_time'] = pd.to_datetime(data_df['date'])
 
@@ -83,7 +92,7 @@ data_df['week_of'] = data_df['date_time'].dt.week
 
 Next, separate Home and Away data and merge it into a single flat file, filtering out unnecessary fields and renaming columns in the process:
 
-``` {python flat_file}
+```{python flat_file}
 ## create a flat file ##
 home_data_df = data_df.copy()[[
     'season',
@@ -119,14 +128,14 @@ flat_df = flat_df.sort_values(by=['season','week_of'])
 
 This yields a data frame with individual QB games:
 
-``` {python flat_sample}
+```{python flat_sample}
 flat_df.sample(5)
 ```
 
 Note that the above data are Elo values. To convert Elo values to Elo, you'd need to multiply by 3.3 per 538's methodology. 
 Add some addition stats:
 
-``` {python flat_stats}
+```{python flat_stats}
 flat_df['point_margin'] = flat_df['points_for'] - flat_df['points_against']
 flat_df['win'] = numpy.where(flat_df['point_margin'] > 0,1,0)
 ```
@@ -135,7 +144,7 @@ flat_df['win'] = numpy.where(flat_df['point_margin'] > 0,1,0)
 
 538's QB ratings are based on stats that have increased overtime alongside improved QB play. This can be seen by looking at the median QB Elo value overtime:
 
-``` {python plot_median}
+```{python plot_median}
 ## calculate median QB values by season week ##
 median_df = flat_df.groupby(['season','week_of']).agg(
     qb_elo_value_median = ('qb_elo_value', 'median'),
@@ -150,7 +159,7 @@ plt.show()
 
 To make 538's Elo values comparable across era, this stat inflation needs to be removed:
 
-``` {python apply_era_adjustment}
+```{python apply_era_adjustment}
 ## add weekly median to flat file ##
 flat_df = pd.merge(
     flat_df,
@@ -167,7 +176,7 @@ flat_df['qb_elo_value_era_adjusted'] = flat_df['qb_elo_value'] - flat_df['qb_elo
 
 To compare quarterbacks, we'll need to aggregate all of their QB values, but first, some additional stats can be added to make the ultimate comparisons more interesting. Namely, Elo ranking relative to other starters at a point in time, total starts, and win percentages:
 
-``` {python add_cumulative_stats}
+```{python add_cumulative_stats}
 ## add weekly ranking ##
 flat_df['qb_rank'] = flat_df.groupby(['season','week_of'])['qb_elo_value'].rank(method='max', ascending=False)
 flat_df['top_1_qb'] = numpy.where(flat_df['qb_rank']<=1, 1,0)
@@ -185,7 +194,7 @@ flat_df['cumulative_top_5_starts'] = flat_df.groupby('qb_name')['top_5_qb'].tran
 
 After adding stats, compile at the QB level to get a look at their career:
 
-``` {python compile_cumulative_stats}
+```{python compile_cumulative_stats}
 ## aggregate ##
 agg_df = flat_df.groupby('qb_name').agg(
     total_starts = ('game_number', 'max'),
@@ -201,7 +210,7 @@ agg_df['average_era_adjusted_elo_value'] = agg_df['cumulative_era_adjusted_elo_v
 
 Sort by total Elo value to see the era adjusted rankings:
 
-``` {python output_stats}
+```{python output_stats}
 ## sort ##
 agg_df = agg_df.sort_values(by=['cumulative_era_adjusted_elo_value'],ascending=[False])[[
     'qb_name',
@@ -223,7 +232,7 @@ Though simple, era adjusted QB Elo appears to provide a fairly good ranking of Q
 
 Create a function for graphing career Elo based on a list of QBs:
 
-``` {python create_chart_func}
+```{python create_chart_func}
 def create_qb_chart(qbs_to_plot):
     ## plot career cumulative Elo value based on a list of QBs ##
     ## make a copy of the flat file ##
@@ -286,7 +295,7 @@ Make your comparisons...
 
 Manning, Brady, and Brees:
 
-``` {python all_time_greats}
+```{python all_time_greats, preview=TRUE}
 qb_list = ['Tom Brady', 'Peyton Manning','Drew Brees']
 create_qb_chart(qb_list)
 plt.show()
@@ -294,7 +303,7 @@ plt.show()
 
 Romo > Dak > Aikman?:
 
-``` {python cowboys}
+```{python cowboys}
 qb_list = ['Tony Romo', 'Troy Aikman', 'Dak Prescott']
 create_qb_chart(qb_list)
 plt.show()
@@ -319,7 +328,7 @@ plt.show()
 
 Mahomes, off to one of the best starts ever:
 
-``` {python mahomes}
+```{python mahomes}
 qb_list = ['Patrick Mahomes', 'Aaron Rodgers', 'Dan Marino']
 create_qb_chart(qb_list)
 plt.show()
@@ -327,10 +336,8 @@ plt.show()
 
 Josh Allen, not so much ...
 
-``` {python allen}
+```{python allen}
 qb_list = ['Josh Allen', 'Sam Darnold', 'Mitchell Trubisky', 'Baker Mayfield']
 create_qb_chart(qb_list)
 plt.show()
 ```
-
-
