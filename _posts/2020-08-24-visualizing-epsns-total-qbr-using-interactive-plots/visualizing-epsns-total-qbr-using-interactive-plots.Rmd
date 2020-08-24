@@ -285,9 +285,9 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
       nflfastR::teams_colors_logos %>% select(team_abbr, opp_color = team_color, team_logo_espn),
       by = c("opp" = "team_abbr")
     )
-  
+
   chart <- single_qbr %>%
-    dplyr::left_join(opponents, by = c("game_week" = "week")) %>% 
+    dplyr::left_join(opponents, by = c("game_week" = "week")) %>%
     dplyr::mutate(
       outcome = dplyr::case_when(
         team == home_team & home_result > 0 ~ "Won",
@@ -299,13 +299,13 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
       )
     )
 
-  
-  if (max(chart$game_week) > 17){
+
+  if (max(chart$game_week) > 17) {
     title_string <- glue::glue("{QB} Weekly Total QBR {year} including Playoffs")
   } else {
     title_string <- glue::glue("{QB} Weekly Total QBR {year} Regular Season")
   }
-  
+
   # going to draw some quantile lines and combine them here
   quantiles <- c(
     quantile(all_qbr_file$qbr_total, 0.10),
@@ -314,24 +314,25 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
     quantile(all_qbr_file$qbr_total, 0.90),
     quantile(all_qbr_file$qbr_total, 0.98)
   )
-  
-  plot <-   
-  chart %>%
+
+  plot <-
+    chart %>%
     ggplot(aes(x = game_week, y = qbr_total)) +
     geom_hline(yintercept = quantiles, color = "black", linetype = "dashed", alpha = 0.7) +
     geom_hline(yintercept = quantile(all_qbr_file$qbr_total, 0.50), color = "black", linetype = "solid", alpha = 0.7) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = "10th Percentile", size = 2) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = "25th Percentile", size = 2) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = "50th Percentile", size = 2) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = "75th Percentile", size = 2) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = "90th Percentile", size = 2) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = "98th Percentile", size = 2) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = "10th Percentile", size = 3) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = "25th Percentile", size = 3) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = "50th Percentile", size = 3) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = "75th Percentile", size = 3) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = "90th Percentile", size = 3) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = "98th Percentile", size = 3) +
     geom_line(color = chart$team_color) +
     geom_point(
       aes(text = glue::glue(
-              "Week: {game_week} ({game_desc})\n{outcome} {away_score}:{home_score} {loc_desc}\n Total QBR: {qbr_total}\nNumber of QB plays: {qb_plays}")),
+        "Week: {game_week} ({game_desc})\n{outcome} {away_score}:{home_score} {loc_desc}\n Total QBR: {qbr_total}\nNumber of QB plays: {qb_plays}"
+      )),
       color = chart$opp_color,
-      size = 4
+      size = 0.05
     ) +
     xlim(-1.4, NA) +
     # ggpmisc::geom_grob(aes(x = game_week, y = qbr_total, label = grob), vp.width = 0.05) +
@@ -352,16 +353,32 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
     #   # aspect.ratio = 1 / 1.618
     # ) +
     NULL
-  ggplotly(plot) %>% 
-    plotly::layout(
-      
-    )
+
+  image_list <- chart %>%
+    dplyr::transmute(
+      source = team_logo_espn,
+      xref = "x",
+      yref = "y",
+      x = game_week,
+      y = qbr_total,
+      sizex = 5,
+      sizey = 5,
+      opacity = 0.9,
+      xanchor = "center",
+      yanchor = "middle"
+    ) %>%
+    purrr::transpose()
+
+  ggplotly(plot, tooltip = "text") %>% 
+    plotly::layout(images = image_list)
 }
 ```
 
-```{r}
+```{r, fig.height=2.5}
 library(plotly)
-ggplotly(interactive_weekly_qbr(2007, "Tom Brady", all_qbr), tooltip = "text") %>% 
-  plotly::layout()
+interactive_weekly_qbr(2007, "Tom Brady", all_qbr)
 ```
 
+```{r, fig.height=2.5}
+interactive_weekly_qbr(2019, "Mitchell Trubisky", all_qbr)
+```
