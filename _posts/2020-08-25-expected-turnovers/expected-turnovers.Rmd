@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Free Jameis, Our (Unlucky) Turnover King
+## Intro
 
 Outside of actually scoring points, few events can swing an NFL game the way an interception or fumble can. Over the course of a season, if your quarterback is continuously giving the football away to the other team, your odds of a successful season are likely quite low.
 
@@ -38,7 +38,7 @@ With that said, all turnovers, and specifically QB turnovers, are not created eq
 
 ## Load Packages, Get the Data
 
-```{r}
+```{r Load Packages}
 library(nflfastR)
 library(tidyverse)
 library(caret)
@@ -47,7 +47,8 @@ library(gt)
 ```
 
 Download the latest play-by-play data for all plays from 2006-2019. We'll be using 2006 as the start year because that's the first year we have air yards data fully accessible.
-```{r}
+
+```{r Get pbp Data}
 seasons = 2006:2019
 pbp = purrr::map_df(seasons, function(x) {
   readRDS(
@@ -59,7 +60,8 @@ pbp = purrr::map_df(seasons, function(x) {
 ```
 
 Download all NFL roster data from 1999-2019.
-```{r}
+
+```{r Get Roster Data}
 roster = readRDS(url("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/roster-data/roster.rds"))
 ```
 
@@ -68,6 +70,7 @@ roster = readRDS(url("https://raw.githubusercontent.com/guga31bb/nflfastR-data/m
 We'll start with building the model for expected interceptions. Our independent variables will be air yards, pass location, qb hits, number of pass defenders and season.
 
 Start by creating an incompletions dataframe, which filters out all plays that do not result in incomplete passes or interceptions. Additionally, create the pass broken up (pbu) variable based on the number of pass defenders listed. The assumption being if more defenders are listed as defending a given pass, the more congested the throwing lane was.
+
 ```{r}
 incompletions = pbp %>%
   filter(season_type == 'REG' & season >= 2006 & (incomplete_pass == 1 | interception == 1)) %>%
@@ -87,6 +90,7 @@ incompletions$pass_location[is.na(incompletions$pass_location)] = 'None'
 ```
 
 Split into training and testing dataframes. I used 2006-2016 to train the model and 2017-2019 to test. The split comes out to approximately 79% training, 21% testing.
+
 ```{r}
 int_train = incompletions %>%
   filter(season < 2017) %>%
@@ -101,6 +105,7 @@ int_test = incompletions %>%
 ```
 
 Train the model using logistic regression, then add expected interceptions to the int_test dataframe.
+
 ```{r}
 fitControl = trainControl(method = 'repeatedcv',
                           number = 10,
@@ -118,6 +123,7 @@ int_test$exp_int = predict(int_model, int_test, type = 'prob')
 ```
 
 Let's take a look at the incompletions most likely have been intercepted from 2017-2019:
+
 ```{r}
 int_test %>% 
   arrange(-exp_int) %>% 
@@ -130,6 +136,7 @@ int_test %>%
 Next up, we'll build the expected fumbles model, using fumble forced vs not forced, fumble out of bounds, yards gained, sacks and aborted snaps as our independent variables.
 
 Start by creating a fumbles dataframe, which includes all plays where the ball hits the turf, regardless of which team recovers.
+
 ```{r}
 fumbles = pbp %>%
   filter(season_type == 'REG', season >=2006, fumble == 1) %>%
@@ -138,6 +145,7 @@ fumbles = pbp %>%
 ```
 
 Splitting the same way as the incompletions, this time for an 80-20 train-test split.
+
 ```{r}
 fumble_train = fumbles %>%
   filter(season < 2017) %>%
@@ -150,6 +158,7 @@ fumble_test = fumbles %>%
 ```
 
 Train the model using logistic regression (we can reuse the trControl from above) and then add expected fumbles to the fumble_test dataframe.
+
 ```{r}
 set.seed(69) #nice
 fumble_model = train(fumble_lost ~ ., data = fumble_train,
@@ -161,6 +170,7 @@ fumble_test$exp_fl = predict(fumble_model, fumble_test, type = 'prob')
 ```
 
 Let's take a look at the fumbles most likely to have been lost from 2017-2019:
+
 ```{r}
 fumble_test %>% 
   arrange(-exp_fl) %>% 
@@ -173,11 +183,13 @@ fumble_test %>%
 Now it's time to see if these new stats are actually useful for predicting future turnovers.
 
 First, modify roster names to allow us to use merge roster data with the dataframes we created above.
+
 ```{r}
 roster$name = paste0(substr(roster$teamPlayers.firstName, 1, 1), '.', roster$teamPlayers.lastName)
 ```
 
 Merge roster data and group by passer and season to get total interceptions and expected interceptions and then total fumbles lost and expected fumbles lost for each passer in each season.
+
 ```{r}
 xInt = int_test %>%
   filter(!is.na(passer)) %>%
@@ -209,6 +221,7 @@ xFmb = fumble_test %>%
 ```
 
 Find total dropbacks, epa per dropback and success rate on dropbacks for each passer. The latter two stats really aren't necessary, but I thought it could be useful to show how well certain quarterbacks performed overall.
+
 ```{r}
 dropbacks = pbp %>%
   filter(season_type == 'REG' & season > 2016 & !is.na(passer)) %>%
@@ -216,9 +229,8 @@ dropbacks = pbp %>%
   summarise(dropbacks = n(), epa=mean(epa, na.rm=TRUE), sr=mean(success, na.rm=TRUE))
 ```
 
-Merge the dropbacks dataframe with the xInt and xFmb dataframes. Then calc total turnovers, expected turnovers,  
-turnovers per dropback, interceptions per dropback, differences between all of the actual and expected stats and the 
-next season's turnovers, interceptions and fumbles.
+Merge the dropbacks dataframe with the xInt and xFmb dataframes. Then calc total turnovers, expected turnovers,  turnovers per dropback, interceptions per dropback, differences between all of the actual and expected stats and the next season's turnovers, interceptions and fumbles.
+
 ```{r}
 xTO = dropbacks %>%
   inner_join(xInt, by=c('passer'='player', 'season')) %>%
@@ -238,6 +250,7 @@ xTO = xTO %>%
     xto_pct = xTO / dropbacks,
     xint_pct = xInt / dropbacks,
     to_pct_diff = xto_pct - to_pct,
+    int_pct_diff = xint_pct - int_pct,
   ) %>%
   filter(dropbacks >= 250) %>%
   group_by(passer) %>%
@@ -250,7 +263,8 @@ xTO = xTO %>%
 ```
 
 Finally, let's evaluate how predictive our new expected statistics are compared to their standard counterparts.
-```{r}
+
+```{r echo=FALSE}
 paste0("R2 of current TOs to next season's TOs: ", with(drop_na(xTO), cor(Turnovers, next_to)^2))
 paste0("R2 of current xTO to next season's TOs: ", with(drop_na(xTO), cor(xTO, next_to)^2))
 paste0("R2 of current Ints to next season's Ints: ", with(drop_na(xTO), cor(Interceptions, next_int)^2))
@@ -261,7 +275,8 @@ paste0("R2 of current xFmb to next season's Fumbles: ", with(drop_na(xTO), cor(x
 
 As we can see, the "regular" stats outperform all of the expected turnover statistics. But what if we look at these 
 as rate stats per dropback?
-```{r}
+
+```{r echo=FALSE}
 paste0("R2 of current TOs per dropback to next season's TOs per dropback: ", 
        with(drop_na(xTO), cor(to_pct, next_to/next_db)^2))
 paste0("R2 of current xTOs per dropback to next season's TOs per dropback: ",
@@ -280,7 +295,7 @@ using xTOs and xInts per dropback than we can using the ordinary rate stats.
 Finally, we can plot the results to help us visualize who is most likely to turn the ball over at a higher or lower
 rate next season.
 
-```{r}
+```{r, layout="l-page", fig.height=5.5, preview=TRUE}
 ggplot(subset(xTO, season==2019), aes(x=Turnovers/dropbacks, y=xTO/dropbacks)) +
   geom_image(aes(image = teamPlayers.headshot_url), size = 0.05, asp = 16 / 9) +
   labs(
@@ -299,7 +314,7 @@ ggplot(subset(xTO, season==2019), aes(x=Turnovers/dropbacks, y=xTO/dropbacks)) +
   geom_abline(slope = 1, intercept = 0)
 ```
 
-```{r}
+```{r, layout="l-page", fig.height=5.5}
 ggplot(subset(xTO, season==2019), aes(x=Interceptions/dropbacks, y=xInt/dropbacks)) +
   geom_image(aes(image = teamPlayers.headshot_url), size = 0.05, asp = 16 / 9) +
   labs(
@@ -318,8 +333,9 @@ ggplot(subset(xTO, season==2019), aes(x=Interceptions/dropbacks, y=xInt/dropback
   geom_abline(slope = 1, intercept = 0)
 ```
 
-Lastly, we'll use the gt package to make a really cool looking table of the 2019 data. 
-```{r}
+Lastly, we'll use the gt package to make a really cool looking table of the 2019 data.
+
+```{r, layout="l-page", fig.height=5.5}
 xTO %>%
   ungroup() %>%
   filter(season == 2019) %>%
