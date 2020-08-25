@@ -18,6 +18,20 @@
       <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
+      <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
+      <dc:creator>Sebastian Carl</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</link>
+      <description>How to get ESPN data and create interactive plots using the plotly ggplot2 library.</description>
+      <category>Scraping</category>
+      <category>espnscrapeR</category>
+      <category>Interactive plots</category>
+      <category>Total QBR</category>
+      <category>Figures</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
+      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+    </item>
+    <item>
       <title>Exploring Wins with nflfastR</title>
       <dc:creator>Austin Ryan</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</link>
