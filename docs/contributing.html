@@ -1454,8 +1454,7 @@ distill::create_post(&quot;Title of your post&quot;)</code></pre>
 <p>Commit all files <strong>which are related to your post</strong> and go on with the last step. There are 4 files not related to your post causing merge conflicts when you push them without updating them before your pull request. To avoid this please run the following code right before you commit all your files.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-source(&quot;https://raw.githubusercontent.com/mrcaseb/open-source-football/master/_update_con_files.R&quot;)
-update_con_files()</code></pre>
+source(&quot;https://raw.githubusercontent.com/mrcaseb/open-source-football/master/_update_con_files.R&quot;)</code></pre>
 </div>
 <p>Never mind if you forget that. You can create the pull request anyway and GitHub will inform you if there are conflicts. Just run the above lines and commit and push the updated files <code>docs/index.html</code>, <code>docs/index.xml</code>, <code>docs/posts/posts.json</code>, <code>docs/sitemap.xml</code>.</p>
 <h3 id="create-the-pull-request">Create the Pull Request</h3>
