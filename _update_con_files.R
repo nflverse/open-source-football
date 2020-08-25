@@ -5,3 +5,4 @@ update_con_files <- function(){
     readr::write_file(new, x)
   })
 }
+update_con_files()
