@@ -162,7 +162,6 @@ following code right before you commit all your files.
 
 ```{r, eval=FALSE}
 source("https://raw.githubusercontent.com/mrcaseb/open-source-football/master/_update_con_files.R")
-update_con_files()
 ```
 
 Never mind if you forget that. You can create the pull request anyway and GitHub
