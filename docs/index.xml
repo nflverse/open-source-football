@@ -7,7 +7,39 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 21 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Getting into sports analytics</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</link>
+      <description>Collection of short answers to common questions.</description>
+      <category>Getting started</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</guid>
+      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Exploring Wins with nflfastR</title>
+      <dc:creator>Austin Ryan</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</link>
+      <description>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</description>
+      <category>Tidymodels</category>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
+      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
+      <title>Ranking QBs Using Era Adjusted Elo</title>
+      <dc:creator>Robby Greer</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</link>
+      <description>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</description>
+      <category>Elo</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
+      <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
+    </item>
     <item>
       <title>Game Excitement and Win Probability in the NFL</title>
       <dc:creator>Max Bolger</dc:creator>
@@ -16,7 +48,7 @@
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
-      <pubDate>Sat, 21 Aug 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
     </item>
     <item>
@@ -27,7 +59,7 @@
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</guid>
-      <pubDate>Sat, 21 Aug 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
     </item>
     <item>
