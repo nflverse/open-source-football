@@ -1,7 +1,7 @@
 ---
 title: "Visualizing EPSN's Total QBR Using Interactive Plots"
 description: |
-  A short description of the post.
+  How to get ESPN data and create interactive plots using the plotly ggplot2 library.
 author:
   - name: Sebastian Carl
     url: https://twitter.com/mrcaseb
@@ -17,6 +17,7 @@ repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - Scraping
   - espnscrapeR
+  - Interactive plots
   - Total QBR
   - Figures
 ---
@@ -42,7 +43,7 @@ developed and maintained by [Thomas Mock](https://twitter.com/thomas_mock).
 So instead of implementing the scraper by myself in this post I'll show off,
 how to get all the data and save it locally for later reuse.
 
-And as the title suggests we want to try out something new here: interactive plots
+And as the title suggests we want to try out something new here: interactive plots!
 
 ## How to get the data
 
@@ -72,13 +73,13 @@ get_week_qbr <- function(s, wk) {
 ```
 
 Then we call this function to actually do the job and save the output. Note: We 
-call the function for the weeks 1 to 21 although the SB is week 22 because of the
-Pro Bowl. The package automatically converts to week 22 for us.
+call the function for the weeks 1 to 21 although the SB is week 22 (in ESPN's 
+convention) because of the Pro Bowl. The package automatically converts to week 22 for us.
 
-The code is somewhat advanced and You may need to do some more background 
+The code is somewhat advanced and you may need to do some more background 
 reading to understand it. The short version: we call the above function for all
 seasons between 2006 and 2019 and all available weeks in parallel running processes 
-and bind everything together in a dataframe which will saved to disc for further
+and bind everything together in a dataframe which get's saved to disc for further
 usage.
 
 ```{r, eval=FALSE}
@@ -107,14 +108,15 @@ readr::write_csv(all_qbr, "all_qbr.csv")
 
 ## Create some static weekly QBR plots
 
-Let's have a look at the data by plotting weekly QBR for some selected QBs (the 
+To better demonstrate the advantages of an interactive plot I want to start with
+some static charts by plotting weekly QBR for some selected QBs (the 
 insane numbers). We want to plot multiple QBs so let's create a function again.
 
 Before we do this please note there are some Quarterbacks appearing with special
 team names (e.g. `"DEN/KC"`) in the data because they changed their team within 
-a season. Our new function won't work for those QBS but I was too lazy to rewrite
+a season. Our new function won't work for those QBs but I was too lazy to rewrite
 it because I honestly don't care about those QBs. So please be careful when trying
-to run the code with one of the following QB names and corresponding seasons.
+to run the code with one of the following names and corresponding seasons.
 
 ```{r, layout="l-body"}
 library(tidyverse)
@@ -125,12 +127,15 @@ readRDS("all_qbr.rds") %>%
   knitr::kable("simple", align = "c")
 ```
 
-Now let's write the plotting function
+Now let's write the plotting function `plot_weekly_qbr`. To call it we have to pass
+a year (season), the Quarterback name as listed in the ESPN data and our above saved
+QBR data.
 
 ```{r}
 plot_weekly_qbr <- function(year, QB, all_qbr_file) {
-  # Filter the QB we want to look at and modify team names and week numbers
-  # to fit nflfastR convention
+  
+  # Filter the QB we want to look at, modify team names and week numbers
+  # to fit nflfastR convention and add the team color of the QB
   single_qbr <- all_qbr_file %>%
     dplyr::filter(season == year & name == QB) %>%
     dplyr::mutate(
@@ -146,7 +151,8 @@ plot_weekly_qbr <- function(year, QB, all_qbr_file) {
       by = c("team" = "team_abbr")
     )
 
-  # Search for the QBs opponents
+  # Search for the QBs opponents using the schedule function of nflfastR
+  # and add logos of the opponents
   opponents <- nflfastR::fast_scraper_schedules(year) %>%
     dplyr::filter(home_team == single_qbr$team | away_team == single_qbr$team) %>%
     dplyr::mutate(
@@ -161,10 +167,12 @@ plot_weekly_qbr <- function(year, QB, all_qbr_file) {
         grid::rasterGrob(magick::image_read(team_logo_espn[[x]]))
       })
     )
-
+  
+  # Combine the QBR data of the chosen QB with the game data
   chart <- single_qbr %>%
     dplyr::left_join(opponents, by = c("game_week" = "week"))
   
+  # Set title string for later usage
   if (max(chart$game_week) > 17){
     title_string <- glue::glue("{QB} Weekly Total QBR {year} including Playoffs")
   } else {
@@ -191,7 +199,10 @@ plot_weekly_qbr <- function(year, QB, all_qbr_file) {
     geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = "90th Percentile", hjust = 1, size = 2) +
     geom_text(x = 0, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = "98th Percentile", hjust = 1, size = 2) +
     geom_line(colour = chart$team_color) +
-    xlim(-1.4, NA) +
+    scale_x_continuous(
+      limits = c(-1.4, NA),
+      breaks = scales::breaks_pretty()
+    ) +
     ggpmisc::geom_grob(aes(x = game_week, y = qbr_total, label = grob), vp.width = 0.05) +
     labs(
       x = "Game Week",
@@ -221,7 +232,7 @@ all_qbr <- readRDS("all_qbr.rds")
 plot_weekly_qbr(2007, "Tom Brady", all_qbr)
 ```
 
-Ok let's look at the other top 3 seasons
+The other two in the all-time best seasons in terms of Total QBR are Peyton Manning in 2006 and Aaron Rodgers in 2011.
 
 ```{r, fig.height=5}
 plot_weekly_qbr(2006, "Peyton Manning", all_qbr)
@@ -240,39 +251,61 @@ plot_weekly_qbr(2019, "Mitchell Trubisky", all_qbr)
 
 ## Let's make it interactive
 
-Those plots are nice and all but actually we may miss a lot of information
-when looking at them. For example we might want to know if the game was home or
-away, what the result was or how many QB plays were counted for Total QBR.
+The above plots are nice and all but actually we may miss a lot of information when looking at them. For example, we might want to know 
+
+* if the game was at home or on the road, 
+* what the result was or 
+* how many QB plays were counted for Total QBR.
+
+Additionally we are only looking at a single season because plotting more will be a little overwhelming. Instead, it would be cool if you could watch a range of games from several seasons.
+
+This is what we are going to do now. We will use the [Plotly ggplot2 Library](https://plotly.com/ggplot2/)^[There are multiple possible packages usable for this website. I suggest starting [here](https://rstudio.github.io/distill/interactivity.html).] so you'll have to install it if it's not installed yet.
+
+I will use a function again because I want to compare two Quarterbacks. Please note that the code looks similar to the above example but it differs in some points.
+
+The additional information will be prompted if you hover with the mouse over an opponents logo. We have to create the shown text in this code block as well. 
 
 ```{r}
-interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
-  # Filter the QB we want to look at and modify team names and week numbers
-  # to fit nflfastR convention
+interactive_weekly_qbr <- function(first_year, last_year, QB, all_qbr_file) {
+
+  # Filter the QB we want to look at, modify team names and week numbers
+  # to fit nflfastR convention and add the team color of the QB
   single_qbr <- all_qbr_file %>%
-    dplyr::filter(season == year & name == QB) %>%
+    dplyr::filter(dplyr::between(season, first_year, last_year) & name == QB) %>%
     dplyr::mutate(
       team = dplyr::case_when(
         team == "LAR" ~ "LA",
         team == "WSH" ~ "WAS",
+        team == "OAK" ~ "LV",
         TRUE ~ team
       ),
-      game_week = dplyr::if_else(game_week > 21, 21, game_week)
+      game_week = dplyr::if_else(game_week > 21, 21, game_week),
+      gm = 1:dplyr::n() # this is a running game number within the chosen era. We'll use it to plot
     ) %>%
     dplyr::left_join(
       nflfastR::teams_colors_logos %>% select(team_abbr, team_color),
       by = c("team" = "team_abbr")
     )
 
-  # Search for the QBs opponents
-  opponents <- nflfastR::fast_scraper_schedules(year) %>%
+  # Search for the QBs opponents using the schedule function of nflfastR
+  # and add logos of the opponents
+  opponents <- nflfastR::fast_scraper_schedules(first_year:last_year) %>%
     dplyr::filter(home_team == single_qbr$team | away_team == single_qbr$team) %>%
     dplyr::mutate(
       opp = dplyr::if_else(home_team == single_qbr$team, away_team, home_team),
+      opp = dplyr::case_when(
+        opp == "OAK" ~ "LV",
+        TRUE ~ opp
+      ),
+
+      # create string for game location
       loc_desc = dplyr::if_else(
         home_team == single_qbr$team,
         glue::glue("vs. {away_team}"),
         glue::glue("@ {home_team}")
       ),
+
+      # create string for game description
       game_desc = dplyr::case_when(
         week == 18 ~ "Wild Card",
         week == 19 ~ "Divisional Round",
@@ -286,9 +319,12 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
       by = c("opp" = "team_abbr")
     )
 
+  # Combine the QBR data of the chosen QB with the game data
   chart <- single_qbr %>%
-    dplyr::left_join(opponents, by = c("game_week" = "week")) %>%
+    dplyr::left_join(opponents, by = c("season", "game_week" = "week")) %>%
     dplyr::mutate(
+
+      # create string for game outcome
       outcome = dplyr::case_when(
         team == home_team & home_result > 0 ~ "Won",
         team == home_team & home_result < 0 ~ "Lost",
@@ -299,11 +335,11 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
       )
     )
 
-
+  # Set title string for later usage
   if (max(chart$game_week) > 17) {
-    title_string <- glue::glue("{QB} Weekly Total QBR {year} including Playoffs")
+    title_string <- glue::glue("{QB} Weekly Total QBR from {first_year} to {last_year} including Playoffs")
   } else {
-    title_string <- glue::glue("{QB} Weekly Total QBR {year} Regular Season")
+    title_string <- glue::glue("{QB} Weekly Total QBR from {first_year} to {last_year} Regular Season")
   }
 
   # going to draw some quantile lines and combine them here
@@ -315,70 +351,75 @@ interactive_weekly_qbr <- function(year, QB, all_qbr_file) {
     quantile(all_qbr_file$qbr_total, 0.98)
   )
 
-  plot <-
-    chart %>%
-    ggplot(aes(x = game_week, y = qbr_total)) +
-    geom_hline(yintercept = quantiles, color = "black", linetype = "dashed", alpha = 0.7) +
-    geom_hline(yintercept = quantile(all_qbr_file$qbr_total, 0.50), color = "black", linetype = "solid", alpha = 0.7) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = "10th Percentile", size = 3) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = "25th Percentile", size = 3) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = "50th Percentile", size = 3) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = "75th Percentile", size = 3) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = "90th Percentile", size = 3) +
-    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = "98th Percentile", size = 3) +
-    geom_line(color = chart$team_color) +
-    geom_point(
-      aes(text = glue::glue(
-        "Week: {game_week} ({game_desc})\n{outcome} {away_score}:{home_score} {loc_desc}\n Total QBR: {qbr_total}\nNumber of QB plays: {qb_plays}"
-      )),
-      color = chart$opp_color,
-      size = 0.05
-    ) +
-    xlim(-1.4, NA) +
-    # ggpmisc::geom_grob(aes(x = game_week, y = qbr_total, label = grob), vp.width = 0.05) +
-    labs(
-      x = "Game Week",
-      y = "ESPN Total QBR",
-      caption = "Figure: @mrcaseb | Data: espnscrapeR by @thomas_mock",
-      title = title_string,
-      subtitle = "Percentiles of the whole NFL 2006 - 2019 are drawn for orientation\nTo qualify, a player must play a minimum of 20 action plays per team game"
-    ) +
-    theme_bw() +
-    # theme(
-    #   plot.title = element_text(face = "bold"),
-    #   plot.caption = element_text(hjust = 1),
-    #   axis.text.y = element_text(angle = 0, vjust = 0.5),
-    #   legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = "bold"),
-    #   legend.position = "top",
-    #   # aspect.ratio = 1 / 1.618
-    # ) +
-    NULL
-
+  # Adding the logos to the interactive plots needs to be done in a different way
+  # Here we compute the list needed to add the later
   image_list <- chart %>%
     dplyr::transmute(
       source = team_logo_espn,
       xref = "x",
       yref = "y",
-      x = game_week,
+      x = gm,
       y = qbr_total,
-      sizex = 5,
-      sizey = 5,
+      sizex = 7,
+      sizey = 7,
       opacity = 0.9,
       xanchor = "center",
       yanchor = "middle"
     ) %>%
     purrr::transpose()
+  
+  plot <-
+    chart %>%
+    ggplot(aes(x = gm, y = qbr_total)) +
+    geom_hline(yintercept = quantiles, color = "black", linetype = "dashed", alpha = 0.7) +
+    geom_hline(yintercept = quantile(all_qbr_file$qbr_total, 0.50), color = "black", linetype = "solid", alpha = 0.7) +
+    geom_vline(xintercept = chart$gm[chart$game_week == 1] - 0.5, color = "black", linetype = "dotted", alpha = 0.7) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.10), label = "10th Percentile", size = 3.5) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.25), label = "25th Percentile", size = 3.5) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.50), label = "50th Percentile", size = 3.5) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.75), label = "75th Percentile", size = 3.5) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.90), label = "90th Percentile", size = 3.5) +
+    geom_text(x = -0.5, y = 2 + quantile(all_qbr_file$qbr_total, 0.98), label = "98th Percentile", size = 3.5) +
+    geom_line(color = chart$team_color) +
+    geom_point(
+      # The text aesthetics in here are used for the tooltip text in the plotly object
+      aes(text = glue::glue(
+        "Season: {season}\nWeek: {game_week} ({game_desc})\n{outcome} {away_score}:{home_score} {loc_desc}\nTotal QBR: {qbr_total}\nNumber of QB plays: {qb_plays}"
+      )),
+      color = chart$opp_color,
+      size = 0.05
+    ) +
+    scale_x_continuous(
+      limits = c(-1.4, NA),
+      breaks = scales::breaks_pretty()
+    ) +
+    # Subtitle and caption labs don't work in the plotly object so I have removed them 
+    # and added them manually to the object using plotly::layout()
+    labs(
+      x = glue::glue("Game Number in Given Era ({first_year}-{last_year})"),
+      y = "ESPN Total QBR"
+    ) +
+    theme_bw() +
+    NULL
 
-  ggplotly(plot, tooltip = "text") %>% 
-    plotly::layout(images = image_list)
+  # The interactive part is done with plotly
+  plotly::ggplotly(plot, tooltip = "text") %>%
+    plotly::layout(
+      title = list(text = glue::glue("{title_string}<br><sup>Percentiles of the whole NFL 2006 - 2019 are drawn for orientation.</sup>")),
+      margin = list(t = 50),
+      images = image_list
+    ) %>%
+    plotly::rangeslider(start = -3, end = min(30.5, max(chart$gm) + 0.5), bgcolor = "#D3D3D3", thickness = 0.08)
 }
 ```
 
+Now we are ready to call the function for specific Quarterbacks and seasons. I don't want to do overkill so I am just doing three seasons for two Quarterbacks from the 2017 Draft.
+
 ```{r, fig.height=2.5}
 library(plotly)
-interactive_weekly_qbr(2007, "Tom Brady", all_qbr)
+interactive_weekly_qbr(2017, 2019, "Patrick Mahomes", all_qbr)
 ```
 
 ```{r, fig.height=2.5}
-interactive_weekly_qbr(2019, "Mitchell Trubisky", all_qbr)
+interactive_weekly_qbr(2017, 2019, "Mitchell Trubisky", all_qbr)
 ```
