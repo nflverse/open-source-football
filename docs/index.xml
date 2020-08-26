@@ -7,7 +7,7 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Di, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Expected Turnovers for Quarterbacks</title>
       <dc:creator>Anthony Gadaleta</dc:creator>
@@ -19,7 +19,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>turnovers</category>
       <category>quarterbacks</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</guid>
-      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Di, 25 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -29,7 +29,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <description>Collection of short answers to common questions.</description>
       <category>Getting started</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</guid>
-      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mo, 24 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
@@ -42,7 +42,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Total QBR</category>
       <category>Figures</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
-      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mo, 24 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -54,7 +54,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
-      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>So, 23 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -65,7 +65,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Elo</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
-      <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sa, 22 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
     </item>
     <item>
@@ -76,7 +76,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fr, 21 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
     </item>
     <item>
@@ -87,7 +87,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fr, 21 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
     </item>
     <item>
@@ -100,7 +100,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>CPOE / EPA functions</category>
       <category>Packers</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fr, 21 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -111,7 +111,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Do, 20 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -123,7 +123,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Do, 20 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -134,7 +134,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Do, 20 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Matching players without ID keys</title>
@@ -145,7 +145,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Roster</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3900" height="4800"/>
     </item>
     <item>
@@ -157,7 +157,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Tensorflow</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -168,7 +168,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -180,7 +180,7 @@ arbitralily chosen critical value and compares it with the true win percentage.<
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mi, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -194,7 +194,7 @@ how to plot the bad throw percentage data for quarterbacks.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</guid>
-      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Di, 18 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
   </channel>
