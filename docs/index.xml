@@ -7,18 +7,20 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 26 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Open Source (Fantasy) Football: Visualizating TRAP Backs</title>
-      <dc:creator>Sam Hoppen</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</link>
-      <description>Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model.</description>
+      <title>Expected Turnovers for Quarterbacks</title>
+      <dc:creator>Anthony Gadaleta</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</link>
+      <description>Building expected interceptions and expected fumbles models to find QBs likely to increase or decrease their 
+interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
-      <category>Fantasy Football</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</guid>
-      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="5700" height="3900"/>
+      <category>turnovers</category>
+      <category>quarterbacks</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</guid>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
       <title>Getting into sports analytics</title>
