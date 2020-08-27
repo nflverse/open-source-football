@@ -3,6 +3,7 @@ title: "Open Source Football"
 description: |
   A place where anybody can share their work with others
 base_url: https://mrcaseb.github.io/open-source-football/
+google_analytics: "UA-176408251-2"
 collections:
   posts:
     share: [twitter, facebook]
