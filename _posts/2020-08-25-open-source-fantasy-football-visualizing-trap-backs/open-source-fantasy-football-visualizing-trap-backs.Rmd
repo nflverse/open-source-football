@@ -15,7 +15,7 @@ repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - Figures
   - nflfastR
-  - Another categorie
+  - Fantasy Football
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -49,8 +49,6 @@ pbp <- purrr::map_df(seasons, function(x) {
     )
   )
 })
-
-pbp <- clean_pbp(pbp)
 
 nfl_positions <- read_csv(url("https://raw.githubusercontent.com/samhoppen/NFL_Positions/master/nfl_positions_2011_2019.csv"))
 
@@ -143,9 +141,7 @@ names(colors) = rev(levels(rb_touches$field_touch))
 
 ```
 
-
 Now that we have the data in the format that we want we're ready to build our graph (using ggplot2, of course)!
-
 
 ```{r, layout="l-page", fig.height=6.5, fig.width = 9.5, preview=TRUE}
 ggplot() +
