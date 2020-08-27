@@ -1,5 +1,5 @@
 ---
-title: "Open Source (Fantasy) Football: Visualizating TRAP Backs"
+title: "Open Source (Fantasy) Football: Visualizing TRAP Backs"
 description: |
   Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model. 
 author:
