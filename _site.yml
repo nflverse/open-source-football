@@ -7,8 +7,13 @@ google_analytics: "UA-176408251-2"
 collections:
   posts:
     share: [twitter, facebook]
+    feed_items_max: false
+    custom: _custom.html
 output_dir: "docs"
 navbar:
+  logo:
+    image: images/logo.png
+    href: https://twitter.com/Open_Source_FB
   right:
     - text: "Home"
       href: index.html
@@ -20,6 +25,8 @@ navbar:
       href: about.html
     - icon: fa fa-github
       href: https://github.com/mrcaseb/open-source-football
+    - icon: fa fa-rss
+      href: index.xml
 output:
   distill::distill_article:
     css: styles.css
