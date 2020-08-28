@@ -7,7 +7,17 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 26 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Fast Data Loading</title>
+      <dc:creator>Analytics Darkweb</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</link>
+      <description>A short description of the post.</description>
+      <category>Efficiency</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</guid>
+      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Open Source (Fantasy) Football: Visualizing TRAP Backs</title>
       <dc:creator>Sam Hoppen</dc:creator>
