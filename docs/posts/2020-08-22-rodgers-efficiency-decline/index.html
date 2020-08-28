@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Open Source Football: Rodgers Efficiency Decline</title>
+
+<meta property="description" itemprop="description" content="A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages."/>
+
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-08-21"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-08-21"/>
+<meta name="article:author" content="Austin Ryan"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Open Source Football: Rodgers Efficiency Decline"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages."/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png"/>
+<meta property="og:image:width" content="3900"/>
+<meta property="og:image:height" content="2400"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Open Source Football"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Open Source Football: Rodgers Efficiency Decline"/>
+<meta property="twitter:description" content="A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages."/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png"/>
+<meta property="twitter:image:width" content="3900"/>
+<meta property="twitter:image:height" content="2400"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Open Source Football: Rodgers Efficiency Decline"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"/>
+<meta name="citation_online_date" content="2020/08/21"/>
+<meta name="citation_publication_date" content="2020/08/21"/>
+<meta name="citation_author" content="Austin Ryan"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Rodgers Efficiency Decline"]},{"type":"character","attributes":{},"value":["A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Austin Ryan"]},{"type":"character","attributes":{},"value":["https://twitter.com/packeRanalytics"]}]}]},{"type":"character","attributes":{},"value":["08-21-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR","CPOE / EPA functions","Packers"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["rbsdm.png","rodgers-efficiency-decline_files/bowser-1.9.3/bowser.min.js","rodgers-efficiency-decline_files/distill-2.2.21/template.v2.js","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-2.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-11-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-11-2.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-11-3.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-2.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-3.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-2.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-3.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-15-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-16-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-3-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-4-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-4-2.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-6-1.png","rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-8-1.png","rodgers-efficiency-decline_files/header-attrs-2.3/header-attrs.js","rodgers-efficiency-decline_files/jquery-1.11.3/jquery.min.js","rodgers-efficiency-decline_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
+<style type="text/css">
+d-article > d-code, d-article section > d-code {
+padding: 16px;
+overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f6f8fa;
+border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+pre d-code{
+  border-left: 0;
+}
+
+.distill-site-nav {
+  color: #ffffff;
+  font-weight: 400;
+  background: #24292e;
+  border-bottom: 2px solid #DECF40;
+  -webkit-box-shadow: 1px 1px 18px #4d4d4d;
+  -moz-box-shadow: 1px 1px 18px #4d4d4d;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+  font-weight: 700;
+}
+
+d-title {
+background: #575757;
+color: white;
+}
+
+.distill-site-footer {
+  border-top: 2px solid #DECF40;
+  border-bottom: 0;
+}
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Rodgers Efficiency Decline","description":"A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.","authors":[{"author":"Austin Ryan","authorURL":"https://twitter.com/packeRanalytics","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-21T00:00:00.000+00:00","citationText":"Ryan, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Open Source Football</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
+<a href="https://github.com/mrcaseb/open-source-football">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Rodgers Efficiency Decline</h1>
+<p><p>A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.</p></p>
+</div>
+
+<div class="d-byline">
+  Austin Ryan <a href="https://twitter.com/packeRanalytics" class="uri">https://twitter.com/packeRanalytics</a> 
+  
+<br/>08-21-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#efficiency-metrics">Efficiency Metrics</a></li>
+<li><a href="#rodgers-career-as-seen-by-epa-cpoe-and-qbr">Rodgers career as seen by EPA, CPOE, and QBR</a></li>
+<li><a href="#digging-deeper">Digging Deeper</a>
+<ul>
+<li><a href="#supporting-cast">Supporting Cast</a></li>
+<li><a href="#section">2008 - 2014</a></li>
+<li><a href="#section-1">2015-2016</a></li>
+<li><a href="#section-2">2017</a></li>
+<li><a href="#section-3">2018</a></li>
+<li><a href="#section-4">2019</a></li>
+</ul></li>
+<li><a href="#whats-next">What’s next?</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>For the first time in the seven-year span of <a href="https://theathletic.com/1945894/2020/07/27/2020-quarterback-tiers-50-coaches-and-evaluators-rank-the-nfl-starters/">Mike Sando’s quarterback tiers survey</a> Aaron Rodgers was not ranked as the NFL’s top quarterback. However, the fifty NFL coaches and evaluators who participated in the survey have not observed much of a drop off. In the 2020 survey Rodgers received a tier 1 vote from 46 respondents and finished 3rd overall in the ranking.</p>
+<p>Fellow NFL players recently gave Rodgers his lowest ever ranking in the ten-year history of the annual <a href="https://en.wikipedia.org/wiki/NFL_Top_100">NFL Top 100</a> poll following the 2019 season. Similar to the respondents of Sando’s survey, players still view Rodgers as a near top tier player. He earned the 16th overall ranking and was the 6th highest ranked quarterback in the 2020 poll.</p>
+<p>PFF grades tell a similar but not quite as rosy of a story. From 2008, Rodgers first season as a starter, to 2014 his PFF grade was never worse than 6th best in the league. In 2015 his PFF grade fell out of the top 10 but quickly bounced back to top 3 in 2016. After an injury shortened 2017 season PFF graded Rodgers as their 5th and 7th best in 2018 and 2019 respectively.</p>
+<p>If people in the NFL still consider Rodgers a near top talent and PFF grade has him slightly outside the top 5 why are the efficiency stats so much more sour on him recently? Most of the advanced efficiency metrics rank the future Hall of Famer closer to league average than top 5. Expected Points Added (EPA), ESPN’s Quarterback Rating (QBR), Football Outsiders Defense-adjusted Value Over Average (DVOA), and Completion Percentage Over Expectation (CPOE) suggest Rodgers hasn’t been a tier 1 quarterback since 2016.</p>
+<p>The Computer Cowboy’s EPA + CPOE composite metric on <a href="https://rbsdm.com/stats/stats/">rbsdm.com</a> ranked Rodgers as the 16th best since 2016, one spot below Ryan Fitzpatrick and three spots below Kirk Cousins.</p>
+<figure>
+<img src="rbsdm.png" alt="" /><figcaption>“Efficiency”</figcaption>
+</figure>
+<p><a href="https://www.footballoutsiders.com/stats/nfl/qb/2019">Football Outsiders DVOA</a> placed Rodgers outside the top 10 in each of the last three seasons. <a href="https://www.espn.com/nfl/qbr">QBR</a> lists Rodgers one spot below Andy Dalton in 2018 (16th) and one spot ahead of Jacoby Brissett in 2019 (20th).</p>
+<h3 id="efficiency-metrics">Efficiency Metrics</h3>
+<p>If you are not familiar with EPA, QBR, DVOA, or CPOE please check out the below.</p>
+<ul>
+<li><a href="https://www.advancedfootballanalytics.com/index.php/home/stats/stats-explained/expected-points-and-epa-explained">EPA</a></li>
+<li><a href="https://www.espn.com/nfl/story/_/id/8379024/nfl-explaining-expected-points-metric">EPA</a></li>
+<li><a href="https://www.espn.com/blog/statsinfo/post/_/id/123701/how-is-total-qbr-calculated-we-explain-our-quarterback-rating">QBR</a></li>
+<li><a href="https://www.footballoutsiders.com/info/methods">DVOA</a></li>
+<li>nflfastR’s CPOE (Completion Percentage Over Expectation) forms an expectation of how likely a pass is to be completed based on factors we can observe like how far down the field the pass was thrown, whether the pass was thrown to the left, middle, or right, or whether or not it was thrown in a dome, and compares it to what the passer’s actual completion percentage.</li>
+</ul>
+<h2 id="rodgers-career-as-seen-by-epa-cpoe-and-qbr">Rodgers career as seen by EPA, CPOE, and QBR</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>The below graph is plotting the average expected points added per dropback from Rodgers most recent 300 dropbacks over the course of his career. When the white line and yellow fill are near .20 on the Y axis it means Rodgers last 300 dropbacks produced an EPA average similar to one that the 5th best in the game would have earned. The further above or below the .20 mark it goes it means he was that much better or worse than the 5th best.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-3-1.png" width="1950" /></p>
+</div>
+<p>This tells us Rodgers EPA was tier one level for over 71% of his dropbacks through 2014. We can see the highs were are really high as Rodgers doubled the EPA average of the 5th best at times. Remarkably, Rodgers was never outside top 5 play in his 2011 and 2014 MVP seasons. The lows were never very low either. Rodgers EPA average only fell below the .10 mark for less than 4% of his 4,600 plus dropbacks prior to 2015. The only similarly sustained levels of dominance I can see in the nflfastR library are a couple different stretches from Peyton Manning and the Patrick Mahomes Experience.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-4-1.png" width="1950" /><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-4-2.png" width="1950" /></p>
+</div>
+<p>After 2014 we see Rodgers rolling average collapse to an alarming low in 2015, skyrocket in 2016 during the “run-the-table” stretch, and then remain below top 5 play outside of a couple week stretch in 2019.</p>
+<p>CPOE mostly matches what we saw in the EPA per dropback plot. Rodgers CPOE was generally among the game’s elites through 2014 but has been rather mediocre other than the 2016 run since.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-6-1.png" width="1950" /></p>
+</div>
+<p>ESPN’s QBR is scaled to equate a 50 rating with average play and Pro Bowl-level play at 75. Again we see Rodgers hasn’t been viewed as one of the games best by QBR in recent seasons. His 2011 season ranks as the 3rd best QBR season of all time above 2019 Lamar Jackson and 2018 Patrick Mahomes. However, unlike respondents of Sando’s survey and the Top 100 poll, QBR downgraded Rodgers to marks well below that the past two seasons.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-8-1.png" width="1950" /></p>
+</div>
+<p>We are assigning EPA and CPOE to Rodgers in the above plots. However, a more apt description would be EPA or CPOE of the Packers passing offense in plays where Aaron Rodgers was the quarterback. Coaching, playcalling, and supporting cast are responsible for some portion of the output but we do know the quarterback plays a very large role.</p>
+<h2 id="digging-deeper">Digging Deeper</h2>
+<p>What else can the publicly available data tell us about what part of Rodgers game is declining in the eyes of advanced efficiency metrics? One feature in the data we can use to look at EPA and CPOE at a more granular level is air yards. The air yards a pass gets assigned is the distance the ball traveled in the air past the line of scrimmage (not the distance traveled from the QBs release to the receiver).</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>If we bin air yards into into deep, intermediate, short, and behind the line of scrimmage passes we find CPOE has regressed at every level of the field in the past five years.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-11-1.png" width="1950" /></p>
+</div>
+<p>The 2008 to 2014 figures were absurdly good so some regression would be expected. However, over the last five years passes in the 10-19 and 20+ yard ranges are being completed at rates lower than we would expect while the 0-9 yard range is barely positive. In fact, below we see that Rodgers worst four seasons in the 0-9 yard range and 10-19 yard range (the two most frequently targeted regions) have come in the last five years.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-1.png" width="1950" /><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-2.png" width="1950" /><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-12-3.png" width="1950" /></p>
+</div>
+<p>Completing less passes than one would expect at every level obviously translates to lower EPA at every level of the field. Since 2015 deep passing EPA per dropback has decreased by 27% (.74 to .54), intermediate passing has decreased 25% (.61 to .45), and short passing efficiency has decreased a whopping 40% (.30 to .18).</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-1.png" width="1950" /><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-2.png" width="1950" /><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-13-3.png" width="1950" /></p>
+</div>
+<h3 id="supporting-cast">Supporting Cast</h3>
+<p>Sando’s article and his recent appearance on the <a href="https://open.spotify.com/episode/5stdsmkmmiEuocdSLVIhve?si=_vcR56WWQsKQi3IMtIGtjQ">Bill Barnwell Show</a> suggest the NFL community hasn’t seen a significant deterioration of Rodgers skills and are assigning most of the statistical drop off to the supporting cast. It’s very hard to disentangle the strength of the scheme and the supporting cast from EPA and CPOE numbers. Nevertheless, let’s see what we can glean from the available data.</p>
+<p>The below plot looks at EPA per target and CPOE by targeted receiver for passes that went past the line of scrimmage. Targets from 2008 to 2014 show as white dots and targets from 2015 to 2019 are in yellow. Players with fewer than 50 targets have been removed and the size of the dot corresponds to the number of targets the player received.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-16-1.png" width="1300" /></p>
+</div>
+<p>We see targeted receivers from ’08 to ’14 are largely clustered in the upper right meaning those targets were completed more frequently than we would expect and they were very efficient in terms of EPA. The only targeted receivers in that quadrant from ’15 to ’19 are Jordy Nelson, Davante Adams, and Allen Lazards 50 targets. The dispersion of yellow and white dots shouldn’t be a surprise given what we know about Rodgers numbers as a whole over those time frames. To give this some more context let’s think about the situation Rodgers came into in 2008.</p>
+<h3 id="section">2008 - 2014</h3>
+<p>Rodgers spent the 2005 through 2007 seasons on the bench behind Favre learning Mike McCarthy’s offense. Donald Driver was entering his age 33 season coming of back-to-back Pro Bowl selections in 2006 and 2007. Late 2006 2nd round selection Greg Jennings was entering his 3rd season after emerging as a blossoming star while posting an impressive 11 yard per target 12 touchdown season in ’07. Late 2007 3rd round pick James Jones was entering his second season. Green Bay general manager Ted Thompson also invested an early 2nd round pick and late 3rd on pass catchers in the 2008 draft by selecting Jordy Nelson and Jermichael Finley.</p>
+<p>These five receivers accounted for nearly 80% of Rodgers targets in his first three seasons en route to the Super Bowl XLV victory in February 2011. A few months later in 2011 Thompson &amp; Co spent another 2nd round pick on a wide receiver (Randall Cobb). The continuity from the aforementioned five pass catchers and the addition of Cobb helped spur Rodgers to one of the best statistical seasons ever in 2011. In a <a href="https://www.espn.com/nfl/story/_/id/7295185/nfl-green-bay-aaron-rodgers-greatest-season-qb-ever-had">2011 ESPN The Magazine article</a> Rodgers spoke to what helped contribute to his phenomal accuracy. He was quoted saying the following:</p>
+<p>“Learning to time up my drop with each route has been a big thing for me. It allows me to throw the ball in rhythm and hit the same release point with every throw, meaning that no matter what else is happening, the ball comes out on a similar plane. That’s when accuracy comes.”</p>
+<p>He went on to say the fundamentals come first, “…then you have to become an expert in your own offense. Then you can get to a point where you’re attacking instead of reacting. Rich Gannon told me this back in 2006: You’ll know you’re at a good level by the things you’re thinking about when you break the huddle. If you’re thinking about your own guys – what routes they have, who has what – you’re not thinking about the right things. When I break the huddle now, I know what my guys are doing. I know the areas they’re going to be in.”</p>
+<p>Rodgers efficiency was largely maintained over the next three seasons despite losing Driver and Jennings after the 2012 season along with Jones and Finley after the 2013 season. Rodgers added his 2nd MVP award in 2014 when Nelson earned a career high number of targets and another 2nd rount talent, Davante Adams, was added to the mix.</p>
+<h3 id="section-1">2015-2016</h3>
+<p>Green Bay’s passing efficiency dropped to abysmal levels in 2015 after Nelson tore his ACL in the preseason. The efficiency didn’t immediately return to elite when Nelson came back in 2016 as the Packers sputtered out to a 4-6 start. Doug Farrar wrote about <a href="https://bleacherreport.com/articles/2670101-nfl1000-whats-wrong-with-aaron-rodgers-and-the-green-bay-packers">Green Bay’s passing game regression</a> in October 2016.</p>
+<p>“Over time, Rodgers has overcompensated for the things that offense doesn’t provide to the point where it’s broken him as a mechanically consistent player.”</p>
+<p>“Rodgers appears to be operating under the belief that he must transcend a faulty offense with his own impressive physical attributes.”</p>
+<p>Greg Cosell also commented “What continues to stand out is that his accuracy is not what it once was. Precise ball placement is what made him special, and that attribute has been very erratic going back to last season. And now, it’s getting worse. Now, he’s missing wide-open receivers.”</p>
+<p>If you refer back to Rodgers moving average EPA and CPOE plots the passing offense was not just below top 5 but considerably lower. It is fair to say Rodgers probably not at a “good level” when Nelson exited the line up and he didn’t trust what his guys were doing or where they were going to be. However, after Rodgers “run-the-table” remarks something changed and the offense turned in one of the better stretches of Rodgers career in terms of efficiency over the next nine games.</p>
+<h3 id="section-2">2017</h3>
+<p>In 2017 Rodgers EPA and CPOE metrics were okay before the collarbone injury in week 6 (.16 EPA/dropback and CPOE +2.2%). He did return several weeks later in an effort to make a run at the playoffs but had a very poor performance which. Ultimately the 301 dropbacks placed Rodgers 14 overall in the rbsdm.com EPA and CPOE composite metric.</p>
+<h3 id="section-3">2018</h3>
+<p>Passing game continuity took a hit in 2018 as Jordy Nelson moved on to the Raiders. Adams and Cobb returned but the front office hadn’t been using draft capital on pass catchers like they did earlier in Rodgers career. Since taking Adams in the 2nd round of the 2014 draft Green Bay used two 5th and two 7th round selections on pass catchers from ’15 to ’17. Jimmy Graham was signed to a big deal entering his age 32 season two years removed from a torn patellar tendon to fill some of the void. Three receivers were also added in the 2018 draft although the earliest selection was in round 4 at pick 144. To make matter worse Rodgers suffered a tibial plateau fracture and a sprained MCL in week 1. The shakeup in personnel and coaching compounded by injury surely impacted the timing and rhythm and subsequent efficiency numbers.</p>
+<p>Another thing that doesn’t help efficiency stats are throwaways. The most glaring numbers from 2018 the eye popping number of throwaways. Per <a href="https://www.pff.com/news/pro-aaron-rodgers-set-to-shatter-throwaway-record#:~:text=Rodgers%20has%20amassed%2032%20throwaways,since%20the%20start%20of%202012.">PFF</a> Rodgers threw the ball away once every 26 dropbacks from 2008 to 2017 but jumped to an astonishing once every 11 dropbacks in 2018.</p>
+<p>PFF Steve and Sam posited on the <a href="https://open.spotify.com/episode/0v1I77KkVUTOdMu7Yl8vKl?si=2iKpipNSSKGb77UdwICAQQ">PFF NFL Show</a> that this is likely the reason PFF grades have been more favorable to Rodgers than offensive efficiency metrics because of how much weight is placed on avoiding turnover worthy plays. PFF grade penalizes Rodgers much less for throwaways than EPA or CPOE would.</p>
+<p>If we refer back to the initial plot we see Rodgers ended 2018 with a rolling 300 play average of .13 per play. In early 2019 under LaFleur Rodgers rolling average crept back into elite territory by the end of the week 8 matchup against Kansas City. Coincidentally, Rodgers posted an astonishing 95.5 QBR, .96 EPA per dropback, and perfect 158.3 passer rating in week 7 immediatly after Ben Baldwin’s <a href="https://theathletic.com/1200883/2019/10/16/no-longer-elite-what-the-numbers-tell-us-about-aaron-rodgers/">No longer elite</a> article on Rodgers. But then the next 300 dropbacks that cover week 9 at the Chargers to mid-game week 17 at Detroit we see Rodgers rolling average collapse down to -.05 per play.</p>
+<h3 id="section-4">2019</h3>
+<p>Prior to the 2019 Season Josh Hermsmeyer posed the question <a href="https://fivethirtyeight.com/features/are-we-sure-aaron-rodgers-is-still-an-elite-quarterback/">Are We Sure Aaron Rodgers Is Still An Elite Quarterback?</a> at fivethirtyeight. Hermsmeyer noted CPOE decline starting in 2015 and speculated that the Packer’s underperformance could be due to a subpar play-action passing game. From 2015 to 2018 Hermsmeyer found Rodgers QBR was 32nd out of 41 in Raw QBR and could possibly be bolstered by a better play-action game with LaFleur in 2019.</p>
+<p>I charted play-action and personnel info in 2019 to pair this with the EPA and CPOE play by play data from nflscrapR to see how this played out. Rodgers CPOE on play-action was +5.6% as opposed to 0.2% for non play-action passes, however, EPA per play was the same at .17. This would suggest Rodgers wasn’t hitting the explosive downfield shots any more frequently on play-action. One glimmer of hope for Green Bay fans entering 2020 is that EPA per play on play-action plays with 2 or fewer wide receivers on the field was .24 per play and .08 per play in 11 personnel.</p>
+<h2 id="whats-next">What’s next?</h2>
+<p>The numbers tell us Green Bay has not completed passes and moved the chains at the rate an elite offense would lately. In 2019 we saw Rodgers flirt with elite level efficiency numbers through the first 8 weeks. But that all came crashing down and we rapidly approached the abysmal 2015 levels in later weeks.</p>
+<p>Maybe Rodgers will master the offense and get back to attacking instead of reaction and 2020 brings a big year two leap. Maybe without several elite weapons and an intimate comfortability with the scheme Rodgers just doesn’t see things well and we shouldn’t expect any bounce in year two. Maybe the confluence of factors that contributed to the previous elite play will never come back and we will see flashes of brilliance littered with throwaways.</p>
+<p>I don’t have the data or the knowledge to say whether or not Rodgers isn’t pulling the trigger when he should be. <a href="https://www.youtube.com/watch?time_continue=27&amp;v=b-vUmXDs4HM&amp;feature=emb_logo">Alex Rollins of SB Nation took a film based approach to answering this question</a> and noted Rodgers is not consistently operating within the structure of the offense and is sacrificing efficiency to extend plays but isn’t hitting them. Maybe the drop in receiver talent is driving Rodgers inconsistent play.</p>
+<p>We surely can’t say the supporting cast is trash when it includes Davante Adams. <a href="https://fivethirtyeight.com/features/our-new-metric-shows-how-good-nfl-receivers-are-at-creating-separation/">Hermsmeyer used tracking data to measure how good NFL receivers are at creating separation</a> and ranked Adams’ 2018 and 2019 seasons as the first and third best at generating separation on intermediate routes. Maybe we’ve reached the point where the lack of aggression and propensity to avoid the turnover worthy play is holding back the offense. <a href="https://nextgenstats.nfl.com/stats/passing">NFL Next Gen Stats</a> has created an aggressiveness metric that tracks the amount of passing attempts a quarterback makes that are into tight coverage, where there is a defender within 1 yard or less of the receiver at the time of completion or incompletion. The aggressiveness metric only goes back to 2016 but Rodgers has consistently been among the lowest in the league as he is not afraid to throw the ball away if he doesn’t see anything he likes.</p>
+<p>Desirability bias badly wants me to handwave the poor numbers over the past five years and blame McCarthy, injury, or lack of receiving weapons. I don’t know how much to weigh those factors but they are at least partially contributing to Rodgers decline in efficiency stats. I have a few more weeks to hope the offense takes a significant step foward like the 2016 Falcons offense did under Shanahan and LaFleur. But you wont’t see me making any bullish bets on this offense anytime soon.</p>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Rodgers%20Efficiency%20Decline&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-22-rodgers-efficiency-decline%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-22-rodgers-efficiency-decline%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Ryan (2020, Aug. 21). Open Source Football: Rodgers Efficiency Decline. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{ryan2020rodgers,
+  author = {Ryan, Austin},
+  title = {Open Source Football: Rodgers Efficiency Decline},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>

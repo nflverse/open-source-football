@@ -1,0 +1,195 @@
+---
+title: "Game Excitement and Win Probability in the NFL"
+description: |
+  Game excitement calculation and a win probability figure.
+author:
+  - name: Max Bolger
+    url: https://twitter.com/mnpykings
+date: 08-21-2020
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - nflfastR
+  - python
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+
+library(reticulate)
+```
+
+## Part 1: Importing and Preprocessing
+
+First we need to import our dependencies. These pacakges are what make this analysis possible.
+
+``` {python import}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+```
+
+Next we will read in our data from the nflfastR data repo.
+
+``` {python data}
+# Read in data
+YEAR = 2019
+
+data = pd.read_csv('https://github.com/guga31bb/nflfastR-data/blob/master/data/' \
+                         'play_by_play_' + str(YEAR) + '.csv.gz?raw=True',
+                         compression='gzip', low_memory=False)
+```
+
+Perfect! Our data and notebook are set up and ready to go. The next step is to filter our df to include only the game we would like to work with. We will subset by `game_id` (which we will need later). The new nflfastR game ids are very convenient and use the following format:
+
+`YEAR_WEEK_AWAY_HOME`
+
+*Note, the year needs to be in YYYY format and single digit weeks must lead with a 0.*
+
+``` {python subset}
+#Subset the game of interest
+game_df = data[
+             (data.game_id== '2019_09_MIN_KC')
+             ]
+
+#View a random sample of our df to ensure everything is correct          
+game_df.sample(3)
+```
+
+The last step in preprocessing for this particular analysis is dropping null values to avoid jumps in our WP chart. To clean things up, we can filter the columns to show only those that are of importance to us.
+
+``` {python game_df}
+cols = ['home_wp','away_wp','game_seconds_remaining']
+game_df = game_df[cols].dropna()
+
+#View new df to again ensure everything is correct
+game_df
+```
+
+Everything looks good to go! Before we use this data to create the WP chart, we are going to calculate the game's excitement index.
+
+## Part 2: Game Excitement Index
+
+We are using [Luke Benz'](https://twitter.com/recspecs730) formula for GEI which can be found [here](https://sports.sites.yale.edu/game-excitement-index-part-ii). It's simple yet effective which is why I like it so much. As Luke notes, "the formula sums the absolute value of the win probability change from each play". Here, we are creating a function (*inspired by [ChiefsAnalytics](https://twitter.com/ChiefsAnalytics)*) that follows his formula. This function requires a single parameter `game_id`. The new version of nflfastR's game id must be used here.
+
+``` {python fn}
+#Calculate average length of 2019 games for use in our function
+avg_length = data.groupby(by=['game_id'])['epa'].count().mean()
+
+def calc_gei(game_id):
+  game = data[(data['game_id']==game_id)]
+  #Length of game
+  length = len(game)
+  #Adjusting for game length
+  normalize = avg_length / length
+  #Get win probability differences for each play
+  win_prob_change = game['home_wp'].diff().abs()
+  #Normalization
+  gei = normalize * win_prob_change.sum()
+  return gei
+```
+
+Let's run the function by passing in our game id from earlier.
+
+``` {python p6}
+print(f"Vikings @ Chiefs GEI: {calc_gei('2019_09_MIN_KC')}")
+```
+
+This seemed to be a pretty exciting game. Let's compare it to other notable games from last season.
+
+``` {python p7}
+# Week 1 blowout between the Ravens and Dolphins
+print(f"Ravens @ Dolphins GEI: {calc_gei('2019_01_BAL_MIA')}")
+
+# Week 14 thriller between the 49ers and Saints
+print(f"49ers @ Saints GEI: {calc_gei('2019_14_SF_NO')}")
+```
+
+Yep, the Vikings vs Chiefs game was definitely one of the more exciting regular season games of last season. Let's see how it looks visually with a WP chart!
+
+## Part 3: Win Probability Chart
+
+Matplotlib and Seaborn can be used together to create some beautiful plots. Before we start, below is a useful line of code that prints out all usable matplotlib styles. You can also see how each of them look by checking out the [documentation](https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html).
+
+``` {python p8}
+#Print all matplotlib styles
+print(plt.style.available)
+```
+
+Since we already have all of our data set up from Step 1, we can jump straight to the plot!
+
+``` {python plot, layout="l-page", fig.height=5.5, preview=TRUE}
+#Set style
+plt.style.use('dark_background')
+
+#Create a figure
+fig, ax = plt.subplots(figsize=(16,8))
+
+#Generate lineplots
+sns.lineplot('game_seconds_remaining', 'away_wp', 
+             data=game_df, color='#4F2683',linewidth=2)
+
+sns.lineplot('game_seconds_remaining', 'home_wp', 
+             data=game_df, color='#E31837',linewidth=2)
+
+#Generate fills for the favored team at any given time
+ax.fill_between(game_df['game_seconds_remaining'], 0.5, game_df['away_wp'], 
+                where=game_df['away_wp']>.5, color = '#4F2683',alpha=0.3)
+
+ax.fill_between(game_df['game_seconds_remaining'], 0.5, game_df['home_wp'], 
+                where=game_df['home_wp']>.5, color = '#E31837',alpha=0.3)
+
+#Labels
+plt.ylabel('Win Probability %', fontsize=16)
+plt.xlabel('', fontsize=16)
+
+#Divider lines for aesthetics
+plt.axvline(x=900, color='white', alpha=0.7)
+plt.axvline(x=1800, color='white', alpha=0.7)
+plt.axvline(x=2700, color='white', alpha=0.7)
+plt.axhline(y=.50, color='white', alpha=0.7)
+
+#Format and rename xticks
+ax.set_xticks(np.arange(0, 3601,900))
+plt.gca().invert_xaxis()
+x_ticks_labels = ['End','End Q3','Half','End Q1','Kickoff']
+ax.set_xticklabels(x_ticks_labels, fontsize=12)
+
+#Titles
+plt.suptitle('Minnesota Vikings @ Kansas City Chiefs', 
+             fontsize=20, style='italic',weight='bold')
+
+plt.title('KC 26, MIN 23 - Week 9 ', fontsize=16, 
+          style='italic', weight='semibold')
+
+#Creating a textbox with GEI score
+props = dict(boxstyle='round', facecolor='black', alpha=0.6)
+plt.figtext(.133,.85,'Game Excitement Index (GEI): 4.65',style='italic',bbox=props)
+
+#Citations
+plt.figtext(0.131,0.137,'Graph: @mnpykings | Data: @nflfastR')
+
+#Save figure if you wish
+#plt.savefig('winprobchart.png', dpi=300)
+```
+
+Wow, this game had a ton of WP changes. No wonder it had a high GEI!
+
+Things to be aware of:
+
+- Sometimes the plot generates small gaps in the fill. This only occurs when the previous data point is on the opposite side of the 50% threshold compared to the current data point or vice versa (this happens twice to the Chiefs' WP line towards the end of the game). The `.fill_between()` function only checks to fill at each new data point and not inbetween. This is very minor and the dark background makes it hardly noticeable, but I wanted to address it to make sure nobody gets confused if this happens to them.
+
+- The nflfastR win probability model is a little wonky in OT due to it not accounting for ties as Sebastian mentions [here](https://twitter.com/nflfastR/status/1289731918544515072?s=20). Be mindful of this when calculating GEI or creating WP charts with OT games.
+
+That concludes this tutorial. Thanks for reading, I hope you learned some python in the process! Big thanks to [Sebastian Carl](https://twitter.com/mrcaseb) and [Ben Baldwin](https://twitter.com/benbbaldwin) for everything they do; I'm looking forward to watching this platform grow! The future of sports analytics has never looked brighter.

@@ -42,14 +42,7 @@ The hope is that this will serve as a resource for others.
 
 ## Contributors
 
-We hope that we can get as many volunteers as possible to publish their code here. 
-Their names we will maintain in this list (chronological order).
-
-* [Sebastian Carl](https://twitter.com/mrcaseb)
-* [Ben Baldwin](https://twitter.com/benbbaldwin)
-* [Analytics Darkweb](https://twitter.com/footballdaRkweb)
-* [Anthony Reinhard](https://twitter.com/reinhurdler)
-* ...
+This section [has been moved](https://mrcaseb.github.io/open-source-football/contributors_list.html).
 
 ## Design
 
