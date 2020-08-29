@@ -7,18 +7,135 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 29 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Faceted and Animated Heatmaps</title>
+      <title>Fast Data Loading</title>
       <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</link>
-      <description>Combining lessons from multiple posts to create faceted or animated heatmaps.</description>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</link>
+      <description>Loading your nfl data at 10x speed!</description>
+      <category>Efficiency</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</guid>
+      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Individual Expected Completion using Logistic Generalized Additive Mixed Models</title>
+      <dc:creator>Adrian Cadena</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</link>
+      <description>Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.</description>
+      <category>Logistic Generalized Additive Mixed Models</category>
+      <category>Mixed Effects</category>
+      <category>Completion Probability Intercept</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</guid>
+      <pubDate>Thu, 27 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png" medium="image" type="image/png" width="3900" height="2700"/>
+    </item>
+    <item>
+      <title>Open Source (Fantasy) Football: Visualizing TRAP Backs</title>
+      <dc:creator>Sam Hoppen</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</link>
+      <description>Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model.</description>
       <category>Figures</category>
-      <category>Animation</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</guid>
-      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <category>Fantasy Football</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</guid>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="5700" height="3900"/>
+    </item>
+    <item>
+      <title>Expected Turnovers for Quarterbacks</title>
+      <dc:creator>Anthony Gadaleta</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</link>
+      <description>Building expected interceptions and expected fumbles models to find QBs likely to increase or decrease their 
+interceptions and/or turnovers per dropback from 2019 to 2020.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>turnovers</category>
+      <category>quarterbacks</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</guid>
+      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+    </item>
+    <item>
+      <title>Getting into sports analytics</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</link>
+      <description>Collection of short answers to common questions.</description>
+      <category>Getting started</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</guid>
+      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
+      <dc:creator>Sebastian Carl</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</link>
+      <description>How to get ESPN data and create interactive plots using the plotly ggplot2 library.</description>
+      <category>Scraping</category>
+      <category>espnscrapeR</category>
+      <category>Interactive plots</category>
+      <category>Total QBR</category>
+      <category>Figures</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
+      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+    </item>
+    <item>
+      <title>Exploring Wins with nflfastR</title>
+      <dc:creator>Austin Ryan</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</link>
+      <description>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</description>
+      <category>Tidymodels</category>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
+      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
+      <title>Ranking QBs Using Era Adjusted Elo</title>
+      <dc:creator>Robby Greer</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</link>
+      <description>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</description>
+      <category>Elo</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
+      <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
+    </item>
+    <item>
+      <title>Game Excitement and Win Probability in the NFL</title>
+      <dc:creator>Max Bolger</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</link>
+      <description>Game excitement calculation and a win probability figure.</description>
+      <category>nflfastR</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
+    </item>
+    <item>
+      <title>NFL Pass Location Visualization</title>
+      <dc:creator>Ethan Douglas</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</link>
+      <description>Methods for visualizing NFL passing location data.</description>
+      <category>nflfastR</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</guid>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
+    </item>
+    <item>
+      <title>Rodgers Efficiency Decline</title>
+      <dc:creator>Austin Ryan</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</link>
+      <description>A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>CPOE / EPA functions</category>
+      <category>Packers</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</guid>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Visualizing the Run/Pass Efficiency Gap</title>
@@ -63,7 +180,7 @@
       <category>nflfastR</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="12000" height="9600"/>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3900" height="4800"/>
     </item>
     <item>
       <title>Neural Nets using R</title>
