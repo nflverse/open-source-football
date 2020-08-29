@@ -1360,7 +1360,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Fast Data Loading","description":"Loading your nfl data at 10x speed!","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-28T00:00:00.000+00:00","citationText":"Darkweb, 2020"}
+{"title":"Fast Data Loading","description":"Loading your nfl data at 10x speed!","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-28T00:00:00.000-07:00","citationText":"Darkweb, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1428,7 +1428,7 @@ system.time(
 )</code></pre>
 <pre><code>
    user  system elapsed 
-  51.81   15.65   75.05 </code></pre>
+  41.53   13.61   69.14 </code></pre>
 </div>
 <p>Your results may vary here, but for me? This process usually takes 30-45 seconds. Now, if you’re easily distracted like I am that’s just enough waiting around to be dangerous!</p>
 <p>Of course the alternative is to simply read in the data from a local copy, which is of course faster. We’ll use data.table’s fread here as it’s much faster than both the base read.csv and tidyverse’s read_csv.</p>
@@ -1437,7 +1437,7 @@ system.time(
 system.time(pbp &lt;- data.table::fread(&quot;D:/Placeholder/nflfastR.csv&quot;))</code></pre>
 <pre><code>
    user  system elapsed 
-   7.10    0.43    2.72 </code></pre>
+   7.38    0.53    2.98 </code></pre>
 </div>
 <p>But what if we could do better? Or, what if we needed to load in much MUCH larger files? Perhaps gigabytes each? And what if we wanted to find a way to do some filtering as well?</p>
 <p>Enter the arrow package.</p>
@@ -1452,7 +1452,7 @@ ds &lt;- open_dataset(&quot;D:/Placeholder/New/&quot;, format = &quot;feather&qu
 system.time(open_dataset(&quot;D:/Placeholder/New/&quot;, format = &quot;feather&quot;) %&gt;% collect())</code></pre>
 <pre><code>
    user  system elapsed 
-   2.05    1.73    2.33 </code></pre>
+   2.14    3.04    2.14 </code></pre>
 </div>
 <p>We can see that arrow loads our dataset pretty fast. A little faster than fread, but what if we could make it better?</p>
 <p>Lets say I wanted to partitian the data by both season and play type. We can do this by converting our feather file to a dataset. We should choose ways to split the data that make the most sense given our usecase. For football, it may make sense to break things down by season and playtype since those are common splits to look at.</p>
@@ -1475,7 +1475,7 @@ system.time(
 )</code></pre>
 <pre><code>
    user  system elapsed 
-   8.08    0.80    2.95 </code></pre>
+   7.63    0.50    3.13 </code></pre>
 </div>
 <p>Notice below that I am using the collect() call between group_by and summarise!</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1489,7 +1489,7 @@ system.time(
 )</code></pre>
 <pre><code>
    user  system elapsed 
-   0.28    0.05    0.28 </code></pre>
+   0.25    0.05    0.29 </code></pre>
 </div>
 <p>There you have it, to read in, filter, group, and summarise from data.table’s fread takes us significantly longer to read in than using arrow’s feather data type!</p>
 <p>We’ve gone from loading online in about 60 seconds, to fread in 3-5 seconds, to feather around 2 seconds, but by saving our dataset in a novel way we can reduce our look ups to fractions of a second.</p>
@@ -1521,14 +1521,13 @@ mbm &lt;-
   times = 5L
   )</code></pre>
 </div>
+<p>Here is a plot showing the loading times for various methods.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 autoplot(mbm) + 
   labs(title = &quot;Data loading speed&quot;)</code></pre>
 <p><img src="fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" width="624" data-distill-preview=1 /></p>
 </div>
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
@@ -1568,7 +1567,7 @@ autoplot(mbm) +
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

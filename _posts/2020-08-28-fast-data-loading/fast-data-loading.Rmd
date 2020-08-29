@@ -145,13 +145,11 @@ mbm <-
   )
 ```
 
+Here is a plot showing the loading times for various methods.
+
 ```{r, preview=TRUE}
 autoplot(mbm) + 
   labs(title = "Data loading speed")
 ```
 
-
-Distill is a publication format for scientific and technical writing, native to the web.
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 
