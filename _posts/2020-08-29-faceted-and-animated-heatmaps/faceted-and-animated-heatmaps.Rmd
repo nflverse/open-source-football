@@ -377,9 +377,9 @@ p <-
   # mutate(season = as.factor(season)) %>%
   ggplot(aes(x_coord, y_coord)) +
   # geom_tile(aes(x_coord, y_coord, fill=z))  +
-  stat_contour(aes(colour=..level.., z = z), 
-               breaks = seq(min(compared_z$z), max(compared_z$z), length.out = 10),
-               size = 3
+  stat_contour(geom = "polygon", 
+                 aes(colour=..level.., z = z, fill = ..level..), 
+               breaks = seq(min(compared_z$z), max(compared_z$z), length.out = 10)
                ) +
   scale_fill_gradient2(low="blue",mid="white", high="red", midpoint=0) +
   scale_colour_gradient2(low=muted("blue"), mid="white", high=muted("red"), midpoint=0) +
