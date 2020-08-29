@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Individual Expected Completion using Logistic Generalized Additive Mixed Models</title>
+
+  <meta property="description" itemprop="description" content="Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-08-27"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-08-27"/>
+  <meta name="article:author" content="Adrian Cadena"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Individual Expected Completion using Logistic Generalized Additive Mixed Models"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Individual Expected Completion using Logistic Generalized Additive Mixed Models"/>
+  <meta property="twitter:description" content="Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Individual Expected Completion using Logistic Generalized Additive Mixed Models"]},{"type":"character","attributes":{},"value":["Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Adrian Cadena"]},{"type":"character","attributes":{},"value":["https://twitter.com/adrian_cadem"]}]}]},{"type":"character","attributes":{},"value":["08-27-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Logistic Generalized Additive Mixed Models","Mixed Effects","Completion Probability Intercept"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["expected-completion-using-logistic-generalized-additive-mixed-models_files/bowser-1.9.3/bowser.min.js","expected-completion-using-logistic-generalized-additive-mixed-models_files/distill-2.2.21/template.v2.js","expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png","expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot1-1.png","expected-completion-using-logistic-generalized-additive-mixed-models_files/header-attrs-2.3/header-attrs.js","expected-completion-using-logistic-generalized-additive-mixed-models_files/jquery-1.11.3/jquery.min.js","expected-completion-using-logistic-generalized-additive-mixed-models_files/webcomponents-2.0.0/webcomponents.js","plot_gamm2.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for table of contents */
+
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+
+  .d-toc a {
+    border-bottom: none;
+  }
+
+  .d-toc ul {
+    padding-left: 0;
+  }
+
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+
+
+
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+
+  d-code {
+    overflow-x: auto !important;
+  }
+
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  pre.text-output {
+
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  @media(min-width: 768px) {
+
+  d-code {
+    overflow-x: visible !important;
+  }
+
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="expected-completion-using-logistic-generalized-additive-mixed-models_files/header-attrs-2.3/header-attrs.js"></script>
+  <script src="expected-completion-using-logistic-generalized-additive-mixed-models_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="expected-completion-using-logistic-generalized-additive-mixed-models_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="expected-completion-using-logistic-generalized-additive-mixed-models_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="expected-completion-using-logistic-generalized-additive-mixed-models_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Individual Expected Completion using Logistic Generalized Additive Mixed Models","description":"Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.","authors":[{"author":"Adrian Cadena","authorURL":"https://twitter.com/adrian_cadem","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-27T00:00:00.000-04:00","citationText":"Cadena, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Individual Expected Completion using Logistic Generalized Additive Mixed Models</h1>
+<p><p>Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.</p></p>
+</div>
+
+<div class="d-byline">
+  Adrian Cadena <a href="https://twitter.com/adrian_cadem" class="uri">https://twitter.com/adrian_cadem</a> 
+  
+<br/>08-27-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#packages-and-data-preparation">Packages and Data Preparation</a></li>
+<li><a href="#model">Model</a></li>
+<li><a href="#summary-of-results">Summary of Results</a></li>
+<li><a href="#retrieving-estimates-and-prepare-data-for-plot">Retrieving Estimates and Prepare Data for Plot</a></li>
+<li><a href="#plotting">Plotting</a></li>
+<li><a href="#interpreting-results">Interpreting Results</a>
+<ul>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h2 id="intro">Intro</h2>
+<p>Michael Lopez posted not long ago a great article explaining how Generalized Additive Models (GAMs) are a good way to measure non-linear effects of explanatory variables <em>x</em> on response variable <em>y</em>.</p>
+<p>Lately, I’ve been playing around with linear and logistic mixed-effects models, so I thought about combining these with GAMs to estimate the probability of completion per Quarterback while accounting for non-linearities, especially on air yards.</p>
+<p>To learn more about Logistic Mixed Effects I recommend <a href="https://stats.idre.ucla.edu/r/dae/mixed-effects-logistic-regression/" class="uri">https://stats.idre.ucla.edu/r/dae/mixed-effects-logistic-regression/</a></p>
+<p>For a football case application of GAMs, nothing like M.Lopez’ post itself <a href="https://statsbylopez.netlify.app/post/plotting-air-yards/" class="uri">https://statsbylopez.netlify.app/post/plotting-air-yards/</a></p>
+<h2 id="packages-and-data-preparation">Packages and Data Preparation</h2>
+<p>We will be using the <code>gamm4</code> library to fit our model.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(gamm4)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(ggthemes)
+library(scales)</code></pre>
+</div>
+<p>We’ll be working with data from 2016 to 2019. Because the NFL started to matter in 2016 when Dak Prescott was drafted.</p>
+<p>GAMMs can take a while to run since they also perform cross-validation. So I’ll do my best to filter-out data as much as possible without affecting results. Hold on.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Some stuff to filter later on
+npass &lt;- pbp %&gt;%
+  dplyr::filter(
+    play_type == &quot;pass&quot;,
+    season_type == &quot;REG&quot;
+  ) %&gt;%
+  mutate(
+    play_in_19 = if_else(season == 2019, 1, 0)
+  ) %&gt;%
+  group_by(passer_player_id) %&gt;%
+  dplyr::summarise(
+    num_plays = n(),
+    last_seas = max(season),
+    plays_in_19 = sum(play_in_19)
+  )
+
+pbp2 &lt;- merge(pbp, npass, by = &quot;passer_player_id&quot;, all.x = T, no.dups = T)
+
+# Mutations/data prep
+pbp_mut &lt;- pbp2 %&gt;%
+  dplyr::filter(
+    season_type == &quot;REG&quot;,
+    wp &lt;= .85,
+    wp &gt;= .15,
+    play_type == &quot;pass&quot;,
+    !is.na(complete_pass),
+    penalty == 0,
+    num_plays &gt;= 200
+  ) %&gt;%
+  dplyr::mutate(
+    ayard_is_zero = if_else(air_yards == 0, 1, 0),
+    era1 = if_else(season %in% 2014:2017, 1, 0),
+    away = if_else(home_team == posteam, 0, 1),
+    id = passer_player_id,
+    # fixing some weird bugs I found with names bugs don&#39;t affect model, but mess with plot
+    passer_player_name = if_else(passer_player_name == &quot;Jos.Allen&quot;, &quot;J.Allen&quot;,
+      if_else(passer_player_name == &quot;R.Griffin&quot;, &quot;R.Griffin III&quot;,
+        if_else(passer_player_name == &quot;Matt.Moore&quot;, &quot;M.Moore&quot;,
+          if_else(passer_player_name == &quot;G.Minshew II&quot;, &quot;G.Minshew&quot;, passer_player_name)
+        )
+      )
+    )
+  ) %&gt;%
+  dplyr::select(
+    id, passer_player_name, era1, season, away, wind, temp, complete_pass,
+    air_yards, qb_hit, ayard_is_zero, yardline_100, ydstogo, down,
+    plays_in_19, yardline_100
+  )
+
+# To map id&#39;s and Quarterback names
+names &lt;- pbp_mut %&gt;%
+  group_by(id) %&gt;%
+  dplyr::summarise(
+    Quarterback = unique(passer_player_name),
+    last_seas = max(season),
+    plays_in_19 = unique(plays_in_19)
+  )</code></pre>
+</div>
+<h2 id="model">Model</h2>
+<p>It would be a good idea to add non-linear components to ydstogo and yardline_100, but I don’t want to slow down the model too much. If you have the time to do it, go for it! just do s(ydstogo) and s(yardline_100).</p>
+<ul>
+<li>Set <code>family = binomial(link='logit')</code> to make it a logistic binomial regression.</li>
+<li>Our random effect will be <code>id</code> since we want to look at every QB intercept.</li>
+<li>We do <code>nACG = 0</code> to speed up the process, it technically sacrifices accuracy, but for this exercise is no big deal.</li>
+</ul>
+<p>This will take around 5 minutes to run, depending on your computer.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+gam_model &lt;- gamm4(
+  complete_pass ~
+  era1 +
+    ydstogo +
+    yardline_100 +
+    down +
+    away +
+    qb_hit +
+    ayard_is_zero +
+    s(air_yards),
+  random = ~ (1 | id),
+  data = pbp_mut,
+  nAGQ = 0,
+  control = glmerControl(optimizer = &quot;nloptwrap&quot;),
+  family = binomial(link = &quot;logit&quot;)
+)</code></pre>
+</div>
+<h2 id="summary-of-results">Summary of Results</h2>
+<p><code>gamm4</code> returns two different summaries, one for the Generalized Additive part and one for the Mixed-Effects part. Feel free to look at the coefficients. You can also map IDs to the player’s name. I’ll do that later on. If interested, just copy the code.</p>
+<h2 id="retrieving-estimates-and-prepare-data-for-plot">Retrieving Estimates and Prepare Data for Plot</h2>
+<p>First, we will use <code>broom.mixed</code> to retrieve the random intercepts as well as their confidence intervals. We will also create a function to transform log-ods into probabilities. Just to make the plot easier to read.</p>
+<p>Then we map ids with player names using <code>merge()</code> and sort the data frame by descending estimate.</p>
+<p>Finally, we mutate confidence intervals and transform log-odds to probabilities. I am adding a threshold on the number of plays in 2019 just to make the plot clearer.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Retreive estimates and standard errors
+est &lt;- broom.mixed::tidy(gam_model$mer, effects = &quot;ran_vals&quot;) %&gt;%
+  dplyr::rename(&quot;id&quot; = &quot;level&quot;) %&gt;%
+  dplyr::filter(term == &quot;(Intercept)&quot;)
+
+# Function to convert logit to prob
+logit2prob &lt;- function(logit) {
+  odds &lt;- exp(logit)
+  prob &lt;- odds / (1 + odds)
+  return(prob)
+}
+
+# Prepare data for plot
+plot &lt;- merge(est, names, by = &quot;id&quot;, all.x = T, no.dups = T) %&gt;%
+  arrange(estimate) %&gt;%
+  mutate(
+    lci = estimate - 1.96 * std.error,
+    uci = estimate + 1.96 * std.error,
+    prob = logit2prob(estimate),
+    prob_uci = logit2prob(uci),
+    prob_lci = logit2prob(lci),
+  ) %&gt;%
+  dplyr::filter(
+    plays_in_19 &gt;= 100
+  )</code></pre>
+</div>
+<h2 id="plotting">Plotting</h2>
+<p>The first plot includes the intercept estimate as well as confidence intervals.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot %&gt;%
+  filter(
+    last_seas == 2019
+  ) %&gt;%
+  ggplot(aes(x = factor(Quarterback, level = Quarterback), prob)) +
+  geom_point(size = .7) +
+  geom_linerange(size = .5, aes(
+    ymin = prob_lci,
+    ymax = prob_uci
+  )) +
+  coord_flip() +
+  theme_bw() +
+  labs(
+    y = &quot;iProbability of Completion&quot;,
+    title = &quot;Individual Probability of Completion per Quarterback&quot;,
+    subtitle = &quot;How each QB increases probability completion, controlling for situation | GAMM&quot;,
+    caption = &quot;Data: nflfastR | Analysis by Adrian Cadena @adrian_cadem&quot;
+  ) +
+  theme(
+    plot.title = element_text(size = 15, hjust = .5),
+    plot.subtitle = element_text(size = 10, hjust = .5),
+    axis.title.y = element_blank(),
+  ) #+ ggsave(&#39;plot_gamm1.png&#39;, dpi=1100,width = 20, height = 15, units = &quot;cm&quot;) </code></pre>
+<p><img src="expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<p>The second plot is a little easier to read and looks nice in terms of aesthetics. We are only adding the estimated probability intercept, no confidence interval.</p>
+<div class="layout-chunk" data-layout="l-page">
+<pre class="r"><code>
+plot %&gt;%
+  filter(last_seas == 2019) %&gt;%
+  ggplot(aes(x = factor(Quarterback, level = Quarterback), prob)) +
+  geom_col(fill = &quot;grey20&quot;) +
+  geom_text(aes(label = Quarterback, y = (((prob - .43) * .5)) + .43), color = &quot;white&quot;, hjust = 1, size = 2.6, vjust = 0.3) +
+  coord_flip() +
+  theme_bw() +
+  labs(
+    y = &quot;iProbability of Completion&quot;,
+    title = &quot;Individual Probability of Completion per Quarterback&quot;,
+    subtitle = &quot;How each QB increases probability completion, controlling for situation | GAMM&quot;,
+    caption = &quot;Data: nflfastR | Analysis by Adrian Cadena @adrian_cadem&quot;
+  ) +
+  scale_y_continuous(limits = c(.43, .565), oob = rescale_none, labels = scales::percent_format(accuracy = 1)) +
+  theme(
+    plot.title = element_text(size = 14, hjust = .5),
+    plot.subtitle = element_text(size = 10, hjust = .5),
+    axis.title.x = element_text(size = 12),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+  ) +
+  ggsave(&quot;plot_gamm2.png&quot;, dpi = 1100, width = 20, height = 15, units = &quot;cm&quot;)</code></pre>
+<p><img src="expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot1-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<h1 id="interpreting-results">Interpreting Results</h1>
+<p>When trying to predict the probability of a pass being completed, the main drivers are factors such as air yards, yard line, yards to go, down, etc. Each one of these variables increases or decreases the chances of a pass being completed. However, what is the starting probability of a pass being completed before we account for any of those variables? In other words, what is the intercept?</p>
+<p>By using the passer as a random variable, we can assign an intercept for each Quarterback. This measures the individual effect on pass completion that each QB has. The higher the intercept, the higher the probability of a pass being completed, solely because of who is throwing the pass. This is an interesting alternative to CPOE because just like Expected Completion, it accounts for situational variables. However, this is just an inferential exercise, CPOE has proven to be the better predictive measure.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The purpose of this post is to invite people to play around with GAMMs. I didn’t want to break anyone’s computer so I kept it simple. Many variables could be added to the model to make it better, while also adding smoothing factors to some of the existing variables.</p>
+<p>There are many other applications for GAMMs in football analysis, and I’m excited to see what you guys come up with. Reach out to me with any questions!</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
