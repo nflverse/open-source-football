@@ -76,7 +76,7 @@ system.time(open_dataset("D:/Placeholder/New/", format = "feather") %>% collect(
 
 We can see that arrow loads our dataset pretty fast. A little faster than fread, but what if we could make it better?
 
-Lets say I wanted to partitian the data by both season and play type. We can do this by converting our feather file to a dataset. We should choose ways to split the data that make the most 
+Lets say I wanted to partition the data by both season and play type. We can do this by converting our feather file to a dataset. We should choose ways to split the data that make the most 
 sense given our usecase. For football, it may make sense to break things down by season and playtype since those are common splits to look at. 
 
 ```{r}
