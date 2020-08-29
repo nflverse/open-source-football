@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Open Source Football: Faceted and Animated Heatmaps</title>
+
+<meta property="description" itemprop="description" content="Combining lessons from multiple posts to create faceted or animated heatmaps."/>
+
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-08-29"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-08-29"/>
+<meta name="article:author" content="Analytics Darkweb"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Open Source Football: Faceted and Animated Heatmaps"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Combining lessons from multiple posts to create faceted or animated heatmaps."/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png"/>
+<meta property="og:image:width" content="1248"/>
+<meta property="og:image:height" content="768"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Open Source Football"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Open Source Football: Faceted and Animated Heatmaps"/>
+<meta property="twitter:description" content="Combining lessons from multiple posts to create faceted or animated heatmaps."/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png"/>
+<meta property="twitter:image:width" content="1248"/>
+<meta property="twitter:image:height" content="768"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Open Source Football: Faceted and Animated Heatmaps"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"/>
+<meta name="citation_online_date" content="2020/08/29"/>
+<meta name="citation_publication_date" content="2020/08/29"/>
+<meta name="citation_author" content="Analytics Darkweb"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Faceted and Animated Heatmaps"]},{"type":"character","attributes":{},"value":["Combining lessons from multiple posts to create faceted or animated heatmaps."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Analytics Darkweb"]},{"type":"character","attributes":{},"value":["https://twitter.com/footballdaRkweb"]}]}]},{"type":"character","attributes":{},"value":["08-29-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["Figures","Animation","nflfastR"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["faceted-and-animated-heatmaps_files/bowser-1.9.3/bowser.min.js","faceted-and-animated-heatmaps_files/distill-2.2.21/template.v2.js","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-11-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-12-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-14-1.gif","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-15-1.gif","faceted-and-animated-heatmaps_files/header-attrs-2.3/header-attrs.js","faceted-and-animated-heatmaps_files/jquery-1.11.3/jquery.min.js","faceted-and-animated-heatmaps_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<style type="text/css">
+d-article > d-code, d-article section > d-code {
+padding: 16px;
+overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f6f8fa;
+border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+pre d-code{
+  border-left: 0;
+}
+
+.distill-site-nav {
+  color: #ffffff;
+  font-weight: 400;
+  background: #24292e;
+  border-bottom: 2px solid #DECF40;
+  -webkit-box-shadow: 1px 1px 18px #4d4d4d;
+  -moz-box-shadow: 1px 1px 18px #4d4d4d;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+  font-weight: 700;
+}
+
+d-title {
+background: #575757;
+color: white;
+}
+
+.distill-site-footer {
+  border-top: 2px solid #DECF40;
+  border-bottom: 0;
+}
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Faceted and Animated Heatmaps","description":"Combining lessons from multiple posts to create faceted or animated heatmaps.","authors":[{"author":"Analytics Darkweb","authorURL":"https://twitter.com/footballdaRkweb","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-29T00:00:00.000-07:00","citationText":"Darkweb, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Open Source Football</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="../../contributing.html">Contributing</a>
+<a href="https://github.com/mrcaseb/open-source-football">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Faceted and Animated Heatmaps</h1>
+<p><p>Combining lessons from multiple posts to create faceted or animated heatmaps.</p></p>
+</div>
+
+<div class="d-byline">
+  Analytics Darkweb <a href="https://twitter.com/footballdaRkweb" class="uri">https://twitter.com/footballdaRkweb</a> 
+  
+<br/>08-29-2020
+</div>
+
+<div class="d-article">
+<p>Thomas Mock from Rstudio has done it again and shown us how to pull in different heatmap options into R. You can see his blogpost <a href="https://themockup.blog/posts/2020-08-28-heatmaps-in-ggplot2/">here</a>!</p>
+<p>Earlier I had posted a Gist talking about animated plots, but decided why not add the two together and make some faceted and animated heatmaps to really let us dig down into whatever subsets we want. Maybe we want to see some season splits or changes year over year?</p>
+<p>First, let’s pull in our data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(tidyverse)
+library(arrow)
+
+souce_url &lt;- &quot;https://raw.githubusercontent.com/ArrowheadAnalytics/next-gen-scrapy-2.0/master/pass_and_game_data.csv&quot;
+
+pass_map_df &lt;- 
+  data.table::fread(souce_url) %&gt;%
+  na.omit() %&gt;%
+  select(-V1)
+
+pbp &lt;- 
+  open_dataset(&quot;D:/nflfastR/&quot;, format = &quot;feather&quot;) %&gt;% 
+  filter(season &gt;= 2017, play_type == &quot;pass&quot;) %&gt;% 
+  collect()</code></pre>
+</div>
+<p>Since this dataset is pretty small I won’t convert the NGS scrappy data (shouts to OG scrappy legend Sarah Mallepalle) to feather, but you can learn how <a href="https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading/">here</a>.</p>
+<p>Next, let’s figure out a good way to merge our data, we’ll need to do some aggrigation of the pbp to get something useful here. Luckly, we’ve already trimmed it down to a small size.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+epa_yac &lt;- 
+  pbp %&gt;%
+  group_by(old_game_id, passer_player_name, posteam) %&gt;%
+  summarise(
+    mean_epa = mean(epa, na.rm = TRUE),
+    mean_YAC = mean(yards_after_catch, na.rm = TRUE)
+  )</code></pre>
+</div>
+<p>Let’s say we didn’t want to just look at one player, but we wanted to look at the passing patters of every QB since 2017 who meets some threshold, then we could learn something about the underlying nature of EPA, or YAC.</p>
+<p>Now, if you’ll excuse me here I’m going to lift a little bit of code from Thomas’ blog post I linked above since he already gave us the structure to plot on the field as a function. We all stand on the shoulder of giants.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#### Code blog from Thomas Mock
+back_col &lt;- &quot;white&quot;
+front_col &lt;- &quot;black&quot;
+
+not_div_5 &lt;- function(x) {
+  # select only elements of the vector not divisible by 5
+  x[x %% 5 != 0]
+}
+
+center_df &lt;- tibble(
+  x_coord = c(rep(-3.1, 60), rep(3.1, 60)),
+  y_coord = seq(-14, 59, 1) %&gt;% rep(2) %&gt;% not_div_5(),
+  text = &quot;--&quot;
+)
+
+# line labels
+annotate_df &lt;- tibble(
+  x_coord = c(12.88, -12.88) %&gt;% rep(each = 5),
+  y_coord = seq(10, 50, 10) %&gt;% rep(2),
+  text = seq(10, 50, 10) %&gt;% rep(2) %&gt;% str_replace(&quot;(.)(.)&quot;, &quot;\\1 \\2&quot;),
+  rotation = c(90, 270) %&gt;% rep(each = 5)
+)
+
+# yardlines
+yardline_df &lt;- tibble(
+  y = seq(-15, 60, 5),
+  yend = seq(-15, 60, 5),
+  x = rep(-56 / 2, 16),
+  xend = rep(56 / 2, 16)
+)
+
+# sidelines
+sideline_df &lt;- tibble(
+  y = c(-15.15, -15.15),
+  yend = c(60.15, 60.15),
+  x = c(-56 / 2, 56 / 2),
+  xend = c(-56 / 2, 56 / 2)
+)
+
+add_field &lt;- function() {
+  list(
+    coord_cartesian(
+      xlim = c(-53.333 / 2, 53.333 / 2),
+      ylim = c(-15, 60)
+    ),
+    geom_text(
+      data = annotate_df, aes(label = text, angle = rotation),
+      color = front_col, size = 8
+    ),
+    geom_segment(
+      data = yardline_df, color = front_col, size = 1,
+      aes(x = x, y = y, xend = xend, yend = yend)
+    ),
+    geom_segment(
+      x = -56 / 2, y = 0, xend = 56 / 2, yend = 0,
+      color = &quot;blue&quot;, size = 1, alpha = 0.5
+    ),
+    geom_segment(
+      data = sideline_df, color = front_col, size = 2,
+      aes(x = x, y = y, xend = xend, yend = yend)
+    ),
+    geom_text(
+      data = center_df,
+      aes(label = text), color = front_col, vjust = 0.32
+    ),
+    theme_void(),
+    theme(
+      strip.text = element_text(size = 20, color = front_col),
+      plot.background = element_rect(fill = back_col, color = NA),
+      legend.position = &quot;none&quot;,
+      plot.margin = unit(c(2, 1, 0.5, 1), unit = &quot;cm&quot;),
+      plot.caption = element_text(color = front_col),
+      plot.title = element_text(color = front_col),
+      plot.subtitle = element_text(color = front_col),
+      panel.background = element_rect(fill = back_col, color = NA),
+      panel.border = element_blank()
+    )
+  )
+}</code></pre>
+</div>
+<p>Next we need to do a little rangling here to get our player names to match. We don’t have id numbers here, but since we are only dealing with QBs we should be able to join on name and team, unless someone knows of two QBs on the same team with the same names!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df %&gt;%
+  separate(name, into = c(&quot;first&quot;, &quot;last&quot;), &quot;\\s&quot;) %&gt;%
+  mutate(
+    passer_player_name = paste0(str_extract(first, &quot;\\w&quot;), &quot;.&quot;, last)
+  ) %&gt;%
+  inner_join(epa_yac, by = c(&quot;passer_player_name&quot;, &quot;team&quot; = &quot;posteam&quot;, &quot;game_id&quot; = &quot;old_game_id&quot;))</code></pre>
+<pre><code>
+          game_id  first   last  pass_type team week x_coord y_coord
+    1: 2017091004 Carson Palmer   COMPLETE  ARI    1   -23.5    14.6
+    2: 2017091004 Carson Palmer   COMPLETE  ARI    1     2.8     9.3
+    3: 2017091004 Carson Palmer   COMPLETE  ARI    1    18.6    -1.1
+    4: 2017091004 Carson Palmer   COMPLETE  ARI    1    -8.4     8.3
+    5: 2017091004 Carson Palmer   COMPLETE  ARI    1   -15.5     8.0
+   ---                                                              
+37817: 2019122904  Casey Keenum INCOMPLETE  WAS   17    14.6     2.0
+37818: 2019122904  Casey Keenum INCOMPLETE  WAS   17    24.5    14.8
+37819: 2019122904  Casey Keenum INCOMPLETE  WAS   17    11.7    -7.6
+37820: 2019122904  Casey Keenum INCOMPLETE  WAS   17    10.9    14.1
+37821: 2019122904  Casey Keenum INCOMPLETE  WAS   17    -9.8    12.3
+       type home_team away_team season
+    1:  reg       DET       ARI   2017
+    2:  reg       DET       ARI   2017
+    3:  reg       DET       ARI   2017
+    4:  reg       DET       ARI   2017
+    5:  reg       DET       ARI   2017
+   ---                                
+37817:  reg       DAL       WAS   2019
+37818:  reg       DAL       WAS   2019
+37819:  reg       DAL       WAS   2019
+37820:  reg       DAL       WAS   2019
+37821:  reg       DAL       WAS   2019
+                                                                       game_url
+    1: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    2: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    3: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    4: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    5: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+   ---                                                                         
+37817: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+37818: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+37819: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+37820: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+37821: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+       home_score away_score passer_player_name   mean_epa mean_YAC
+    1:         35         23           C.Palmer -0.2199358 4.407407
+    2:         35         23           C.Palmer -0.2199358 4.407407
+    3:         35         23           C.Palmer -0.2199358 4.407407
+    4:         35         23           C.Palmer -0.2199358 4.407407
+    5:         35         23           C.Palmer -0.2199358 4.407407
+   ---                                                             
+37817:         47         16           C.Keenum -0.6127941 5.833333
+37818:         47         16           C.Keenum -0.6127941 5.833333
+37819:         47         16           C.Keenum -0.6127941 5.833333
+37820:         47         16           C.Keenum -0.6127941 5.833333
+37821:         47         16           C.Keenum -0.6127941 5.833333</code></pre>
+</div>
+<p>Looks like we dropped a few entries, probably a team name mismatch, so let’s fix that.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fastR_teams &lt;- epa_yac$posteam %&gt;% unique()
+
+scrappy_teams &lt;- pass_map_df$team %&gt;% unique()
+
+setdiff(fastR_teams, scrappy_teams)</code></pre>
+<pre><code>
+[1] &quot;LV&quot;</code></pre>
+</div>
+<p>As suspected, the scrappy team names reflect OAK while nflfastR lists LV.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df %&gt;%
+  separate(name, into = c(&quot;first&quot;, &quot;last&quot;), &quot;\\s&quot;) %&gt;%
+  mutate(
+    passer_player_name = paste0(str_extract(first, &quot;\\w&quot;), &quot;.&quot;, last),
+    team = ifelse(team == &quot;OAK&quot;, &quot;LV&quot;, team)
+  ) %&gt;%
+  inner_join(epa_yac, by = c(&quot;passer_player_name&quot;, &quot;team&quot; = &quot;posteam&quot;, &quot;game_id&quot; = &quot;old_game_id&quot;))</code></pre>
+<pre><code>
+          game_id  first   last  pass_type team week x_coord y_coord
+    1: 2017091004 Carson Palmer   COMPLETE  ARI    1   -23.5    14.6
+    2: 2017091004 Carson Palmer   COMPLETE  ARI    1     2.8     9.3
+    3: 2017091004 Carson Palmer   COMPLETE  ARI    1    18.6    -1.1
+    4: 2017091004 Carson Palmer   COMPLETE  ARI    1    -8.4     8.3
+    5: 2017091004 Carson Palmer   COMPLETE  ARI    1   -15.5     8.0
+   ---                                                              
+39280: 2019122904  Casey Keenum INCOMPLETE  WAS   17    14.6     2.0
+39281: 2019122904  Casey Keenum INCOMPLETE  WAS   17    24.5    14.8
+39282: 2019122904  Casey Keenum INCOMPLETE  WAS   17    11.7    -7.6
+39283: 2019122904  Casey Keenum INCOMPLETE  WAS   17    10.9    14.1
+39284: 2019122904  Casey Keenum INCOMPLETE  WAS   17    -9.8    12.3
+       type home_team away_team season
+    1:  reg       DET       ARI   2017
+    2:  reg       DET       ARI   2017
+    3:  reg       DET       ARI   2017
+    4:  reg       DET       ARI   2017
+    5:  reg       DET       ARI   2017
+   ---                                
+39280:  reg       DAL       WAS   2019
+39281:  reg       DAL       WAS   2019
+39282:  reg       DAL       WAS   2019
+39283:  reg       DAL       WAS   2019
+39284:  reg       DAL       WAS   2019
+                                                                       game_url
+    1: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    2: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    3: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    4: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+    5: http://www.nfl.com/liveupdate/game-center/2017091004/2017091004_gtd.json
+   ---                                                                         
+39280: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+39281: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+39282: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+39283: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+39284: http://www.nfl.com/liveupdate/game-center/2019122904/2019122904_gtd.json
+       home_score away_score passer_player_name   mean_epa mean_YAC
+    1:         35         23           C.Palmer -0.2199358 4.407407
+    2:         35         23           C.Palmer -0.2199358 4.407407
+    3:         35         23           C.Palmer -0.2199358 4.407407
+    4:         35         23           C.Palmer -0.2199358 4.407407
+    5:         35         23           C.Palmer -0.2199358 4.407407
+   ---                                                             
+39280:         47         16           C.Keenum -0.6127941 5.833333
+39281:         47         16           C.Keenum -0.6127941 5.833333
+39282:         47         16           C.Keenum -0.6127941 5.833333
+39283:         47         16           C.Keenum -0.6127941 5.833333
+39284:         47         16           C.Keenum -0.6127941 5.833333</code></pre>
+</div>
+<p>Okay we’re closer, but still missing some rows. Probably a QB name mismatch. Let’s find them.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df &lt;- 
+  pass_map_df %&gt;%
+  separate(name, into = c(&quot;first&quot;, &quot;last&quot;), &quot;\\s&quot;) %&gt;%
+  mutate(
+    passer_player_name = paste0(str_extract(first, &quot;\\w&quot;), &quot;.&quot;, last),
+    team = ifelse(team == &quot;OAK&quot;, &quot;LV&quot;, team)
+  )
+
+fastR_qbs &lt;- epa_yac$passer_player_name %&gt;% unique()
+
+scrappy_qbs &lt;- pass_map_df$passer_player_name %&gt;% unique()
+
+setdiff(fastR_qbs, scrappy_qbs)</code></pre>
+<pre><code>
+  [1] &quot;M.Stafford&quot;    &quot;B.Bortles&quot;     &quot;D.Prescott&quot;    &quot;R.Quigley&quot;    
+  [5] &quot;J.Landry&quot;      &quot;J.Hekker&quot;      &quot;C.Henne&quot;       &quot;R.Mallett&quot;    
+  [9] &quot;M.Haack&quot;       &quot;M.Cassel&quot;      &quot;L.Edwards&quot;     &quot;M.Gray&quot;       
+ [13] &quot;T.McEvoy&quot;      &quot;P.O&#39;Donnell&quot;   &quot;T.Cohen&quot;       &quot;C.Beathard&quot;   
+ [17] &quot;M.Lee&quot;         &quot;R.Golden&quot;      &quot;C.Rush&quot;        &quot;G.Smith&quot;      
+ [21] &quot;S.Koch&quot;        &quot;E.Decker&quot;      &quot;S.Vereen&quot;      &quot;T.Kelce&quot;      
+ [25] &quot;K.Clemens&quot;     &quot;J.Ryan&quot;        &quot;C.Kupp&quot;        &quot;J.Rudock&quot;     
+ [29] &quot;J.Webb&quot;        &quot;B.Nortman&quot;     &quot;M.Palardy&quot;     &quot;A.McCarron&quot;   
+ [33] &quot;L.Fitzgerald&quot;  &quot;L.Jones&quot;       &quot;G.Tate&quot;        &quot;J.Callahan&quot;   
+ [37] &quot;R.Cobb&quot;        &quot;T.Bray&quot;        &quot;W.Snead&quot;       &quot;T.Burton&quot;     
+ [41] &quot;N.Agholor&quot;     &quot;D.Henry&quot;       &quot;K.Byard&quot;       &quot;A.Wilson&quot;     
+ [45] &quot;J.Scott&quot;       &quot;C.Bojorquez&quot;   &quot;D.Hopkins&quot;     &quot;E.Sanders&quot;    
+ [49] &quot;N.Mullens&quot;     &quot;J.Dobbs&quot;       &quot;B.Anger&quot;       &quot;C.Beasley&quot;    
+ [53] &quot;D.Hilliard&quot;    &quot;L.Cooke&quot;       &quot;L.Thomas&quot;      &quot;D.Jennings&quot;   
+ [57] &quot;T.Boyd&quot;        &quot;E.Ebron&quot;       &quot;C.McCoy&quot;       &quot;C.Wadman&quot;     
+ [61] &quot;A.Miller&quot;      &quot;C.Daniel&quot;      &quot;A.Brown&quot;       &quot;C.Boswell&quot;    
+ [65] &quot;R.Griffin III&quot; &quot;B.Ellington&quot;   &quot;M.Sanchez&quot;     &quot;Z.Jones&quot;      
+ [69] &quot;J.Johnson&quot;     &quot;K.Lauletta&quot;    &quot;S.Martin&quot;      &quot;C.McCaffrey&quot;  
+ [73] &quot;D.Westbrook&quot;   &quot;M.Darr&quot;        &quot;K.Stills&quot;      &quot;M.Prater&quot;     
+ [77] &quot;G.Gilbert&quot;     &quot;T.Way&quot;         &quot;D.Pettis&quot;      &quot;J.Stidham&quot;    
+ [81] &quot;P.Williams&quot;    &quot;J.Samuels&quot;     &quot;A.Kamara&quot;      &quot;J.Elliott&quot;    
+ [85] &quot;G.Minshew II&quot;  &quot;Z.Pascal&quot;      &quot;B.Kern&quot;        &quot;M.Wishnowsky&quot; 
+ [89] &quot;Jos.Allen&quot;     &quot;R.Dixon&quot;       &quot;A.Lee&quot;         &quot;D.Colquitt&quot;   
+ [93] &quot;K.Barner&quot;      &quot;C.Sutton&quot;      &quot;B.Powell&quot;      &quot;S.Sims&quot;       
+ [97] &quot;T.Boyle&quot;       &quot;J.Brown&quot;       &quot;A.Erickson&quot;    &quot;J.White&quot;      
+[101] &quot;J.Gordon&quot;      &quot;A.Tanney&quot;      &quot;A.Beck&quot;        &quot;K.Hunt&quot;       
+[105] &quot;K.Harmon&quot;      &quot;S.Diggs&quot;       &quot;S.Watkins&quot;    </code></pre>
+</div>
+<p>It appears as though a lot of names are non-QBs such as Sam Koch or Dustin Colquitt. Punters doing trick plays etc. But some of these are QBs we need to fix like RG3, Dak Prescott, and Matt Stafford.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+epa_yac &lt;- 
+  epa_yac %&gt;%
+  mutate(
+    passer_player_name = ifelse(passer_player_name == &quot;Jos.Allen&quot;, &quot;J.Allen&quot;, passer_player_name),
+    passer_player_name = ifelse(passer_player_name == &quot;G.Minshew II&quot;, &quot;G.Minshew&quot;, passer_player_name),
+    passer_player_name = ifelse(passer_player_name == &quot;R.Griffin III&quot;, &quot;R.Griffin&quot;, passer_player_name)
+  )
+
+pass_map_df &lt;- 
+  pass_map_df %&gt;%
+  mutate(
+    passer_player_name = ifelse(passer_player_name == &quot;R.Prescott&quot;, &quot;D.Prescott&quot;, passer_player_name),
+    passer_player_name = ifelse(passer_player_name == &quot;J.Stafford&quot;, &quot;M.Stafford&quot;, passer_player_name),
+    passer_player_name = ifelse(passer_player_name == &quot;R.Bortles&quot;, &quot;B.Bortles&quot;, passer_player_name)
+  )</code></pre>
+</div>
+<p>You get the point, you can use this code and repair more names to match but I am going to proclaim victory and move on.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df &lt;- 
+  pass_map_df %&gt;%
+  inner_join(epa_yac, by = c(&quot;passer_player_name&quot;, &quot;team&quot; = &quot;posteam&quot;, &quot;game_id&quot; = &quot;old_game_id&quot;))</code></pre>
+</div>
+<p>For our first split, let’s leverage these two datasets and see if we can see some structural differences between EPA and YAC performance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df %&gt;%
+  mutate(
+    epa_below_zero = ifelse(mean_epa &lt;= 0, &quot;Negative EPA&quot;, &quot;Postive EPA&quot;),
+    epa_below_zero = as.factor(epa_below_zero)
+  ) %&gt;%
+  ggplot(aes(x = x_coord, y = y_coord)) +
+  geom_density_2d_filled(
+    aes(fill = ..level.., color = ..level..),
+    contour_var = &quot;ndensity&quot;, # normalize across facets
+    breaks = seq(0.1, 1.0, length.out = 10)
+  ) +
+  facet_wrap(~epa_below_zero) + 
+  add_field()</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>Let’s try the same thing but for YAC!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df %&gt;%
+  mutate(
+    yac_below_zero = ifelse(mean_YAC &lt;= 0, &quot;Negative YAC&quot;, &quot;Postive YAC&quot;),
+    yac_below_zero = as.factor(yac_below_zero)
+  ) %&gt;%
+  ggplot(aes(x = x_coord, y = y_coord)) +
+  geom_density_2d_filled(
+    aes(fill = ..level.., color = ..level..),
+    contour_var = &quot;ndensity&quot;, # normalize across facets
+    breaks = seq(0.1, 1.0, length.out = 10)
+  ) +
+  facet_wrap(~yac_below_zero) + 
+  add_field()</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+</div>
+<p>The finding structure and drawing any conclusions is left as an exersize for the reader.</p>
+<p>But let’s now take a look at QB performance over time.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+pass_map_df %&gt;%
+  filter(passer_player_name == &quot;D.Prescott&quot;) %&gt;%
+  ggplot(aes(x = x_coord, y = y_coord)) +
+  geom_density_2d_filled(
+    aes(fill = ..level.., color = ..level..),
+    contour_var = &quot;ndensity&quot;, # normalize across facets
+    breaks = seq(0.1, 1.0, length.out = 10)
+  ) +
+  facet_wrap(~season) + 
+  add_field() + 
+  labs(title = &quot;Dak Prescott Targets by year, 2017-2019&quot;)</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<p>It apears that as the years have gone on, DAK as less likely to throw to his left. Interesting, maybe something is there. Maybe the departure of personnel, or it could simply be new play designs. But what if we wanted to take this and make an animation instead of looking at these plots side by side.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(gganimate)
+
+p &lt;- 
+  pass_map_df %&gt;%
+  filter(passer_player_name == &quot;D.Prescott&quot;) %&gt;%
+  ggplot(aes(x = x_coord, y = y_coord)) +
+  geom_density_2d_filled(
+    aes(fill = ..level.., color = ..level..),
+    contour_var = &quot;ndensity&quot;, # normalize across facets
+    breaks = seq(0.1, 1.0, length.out = 10)
+  ) + 
+  transition_states(season, transition_length = 2, state_length = 1) +
+  labs(
+    x = &quot;X Coordinate&quot;,
+    y = &quot;Y coordinate relative to LOS&quot;,
+    caption = &quot;Data: @nflfastR &amp; next-gen-scrappy&quot;,
+    title = &quot;{closest_state} Dak Prescott Targets&quot;
+  ) + 
+  enter_fade()+
+  exit_fade() + 
+  add_field()</code></pre>
+</div>
+<p>Now we’re ready to create our heatmap that changes over time. Imagine all the exploring we could do with this!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+animate(p, width = 400, height = 600)</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-14-1.gif" data-distill-preview=1 /></p>
+</div>
+<p>We could look at Patrick Mahomes over time, or Russell Wilson week to week. If we could get play_ids somehow we could improve our EPA plots above and look at negative EPA vs positive by down, distance. Perhaps if we assumed the order of the scrappy plays is in game order, we could match it to the nflfastR set and see what we find. Try it out and see!</p>
+<p>One last thing, let’s combine what we’ve done and add in some of the work of Josh Hermsmeyer to do direct QB comparisons.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_density_compare &lt;- function(pass_df, qb1_name, qb2_name, n = 100){
+  
+  # filter to qb1
+  qb1 &lt;- pass_df %&gt;% 
+    select(x_coord, y_coord, name) %&gt;% 
+    filter(str_detect(name, qb1_name))
+  
+  #filter to qb2
+  qb2 &lt;- pass_df %&gt;% 
+    select(x_coord, y_coord, name) %&gt;% 
+    filter(str_detect(name, qb2_name))
+  
+  # get x/y coords as vectors
+  qb1_x &lt;- pull(qb1, x_coord)
+  qb1_y &lt;- pull(qb1, y_coord)
+  
+  # get x/y coords as vectors
+  qb2_x &lt;- pull(qb2, x_coord)
+  qb2_y &lt;- pull(qb2, y_coord)
+
+  # get x and y range to compute comparisons across
+  x_rng = range(c(qb1_x, qb2_x))
+  y_rng = range(c(qb1_y, qb2_y))
+  
+  # Calculate the 2d density estimate over the common range
+  d2_qb1 = MASS::kde2d(qb1_x, qb1_y, lims=c(x_rng, y_rng), n=n)
+  d2_qb2 = MASS::kde2d(qb2_x, qb2_y, lims=c(x_rng, y_rng), n=n)
+  
+  # create diff df
+  qb_diff &lt;- d2_qb1
+  
+  # matrix subtraction density from qb2 from qb1
+  qb_diff$z &lt;- d2_qb1$z - d2_qb2$z
+  
+  # add matrix col names
+  colnames(qb_diff$z) = qb_diff$y
+  
+  #### return tidy tibble ####
+  qb_diff$z %&gt;% 
+    # each col_name is actually the y_coord from the matrix
+    as_tibble() %&gt;% 
+    # add back the x_coord
+    mutate(x_coord= qb_diff$x) %&gt;% 
+    pivot_longer(-x_coord, names_to = &quot;y_coord&quot;, values_to = &quot;z&quot;) %&gt;% 
+    mutate(y_coord = as.double(y_coord))
+
+}
+
+pass_map_df &lt;- pass_map_df %&gt;% rename(name = passer_player_name)
+
+compared_z &lt;- data.frame()
+
+for (i in seq(2017, 2019, 1)) {
+  compared_z &lt;- rbind(qb_density_compare(pass_map_df[pass_map_df$season == i], &quot;P.Mahomes&quot;, &quot;A.Rodgers&quot;, n = 200) %&gt;% mutate(season = i), compared_z) 
+}
+
+library(scales)
+p &lt;-
+  compared_z %&gt;%
+  # mutate(season = as.factor(season)) %&gt;%
+  ggplot(aes(x_coord, y_coord)) +
+  # geom_tile(aes(x_coord, y_coord, fill=z))  +
+  stat_contour(aes(colour=..level.., z = z), 
+               breaks = seq(min(compared_z$z), max(compared_z$z), length.out = 10),
+               size = 3
+               ) +
+  scale_fill_gradient2(low=&quot;blue&quot;,mid=&quot;white&quot;, high=&quot;red&quot;, midpoint=0) +
+  scale_colour_gradient2(low=muted(&quot;blue&quot;), mid=&quot;white&quot;, high=muted(&quot;red&quot;), midpoint=0) +
+  add_field() +
+  theme(legend.position = &quot;bottom&quot;, legend.key.width = unit(2, &quot;cm&quot;),
+        plot.title = element_text(size = 20, hjust = 0.5, face = &quot;bold&quot;),
+        plot.subtitle = element_text(size = 12, hjust = 0.5),
+        plot.caption = element_text(face = &quot;bold&quot;)) +
+  labs(title = &quot;{current_frame}, Mahomes (QB1) vs Rodgers (QB2)&quot;,
+       subtitle = &quot;Red = More by QB1, Blue = More by QB2&quot;,
+       caption = &quot;\n\nPlot: @thomas_mock | Data: @ChiefsAnalytics&quot;) +
+  guides(colour=FALSE) + 
+  transition_manual(factor(season, levels = c(&#39;2017&#39;, &#39;2018&#39;, &#39;2019&#39;))) +
+  enter_fade()+
+  exit_fade()
+
+animate(p, width = 400, height = 600)</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-15-1.gif" /><!-- --></p>
+</div>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Faceted%20and%20Animated%20Heatmaps&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-29-faceted-and-animated-heatmaps%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-29-faceted-and-animated-heatmaps%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Darkweb (2020, Aug. 29). Open Source Football: Faceted and Animated Heatmaps. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{darkweb2020faceted,
+  author = {Darkweb, Analytics},
+  title = {Open Source Football: Faceted and Animated Heatmaps},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>
