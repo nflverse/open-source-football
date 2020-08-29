@@ -42,14 +42,7 @@ The hope is that this will serve as a resource for others.
 
 ## Contributors
 
-We hope that we can get as many volunteers as possible to publish their code here. 
-Their names we will maintain in this list (chronological order).
-
-* [Sebastian Carl](https://twitter.com/mrcaseb)
-* [Ben Baldwin](https://twitter.com/benbbaldwin)
-* [Analytics Darkweb](https://twitter.com/footballdaRkweb)
-* [Anthony Reinhard](https://twitter.com/reinhurdler)
-* ...
+This section [has been moved](https://mrcaseb.github.io/open-source-football/contributors_list.html).
 
 ## Design
 
@@ -57,3 +50,6 @@ This website is built with [Distill for R Markdown](https://rstudio.github.io/di
 It uses a custom Cascading Style Sheet (css) heavily borrowed from [Matt 
 Worthington](https://twitter.com/mrworthington) as suggested by the incredible 
 helpful [Tom Mock](https://twitter.com/thomas_mock).
+
+The [logo](https://twitter.com/jonathanpiech/status/1298846725071921152) was 
+contributed by [Jonathan Piech](https://twitter.com/jonathanpiech).

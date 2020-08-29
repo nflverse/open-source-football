@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Open Source Football: NFL Pass Location Visualization</title>
+
+<meta property="description" itemprop="description" content="Methods for visualizing NFL passing location data."/>
+
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-08-21"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-08-21"/>
+<meta name="article:author" content="Ethan Douglas"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Open Source Football: NFL Pass Location Visualization"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Methods for visualizing NFL passing location data."/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png"/>
+<meta property="og:image:width" content="7680"/>
+<meta property="og:image:height" content="5280"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Open Source Football"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Open Source Football: NFL Pass Location Visualization"/>
+<meta property="twitter:description" content="Methods for visualizing NFL passing location data."/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png"/>
+<meta property="twitter:image:width" content="7680"/>
+<meta property="twitter:image:height" content="5280"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Open Source Football: NFL Pass Location Visualization"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"/>
+<meta name="citation_online_date" content="2020/08/21"/>
+<meta name="citation_publication_date" content="2020/08/21"/>
+<meta name="citation_author" content="Ethan Douglas"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["NFL Pass Location Visualization"]},{"type":"character","attributes":{},"value":["Methods for visualizing NFL passing location data."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Ethan Douglas"]},{"type":"character","attributes":{},"value":["https://twitter.com/ChiefsAnalytics"]}]}]},{"type":"character","attributes":{},"value":["08-21-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["nflfastR","python"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["nfl-pass-location-visualization_files/bowser-1.9.3/bowser.min.js","nfl-pass-location-visualization_files/distill-2.2.21/template.v2.js","nfl-pass-location-visualization_files/figure-html5/hexplot-1.png","nfl-pass-location-visualization_files/figure-html5/histogram-1.png","nfl-pass-location-visualization_files/figure-html5/histogram2-1.png","nfl-pass-location-visualization_files/figure-html5/jointplot-1.png","nfl-pass-location-visualization_files/figure-html5/kdeplot-1.png","nfl-pass-location-visualization_files/figure-html5/subplots-1.png","nfl-pass-location-visualization_files/figure-html5/subplots2-1.png","nfl-pass-location-visualization_files/header-attrs-2.3/header-attrs.js","nfl-pass-location-visualization_files/jquery-1.11.3/jquery.min.js","nfl-pass-location-visualization_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
+<style type="text/css">
+d-article > d-code, d-article section > d-code {
+padding: 16px;
+overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f6f8fa;
+border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+pre d-code{
+  border-left: 0;
+}
+
+.distill-site-nav {
+  color: #ffffff;
+  font-weight: 400;
+  background: #24292e;
+  border-bottom: 2px solid #DECF40;
+  -webkit-box-shadow: 1px 1px 18px #4d4d4d;
+  -moz-box-shadow: 1px 1px 18px #4d4d4d;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+  font-weight: 700;
+}
+
+d-title {
+background: #575757;
+color: white;
+}
+
+.distill-site-footer {
+  border-top: 2px solid #DECF40;
+  border-bottom: 0;
+}
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"NFL Pass Location Visualization","description":"Methods for visualizing NFL passing location data.","authors":[{"author":"Ethan Douglas","authorURL":"https://twitter.com/ChiefsAnalytics","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-08-21T00:00:00.000+00:00","citationText":"Douglas, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="../../logo.png" alt="Logo"/>
+</a>
+<a href="../../index.html" class="title">Open Source Football</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
+<a href="https://github.com/mrcaseb/open-source-football">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>NFL Pass Location Visualization</h1>
+<p><p>Methods for visualizing NFL passing location data.</p></p>
+</div>
+
+<div class="d-byline">
+  Ethan Douglas <a href="https://twitter.com/ChiefsAnalytics" class="uri">https://twitter.com/ChiefsAnalytics</a> 
+  
+<br/>08-21-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#visualizing-nfl-pass-location">Visualizing NFL Pass Location</a>
+<ul>
+<li><a href="#set-up">Set-up</a></li>
+<li><a href="#data-exploration">Data Exploration</a></li>
+</ul></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h1 id="visualizing-nfl-pass-location">Visualizing NFL Pass Location</h1>
+<p>So this is a post all about how my life got flipped-turned upside down…</p>
+<p>Kidding, but kind of. About a year ago I became very interested in NFL analytics, and managed to stumble across the incredible work of Sarah Mallepalle, Ron Yurko, Konstantinos Pelechrinis, and Sam Ventura. Their paper (<a href="https://arxiv.org/abs/1906.03339" class="uri">https://arxiv.org/abs/1906.03339</a>) unveiled the creation of a scraper which could take static Next Gen Stats passing charts and translate them into x and y coordinate data. This tool was as impressive as it was interesting, and so it should be no surprise that Sarah (the lead author on the paper) was scooped up to work as an analyst for the Baltimore Ravens, terminating the public code for this work. Thankfully, Ron Yurko was happy to revive her github when I reached out. I have had a ton of fun exploring this dataset, and even adapted the code a bit to scrape routes and carries as well.</p>
+<p>That said, sometimes location data can be a bit overwhelming so I thought I’d do a quick walkthrough of a few things you can do with it. Consider this post Part One, where I’ll walk through some simple two-dimensional visualizations. In later posts I’ll do my best to go over the expected completion surfaces Sarah et al. debuted in the paper, and other ways to visualize the data.</p>
+<h2 id="set-up">Set-up</h2>
+<p>First we need to import the libraries we’ll be using</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt</code></pre>
+</div>
+<p>Next we’ll read in our data from the repo I maintain</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+df = pd.read_csv(&#39;https://raw.githubusercontent.com/ArrowheadAnalytics/next-gen-scrapy-2.0/master/pass_and_game_data.csv&#39;, low_memory=False)
+#There&#39;s an additional index row we don&#39;t need, so I am getting rid of it here
+df = df.iloc[0:,1:]</code></pre>
+</div>
+<h2 id="data-exploration">Data Exploration</h2>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Drop the games that weren&#39;t able to be scraped
+df.dropna(inplace=True)
+#Explore the data a bit
+df.head(3)</code></pre>
+<pre><code>
+      game_id           name  ... home_score away_score
+0  2017091004  Carson Palmer  ...         35         23
+1  2017091004  Carson Palmer  ...         35         23
+2  2017091004  Carson Palmer  ...         35         23
+
+[3 rows x 14 columns]</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Get a summary of the numerical data in our dataframe
+df.describe()</code></pre>
+<pre><code>
+            game_id       x_coord  ...    home_score    away_score
+count  4.383900e+04  43839.000000  ...  43839.000000  43839.000000
+mean   2.018206e+09      0.401437  ...     23.654600     22.306827
+std    8.202842e+05     15.229154  ...     10.318057     10.243724
+min    2.017091e+09    -28.300000  ...      0.000000      0.000000
+25%    2.017122e+09    -12.300000  ...     17.000000     16.000000
+50%    2.018112e+09      0.900000  ...     24.000000     23.000000
+75%    2.019101e+09     12.900000  ...     31.000000     28.000000
+max    2.019123e+09     28.300000  ...     57.000000     59.000000
+
+[8 rows x 6 columns]</code></pre>
+</div>
+<p>Looks like we’ve got almost 43k passes, from 2017-2019, ranging from -28.3 to 28.3 in the x coordinate and -10.4 to 62.1 in the y coordinate. We know a field is only 53 and 1/3 yards wide, so tthere are some passes being identified that are technically out of bounds.</p>
+<p>One common thing to do with new data is to explore the distributions of the numerical variables we are interested in. This is typically done with histograms.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Let&#39;s visualize the distribution of the coordinates
+fig = sns.distplot(df.x_coord, kde=False)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/histogram-1.png" width="624" /></p>
+</div>
+<p>Nothing fancy here but we can already see some trends in where players pass the ball. Let’s look at the y direction</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Now the x coordinate
+fig = sns.distplot(df.y_coord, kde=False)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/histogram2-1.png" width="624" /></p>
+</div>
+<p>So we’ve plotted both the horizontal (x) and vertical (y) field components, but nothing too interesting here still. What if we wanted to visualize these distributions as 2-dimensional?</p>
+<p>We have a few different ways to go about this. One, a simple jointplot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+fig = sns.jointplot(x=&#39;x_coord&#39;, y=&#39;y_coord&#39;, data=df)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/jointplot-1.png" width="576" /></p>
+</div>
+<p>This is neat! We’ve now visualized the data by both the x and y coordinate, and we can see the distributions for both on the side of the graph</p>
+<p>But, with just one small tweak we can make this even more clear.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+fig = sns.jointplot(x=&#39;x_coord&#39;, y=&#39;y_coord&#39;, data=df, kind=&#39;hex&#39;, color=&#39;red&#39;)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/hexplot-1.png" width="576" /></p>
+</div>
+<p>What we’ve done here is bin each of the passes into a hexagons by where they were thrown on the field. The darker hexagons here represent areas of the field where a higher density of passes were targeted.</p>
+<p>If this kind of discrete binning isn’t your thing, how about a smoother 2-dimensional kernel density estimate? Again, with just a very small tweak to the above code we can plot a different way of visualizing the location of these passes</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+fig = sns.jointplot(x=&#39;x_coord&#39;, y=&#39;y_coord&#39;, data=df, kind=&#39;kde&#39;, cmap=&#39;Reds&#39;, color=&#39;red&#39;)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/kdeplot-1.png" width="576" /></p>
+</div>
+<p>Now, what if we want to directly compare two distributions? Looking at the entire dataset has been interesting, but how does someone like Derek Carr differ in his target locations compared to someone like Patrick Mahomes?</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#prepare our two plots - no reason to separate out our axes here as we want to compare these two players on an equal scale so we set sharex and sharey to true
+fig, ax =plt.subplots(1,2, sharex=True, sharey=True)
+
+#First, we&#39;ll partition the data to the player we are looking for
+qb_name = &#39;Mahomes&#39; #I&#39;m being intentional vague here and not listing the full player name, because many player names listed on Next Gen Stats are different than you&#39;re likely accustomed to. So, I&#39;ve found this method easire to ensure I get the player data
+qb = df.loc[(df[&#39;name&#39;].str.contains(qb_name))]
+#Assign this plot to the first (0-index) axis. Not going to use the univariate distributions on the axes for these plots as they don&#39;t work well as subplots
+sns.kdeplot(qb.x_coord, qb.y_coord, ax=ax[0], cmap=&#39;Reds&#39;)
+
+#Let&#39;s get player 2
+qb_name = &#39;Carr&#39;
+qb = df.loc[(df[&#39;name&#39;].str.contains(qb_name))]
+#Second plot
+sns.kdeplot(qb.x_coord, qb.y_coord, ax=ax[1], cmap=&#39;Reds&#39;)
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/subplots-1.png" width="624" /></p>
+</div>
+<p>This isn’ too bad! With just a few lines of code we can see that Carr’s passes are more dense around the line of scrimmage, while Mahomes spreads the ball around more.</p>
+<p>Let’s spice these plots up a bit</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+#Layering two plotting styles here to get a big, clean, but dark background look
+plt.style.use(&#39;seaborn-poster&#39;)
+plt.style.use(&#39;dark_background&#39;)
+
+#Set up our subplots
+fig, (ax1, ax2) =plt.subplots(1,2)
+
+
+qb_name = &#39;Mahomes&#39;
+qb = df.loc[(df[&#39;name&#39;].str.contains(qb_name))]
+
+#What we&#39;ve added here is shading for the densities, but leaving the lowest density area unshaded.
+#I&#39;ve also added the *n_level* parameter, which allows us to choose how many levels we want to have in our contour. The higher the number here, the smoother the plot will look.
+sns.kdeplot(qb.x_coord, qb.y_coord, ax=ax1, cmap=&#39;gist_heat&#39;, shade=True, shade_lowest=False, n_levels=10)
+
+#Set title, remove ticks and labels
+ax1.set_title(qb_name)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-15,60)
+#This makes our scales (x and y) equal (1 pixel in the x direction is the same &#39;distance&#39; in coordinates as 1 pixel in the y direction)
+
+
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-15,60-1,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;w&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;w&#39;,ls=&#39;-&#39;,alpha=1, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+
+#Now we just repeat for player 2.
+qb_name = &#39;Carr&#39;
+qb = df.loc[(df[&#39;name&#39;].str.contains(qb_name))]
+#Second plot
+sns.kdeplot(qb.x_coord, qb.y_coord, ax=ax2, cmap=&#39;gist_heat&#39;, shade=True, shade_lowest=False, n_levels=10)
+
+ax2.set_title(qb_name)
+ax2.set_xlabel(&#39;&#39;)
+ax2.set_ylabel(&#39;&#39;)
+ax2.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax2.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax2.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax2.set_ylim(-15,60)
+</code></pre>
+<pre class="python"><code>
+for j in range(-15,60,1):
+    ax2.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax2.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax2.axhline(i,c=&#39;w&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax2.axhline(i,c=&#39;w&#39;,ls=&#39;-&#39;,alpha=1, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax2.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax2.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+plt.show()</code></pre>
+<p><img src="nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" width="1229" data-distill-preview=1 /></p>
+</div>
+<p>Now the nice thing about these seaborn plots is they do all the heavy lifting for us - but, they don’t let us see the underlying numbers. We can’t see at the coordinate (-20, 10) exactly what density of passes each player has.</p>
+<p>That concludes this post. In my next post I’ll walk through performing a kernel density estimate ourselves, which lets us overlay QB densities and do some other fun things. Huge thanks to Sarah Mallepalle and her coauthors for publishing this awesome data and scraper, thanks to Ronald Yurko, Samuel Ventura, and Maksim Horowitz for the creation of the nflscrapR tool which spurred my and so many other’s interest in NFL analytics, and to Ben Baldwin and Sebastian Carl for continuing to advance the public work in this space.</p>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=NFL%20Pass%20Location%20Visualization&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-22-nfl-pass-location-visualization%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-08-22-nfl-pass-location-visualization%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Douglas (2020, Aug. 21). Open Source Football: NFL Pass Location Visualization. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{douglas2020nfl,
+  author = {Douglas, Ethan},
+  title = {Open Source Football: NFL Pass Location Visualization},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>

@@ -4,6 +4,10 @@ on:
     branches:
       - master
 
+  schedule:
+    # run every day at 9:00 AM UTC = 5AM ET
+    - cron:  '0 9 * * *'
+
   # pull_request:
   #   branches:
   #     - master
@@ -23,7 +27,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install rmarkdown and distill
         run: |
-          install.packages(c("rmarkdown", "distill"))
+          install.packages(c("rmarkdown", "distill", "dplyr", "tidyr", "jsonlite", "DT"), dependencies = TRUE)
         shell: Rscript {0}
       - name: Render Site
         run: Rscript -e 'rmarkdown::render_site(encoding = "UTF-8")'

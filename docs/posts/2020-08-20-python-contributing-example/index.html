@@ -1284,12 +1284,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
 <style type="text/css">
 d-article > d-code, d-article section > d-code {
 padding: 16px;
@@ -1355,14 +1361,21 @@ color: white;
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="../../logo.png" alt="Logo"/>
+</a>
 <a href="../../index.html" class="title">Open Source Football</a>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
-<a href="../../about.html">About</a>
 <a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
 <a href="https://github.com/mrcaseb/open-source-football">
 <i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1387,8 +1400,7 @@ color: white;
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#contributing-in-python">Contributing in python</a>
-<ul>
+<li><a href="#contributing-in-python">Contributing in python</a><ul>
 <li><a href="#there-is-some-stuff-to-install-and-setup">There is some stuff to install and setup:</a></li>
 <li><a href="#once-setup-is-done">Once setup is done:</a></li>
 </ul></li>
@@ -1404,7 +1416,7 @@ color: white;
 <li>You’ll need to somehow point RStudio to your python installation. I ran <code>py_install("pandas")</code> and the below worked</li>
 </ul>
 <h3 id="once-setup-is-done">Once setup is done:</h3>
-<p>Start working on your document. You can put in python code chunks as in the examples below.</p>
+<p>Start working on your document. You can put in python code chunks as in the examples below (<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/2020-08-20-python-contributing-example/python-contributing-example.Rmd">see here</a> for the source code).</p>
 <ul>
 <li>Once you have everything ready in your document, press the “Knit” button on the top and it will create the document.</li>
 <li>Then you can committ all the files using the Git tab</li>

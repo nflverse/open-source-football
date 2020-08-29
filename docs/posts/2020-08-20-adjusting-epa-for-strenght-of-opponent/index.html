@@ -1295,6 +1295,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
 <style type="text/css">
 d-article > d-code, d-article section > d-code {
 padding: 16px;
@@ -1360,14 +1367,21 @@ color: white;
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="../../logo.png" alt="Logo"/>
+</a>
 <a href="../../index.html" class="title">Open Source Football</a>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
-<a href="../../about.html">About</a>
 <a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
 <a href="https://github.com/mrcaseb/open-source-football">
 <i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1390,7 +1404,7 @@ color: white;
 
 <div class="d-article">
 <p>Here we are going to take a look at how to adjust a team’s epa per play to the strength of their opponent. This technique will use weekly epa/play metrics, which can ultimately summarize a team’s season-long performance. It is also possible to adjust the epa of individual plays with this process if you are so inclined to do so.</p>
-<p>Quick note: the adjustments were inspired by the work done in this <a href="%22https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">paper</a>. It’s a bit technical but a good additional read!</p>
+<p>Quick note: the adjustments were inspired by the work done in this <a href="https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">paper</a>. It’s a bit technical but a good additional read!</p>
 <p>Alright, let’s get into it by first loading up our data!</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1423,7 +1437,7 @@ epa_data &lt;- NFL_PBP %&gt;%
 <p>Now we can get into the fun part: adjusting a team’s epa/play based on the strength of the opponent they are up against.</p>
 <ol type="1">
 <li>We are going to reframe each team’s epa/play as a team’s weekly opponent.</li>
-<li>We are going to convert each statistic into a moving average of the last ten games — this decision was based on <a href="%22https://twitter.com/PFF_Moo/status/1098241199171923968?s=20%22">this research</a> and this <a href="%22https://twitter.com/gberg1303/status/1282840171126427648?s=20%22">model</a> — and lag that statistic by one week. The lag is important because we need to be comparing a team’s weekly performance against their opponent’s average performance <strong>up to that point in the season.</strong></li>
+<li>We are going to convert each statistic into a moving average of the last ten games — this decision was based on <a href="https://twitter.com/PFF_Moo/status/1098241199171923968?s=20">this research</a> and this <a href="https://twitter.com/gberg1303/status/1282840171126427648?s=20">model</a> — and lag that statistic by one week. The lag is important because we need to be comparing a team’s weekly performance against their opponent’s average performance <strong>up to that point in the season.</strong></li>
 <li>We are going to join the data back to the epa_dataset.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
@@ -1506,7 +1520,7 @@ epa_data &lt;- epa_data %&gt;%
 <ol type="1">
 <li>There is good work being done on properly weighting epa on a given type of play. For instance, DVOA is a does well in predicting future team performance because the downweight the impact of interceptions in their metric. More work can be done to properly weight epa based on its play type!</li>
 <li>It is possible to make these adjustments at the individual play level and with more specificity. For instance, you could adjust run plays based on the team’s run defense rather than adjusting the entire offense to the team’s entire defense. I think more work should be done to determine if these more detailed techniques can improve the predictiveness of the stat.</li>
-<li>There may be other ways to construct epa/play that improve its strength as a predictor <a href="%22https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">The paper that inspired this article</a> uses the solution of an optimization problem to construct a team’s true offensive epa/play and defensive epa/play. Perhaps a moving averaged should be eschewed in favor of a technique that more properly accounts for common regression to the mean over the offseason.</li>
+<li>There may be other ways to construct epa/play that improve its strength as a predictor <a href="https://dtai.cs.kuleuven.be/events/MLSA18/papers/pelechrinis_mlsa18.pdf">The paper that inspired this article</a> uses the solution of an optimization problem to construct a team’s true offensive epa/play and defensive epa/play. Perhaps a moving averaged should be eschewed in favor of a technique that more properly accounts for common regression to the mean over the offseason.</li>
 </ol>
 <p>Thanks to Sebastian Carl and Ben Baldwin for setting this forum up! I can’t wait to see others’ works and improvements to my own make its way on here.</p>
 <!--radix_placeholder_article_footer-->

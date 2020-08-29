@@ -1276,6 +1276,13 @@
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-176408251-2');
+  </script>
   <style type="text/css">
   d-article > d-code, d-article section > d-code {
   padding: 16px;
@@ -1342,14 +1349,21 @@
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="logo.png" alt="Logo"/>
+</a>
 <a href="index.html" class="title">Open Source Football</a>
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
-<a href="about.html">About</a>
 <a href="contributing.html">Contributing</a>
+<a href="contributors_list.html">Authors</a>
+<a href="about.html">About</a>
 <a href="https://github.com/mrcaseb/open-source-football">
 <i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1398,7 +1412,7 @@
 <li>Create a copy of the website repo to your GitHub (you’ll need a free account)</li>
 <li>Load it into a new RStudio project and start working in a new branch</li>
 <li>Create the new article (see <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the repo</a> for some examples and check the <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> website) and please don’t forget to add <a href="#start-working-on-the-post">metadata and chunk options</a> like suggested in the next section</li>
-<li>Commit all to your post related files and push them into the new branch in your GitHub repo (please see <a href="#push-your-work-into-your-repo">Push your work into your repo</a> for details which files <strong>should not be pushed</strong>)</li>
+<li>Commit all to your post related files and push them into the new branch in your GitHub repo (please see <a href="#push-your-work-into-your-repo">Push your work into your repo</a> for details what you should do to <strong>avoid merge conflicts</strong>)</li>
 <li>Visit your repo and create a pull request to merge your post into the open-source-football repo</li>
 </ol>
 <p>With the last step we will be notified and will take a look at your article, suggest changes as necessary, then publish it when it’s ready by merging it into the main repo.</p>
@@ -1439,24 +1453,23 @@ distill::create_post(&quot;Title of your post&quot;)</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90627998-1dcb1980-e21d-11ea-8ea9-e307f81087c4.png" style="display: block; margin: auto;" /></p>
 </div>
-<p>We need to tweak the metadata as well as the chunk setup a little bit in order for the post to meet our expectations. You can have a look at <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the repo</a> for some examples.</p>
+<p>We need to tweak the metadata as well as the chunk setup a little bit in order for the post to meet our expectations. Please have a look at <a href="https://github.com/mrcaseb/open-source-football/blob/master/_sample_meta_and_options.Rmd">example file</a> for a little template.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90628632-3e47a380-e21e-11ea-9bae-a01ac6720026.png" style="display: block; margin: auto;" /></p>
 </div>
 <p>Now you are ready to write your post. Please see <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> as well as some of <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">the already published posts</a>. And if you feel like you need more information about R Markdown please feel free to check the <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a>.</p>
 <h3 id="push-your-work-into-your-repo">Push your work into your repo</h3>
-<p>Using git within RStudio is easy because you can do it graphically. However, it doersn’t make sense to provide a ton of screenshots and text here. Instead I recommend two sources:</p>
+<p>Using git within RStudio is easy because you can do it graphically. However, it doesn’t make sense to provide a ton of screenshots and text here. Instead I recommend two sources:</p>
 <ul>
 <li>The short one is <a href="https://happygitwithr.com/rstudio-git-github.html">happygitwithr.com</a></li>
 <li>The detailed one is <a href="http://r-pkgs.had.co.nz/git.html">Hadley’s section</a></li>
 </ul>
-<p>Commit all files <strong>which are related to your post</strong> and go on with the last step. There are 4 files not related to your post causing merge conflicts when you push them so please don’t push them and instead just delete them:</p>
-<ol type="1">
-<li><code>docs/index.html</code></li>
-<li><code>docs/index.xml</code></li>
-<li><code>docs/posts/posts.json</code></li>
-<li><code>docs/sitemap.xml</code></li>
-</ol>
+<p>Commit all files <strong>which are related to your post</strong> and go on with the last step. There are 4 files not related to your post causing merge conflicts when you push them without updating them before your pull request. To avoid this please run the following code right before you commit all your files.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+source(&quot;https://raw.githubusercontent.com/mrcaseb/open-source-football/master/_update_con_files.R&quot;)</code></pre>
+</div>
+<p>Never mind if you forget that. You can create the pull request anyway and GitHub will inform you if there are conflicts. Just run the above lines and commit and push the updated files <code>docs/index.html</code>, <code>docs/index.xml</code>, <code>docs/posts/posts.json</code>, <code>docs/sitemap.xml</code>.</p>
 <h3 id="create-the-pull-request">Create the Pull Request</h3>
 <p>To create the Pull Request visit your GitHub repo and you will notice a banner indicating that you’ve recently pushed a new branch and that you can “compare &amp; pull request”. Follow the steps for <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork">creating a pull request from a fork</a> and you are finally done.</p>
 <!--radix_placeholder_article_footer-->

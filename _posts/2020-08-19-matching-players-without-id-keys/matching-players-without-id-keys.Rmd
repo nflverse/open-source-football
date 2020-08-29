@@ -23,10 +23,16 @@ Sometimes when we go to remake graphs from other people resources that used to w
 
 First let's load the data and define which season we care about. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(nflfastR)
-pbp <- data.table::fread("../../../Darkweb/pbp_2010-2019.csv") %>% filter(season == 2019)
+seasons <- 2019
+pbp <- purrr::map_df(seasons, function(x) {
+  readr::read_csv(
+    glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
+  )
+})
+
 roster <-
   readRDS(url("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/roster-data/roster.rds")) %>%
   filter(teamPlayers.position == "QB", team.season == 2019)
@@ -43,39 +49,30 @@ cpoe <-
 season <- 2019
 ```
 
-Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster lists them or the data is missing. 
-We can quickly fill in a couple missing entries like below.
+Next, we have a couple of players that are in our Top 30 from last year that have changed teams from where our roster has a different nfl ID structure than what we get from nflfastR.
+
+So instead we can match on first initial, last name, and jersey number. I've renamed posteam to team.abbr below to change as little of Seb's code as possible. Also, we have to update the 
+roster file to indicate that the Raiders have moved to Las Vegas. 
 
 ```{r}
 summary <-
   pbp %>%
   separate(passer_player_name, c("firstName", "lastName"), sep = "\\.") %>%
   filter(!is.na(cpoe)) %>%
-  group_by(lastName, posteam, firstName, passer_player_id) %>%
+  group_by(lastName, posteam, firstName, passer_player_id, jersey_number) %>%
   summarise(plays = n()) %>%
   ungroup() %>%
   arrange(desc(plays)) %>%
   head(30) %>%
   mutate(
-    posteam = 
-      ifelse(
-        lastName == "Brady", "NE",
-      ifelse(
-        lastName == "Flacco", "DEN",
-      ifelse(
-        lastName == "Carr", "LV",
-      ifelse(
-        lastName == "Tannehill", "TEN",
-      posteam
-      )
-      )
-      )
-      ),
-    lastName = ifelse(lastName == "Minshew II", "Minshew", lastName)
-  ) %>%
+     lastName = ifelse(lastName == "Minshew II", "Minshew", lastName)
+   ) %>%
   left_join(
-    roster %>% filter(team.season == season) %>% mutate(firstInit = str_extract(teamPlayers.firstName, "\\w")) %>% select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url),
-    by = c("lastName" = "teamPlayers.lastName", "firstName" = "firstInit")
+    roster %>% 
+      filter(team.season == seasons) %>% 
+      mutate(firstInit = str_extract(teamPlayers.firstName, "\\w"), team.abbr = ifelse(team.abbr == "OAK", "LV", team.abbr)) %>% 
+      select(name = teamPlayers.displayName, firstInit, teamPlayers.lastName, team.abbr, teamPlayers.headshot_url, teamPlayers.jerseyNumber),
+      by = c("lastName" = "teamPlayers.lastName", "firstName" = "firstInit", "jersey_number" = "teamPlayers.jerseyNumber", "posteam" = "team.abbr")
   ) %>%
   mutate(# some headshot urls are broken. They are checked here and set to a default 
     teamPlayers.headshot_url = dplyr::if_else(
@@ -87,8 +84,9 @@ summary <-
   left_join(cpoe, by = "passer_player_id") %>%
   left_join(
     teams_colors_logos %>% select(team_abbr, team_color, team_logo_espn),
-    by = c("team.abbr" = "team_abbr")
-  )
+    by = c("posteam" = "team_abbr")
+  ) %>%
+  rename(team.abbr = posteam)
 
 colors_raw <-
   summary %>%
@@ -149,7 +147,7 @@ plot <-
     y = "Completion Percentage Over Expectation (CPOE in percentage points)",
     caption = "Figure: @mrcaseb | Data: @nflfastR | Update: AnalyticsDarkweb",
     title = glue::glue("Passing Efficiency {season}"),
-    subtitle = "CPOE as a function of target depth. Dotsize equivalent to number of targets. Smoothed for -10 ??? DOT ??? 40 Yards. Red Line = League Average."
+    subtitle = "CPOE function of depth. Dotsize equivalent to num targets. Red Line = League Average."
   ) +
   theme_bw() +
   theme(
@@ -171,7 +169,7 @@ plot <-
 
 Lastly, we can kick out a save of our image file as before. 
 
-```{r, fig.width=20, fig.height=16, dpi=300}
+```{r, layout="l-page", fig.height=8, dpi=300}
 plot
 ggsave(glue::glue("cpoe_vs_dot_{season}.png"), dpi = 600, width = 24, height = 21, units = "cm")
 ```

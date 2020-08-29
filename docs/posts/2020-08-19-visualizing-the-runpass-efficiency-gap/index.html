@@ -1295,6 +1295,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
 <style type="text/css">
 d-article > d-code, d-article section > d-code {
 padding: 16px;
@@ -1360,14 +1367,21 @@ color: white;
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="../../logo.png" alt="Logo"/>
+</a>
 <a href="../../index.html" class="title">Open Source Football</a>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
-<a href="../../about.html">About</a>
 <a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
 <a href="https://github.com/mrcaseb/open-source-football">
 <i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1469,7 +1483,7 @@ ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
   geom_image(aes(image = ESPN_logo_url(posteam)), size = 0.04) +
   scale_y_continuous(labels = percent_format(accuracy = 1)) +
   labs(
-    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    title = &quot;Dropback Premium vs Dropback Frequency&quot;,
     subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of\nLast Two Minutes of The Half&quot;,
     y = &quot;Dropback Freq&quot;,
     x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
@@ -1548,7 +1562,7 @@ ggplot(data = prem_epa_df, aes(x = pass_epa_prem, y = pass_freq)) +
   scale_x_continuous(labels = plus_lab_format(accuracy = .01), breaks = seq(-1, 1, .1), limits = c(-0.1, 0.5), expand = expansion(mult = c(0.02, 0.02))) +
   scale_y_continuous(labels = percent_format(accuracy = 1), breaks = seq(0, 1, .05), limits = c(.4, .7), expand = expansion(mult = c(0.03, 0.03))) +
   labs(
-    title = &quot;Dropback Premium vs Droback Frequency&quot;,
+    title = &quot;Dropback Premium vs Dropback Frequency&quot;,
     subtitle = &quot;Early Downs with Win Probability Between 20% and 80% Outside of Last Two\nMinutes of The Half&quot;,
     y = &quot;Dropback\nFreq&quot;,
     x = &quot;(EPA/Play on Dropbacks) - (EPA/Play on Designed Runs)&quot;
