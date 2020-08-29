@@ -50,3 +50,6 @@ This website is built with [Distill for R Markdown](https://rstudio.github.io/di
 It uses a custom Cascading Style Sheet (css) heavily borrowed from [Matt 
 Worthington](https://twitter.com/mrworthington) as suggested by the incredible 
 helpful [Tom Mock](https://twitter.com/thomas_mock).
+
+The [logo](https://twitter.com/jonathanpiech/status/1298846725071921152) was 
+contributed by [Jonathan Piech](https://twitter.com/jonathanpiech).
