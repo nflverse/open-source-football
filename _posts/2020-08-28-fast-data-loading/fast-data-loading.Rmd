@@ -20,12 +20,18 @@ knitr::opts_chunk$set(echo = TRUE)
 Most of the time data loading isn't something we think about when doing public data analysis. Datasets such as nflfastR aren't that large in the grand scheme of things. But what if you're looking
 to compete in the next big data bowl? Or what if you just need certain portions of nflfastR?
 
+This walkthrough inspired by this NYR post: https://enpiar.com/talks/nyr-2020/#19
+
+And Thomas Mock from the Rstudio team: https://gist.github.com/jthomasmock/b8a1c6e90a199cf72c6c888bd899e84e
+
 ```{r, message=FALSE}
 library(tidyverse)
 library(arrow)
 ```
 
 Well, we can read in our data more efficiently to save ourselfs not only time but also RAM by not storing huge datasets in memory. 
+
+In order to run the arrow package as I have here, you will need the nightly build. See the above nyR post for details. 
 
 First, let's take a look at how fast we can pull down the latest pbp data from nflfastR.
 
