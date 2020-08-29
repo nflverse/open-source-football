@@ -7,7 +7,18 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 29 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Player Density and Completion Surface Estimates</title>
+      <dc:creator>Ethan Douglas</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates</link>
+      <description>Methods for modeling density estimates and expected completion percentages across the football field for individual players.</description>
+      <category>nflfastR</category>
+      <category>python</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates</guid>
+      <pubDate>Sun, 29 Aug 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
+    </item>
     <item>
       <title>Faceted and Animated Heatmaps</title>
       <dc:creator>Analytics Darkweb</dc:creator>
