@@ -5,7 +5,7 @@ description: |
 author:
   - name: Ben Baldwin
     url: https://twitter.com/benbbaldwin
-date: 08-25-2020
+date: 08-31-2020
 output:
   distill::distill_article:
     self_contained: false
@@ -31,8 +31,8 @@ library(tidyverse)
 library(ggthemes)
 
 # load the data
-# note: if you're trying to re-produce this, open _get_data.R
-# and run the script to create the file
+# note: if you're trying to re-produce this, see _get_data.R
+# script that creates the file
 drives <- readRDS('data.rds')
 ```
 
