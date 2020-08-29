@@ -53,21 +53,34 @@ drives %>%
   select(game_id, Defense = defteam, rest_seconds, prior_drive_result) %>%
   head(5) %>%
   bind_cols(
-  tibble::tibble(
-    "Game" = c(
-    "2018 Texans @ Colts", 
-    "2018 Texans @ Patriots", 
-    "2015 Dolphins @ Patriots",
-    "2015 Jaguars @ Texans",
-    "2016 Raiders @ Broncos")
+    tibble::tibble(
+      "Game" = c(
+        "2018 Texans @ Colts",
+        "2018 Texans @ Patriots",
+        "2015 Dolphins @ Patriots",
+        "2015 Jaguars @ Texans",
+        "2016 Raiders @ Broncos"
+      )
     )
   ) %>%
-  select(Game, Defense, Rest_Seconds = rest_seconds, Prior_Drive = prior_drive_result) %>% 
-  knitr::kable(digits = 1, col.names = c("Game",
-                           "Defense",
-                           "Rest seconds",
-                           "Prior drive result")) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", full_width = F, position = "center"))
+  select(Game, Defense, Rest_Seconds = rest_seconds, Prior_Drive = prior_drive_result) %>%
+  knitr::kable(
+    format = "html",
+    digits = 1,
+    col.names = c(
+      "Game",
+      "Defense",
+      "Rest seconds",
+      "Prior drive result"
+    )
+    # caption = "Shortest rest times",
+    # label = "short"
+  ) %>% 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = F, 
+    position = "center"
+  )
 ```
 
 The shortest defensive rest time since 2015 was the Colts in 2018. At 35 seconds past 2:26pm Eastern, the Texans punted. On the subsequent play, Andrew Luck was sacked by JJ Watt, which led to a fumble recovered by the Texans. The Colts defense then took the field again at 16 seconds past 2:28pm Eastern, 101 seconds after they had last been on the field (this isn't perfect, but I'm counting punts as a defensve being on a field. This doesn't make a big difference either way).
@@ -81,21 +94,34 @@ drives %>%
   select(game_id, Defense = defteam, rest_minutes, prior_drive_result) %>%
   head(5) %>%
   bind_cols(
-  tibble::tibble(
-    "Game" = c(
-    "2016 Super Bowl", 
-    "2019 Super Bowl", 
-    "2016 Chiefs @ Chargers",
-    "2015 Super Bowl",
-    "2016 Eagles @ Lions")
+    tibble::tibble(
+      "Game" = c(
+        "2016 Super Bowl",
+        "2019 Super Bowl",
+        "2016 Chiefs @ Chargers",
+        "2015 Super Bowl",
+        "2016 Eagles @ Lions"
+      )
     )
   ) %>%
-  select(Game, Defense, Rest_Minutes = rest_minutes, Prior_Drive = prior_drive_result) %>% 
-  knitr::kable(digits = 0, col.names = c("Game",
-                           "Defense",
-                           "Rest minutes",
-                           "Prior drive result")) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", full_width = F, position = "center"))
+  select(Game, Defense, Rest_Minutes = rest_minutes, Prior_Drive = prior_drive_result) %>%
+  knitr::kable(
+    format = "html",
+    digits = 0,
+    col.names = c(
+      "Game",
+      "Defense",
+      "Rest minutes",
+      "Prior drive result"
+    )
+    # caption = "Longest rest times",
+    # label = "long"
+  ) %>% 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    full_width = F, 
+    position = "center"
+  )
 ```
 
 The longest a defense has rested since 2015 came in Super Bowl LI. Midway through the second quarter, Matt Ryan threw a touchdown pass to Austin Hooper. The time was 7:27pm. On the subsequent drive, the Patriots drove down the field until Robert Alford picked off Tom Brady and returned it for a touchdown. The Patriots then received the ball again, driving down the field and kicking a field goal right before the second half. Following a typically long Super Bowl halftime show, the Falcons received the opening kickoff. By the time the Patriots' defense took the field again, it was 8:36pm (the other games shown had long drives on either side of the half).
