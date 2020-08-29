@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["faceted-and-animated-heatmaps_files/bowser-1.9.3/bowser.min.js","faceted-and-animated-heatmaps_files/distill-2.2.21/template.v2.js","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-11-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-12-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-14-1.gif","faceted-and-animated-heatmaps_files/header-attrs-2.3/header-attrs.js","faceted-and-animated-heatmaps_files/jquery-1.11.3/jquery.min.js","faceted-and-animated-heatmaps_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["faceted-and-animated-heatmaps_files/bowser-1.9.3/bowser.min.js","faceted-and-animated-heatmaps_files/distill-2.2.21/template.v2.js","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-11-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-12-1.png","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-14-1.gif","faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-15-1.gif","faceted-and-animated-heatmaps_files/header-attrs-2.3/header-attrs.js","faceted-and-animated-heatmaps_files/jquery-1.11.3/jquery.min.js","faceted-and-animated-heatmaps_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1376,8 +1376,93 @@ animate(p, width = 400, height = 600)</code></pre>
 <p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-14-1.gif" data-distill-preview=1 /></p>
 </div>
 <p>We could look at Patrick Mahomes over time, or Russell Wilson week to week. If we could get play_ids somehow we could improve our EPA plots above and look at negative EPA vs positive by down, distance. Perhaps if we assumed the order of the scrappy plays is in game order, we could match it to the nflfastR set and see what we find. Try it out and see!</p>
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+<p>One last thing, let’s combine what we’ve done and add in some of the work of Josh Hermsmeyer to do direct QB comparisons.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_density_compare &lt;- function(pass_df, qb1_name, qb2_name, n = 100){
+  
+  # filter to qb1
+  qb1 &lt;- pass_df %&gt;% 
+    select(x_coord, y_coord, name) %&gt;% 
+    filter(str_detect(name, qb1_name))
+  
+  #filter to qb2
+  qb2 &lt;- pass_df %&gt;% 
+    select(x_coord, y_coord, name) %&gt;% 
+    filter(str_detect(name, qb2_name))
+  
+  # get x/y coords as vectors
+  qb1_x &lt;- pull(qb1, x_coord)
+  qb1_y &lt;- pull(qb1, y_coord)
+  
+  # get x/y coords as vectors
+  qb2_x &lt;- pull(qb2, x_coord)
+  qb2_y &lt;- pull(qb2, y_coord)
+
+  # get x and y range to compute comparisons across
+  x_rng = range(c(qb1_x, qb2_x))
+  y_rng = range(c(qb1_y, qb2_y))
+  
+  # Calculate the 2d density estimate over the common range
+  d2_qb1 = MASS::kde2d(qb1_x, qb1_y, lims=c(x_rng, y_rng), n=n)
+  d2_qb2 = MASS::kde2d(qb2_x, qb2_y, lims=c(x_rng, y_rng), n=n)
+  
+  # create diff df
+  qb_diff &lt;- d2_qb1
+  
+  # matrix subtraction density from qb2 from qb1
+  qb_diff$z &lt;- d2_qb1$z - d2_qb2$z
+  
+  # add matrix col names
+  colnames(qb_diff$z) = qb_diff$y
+  
+  #### return tidy tibble ####
+  qb_diff$z %&gt;% 
+    # each col_name is actually the y_coord from the matrix
+    as_tibble() %&gt;% 
+    # add back the x_coord
+    mutate(x_coord= qb_diff$x) %&gt;% 
+    pivot_longer(-x_coord, names_to = &quot;y_coord&quot;, values_to = &quot;z&quot;) %&gt;% 
+    mutate(y_coord = as.double(y_coord))
+
+}
+
+pass_map_df &lt;- pass_map_df %&gt;% rename(name = passer_player_name)
+
+compared_z &lt;- data.frame()
+
+for (i in seq(2017, 2019, 1)) {
+  compared_z &lt;- rbind(qb_density_compare(pass_map_df[pass_map_df$season == i], &quot;P.Mahomes&quot;, &quot;A.Rodgers&quot;, n = 200) %&gt;% mutate(season = i), compared_z) 
+}
+
+library(scales)
+p &lt;-
+  compared_z %&gt;%
+  # mutate(season = as.factor(season)) %&gt;%
+  ggplot(aes(x_coord, y_coord)) +
+  # geom_tile(aes(x_coord, y_coord, fill=z))  +
+  stat_contour(aes(colour=..level.., z = z), 
+               breaks = seq(min(compared_z$z), max(compared_z$z), length.out = 10),
+               size = 3
+               ) +
+  scale_fill_gradient2(low=&quot;blue&quot;,mid=&quot;white&quot;, high=&quot;red&quot;, midpoint=0) +
+  scale_colour_gradient2(low=muted(&quot;blue&quot;), mid=&quot;white&quot;, high=muted(&quot;red&quot;), midpoint=0) +
+  add_field() +
+  theme(legend.position = &quot;bottom&quot;, legend.key.width = unit(2, &quot;cm&quot;),
+        plot.title = element_text(size = 20, hjust = 0.5, face = &quot;bold&quot;),
+        plot.subtitle = element_text(size = 12, hjust = 0.5),
+        plot.caption = element_text(face = &quot;bold&quot;)) +
+  labs(title = &quot;{current_frame}, Mahomes (QB1) vs Rodgers (QB2)&quot;,
+       subtitle = &quot;Red = More by QB1, Blue = More by QB2&quot;,
+       caption = &quot;\n\nPlot: @thomas_mock | Data: @ChiefsAnalytics&quot;) +
+  guides(colour=FALSE) + 
+  transition_manual(factor(season, levels = c(&#39;2017&#39;, &#39;2018&#39;, &#39;2019&#39;))) +
+  enter_fade()+
+  exit_fade()
+
+animate(p, width = 400, height = 600)</code></pre>
+<p><img src="faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-15-1.gif" /><!-- --></p>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

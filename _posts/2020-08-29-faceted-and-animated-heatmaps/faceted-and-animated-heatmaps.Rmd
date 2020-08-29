@@ -310,7 +310,92 @@ animate(p, width = 400, height = 600)
 
 We could look at Patrick Mahomes over time, or Russell Wilson week to week. If we could get play_ids somehow we could improve our EPA plots above and look at negative EPA vs positive by down, distance. Perhaps if we assumed the order of the scrappy plays is in game order, we could match it to the nflfastR set and see what we find. Try it out and see! 
 
-Distill is a publication format for scientific and technical writing, native to the web.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+One last thing, let's combine what we've done and add in some of the work of Josh Hermsmeyer to do direct QB comparisons. 
+
+```{r}
+qb_density_compare <- function(pass_df, qb1_name, qb2_name, n = 100){
+  
+  # filter to qb1
+  qb1 <- pass_df %>% 
+    select(x_coord, y_coord, name) %>% 
+    filter(str_detect(name, qb1_name))
+  
+  #filter to qb2
+  qb2 <- pass_df %>% 
+    select(x_coord, y_coord, name) %>% 
+    filter(str_detect(name, qb2_name))
+  
+  # get x/y coords as vectors
+  qb1_x <- pull(qb1, x_coord)
+  qb1_y <- pull(qb1, y_coord)
+  
+  # get x/y coords as vectors
+  qb2_x <- pull(qb2, x_coord)
+  qb2_y <- pull(qb2, y_coord)
+
+  # get x and y range to compute comparisons across
+  x_rng = range(c(qb1_x, qb2_x))
+  y_rng = range(c(qb1_y, qb2_y))
+  
+  # Calculate the 2d density estimate over the common range
+  d2_qb1 = MASS::kde2d(qb1_x, qb1_y, lims=c(x_rng, y_rng), n=n)
+  d2_qb2 = MASS::kde2d(qb2_x, qb2_y, lims=c(x_rng, y_rng), n=n)
+  
+  # create diff df
+  qb_diff <- d2_qb1
+  
+  # matrix subtraction density from qb2 from qb1
+  qb_diff$z <- d2_qb1$z - d2_qb2$z
+  
+  # add matrix col names
+  colnames(qb_diff$z) = qb_diff$y
+  
+  #### return tidy tibble ####
+  qb_diff$z %>% 
+    # each col_name is actually the y_coord from the matrix
+    as_tibble() %>% 
+    # add back the x_coord
+    mutate(x_coord= qb_diff$x) %>% 
+    pivot_longer(-x_coord, names_to = "y_coord", values_to = "z") %>% 
+    mutate(y_coord = as.double(y_coord))
+
+}
+
+pass_map_df <- pass_map_df %>% rename(name = passer_player_name)
+
+compared_z <- data.frame()
+
+for (i in seq(2017, 2019, 1)) {
+  compared_z <- rbind(qb_density_compare(pass_map_df[pass_map_df$season == i], "P.Mahomes", "A.Rodgers", n = 200) %>% mutate(season = i), compared_z) 
+}
+
+library(scales)
+p <-
+  compared_z %>%
+  # mutate(season = as.factor(season)) %>%
+  ggplot(aes(x_coord, y_coord)) +
+  # geom_tile(aes(x_coord, y_coord, fill=z))  +
+  stat_contour(aes(colour=..level.., z = z), 
+               breaks = seq(min(compared_z$z), max(compared_z$z), length.out = 10),
+               size = 3
+               ) +
+  scale_fill_gradient2(low="blue",mid="white", high="red", midpoint=0) +
+  scale_colour_gradient2(low=muted("blue"), mid="white", high=muted("red"), midpoint=0) +
+  add_field() +
+  theme(legend.position = "bottom", legend.key.width = unit(2, "cm"),
+        plot.title = element_text(size = 20, hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(size = 12, hjust = 0.5),
+        plot.caption = element_text(face = "bold")) +
+  labs(title = "{current_frame}, Mahomes (QB1) vs Rodgers (QB2)",
+       subtitle = "Red = More by QB1, Blue = More by QB2",
+       caption = "\n\nPlot: @thomas_mock | Data: @ChiefsAnalytics") +
+  guides(colour=FALSE) + 
+  transition_manual(factor(season, levels = c('2017', '2018', '2019'))) +
+  enter_fade()+
+  exit_fade()
+
+animate(p, width = 400, height = 600)
+```
 
