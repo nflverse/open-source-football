@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2020-08-29-faceted-and-animated-heatmaps/",
+    "title": "Faceted and Animated Heatmaps",
+    "description": "Combining lessons from multiple posts to create faceted or animated heatmaps.",
+    "author": [
+      {
+        "name": "Analytics Darkweb",
+        "url": "https://twitter.com/footballdaRkweb"
+      }
+    ],
+    "date": "2020-08-29",
+    "categories": [
+      "Figures",
+      "Animation",
+      "nflfastR"
+    ],
+    "preview": "posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png",
+    "last_modified": "2020-08-29T11:54:34-07:00",
+    "input_file": "faceted-and-animated-heatmaps.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-08-19-visualizing-the-runpass-efficiency-gap/",
     "title": "Visualizing the Run/Pass Efficiency Gap",
     "description": "Using nflfastR data to show how much more efficient passing is than rushing at the team level",

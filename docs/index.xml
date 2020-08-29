@@ -7,7 +7,19 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 20 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Faceted and Animated Heatmaps</title>
+      <dc:creator>Analytics Darkweb</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</link>
+      <description>Combining lessons from multiple posts to create faceted or animated heatmaps.</description>
+      <category>Figures</category>
+      <category>Animation</category>
+      <category>nflfastR</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</guid>
+      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Visualizing the Run/Pass Efficiency Gap</title>
       <dc:creator>Anthony Reinhard</dc:creator>
