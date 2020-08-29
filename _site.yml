@@ -8,11 +8,11 @@ collections:
   posts:
     share: [twitter, facebook]
     feed_items_max: false
-    custom: _custom.html
+    # custom: _custom.html
 output_dir: "docs"
 navbar:
   logo:
-    image: _images/logo.png
+    image: logo.png
     href: https://twitter.com/Open_Source_FB
   right:
     - text: "Home"
