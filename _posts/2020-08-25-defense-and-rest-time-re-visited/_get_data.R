@@ -1,3 +1,6 @@
+library(lubridate)
+library(tidyverse)
+
 # Read in data
 pbp <- map_df(2015 : 2019, ~{
   readRDS(
@@ -43,16 +46,20 @@ pbp <- pbp %>%
 drives <- pbp %>%
   group_by(game_id, fixed_drive) %>%
   summarise(
+    qtr = dplyr::first(na.omit(qtr)),
     posteam = dplyr::first(posteam),
     defteam = dplyr::first(defteam),
+    point_diff = dplyr::first(na.omit(score_differential)),
     start_time = dplyr::first(na.omit(time_of_day)),
     end_time = dplyr::last(na.omit(time_of_day)),
     start_play = dplyr::first(na.omit(play_no)),
     end_play = dplyr::last(na.omit(play_no)),
     yardline_100 = dplyr::first(na.omit(yardline_100)),
     game_seconds_remaining = dplyr::first(na.omit(game_seconds_remaining)),
+    half_seconds_remaining = dplyr::first(na.omit(half_seconds_remaining)),
     drive_plays = n(),
-    drive_result = dplyr::first(fixed_drive_result)
+    drive_result = dplyr::first(fixed_drive_result),
+    kneel_drive = if_else(dplyr::first(qb_kneel) == 1 & dplyr::last(qb_kneel), 1, 0)
   ) %>%
   ungroup() %>%
   group_by(game_id) %>%
@@ -67,11 +74,15 @@ drives <- pbp %>%
     game_id, defteam
   ) %>%
   mutate(
+    half = if_else(qtr > 2, "2nd", "1st"),
+    quarter = if_else(qtr == 3 & dplyr::lag(qtr) == 2, "1st 3rd Q drive", "Other"),
     rest = as.numeric(start_time - dplyr::lag(end_time), units = "hours"),
     rest_plays = start_play - dplyr::lag(end_play) - 1,
     drive_length = as.numeric(end_time - start_time, units = "hours"),
     cum_time_on_field = cumsum(replace_na(drive_length, 0)) - replace_na(drive_length, 0),
     cum_plays_on_field = cumsum(drive_plays) - drive_plays,
+    cum_rest = cumsum(replace_na(rest, 0)),
+    cum_rest_plays = cumsum(replace_na(rest_plays, 0)),
     drive_points = case_when(
       drive_result == "Touchdown" ~ 7,
       drive_result == "Field goal" ~ 3,
@@ -79,89 +90,14 @@ drives <- pbp %>%
     )
   ) %>%
   ungroup() %>%
+  filter(kneel_drive == 0) %>%
   select(
-    game_id, fixed_drive, start_time, end_time,
-    posteam, defteam, yardline_100, game_seconds_remaining, rest, rest_plays,
-    cum_time_on_field, cum_plays_on_field, drive_points, prior_drive_result
-  ) %>%
-  # this doesn't really tell us what we want
-  filter(prior_drive_result != "Opp touchdown")
-
-saveRDS(drives, '_posts/2020-08-25-defense-and-rest-time-re-visited/data.rds')
-
-
-drives %>%
-  ggplot(aes(yardline_100, drive_points)) +
-  geom_jitter(alpha = .1, size = 1, height = .25, width = 0) +
-  theme_stata(scheme = "sj", base_size = 12) +
-  labs(x = "Distance from end zone",
-       y = "Points on drive",
-       caption = "Figure: @benbbaldwin | Data: @nflfastR",
-       title = 'Points vs field position') +
-  theme(
-    plot.title = element_text(face = 'bold'),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    aspect.ratio = 1/1.618
-  ) +
-  geom_smooth()
-
-
-model1 <- gam(drive_points ~ s(yardline_100) + s(rest), data=drives)
-plot(model1)
-
-model2 <- gam(drive_points ~ s(yardline_100), data=drives)
-
-
-drives$points_hat <- predict.gam(model2, drives)
-drives$points_over_expected <- drives$drive_points - drives$points_hat
-
-
-# rest vs points
-drives %>%
-  mutate(rest = rest * 60) %>%
-  ggplot(aes(rest, points_over_expected)) +
-  # geom_point(alpha = .1, size = 1) +
-  theme_bw() +
-  labs(x = "Rest time (minutes)",
-       y = "Points over expected",
-       caption = "Figure: @benbbaldwin | Data: @nflfastR",
-       title = 'Points over expected vs rest time') +
-  theme(
-    plot.title = element_text(face = 'bold'),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    aspect.ratio = 1/1.618
-  ) +
-  theme_stata(scheme = "sj", base_size = 12) +
-  geom_smooth() +
-  scale_x_continuous(breaks = scales::pretty_breaks(15))
-
-
-
-
-drives %>%
-  filter(cum_time_on_field < -8) %>%
-  select(game_id, fixed_drive)
-
-drives %>%
-  select(fixed_drive, defteam, rest, drive_length) %>%
-  mutate(
-    # cum_rest = cumsum(replace_na(rest, 0)) - replace_na(rest, 0)
-    cum_time_on_field = cumsum(drive_length) - drive_length
+    game_id, fixed_drive, start_time, end_time, half, quarter, point_diff,
+    posteam, defteam, yardline_100, game_seconds_remaining, half_seconds_remaining, rest, rest_plays,
+    cum_time_on_field, cum_plays_on_field, drive_points, prior_drive_result,
+    cum_rest, cum_rest_plays
   )
 
-drives %>%
-  mutate(rest = round(rest, 0)) %>%
-  select(rest) %>%
-  group_by(rest) %>%
-  summarise(n = n())
-
-drives %>%
-  filter(rest < 45) %>%
-  ggplot(aes(x = rest)) +
-  geom_histogram() +
-  theme_stata(scheme = "sj", base_size = 12) +
-  xlab("Minutes")
+saveRDS(drives, '_posts/2020-08-25-defense-and-rest-time-re-visited/data.rds')
 
 
