@@ -12,7 +12,7 @@ collections:
 output_dir: "docs"
 navbar:
   logo:
-    image: images/logo.png
+    image: _images/logo.png
     href: https://twitter.com/Open_Source_FB
   right:
     - text: "Home"
