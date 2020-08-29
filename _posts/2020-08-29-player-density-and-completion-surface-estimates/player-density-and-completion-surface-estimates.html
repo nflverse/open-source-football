@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Player Density and Completion Surface Estimates</title>
+  
+  <meta property="description" itemprop="description" content="Methods for modeling density estimates and expected completion percentages across the football field for individual players."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-08-29"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-08-29"/>
+  <meta name="article:author" content="Ethan Douglas"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Player Density and Completion Surface Estimates"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Methods for modeling density estimates and expected completion percentages across the football field for individual players."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Player Density and Completion Surface Estimates"/>
+  <meta property="twitter:description" content="Methods for modeling density estimates and expected completion percentages across the football field for individual players."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Player Density and Completion Surface Estimates"]},{"type":"character","attributes":{},"value":["Methods for modeling density estimates and expected completion percentages across the football field for individual players.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Ethan Douglas"]},{"type":"character","attributes":{},"value":["https://twitter.com/ChiefsAnalytics"]}]}]},{"type":"character","attributes":{},"value":["08-29-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["nflfastR","python"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["player-density-and-completion-surface-estimates_files/bowser-1.9.3/bowser.min.js","player-density-and-completion-surface-estimates_files/distill-2.2.21/template.v2.js","player-density-and-completion-surface-estimates_files/figure-html5/comp_diff-1.png","player-density-and-completion-surface-estimates_files/figure-html5/comp_surface-1.png","player-density-and-completion-surface-estimates_files/figure-html5/gam-1.png","player-density-and-completion-surface-estimates_files/figure-html5/masked-1.png","player-density-and-completion-surface-estimates_files/figure-html5/partial_dependencies-1.png","player-density-and-completion-surface-estimates_files/figure-html5/partial_dependencies-2.png","player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png","player-density-and-completion-surface-estimates_files/jquery-1.11.3/jquery.min.js","player-density-and-completion-surface-estimates_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="player-density-and-completion-surface-estimates_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="player-density-and-completion-surface-estimates_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="player-density-and-completion-surface-estimates_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="player-density-and-completion-surface-estimates_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Player Density and Completion Surface Estimates","description":"Methods for modeling density estimates and expected completion percentages across the football field for individual players.","authors":[{"author":"Ethan Douglas","authorURL":"https://twitter.com/ChiefsAnalytics","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2021-08-29T00:00:00.000-07:00","citationText":"Douglas, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Player Density and Completion Surface Estimates</h1>
+<p><p>Methods for modeling density estimates and expected completion percentages across the football field for individual players.</p></p>
+</div>
+
+<div class="d-byline">
+  Ethan Douglas <a href="https://twitter.com/ChiefsAnalytics" class="uri">https://twitter.com/ChiefsAnalytics</a> 
+  
+<br/>08-29-2021
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#density-estimates-and-expected-completion-surfaces">Density Estimates and Expected Completion Surfaces</a><ul>
+<li><a href="#density-estimates">Density Estimates</a></li>
+<li><a href="#expected-completion-surfaces">Expected Completion Surfaces</a></li>
+</ul></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h1 id="density-estimates-and-expected-completion-surfaces">Density Estimates and Expected Completion Surfaces</h1>
+<p>In this post I will cover</p>
+<ul>
+<li><p>Using the scipy library to create your own kernel density estimator</p></li>
+<li><p>Using this estimator to easily compare the densities of two players</p></li>
+<li><p>Modeling the expected completion % of a pass, and plotting these probabilities as a surface over the field</p></li>
+<li><p>Modeling the expected completion % of a pass for a particular player or team, and comparing that to the rest of the league</p></li>
+</ul>
+<p>In my <a href="https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization/">last post</a> I gave some examples of how you can use the seaborn library in python to plot heat maps of NFL passing locations. For this post I’m going to pick right back up where we left off - performing kernal density estimates (KDEs) with the scipy library rather than relying on the seaborn library. The advantage here is that we can get an estimate of the density of the passes, and then “slice and dice” that estimate however we want, performing calculations on the output. I’ll show you why that can be useful.</p>
+<p>As a reminder, we wanted to compare the densities of Patrick Mahomes and Derek Carr. Our graph worked fine - but what if we wanted to overlay those densities, so that the true differences were more apparent? That’s where the more manual (but still very much not manual) KDE comes in. One important note before we begin: while I’ve since modified the code a bit, as I mentioned in the previous post this Next Gen Stats scraper was first created by <a href="https://arxiv.org/abs/1906.03339">Sarah Mallepalle et al. (2019)</a>. I cannot recommend reading this paper enough!</p>
+<h2 id="density-estimates">Density Estimates</h2>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#imports
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from scipy import stats
+from pygam import LogisticGAM, s, f, te
+#I&#39;m surpressing warnings here because the PyGAM library warns you that the p-values are smaller than likely, which I am not concerned with.
+import warnings
+warnings.filterwarnings(&quot;ignore&quot;)
+#load passing location data
+df = pd.read_csv(&#39;https://raw.githubusercontent.com/ArrowheadAnalytics/next-gen-scrapy-2.0/master/pass_and_game_data.csv&#39;, low_memory=False)
+#There&#39;s an additional index row we don&#39;t need, so I am getting rid of it here
+df = df.iloc[0:,1:]
+df.dropna(inplace=True)</code></pre>
+</div>
+<p>What we’re going to do here is create a helper function, which will allow is to perform the kernal density. The key to making these KDEs comparable between players is the grid size. By keeping these constant between players we are comparing apples to apples.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Function that will help us get our data in the right shape every time we want to do this estimate
+def kde_helper(df,name):
+    &#39;&#39;&#39;Function to get data in the correct form for the KDE function
+    inputs: dataframe, player name
+    output: KDE applied to mesh grid, ready for plotting&#39;&#39;&#39;
+    #Creating a mesh grid dividing each yard in half (so 4 units in a square yard),
+    #between the boundaries of the x and y coordinates (the min and max of our data) supplied.
+    m1 = df[&#39;x_coord&#39;].loc[(df[&#39;name&#39;].str.contains(name))]
+    m2 = df[&#39;y_coord&#39;].loc[(df[&#39;name&#39;].str.contains(name))]
+    #By using the same size grid each time we perform these estimates, we can make direct apples to apples comparisons between players. 
+    #What we&#39;re doing with this line is creating a &quot;mesh grid&quot; (think matrix) which we&#39;ll eventually evaluate the KDE on
+    X, Y = np.mgrid[-30:30:121j, -10:60:141j]
+    #flatten and stack these grids, giving a 2xn array of positions where n = 121*141 (the # of steps for each direction)
+    #Basically what we are getting here is a &quot;coordinate&quot; for every single step we&#39;ve created.
+    #We start the x min at -30, so there will be 141 -30s - because -30 will be paired with every step we&#39;ve created in the y direction.
+    positions = np.vstack([X.ravel(), Y.ravel()])
+    #Stack the values we care about in a 2xm array (basically transposing them here), where m is just the length of our supplied data
+    values = np.vstack([m1, m2])
+    #Perform the kernel estimation on the values we care about - you can think of this as &quot;training&quot; the kernel estimator
+    kernel = stats.gaussian_kde(values)
+    #Generate probabilities at the positions specified, transpose them, and put them back into the grid shape for plotting
+    Z = np.reshape(kernel(positions).T, X.shape)
+    return Z</code></pre>
+</div>
+<p>Now that we’ve got the helper function, we can try it out!</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#We&#39;ll start with Mahomes
+name=&#39;Mahomes&#39;
+mahomes_kde = kde_helper(df,name)
+#That was easy! Now Carr
+name=&#39;Carr&#39;
+carr_kde = kde_helper(df,name)</code></pre>
+</div>
+<p>So we’ve got our two estimates. There are different ways you can play around with these estimates to find insights but what I’m going to focus on is the difference between the two estimates. The nice thing is this is really easy to do, you just subtract them.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#again - simple!
+diff_kde = mahomes_kde - carr_kde</code></pre>
+</div>
+<p>The plotting here is a bit different than what we did in the previous post. We’ll be using matplotlib’s imshow() function, which is what you use to display image files like JPEGs. imshow accepts a matrix as an input, either MxN (what we have with our kde - a colormap), MxNx3 (how a traditional “picture” is stored - RGB values for each pixel location), or MxNx4 (adding an additional layer of our matrix to control the transparency level)</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+#Set our style
+plt.style.use(&#39;seaborn-talk&#39;)
+
+fig, ax1 =plt.subplots(1,1)
+
+#This line is where the magic happens. Because of the way we performed the KDE, we have to rotate our data 270 degrees to plot in the orientation we want (np.rot90)
+#Next, we want to make sure a pixel in the left direction is the same coordinate distance as a pixel in the vertical direction, so we set aspect to equal
+#The extent is setting the coordinate system of the displayed image (along with the &quot;origin&quot; parameter). This is necessary to make sure that what we are indicating is the 20 yard line shows up as the 20 yardline in the pic
+#Next, we want to normalize our colormap so that 0 is in the exact middle of the colormap. We can do this by having vmin and vmax have the same absolute value
+#Lastly, we set the colormap parameter. I like &quot;diverging&quot; colormaps that have white in the middle for comparison plots, so it is clear which values are positive, negative, and 0.
+plt.imshow(np.fliplr(np.rot90(diff_kde,3)),
+           origin=&#39;lower&#39;, aspect=&#39;equal&#39;,
+           extent=[-30, 30, -10, 60],
+           norm = mpl.colors.Normalize(vmin=-0.0005, vmax=0.0005),
+           cmap=&#39;RdBu_r&#39;)
+#Add a &quot;colorbar&quot;, a scale so people know what color represents what
+cbar = plt.colorbar()
+cbar.set_label(&quot;\nMahomes (Red) - Carr (Blue) passing densities&quot;)
+#We don&#39;t really care about the values here, only the relative differences. 
+#The values will change depending on how small we slice up our field. So, I only want to show the viewer what 0 is.
+cbar.set_ticks([0])
+#Set title, remove ticks and labels
+ax1.set_title(&#39;Mahomes vs Carr - NFL Passing Densities&#39;)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-10,60)
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-10,60,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.5, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+ax1.annotate(&#39;Line of Scrimmage&#39;, (16,0),
+             textcoords=&quot;offset points&quot;, # how to position the text
+                 xytext=(0,5), # distance from text to points (x,y)
+                 ha=&#39;center&#39;,fontsize = 9) # horizontal alignment can be left, right or center
+</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" width="998" /></p>
+</div>
+<p>This plot lets us see the differences in the densities between the two players, but there’s a lot of color there. Depending on the device you’re viewing this chart on, it may be hard to know what areas of the field to focus on. In order to help better direct the viewer to the most prominent differences, we can “mask” the image so that we only show the extreme differences.</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+#Here&#39;s our mask. It may seem weird to use &quot;masked_inside&quot; here when we want the values on the extremes (outside these numbers), but keep in mind this is the &quot;masked&quot; array - so the mask_inside will hide all values inside these boundaries
+#You can manually set these numbers, but for simplicity and consistency I&#39;m going to go with the top and bottom quartiles of our differences. Show I&#39;m showing the top 25% units where Mahomes has higher density than Carr, and the top 25% where Carr has higher density than Mahomse
+diff_masked = np.ma.masked_inside(diff_kde, np.percentile(diff_kde, 25), np.percentile(diff_kde, 75))
+
+plt.style.use(&#39;seaborn-talk&#39;)
+
+fig, ax1 =plt.subplots(1,1)
+
+
+plt.imshow(np.fliplr(np.rot90(diff_masked,3)),
+           origin=&#39;lower&#39;, aspect=&#39;equal&#39;,
+           extent=[-30, 30, -10, 60],
+           norm = mpl.colors.Normalize(vmin=-0.0005, vmax=0.0005),
+           cmap=&#39;RdBu_r&#39;)
+
+#Set title, remove ticks and labels
+ax1.set_title(&#39;Mahomes (red) vs Carr (blue) - NFL Passing Densities&#39;)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-10,60)
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-10,60,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.5, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+ax1.annotate(&#39;Line of Scrimmage&#39;, (16,0),
+             textcoords=&quot;offset points&quot;, # how to position the text
+                 xytext=(0,5), # distance from text to points (x,y)
+                 ha=&#39;center&#39;,fontsize = 9) # horizontal alignment can be left, right or center</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/masked-1.png" width="998" /></p>
+</div>
+<p>So now a viewer can pretty easily see the most relevant differences between two players. In this case, Carr is far more likely to target players around the line of scrimmage, while Mahomes is more likely to do “deep” screens (&lt;-5 yards) or passes past the 10 yardline. If you aren’t a fan of the red and blue, you can play around with all of the <a href="https://matplotlib.org/tutorials/colors/colormaps.html">available matplotlib colormaps</a>. Again, I recommend a diverging map for this kind of plot but you can certainly get creative.</p>
+<h2 id="expected-completion-surfaces">Expected Completion Surfaces</h2>
+<p>While densities can help tell us tendencies, they don’t tell us how well a player performed when targeting a certain area of the field. Ideally, we’d like to match this pass location data to play by play data and look at the expected points added of each throw, but due to the inconsistincies with the way different stadiums record air yards that’s quite difficult to do (though I highly encourage any ambitious reader to try. You’d add a lot to this field if you can pull it off). Since we don’t have expected points, we’ll try the next best thing: expected completion percentage.</p>
+<p>In our dataset, we have the x and y coordinate of the pass, the player who threw the ball, the team they threw it against, some final game information (final score, game location) and whether or not the pass was completed. For now we’ll just estimate probabilities for the whole league, focusing on just the x and y coordinate of the pass. Now I’m not a statistician, so I can’t say for certain what model is best for this task. Thankfully, the amazing creators of the original NGS scraper <em>are</em> trained statisticians, and they’ve laid out in <a href="https://arxiv.org/abs/1906.03339">their paper</a> why <em>generalized additive models</em> would be a good choice for this task. To quickly summarise, they allow us to both capture potential nonlinearities while also giving us a very smooth output, which is both nice for plotting and likely matches the reality of throwing a football (it is unlikely that there are very jagged differences or harsh cutoffs in difficulty as pass locations move throughout the field, but rather we’d expect the change in the “true” completion percentage to be smooth).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#We have to do a bit of cleaning to get the data in a form we can use for the model. First, we need to convert out pass_type column into a binary variable instead of the categorical complete, incomplete, touchdown, and interception. 
+df[&#39;is_complete&#39;] = 0
+df.loc[((df[&#39;pass_type&#39;]==&#39;COMPLETE&#39;) | (df[&#39;pass_type&#39;]==&#39;TOUCHDOWN&#39;)), &#39;is_complete&#39;] = 1
+
+#Now let&#39;s see the distribution of our outcome
+print(df.is_complete.mean())</code></pre>
+<pre><code>
+0.6532767626998791</code></pre>
+</div>
+<p>Our classes are a bit unbalanced. We have more complete passes than incomplete, though not too drastically so. This class imbalance would be more important if we had imbalanced penalties for assigning incorrect classes. In other words, if we cared more about false negatives than false positives. In this case, it is no worse to predict an incomplete pass complete, than it is to predict a complete pass incomplete (unlike many systems we may try to model in the medical field). So the main reason we care about class imbalance here is when it comes to assessing the performance of our model; because 65% of our passes are complete, just predicting every single pass will be complete will already get us to 65% accuracy. This post isn’t meant to be a deep dive in classification, so we’re not going to address the class imbalance further.</p>
+<p>Let’s use a similar model structure to the one introduced by Mallepalle et al. (2019) Sticking with python, we’ll take advantage of the <a href="https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html">PyGAM library</a> here.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#Get the features and outcomes we care about
+X = df[[&#39;x_coord&#39;,&#39;y_coord&#39;]]
+y = df[[&#39;is_complete&#39;]]
+#Fit our model
+gam = LogisticGAM().fit(X, y)
+#Test the accuracy of our model
+gam.summary()</code></pre>
+<pre><code>
+LogisticGAM                                                                                               
+=============================================== ==========================================================
+Distribution:                      BinomialDist Effective DoF:                                     30.9458
+Link Function:                        LogitLink Log Likelihood:                                -25666.4423
+Number of Samples:                        43839 AIC:                                            51394.7762
+                                                AICc:                                           51394.8243
+                                                UBRE:                                               3.1729
+                                                Scale:                                                 1.0
+                                                Pseudo R-Squared:                                   0.0928
+==========================================================================================================
+Feature Function                  Lambda               Rank         EDoF         P &gt; x        Sig. Code   
+================================= ==================== ============ ============ ============ ============
+s(0)                              [0.6]                20           17.1         0.00e+00     ***         
+s(1)                              [0.6]                20           13.8         0.00e+00     ***         
+intercept                                              1            0.0          7.85e-05     ***         
+==========================================================================================================
+Significance codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+WARNING: Fitting splines and a linear function to a feature introduces a model identifiability problem
+         which can cause p-values to appear significant when they are not.
+
+WARNING: p-values calculated in this manner behave correctly for un-penalized models or models with
+         known smoothing parameters, but when smoothing parameters have been estimated, the p-values
+         are typically lower than they should be, meaning that the tests reject the null too readily.</code></pre>
+<pre class="python"><code>
+gam.accuracy(X,y)</code></pre>
+<pre><code>
+0.7013389903966788</code></pre>
+</div>
+<p>So with a quick simple model we’ve improved the accuracy of just assuming every pass will be complete, but we’re still incorrectly classifying 30% of passes. This isn’t too surprising though - we’ve got many different quarterbacks throwing the ball to many different wide receivers against many different defenses. Just including the location of the pass <em>shouldn’t</em> get us too accurate of a model, or we’d start to think that players don’t matter!</p>
+<p>One very useful aspect of GAMs is that because they are an <strong>additive</strong> model, we can explore how each feature is influencing the model output by holding the other features constant at their average value. Let’s plot what that looks like.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+##I&#39;ll confess I just copy and pasted this straight from the pygam documentation, you could definitely clean these up further and add relevant titles. 
+for i, term in enumerate(gam.terms):
+    if term.isintercept:
+        continue
+        
+
+    XX = gam.generate_X_grid(term=i)
+    pdep, confi = gam.partial_dependence(term=i, X=XX, width=0.95)
+
+    plt.figure()
+    plt.plot(XX[:, term.feature], pdep)
+    plt.plot(XX[:, term.feature], confi, c=&#39;r&#39;, ls=&#39;--&#39;)
+    plt.title(repr(term))
+    if i == 0:
+      plt.show()</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/partial_dependencies-1.png" width="624" /><img src="player-density-and-completion-surface-estimates_files/figure-html5/partial_dependencies-2.png" width="624" /></p>
+</div>
+<p>I find these plots to be super cool (yes I’m a nerd but hey, you’re the one reading an open-source football post!) because they can let us easily see where the decreased probability in throwing a pass in certain areas of the field come from. One thing that immediately jumps out from these plots is that the only real influence of the x coordinate is passes close to either sideline. Otherwise, it is the depth of the pass (y coordinate) that is the driver behind the difficulty in completing it. This is exactly why a linear model would not do well here - the difference in completion probability from x coordinate 28 to x coordinate 25 is far different than the difference in cp from x coordinate 18 to x coordinate 15.</p>
+<p>Okay so we’ve fit our model and explored the feature dependencies a bit, but how do we go about visualizing this?</p>
+<p>Similar to our KDE plotting, we’ll build a helper function for this</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+def gam_helper(df):
+    x = df[[&#39;x_coord&#39;,&#39;y_coord&#39;]]
+    y = df[&#39;is_complete&#39;]
+        #Similar to our KDE helper, we want a mesh grid that we will eventually evaluate the model on
+    X, Y = np.mgrid[-30:30:121j, -10:60:141j]
+        #Once again we want to flatten and stack our coordinates
+    positions = np.vstack([X.ravel(), Y.ravel()])
+        #Instead of a kde we fit a gam. Here I&#39;m adjusting the number of splines to avoid overfitting, since we aren&#39;t doing any sort of hold out or cross validation in this post
+    gam = LogisticGAM(s(0, n_splines=8) + s(1, n_splines=8) + te(0,1)).fit(x, y)
+        #Generate probabilities at the positions specified, transpose them, and put them back into the grid shape for plotting
+    Z = np.reshape(gam.predict_mu(positions.T).T, X.shape)
+    return Z
+    
+#Call our function
+pass_gam = gam_helper(df)
+
+
+#Plot our output, same code as before
+plt.style.use(&#39;seaborn-talk&#39;)
+
+fig, ax1 =plt.subplots(1,1)
+
+#This is where the magic happens here. Because of the way we performed the KDE, we have to rotate our data 270 degrees to plot in the orientation we want (np.rot90)
+#Next, we want to make sure a pixel in the left direction is the same coordinate distance as a pixel in the vertical direction, so we set aspect to equal
+#The extent is setting the coordinate system of the displayed image (along with the &quot;origin&quot; parameter). This is necessary to make sure that what we are indicating is the 20 yard line shows up as the 20 yardline in the pic
+#Next, we want to normalize our colormap so that 0 is in the exact middle of the colormap. We can do this by having vmin and vmax have the same absolute value
+#Lastly, we set the colormap parameter. I like &quot;diverging&quot; colormaps that have white in the middle for comparison plots, so it is clear which values are positive, negative, and 0.
+plt.imshow(np.fliplr(np.rot90(pass_gam,3)),
+           origin=&#39;lower&#39;, aspect=&#39;equal&#39;,
+           extent=[-30, 30, -10, 60],
+           norm = mpl.colors.Normalize(vmin=0, vmax=1),
+           cmap=&#39;PiYG&#39;)
+#Add a &quot;colorbar&quot;, a scale so people know what color represents what
+cbar = plt.colorbar()
+cbar.set_label(&quot;\nEstimated Completion Probability&quot;)
+
+#Set title, remove ticks and labels
+ax1.set_title(&#39;League-wide Estimated Completion Probability&#39;)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-10,60)
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-10,60,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.5, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+ax1.annotate(&#39;Line of Scrimmage&#39;, (16,0),
+             textcoords=&quot;offset points&quot;, # how to position the text
+                 xytext=(0,5), # distance from text to points (x,y)
+                 ha=&#39;center&#39;,fontsize = 9) # horizontal alignment can be left, right or center</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/gam-1.png" width="998" /></p>
+</div>
+<p>There are a few different ways we can expand on this. First, we could play around with the model more. We didn’t do any hold out or cross validation in our model, we just checked the accuracy of the model on the data it was trained on.</p>
+<p>Additionally, the original expected completion surface model introduced by Mallepalle et. al (2019) used smooth tensor products (ti) for all terms, whereas the python GAM library does not have this functionality - instead I just used spline terms and a tensor product term. So, our results differ a bit (though they should be expected to differ some because I’ve included the 2019 season which was not in the original paper). In general for statistical modeling I prefer and recommend using R, however I wanted to try keeping this post all in python.</p>
+<p>A logical next step is to estimate completion probabilities for a given QB or against a given defense. The simple way of doing this is very straightforward. You just filter your dataframe using .loc to get the QB or team you want, and repeat the process above. However, you’re going to be left with a model that is very likely to be “overfit” (admittedly I’ve done this quite a bit on twitter, but as I said before - I’m not a statistician!). Derek Carr for instance only has a handful of passes deep, but we would not expect that small sample size to be representative of the “true” completion percentage if Carr threw to every square yard on the field thousands of times. To combat that, one approach you can use is what Mallepalle et. al did and use a 2-Dimensional Naive Bayesian approach where you leverage the sample size of the entire league but give it less weight as the QB of interest has completed a greater number of passes in a given location of the field. Source code for this from the Mallepalle et al. paper can be found <a href="https://github.com/ryurko/next-gen-scrapy/blob/master/jqas_paper_code.Rmd">here</a>, which is what I drew from below (though the source code is in R, it’s quite straightforward to adapt to python.)</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="python"><code>
+#league-wide data
+#median number of passes 
+med_n_passes = df.groupby(by=&#39;name&#39;)[&#39;x_coord&#39;].count().median()
+#league-wide comp. probability estimates
+league_gam = gam_helper(df)
+#league-wide kde
+league_kde = kde_helper(df, &#39;&#39;)
+
+#QB data
+qb_name = &#39;Mahomes&#39;
+qb_df = df.loc[(df[&#39;name&#39;].str.contains(qb_name))]
+#Qb passes
+n_qb = len(qb_df)
+#QB comp. prob
+qb_gam = gam_helper(qb_df)
+#QB kde
+qb_kde = kde_helper(df, qb_name)
+
+#Everyone&#39;s favorite phrase - regress to the mean!
+regressed_model = (med_n_passes*league_gam*league_kde + n_qb*qb_gam*qb_kde) / (med_n_passes*league_kde + n_qb*qb_kde)</code></pre>
+</div>
+<p>Plotting this using the exact same code as before should show us how like Mahomes is to complete a pass at any part of the field, accounting for how little we know about his true ability in each area of the field.</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+plt.style.use(&#39;seaborn-talk&#39;)
+fig, ax1 =plt.subplots(1,1)
+
+plt.imshow(np.fliplr(np.rot90(regressed_model,3)),
+           origin=&#39;lower&#39;, aspect=&#39;equal&#39;,
+           extent=[-30, 30, -10, 60],
+           norm = mpl.colors.Normalize(vmin=0, vmax=1),
+           cmap=&#39;PiYG&#39;)
+#Add a &quot;colorbar&quot;, a scale so people know what color represents what
+cbar = plt.colorbar()
+cbar.set_label(&quot;\nMahomes Estimated Completion Probability&quot;)
+
+#Set title, remove ticks and labels
+ax1.set_title(&#39;Mahomes Estimated Completion Probability&#39;)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-10,60)
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-10,60,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.5, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+ax1.annotate(&#39;Line of Scrimmage&#39;, (16,0),
+             textcoords=&quot;offset points&quot;, # how to position the text
+                 xytext=(0,5), # distance from text to points (x,y)
+                 ha=&#39;center&#39;,fontsize = 9) # horizontal alignment can be left, right or center</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/comp_surface-1.png" width="998" /></p>
+</div>
+<p>This is definitely a different shape than the league-wide model we plotted. But exactly how does it differ? Once again we can answer this by subtracting our two models.</p>
+<div class="layout-chunk" data-layout="1-page">
+<pre class="python"><code>
+diff_gam = regressed_model - league_gam
+
+plt.style.use(&#39;seaborn-talk&#39;)
+fig, ax1 =plt.subplots(1,1)
+#Remember to change the min and max so again 0 is the midpoint, but the scale is more reasonable for the completion % data
+plt.imshow(np.fliplr(np.rot90(diff_gam,3)),
+           origin=&#39;lower&#39;, aspect=&#39;equal&#39;,
+           extent=[-30, 30, -10, 60],
+           norm = mpl.colors.Normalize(vmin=-0.5, vmax=0.5),
+           cmap=&#39;PiYG&#39;)
+
+cbar = plt.colorbar()
+cbar.set_label(&quot;\n Completion Prob over Leage Avg&quot;)
+
+#Set title, remove ticks and labels
+ax1.set_title(&#39;Mahomes Estimated Completion Probability Over Avg&#39;)
+ax1.set_xlabel(&#39;&#39;)
+ax1.set_xticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_yticks([])</code></pre>
+<pre class="python"><code>
+ax1.set_ylabel(&#39;&#39;)
+
+#Remove any part of the plot that is out of bounds
+ax1.set_xlim(-53.3333/2, 53.3333/2)</code></pre>
+<pre class="python"><code>
+ax1.set_ylim(-10,60)
+
+
+#Plot all of the field markings (line of scrimmage, hash marks, etc.)</code></pre>
+<pre class="python"><code>
+for j in range(-10,60,1):
+    ax1.annotate(&#39;--&#39;, (-3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    ax1.annotate(&#39;--&#39;, (3.1,j-0.5),
+                 ha=&#39;center&#39;,fontsize =10)
+    
+for i in range(-10,60,5):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.5, lw=1.5)
+    
+for i in range(-10,60,10):
+    ax1.axhline(i,c=&#39;k&#39;,ls=&#39;-&#39;,alpha=0.7, lw=1.5)
+    
+for i in range(10,60-1,10):
+    ax1.annotate(str(i), (-12.88,i-1.15),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=270)
+    
+    ax1.annotate(str(i), (12.88,i-0.65),
+            ha=&#39;center&#39;,fontsize =15,
+                rotation=90)
+
+ax1.annotate(&#39;Line of Scrimmage&#39;, (16,0),
+             textcoords=&quot;offset points&quot;, # how to position the text
+                 xytext=(0,5), # distance from text to points (x,y)
+                 ha=&#39;center&#39;,fontsize = 9) # horizontal alignment can be left, right or center</code></pre>
+<p><img src="player-density-and-completion-surface-estimates_files/figure-html5/comp_diff-1.png" width="998" /></p>
+</div>
+<p>Mahomes has clearly had more success than most completing passes to the deep middle of the field.</p>
+<p>We could go further here by utilizing the mask we used previously and only showing extreme differences (maybe greater or less than 10% above average), but I think this is a good place to stop for this post. I was incredibly pleased with the amount of people who played around with this data and code after the last post, and hopefully this inspires even more. But please remember to <em>credit and cite Sarah Mallepalle and her team at CMU</em>, since so much of this code and the original scraper came from them!</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
