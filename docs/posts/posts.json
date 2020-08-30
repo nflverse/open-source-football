@@ -22,6 +22,26 @@
     "preview_height": 768
   },
   {
+    "path": "posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/",
+    "title": "Adding ESPN and 538 Game Predictions to nflfastR Data",
+    "description": "Here, we'll look at how to scrape ESPN's and 538's pregame predictions and merge them into nflfastR data",
+    "author": [
+      {
+        "name": "Jonathan Goldberg",
+        "url": "https://twitter.com/gberg1303"
+      }
+    ],
+    "date": "2020-08-29",
+    "categories": [
+      "Scraping",
+      "Game Predicitions",
+      "nflfastR"
+    ],
+    "preview": {},
+    "last_modified": "2020-08-29T23:43:25-04:00",
+    "input_file": "adding-espn-and-538-game-predictions-to-nflfastr-data.utf8.md"
+  },
+  {
     "path": "posts/2020-08-28-fast-data-loading/",
     "title": "Fast Data Loading",
     "description": "Loading your nfl data at 10x speed!",

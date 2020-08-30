@@ -2,23 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/about.html</loc>
-    <lastmod>2020-08-29T20:52:06+00:00</lastmod>
+    <lastmod>2020-08-29T17:24:45-04:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/contributing.html</loc>
-    <lastmod>2020-08-29T20:52:06+00:00</lastmod>
+    <lastmod>2020-08-29T17:24:45-04:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/contributors_list.html</loc>
-    <lastmod>2020-08-29T20:52:06+00:00</lastmod>
+    <lastmod>2020-08-29T17:24:45-04:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/</loc>
-    <lastmod>2020-08-29T20:52:06+00:00</lastmod>
+    <lastmod>2020-08-29T17:24:45-04:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/</loc>
     <lastmod>2020-08-29T20:52:06+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/</loc>
+    <lastmod>2020-08-29T23:43:25-04:00</lastmod>
   </url>
   <url>
     <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/</loc>
