@@ -6,6 +6,11 @@
     <atom:link href="https://mrcaseb.github.io/open-source-football/index.xml" rel="self" type="application/rss+xml"/>
     <description>A place where anybody can share their work with others
 </description>
+    <image>
+      <title>Open Source Football</title>
+      <url>https://mrcaseb.github.io/open-source-football/logo.png</url>
+      <link>https://mrcaseb.github.io/open-source-football/</link>
+    </image>
     <generator>Distill</generator>
     <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0000</lastBuildDate>
     <item>
