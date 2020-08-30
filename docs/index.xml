@@ -25,6 +25,17 @@
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
     </item>
     <item>
+      <title>Adding ESPN and 538 Game Predictions to nflfastR Data</title>
+      <dc:creator>Jonathan Goldberg</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</link>
+      <description>Here, we'll look at how to scrape ESPN's and 538's pregame predictions and merge them into nflfastR data</description>
+      <category>Scraping</category>
+      <category>Game Predicitions</category>
+      <category>nflfastR</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</guid>
+      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
       <title>Faceted and Animated Heatmaps</title>
       <dc:creator>Analytics Darkweb</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</link>
