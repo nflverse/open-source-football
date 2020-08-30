@@ -254,6 +254,8 @@ NFL_Games <- NFL_Games %>%
          correct_numberfire = ifelse(ifelse(numberfire > .5, 1, 0) == home_win, 1, 0),
          correct_fivethirtyeight = ifelse(ifelse(fivethirtyeight_home_wp > .5, 1, 0) == home_win, 1, 0))
 Accuracy_Dataset <- NFL_Games  %>%
+  # Filter out Playoff Games
+  filter(game_type == "REG") %>%
   # Pivot Longer to allow group_by and summarize
   pivot_longer(
     cols = starts_with("correct_"),
@@ -264,7 +266,7 @@ Accuracy_Dataset <- NFL_Games  %>%
   # Group and Summarize
   group_by(predictor) %>%
   summarise(
-    games = n(),
+    games = sum(!is.na(correct)),
     games_correct = sum(correct, na.rm = TRUE),
     percent_correct = round(mean(correct, na.rm = TRUE),3)
   )

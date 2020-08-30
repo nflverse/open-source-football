@@ -1634,6 +1634,8 @@ NFL_Games &lt;- NFL_Games %&gt;%
     correct_fivethirtyeight = ifelse(ifelse(fivethirtyeight_home_wp &gt; .5, 1, 0) == home_win, 1, 0)
   )
 Accuracy_Dataset &lt;- NFL_Games %&gt;%
+  # Filter out Playoff Games
+  filter(game_type == &quot;REG&quot;) %&gt;%
   # Pivot Longer to allow group_by and summarize
   pivot_longer(
     cols = starts_with(&quot;correct_&quot;),
@@ -1644,7 +1646,7 @@ Accuracy_Dataset &lt;- NFL_Games %&gt;%
   # Group and Summarize
   group_by(predictor) %&gt;%
   summarise(
-    games = n(),
+    games = sum(!is.na(correct)),
     games_correct = sum(correct, na.rm = TRUE),
     percent_correct = round(mean(correct, na.rm = TRUE), 3)
   )
@@ -1664,8 +1666,8 @@ Accuracy_Dataset &lt;- Accuracy_Dataset %&gt;%
   mutate(brier_score = round(brier_score, 3))</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-page">
-<div id="htmlwidget-04426c0acbbab10e91d1" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-04426c0acbbab10e91d1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"predictor":["numberfire","espn","fivethirtyeight"],"games":[534,534,534],"games_correct":[335,326,339],"percent_correct":[0.654,0.637,0.635],"brier_score":[0.212,0.213,0.223]},"columns":[{"accessor":"predictor","name":"Predictor","type":"character","minWidth":110,"align":"left"},{"accessor":"games","name":"Predictions","type":"numeric","minWidth":100,"align":"center"},{"accessor":"games_correct","name":"Correct Predictions","type":"numeric","minWidth":100,"align":"center"},{"accessor":"percent_correct","name":"% Correct","type":"numeric","minWidth":100,"align":"center","className":"border-left","style":[{"background":"#00B0A7"},{"background":"#008DB8"},{"background":"#0089BA"}]},{"accessor":"brier_score","name":"Brier Score","type":"numeric","minWidth":100,"align":"center","style":[{"background":"#0089BA"},{"background":"#008CB8"},{"background":"#00B0A7"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"compact":true,"theme":{"headerStyle":{"&:hover[aria-sort]":{"background":"hsl(0, 0%, 96%)"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"hsl(0, 0%, 96%)"},"borderColor":"#555"}},"dataKey":"0429665cca106f3a25bfc8f596525d2d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b40f8214efdb70709f31" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b40f8214efdb70709f31">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"predictor":["numberfire","espn","fivethirtyeight"],"games":[512,512,512],"games_correct":[335,326,326],"percent_correct":[0.654,0.637,0.637],"brier_score":[0.212,0.213,0.223]},"columns":[{"accessor":"predictor","name":"Predictor","type":"character","minWidth":110,"align":"left"},{"accessor":"games","name":"Predictions","type":"numeric","minWidth":100,"align":"center"},{"accessor":"games_correct","name":"Correct Predictions","type":"numeric","minWidth":100,"align":"center"},{"accessor":"percent_correct","name":"% Correct","type":"numeric","minWidth":100,"align":"center","className":"border-left","style":[{"background":"#00B0A7"},{"background":"#0089BA"},{"background":"#0089BA"}]},{"accessor":"brier_score","name":"Brier Score","type":"numeric","minWidth":100,"align":"center","style":[{"background":"#0089BA"},{"background":"#008CB8"},{"background":"#00B0A7"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"compact":true,"theme":{"headerStyle":{"&:hover[aria-sort]":{"background":"hsl(0, 0%, 96%)"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"hsl(0, 0%, 96%)"},"borderColor":"#555"}},"dataKey":"d8de4b8852ab4402043c5b1982e6717d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>It’s unsurprising that Numberfire is significantly more accurate than the ESPN or 538 predictions. As an oddsmaker, they can see where bets are placed and update their lines accordingly. Essentially, Numberfire benefits from more information.</p>
 <p>I’m looking forward to the future investigations into predicting NFL games that may come from this data!</p>
