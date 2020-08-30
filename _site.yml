@@ -4,6 +4,11 @@ description: |
   A place where anybody can share their work with others
 base_url: https://mrcaseb.github.io/open-source-football/
 google_analytics: "UA-176408251-2"
+favicon: logo.png
+twitter:
+  site: "@Open_Source_FB"
+creative_commons: CC BY-NC
+repository_url: https://github.com/mrcaseb/open-source-football
 collections:
   posts:
     share: [twitter, facebook]
