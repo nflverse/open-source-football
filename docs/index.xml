@@ -25,6 +25,17 @@
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
     </item>
     <item>
+      <title>Defense and rest time re-visited</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited</link>
+      <description>Does incorporating actual rest time help us predict how a defense will do?</description>
+      <category>nflfastR</category>
+      <category>Articles</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited</guid>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
       <title>Adding ESPN and 538 Game Predictions to nflfastR Data</title>
       <dc:creator>Jonathan Goldberg</dc:creator>
       <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</link>
