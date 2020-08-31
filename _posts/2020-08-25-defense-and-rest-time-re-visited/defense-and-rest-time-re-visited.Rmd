@@ -38,9 +38,11 @@ drives <- readRDS('data.rds')
 
 ## Introduction
 
-In this post, we revisit an old piece I [did for Football Outsiders](https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time). In the piece, I looked at the relationship between defensive rest time and defensive performance, finding no evidence of a relationship. However, I didn't have a direct measure of rest time, so I had to use plays and time of possession rather than actual clock time elapsed. In the time since, `nflfastR`'s release means we now have the hour, minute, and second of each snap, so we can know how much time goes by between when the defense last took the field and the start of their subsequent defensive drive.
+In this post, we revisit an old piece I [did for Football Outsiders](https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time). In that piece, I looked at the relationship between defensive rest time and defensive performance, finding no evidence of a relationship. However, without a direct measure of rest time, I had to use plays of rest and time of possession of rest rather than the actual time in minutes that had gone by since the defense took the field. In the time since, `nflfastR`'s release means we now have the hour, minute, and second of each snap, so we can know how much time goes by between when the defense last took the field and the start of their subsequent defensive drive.
 
-A few quick notes before we dive in. This piece uses data from the 2015 through 2019 seasons. It would be possible to add more but each additional season involves some manual cleaning to remove games with clock errors and games with delays mid-game (e.g. from lightening), both of which cause all the figures to look bad. With five seasons of data, we still have nearly 30,000 drives to analyze. Because this is Open Source Football, you can see how I obtained and cleaned the data by checking the source code (the source code for all posts [is located here](https://github.com/mrcaseb/open-source-football/tree/master/_posts)).
+A few quick notes before we dive in. This piece uses data from the 2015 through 2019 seasons. It would be possible to add more but each additional season involves some manual cleaning to remove games with clock errors and games with delays mid-game (e.g. from lightening), both of which cause all the figures to look bad. In total, I remove five games with delays and six games with assorted problems with the clock time. With five seasons of data, we still have nearly 30,000 drives to analyze. 
+
+Because this is Open Source Football, you can see how I obtained and cleaned the data by checking the source code (the source code for all posts [is located here](https://github.com/mrcaseb/open-source-football/tree/master/_posts)).
 
 ## Overview of rest time
 
@@ -153,7 +155,7 @@ As shown above, defenses typically get around 5-20 minutes of rest, with the mod
  
 ## Rest plays versus rest time
 
-Let's return to what we're actually interested in. Is using the total plays a defense has spent resting a reasonable proxy for how long they have actually rested? (note: throughout, I'm excluding games with lightening or other delays because they mess with all these figures).
+Let's return to what we're actually interested in. Is using the total plays a defense has spent resting a reasonable proxy for how long they have actually rested?
 
 ```{r, echo = FALSE, layout="l-body-outset", fig.height=4, preview=TRUE}
 drives %>%
@@ -209,7 +211,7 @@ Something that jumps out in the figure above is the number of drives where the d
 
 ## Rest time versus field position
 
-We observe a relationship between field position versus time spent resting, where low rest time is associated with bad field position from the perspective of the defense. If your offense went three and out or committed a quick turnover, you have probably put your defense in a bad position.
+We indeed observe a relationship between field position versus time spent resting, where low rest time is associated with bad field position from the perspective of the defense. If your offense went three and out or committed a quick turnover, you have probably put your defense in a bad position.
 
 ```{r, echo = FALSE, layout="l-body-outset", fig.height=4}
 # rest vs field position
@@ -236,9 +238,9 @@ This means that, as in the [original piece](https://www.footballoutsiders.com/st
 
 ## Rest time versus defensive results
 
-To handle the field position issue, I first subtract off the expected points at a given yardline to obtain points over expected.  If rested defenses perform better, all else equal, we would expect to see a decreasing relationship between points per drive over expected and rest time.
+To handle the field position issue, I subtract off the expected points at a given yardline to obtain points over expected. Another factor to consider is the ends of halves. A lot of the short rest time drives are near the end of the half when networks have already gotten in the TV timeouts required, so there isn't an extended break between possessions like normal. But end-of-half situations are also less likely to score because of the clock being a factor. So in creating the expected points for a drive, I also account for the seconds remaining in a half when the drive started.
 
-Another factor to consider is the ends of halves. A lot of the short rest time drives are near the end of the first half when networks have already gotten in the TV timeouts required, so there isn't an extended break between possessions like normal. But end-of-half situations are also less likely to score. So I also account for the seconds remaining in a half when the drive started.
+If rested defenses perform better, all else equal, we would expect to see a decreasing relationship between points per drive over expected and rest time. Let's take a look:
 
 ```{r, echo = FALSE, layout="l-body-outset", fig.height=4}
 model <- mgcv::gam(drive_points ~ s(yardline_100) + s(half_seconds_remaining) +
@@ -268,7 +270,7 @@ drives %>%
   scale_x_continuous(breaks = scales::pretty_breaks(10))
 ```
 
-Instead of a decreasing relationship, we have a weakly positive one, but the confidence interval still spans zero at all points.
+Instead of a decreasing relationship, we have a weakly positive one, but pretty close to zero throughout the bulk of the distribution (e.g., between 5 and 20 minutes). So there doesn't seem to be much here.
 
 ## Wrapping up
 

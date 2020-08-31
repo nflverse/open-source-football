@@ -1405,50 +1405,99 @@ color: white;
 </nav>
 <hr class="d-toc-separator"/>
 <h2 id="introduction">Introduction</h2>
-<p>In this post, we revisit an old piece I <a href="https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time">did for Football Outsiders</a>. In the piece, I looked at the relationship between defensive rest time and defensive performance, finding no evidence of a relationship. However, I didn’t have a direct measure of rest time, so I had to use plays and time of possession rather than actual clock time elapsed. In the time since, <code>nflfastR</code>’s release means we now have the hour, minute, and second of each snap, so we can know how much time goes by between when the defense last took the field and the start of their subsequent defensive drive.</p>
-<p>A few quick notes before we dive in. This piece uses data from the 2015 through 2019 seasons. It would be possible to add more but each additional season involves some manual cleaning to remove games with clock errors and games with delays mid-game (e.g. from lightening), both of which cause all the figures to look bad. With five seasons of data, we still have nearly 30,000 drives to analyze. Because this is Open Source Football, you can see how I obtained and cleaned the data by checking the source code (the source code for all posts <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">is located here</a>).</p>
+<p>In this post, we revisit an old piece I <a href="https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time">did for Football Outsiders</a>. In that piece, I looked at the relationship between defensive rest time and defensive performance, finding no evidence of a relationship. However, without a direct measure of rest time, I had to use plays of rest and time of possession of rest rather than the actual time in minutes that had gone by since the defense took the field. In the time since, <code>nflfastR</code>’s release means we now have the hour, minute, and second of each snap, so we can know how much time goes by between when the defense last took the field and the start of their subsequent defensive drive.</p>
+<p>A few quick notes before we dive in. This piece uses data from the 2015 through 2019 seasons. It would be possible to add more but each additional season involves some manual cleaning to remove games with clock errors and games with delays mid-game (e.g. from lightening), both of which cause all the figures to look bad. In total, I remove five games with delays and six games with assorted problems with the clock time. With five seasons of data, we still have nearly 30,000 drives to analyze.</p>
+<p>Because this is Open Source Football, you can see how I obtained and cleaned the data by checking the source code (the source code for all posts <a href="https://github.com/mrcaseb/open-source-football/tree/master/_posts">is located here</a>).</p>
 <h2 id="overview-of-rest-time">Overview of rest time</h2>
 <p>With that out of the way, let’s jump in. Which defenses had the shortest rest times before they had to re-take the field since 2015?</p>
 <div class="layout-chunk" data-layout="l-body">
-<table>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th style="text-align: left;">Game</th>
-<th style="text-align: left;">Defense</th>
-<th style="text-align: right;">Rest seconds</th>
-<th style="text-align: left;">Prior drive result</th>
+<tr>
+<th style="text-align:left;">
+Game
+</th>
+<th style="text-align:left;">
+Defense
+</th>
+<th style="text-align:right;">
+Rest seconds
+</th>
+<th style="text-align:left;">
+Prior drive result
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">2018 Texans @ Colts</td>
-<td style="text-align: left;">IND</td>
-<td style="text-align: right;">101</td>
-<td style="text-align: left;">Turnover</td>
+<tr>
+<td style="text-align:left;">
+2018 Texans @ Colts
+</td>
+<td style="text-align:left;">
+IND
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:left;">
+Turnover
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">2018 Texans @ Patriots</td>
-<td style="text-align: left;">NE</td>
-<td style="text-align: right;">106</td>
-<td style="text-align: left;">Turnover</td>
+<tr>
+<td style="text-align:left;">
+2018 Texans @ Patriots
+</td>
+<td style="text-align:left;">
+NE
+</td>
+<td style="text-align:right;">
+106
+</td>
+<td style="text-align:left;">
+Turnover
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">2015 Dolphins @ Patriots</td>
-<td style="text-align: left;">MIA</td>
-<td style="text-align: right;">107</td>
-<td style="text-align: left;">Turnover</td>
+<tr>
+<td style="text-align:left;">
+2015 Dolphins @ Patriots
+</td>
+<td style="text-align:left;">
+MIA
+</td>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:left;">
+Turnover
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">2015 Jaguars @ Texans</td>
-<td style="text-align: left;">HOU</td>
-<td style="text-align: right;">108</td>
-<td style="text-align: left;">Turnover</td>
+<tr>
+<td style="text-align:left;">
+2015 Jaguars @ Texans
+</td>
+<td style="text-align:left;">
+HOU
+</td>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:left;">
+Turnover
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">2016 Raiders @ Broncos</td>
-<td style="text-align: left;">LV</td>
-<td style="text-align: right;">109</td>
-<td style="text-align: left;">Turnover</td>
+<tr>
+<td style="text-align:left;">
+2016 Raiders @ Broncos
+</td>
+<td style="text-align:left;">
+LV
+</td>
+<td style="text-align:right;">
+109
+</td>
+<td style="text-align:left;">
+Turnover
+</td>
 </tr>
 </tbody>
 </table>
@@ -1456,7 +1505,7 @@ color: white;
 <p>The shortest defensive rest time since 2015 was the Colts in 2018. At 35 seconds past 2:26pm Eastern, the Texans punted. On the subsequent play, Andrew Luck was sacked by JJ Watt, which led to a fumble recovered by the Texans. The Colts defense then took the field again at 16 seconds past 2:28pm Eastern, 101 seconds after they had last been on the field (this isn’t perfect, but I’m counting punts as a defensve being on a field. This doesn’t make a big difference either way).</p>
 <p>What about the longest rest times? Due to the length of Super Bowl halftimes, a lot of Super Bowls show up here:</p>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1554,7 +1603,7 @@ Touchdown
 </div>
 <p>As shown above, defenses typically get around 5-20 minutes of rest, with the modal time being exactly 10 minutes (I’m truncating drives over 40 minutes for this plot since they are rare, though as we’ve already seen, they exist).</p>
 <h2 id="rest-plays-versus-rest-time">Rest plays versus rest time</h2>
-<p>Let’s return to what we’re actually interested in. Is using the total plays a defense has spent resting a reasonable proxy for how long they have actually rested? (note: throughout, I’m excluding games with lightening or other delays because they mess with all these figures).</p>
+<p>Let’s return to what we’re actually interested in. Is using the total plays a defense has spent resting a reasonable proxy for how long they have actually rested?</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
@@ -1567,18 +1616,18 @@ Touchdown
 <p>Again, teams get some extra rest during halftime so the initial drive of the third quarter for each defense is systematically different than the others. Aside from that, the number of plays and the amount of time a defense has recently spent off the field tracks pretty closely.</p>
 <p>Something that jumps out in the figure above is the number of drives where the defense only had a play or two of rest. These are typically turnovers where the defense doesn’t have much time to rest before it has to go right back on the field. Thus, we would expect a relationship between how long a defense has rested and the field position it finds itself in.</p>
 <h2 id="rest-time-versus-field-position">Rest time versus field position</h2>
-<p>We observe a relationship between field position versus time spent resting, where low rest time is associated with bad field position from the perspective of the defense. If your offense went three and out or committed a quick turnover, you have probably put your defense in a bad position.</p>
+<p>We indeed observe a relationship between field position versus time spent resting, where low rest time is associated with bad field position from the perspective of the defense. If your offense went three and out or committed a quick turnover, you have probably put your defense in a bad position.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-4-1.png" width="1950" /></p>
 </div>
 <p>This means that, as in the <a href="https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time">original piece</a>, it’s important to separate out field position effects from rest time effects. If a defense had short rest time, it’s likely that it’s also beginning with poor field position.</p>
 <h2 id="rest-time-versus-defensive-results">Rest time versus defensive results</h2>
-<p>To handle the field position issue, I first subtract off the expected points at a given yardline to obtain points over expected. If rested defenses perform better, all else equal, we would expect to see a decreasing relationship between points per drive over expected and rest time.</p>
-<p>Another factor to consider is the ends of halves. A lot of the short rest time drives are near the end of the first half when networks have already gotten in the TV timeouts required, so there isn’t an extended break between possessions like normal. But end-of-half situations are also less likely to score. So I also account for the seconds remaining in a half when the drive started.</p>
+<p>To handle the field position issue, I subtract off the expected points at a given yardline to obtain points over expected. Another factor to consider is the ends of halves. A lot of the short rest time drives are near the end of the half when networks have already gotten in the TV timeouts required, so there isn’t an extended break between possessions like normal. But end-of-half situations are also less likely to score because of the clock being a factor. So in creating the expected points for a drive, I also account for the seconds remaining in a half when the drive started.</p>
+<p>If rested defenses perform better, all else equal, we would expect to see a decreasing relationship between points per drive over expected and rest time. Let’s take a look:</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-5-1.png" width="1950" /></p>
 </div>
-<p>Instead of a decreasing relationship, we have a weakly positive one, but the confidence interval still spans zero at all points.</p>
+<p>Instead of a decreasing relationship, we have a weakly positive one, but pretty close to zero throughout the bulk of the distribution (e.g., between 5 and 20 minutes). So there doesn’t seem to be much here.</p>
 <h2 id="wrapping-up">Wrapping up</h2>
 <p>This has hopefully been a useful peak at what we can do with the newly-available time of day information in <code>nflfastR</code>. After taking a tour of this data applied to rest time, I don’t think I’ve seen anything to change the conclusions about defensive rest obtained from measuring plays or time of possession. The most direct way an offense affects its team’s defense is through field position, with all other effects (including rest time) being secondary at best.</p>
 <p>In the future, it might be interesting to look at whether repeated short drives by an offense have a measurable effect on defensive performance. Given what we’ve already seen, my guess would be no, but it can’t hurt to find out.</p>
