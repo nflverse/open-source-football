@@ -5,7 +5,7 @@ description: |
 author:
   - name: Ethan Douglas
     url: https://twitter.com/ChiefsAnalytics
-date: 08-29-2021
+date: 08-29-2020
 output:
   distill::distill_article:
     self_contained: false
