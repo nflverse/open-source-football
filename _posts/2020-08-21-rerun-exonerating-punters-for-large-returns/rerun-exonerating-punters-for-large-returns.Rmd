@@ -1,7 +1,7 @@
 ---
-title: "RERUN: exonerating punters for large returns"
+title: "RERUN"
 description: |
-  A short description of the post.
+  Exonerating punters for long returns
 author:
   - name: Dennis Brookner
     affiliation: Puntalytics
@@ -9,12 +9,12 @@ author:
   - name: Raphael Laden-Guindon
     affiliation: Puntalytics
     affiliation_url: https://twitter.com/ThePuntRunts
-date: 08-21-2020
+date: 09-06-2020
 output:
   distill::distill_article:
     self_contained: false
     toc: true
-    toc_depth: 2
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +28,7 @@ Anyone who follows our [twitter](https://twitter.com/ThePuntRunts) (which, you k
 
 We'll spend this article revisiting this topic in a little more detail.
 
-### Oh also, we made an R package for puntalytics
+#### Oh also, we made an R package for puntalytics
 We've been working on `puntr`, which contains some simple tools for our typical puntalytics. We'll use `puntr` here to import and clean our data; we could also use `puntr` to spit all our stats, but that would defeat the purpose of an article walking through this all!
 
 ``` {r, echo=TRUE}
@@ -40,7 +40,7 @@ punts_raw <- puntr::import_punts(1999:2019)
 punts <- punts_raw %>% puntr::trust_the_process()
 ```
 
-The `puntr::import_punts()` function does exactly what it sounds like; it grabs the data from our github [here](https://github.com/Puntalytics/puntr/tree/master/data). The data is just the `nflfastR` play-by-play, but already filtered down to only punt plays, which makes for a much smaller and more manageable data frame.
+The `puntr::import_punts()` function does exactly what it sounds like; it grabs the data from our github [here](https://github.com/Puntalytics/puntr-data/tree/master/data). The data is just the `nflfastR` play-by-play, but already filtered down to only punt plays, which makes for a much smaller and more manageable data frame.
 
 We've wrapped all the standard data cleaning steps into `puntr::trust_the_process()`.  Regretfully, this is a little bit black-box-y, but here are the most important things it does: 
 
@@ -96,7 +96,7 @@ ggplot(data=punts, mapping=aes(GrossYards_r, return_yards_r)) +
 
 The crux of this analysis is moving every point on this graph up or down to the trendline!
 
-### Assigning a RERUN value to punts
+#### Assigning a RERUN value to punts
 First, let's use the same smoothing as in `geom_smooth()` above to create a new column `return_smooth`:
 
 ```{r, echo=TRUE}
@@ -118,7 +118,7 @@ punts <- punts %>%
                           if_else))
 ```
 
-## Sanity checks
+#### Sanity checks
 
 As a first sanity check, nothing that we did should adjust the overall league average numbers in the data set. Is this true?
 
@@ -147,9 +147,9 @@ ggplot(data = trends, mapping = aes(x = season, y = distance, fill = type)) +
        y="Yards", x="Season", caption="figure @ThePuntRunts | data @nflfastR")
 ```
 
-We notice two trends here. One is that in general, Net has increased over time, and quite a bit! This is actually a pretty persistent problem in puntalytics; we've dealt with it in various places, including in our EPA metric.
+We notice two trends here. One is that in general, Net has increased over time, and quite a bit! This is actually a pretty persistent problem in puntalytics; we've dealt with it in various places, including in our EPA metric, but we won't address it here. (Side note, stay tuned for an article about our EPA metric, hopefully soon!)
   
-More pressing to our current analysis is that by the rough definitions we just set, coverage has also been improving consistently. We'll account for that by adjusting our "average" (or "expected") return length based on when that return happened! Thankfully, the `purrr` package, along with `tidyr::nest()`, make this pretty straightforward:
+More pressing to our current analysis is that by the rough definitions we just set, coverage has also been improving consistently. We'll account for that by adjusting our "average" (or "expected") return length based on which season that return happened! Thankfully, the `purrr` package, along with `tidyr::nest()`, make this pretty straightforward:
 
 ```{r, echo=TRUE}
 # the same model as before, but now expressed as a function:
@@ -172,7 +172,7 @@ punts <- punts %>%
   ungroup()
 ```
 
-Now if we repeat the same analysis as above, we see that we've successfully era-adjusted our treatment of coverage:
+Now if we repeat the same plot as above, we see that we've successfully era-adjusted our treatment of coverage (while leaving the trend in net un-adjusted).
 
 ```{r, echo=FALSE, layout="l-body", fig.width=6, fig.height=4}
 trends <- punts %>% group_by(season) %>%
@@ -188,8 +188,7 @@ ggplot(data = trends, mapping = aes(x = season, y = distance, fill = type)) +
        y="Yards", x="Season", caption="figure @ThePuntRunts | data @nflfastR")
 ```
 
-
-### Evaluating punters with this new metric
+### Top punters by this new metric
 Hooray! We derived a new metric for punters. Might as well check out the all-time (`nflfastR`-era) leader board! (As mentioned above, this will be biased towards recent punters.)
 
 ```{r, echo=TRUE}
@@ -240,24 +239,4 @@ ggplot(mini19, mapping=aes(Net, RERUN, label = Name)) +
   theme_bw()
 ```
 
-<!-- This metric seems to make punters better across the board; can that be right? Let's check on 2018 and make sure it's not a fluke: -->
-
-<!-- ```{r, echo=TRUE, layout="l-body", fig.width=7, fig.height=7} -->
-<!-- mini18 <- mini %>% -->
-<!--   filter(season==2018) -->
-
-<!-- ggplot(mini18, mapping=aes(Net, RERUN, label = Name)) + -->
-<!--   geom_abline() + -->
-<!--   geom_image(aes(image = team_logo_espn)) + -->
-<!--   geom_text_repel(size=4, point.padding = 0.6) + -->
-<!--   annotate("text", x=42.5, y=38.5, label="Helped by coverage team", size=4, fontface = "bold") + -->
-<!--   annotate("text", x=39.5, y=42.5, label="Hurt by coverage team", size=4, fontface = "bold") + -->
-<!--   labs(title = "Were punters in 2018 helped or hurt by their coverage teams?",  -->
-<!--        caption="figure @ThePuntRunts | data @nflfastR") + -->
-<!--   theme_bw() -->
-<!-- ``` -->
-
-<!-- Interesting. Let's also take a look at this trend across the entire `nflfastR` era, in a more coarse-grained way: -->
-
-
-<!-- Reminder: when   -->
+That's all we've got for now - thanks so much for reading! If you liked what you saw, be sure to [follow us on twitter](https://twitter.com/ThePuntRunts) for more analysis like this (including our ongoing project of developing an EPA metric for punters) plus punting highlights throughout the season.
