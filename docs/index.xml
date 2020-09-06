@@ -7,7 +7,17 @@
     <description>A place where anybody can share their work with others
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 19 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>RERUN: exonerating punters for large returns</title>
+      <dc:creator>Dennis Brookner</dc:creator>
+      <dc:creator>Raphael Laden-Guindon</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</link>
+      <description>A short description of the post.</description>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</guid>
+      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>The accumulation of QB hits vs passing efficiency</title>
       <dc:creator>Ben Baldwin</dc:creator>
@@ -30,15 +40,6 @@ arbitralily chosen critical value and compares it with the true win percentage.<
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
-    </item>
-    <item>
-      <title>EAEPAAE/P: Our take on EPA for punters</title>
-      <dc:creator>Dennis Brookner</dc:creator>
-      <dc:creator>Raphael Laden-Guindon</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-eaepaaep-our-take-on-epa-for-punters</link>
-      <description>A statistical journey to EPA/punt</description>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-eaepaaep-our-take-on-epa-for-punters</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>PFR's Bad Throw Percentage for Quarterbacks</title>

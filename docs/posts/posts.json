@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2020-08-21-rerun-exonerating-punters-for-large-returns/",
+    "title": "RERUN: exonerating punters for large returns",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Dennis Brookner",
+        "url": {}
+      },
+      {
+        "name": "Raphael Laden-Guindon",
+        "url": {}
+      }
+    ],
+    "date": "2020-08-21",
+    "categories": [],
+    "preview": "posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2020-09-06T15:43:20-04:00",
+    "input_file": "rerun-exonerating-punters-for-large-returns.utf8.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/",
     "title": "The accumulation of QB hits vs passing efficiency",
     "description": "Do quarterbacks who get hit see their performance decline throughout the game?",
@@ -40,26 +62,6 @@
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3000
-  },
-  {
-    "path": "posts/2020-08-19-eaepaaep-our-take-on-epa-for-punters/",
-    "title": "EAEPAAE/P: Our take on EPA for punters",
-    "description": "A statistical journey to EPA/punt",
-    "author": [
-      {
-        "name": "Dennis Brookner",
-        "url": {}
-      },
-      {
-        "name": "Raphael Laden-Guindon",
-        "url": {}
-      }
-    ],
-    "date": "2020-08-19",
-    "categories": [],
-    "preview": {},
-    "last_modified": "2020-08-19T18:09:11-04:00",
-    "input_file": "eaepaaep-our-take-on-epa-for-punters.utf8.md"
   },
   {
     "path": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/",
