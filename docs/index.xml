@@ -12,18 +12,18 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Estimating Run/Pass Tendencies with tidyModels and  nflfastR</title>
-      <dc:creator>Richard Anderson</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</link>
-      <description>This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script</description>
-      <category>tidyModels</category>
+      <title>Creating an Expected Field Goal Metric</title>
+      <dc:creator>Mike Irene</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric</link>
+      <description>Using nflfastR play-by-play data to measure kicker performance.</description>
+      <category>field goal</category>
       <category>nflfastR</category>
-      <category>stan</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</guid>
-      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <category>placekicker</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric</guid>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>RERUN</title>
