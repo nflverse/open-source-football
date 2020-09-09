@@ -11,7 +11,7 @@ output:
   self_contained: false
   toc: true
   toc_depth: 3
-repository_url: "https://github.com/mikeirene/Expected-Field-Goal-Model-nflfastr"
+repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - field goal
   - nflfastR
