@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+<title>Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR</title>
+
+<meta property="description" itemprop="description" content="This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script"/>
+
+<link rel="canonical" href="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"/>
+<link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+<link rel="icon" type="image/png" href="../../logo.png"/>
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-09-08"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-09-08"/>
+<meta name="article:author" content="Richard Anderson"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script"/>
+<meta property="og:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"/>
+<meta property="og:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png"/>
+<meta property="og:image:width" content="3900"/>
+<meta property="og:image:height" content="2400"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Open Source Football"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR"/>
+<meta property="twitter:description" content="This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script"/>
+<meta property="twitter:url" content="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"/>
+<meta property="twitter:image" content="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png"/>
+<meta property="twitter:image:width" content="3900"/>
+<meta property="twitter:image:height" content="2400"/>
+<meta property="twitter:site" content="@Open_Source_FB"/>
+
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR"/>
+<meta name="citation_fulltext_html_url" content="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"/>
+<meta name="citation_fulltext_world_readable" content=""/>
+<meta name="citation_online_date" content="2020/09/08"/>
+<meta name="citation_publication_date" content="2020/09/08"/>
+<meta name="citation_author" content="Richard Anderson"/>
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["creative_commons","title","description","author","date","output","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CC BY-NC"]},{"type":"character","attributes":{},"value":["Estimating Run/Pass Tendencies with tidyModels and  nflfastR"]},{"type":"character","attributes":{},"value":["This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Richard Anderson"]},{"type":"character","attributes":{},"value":["richjand.rbind.io"]}]}]},{"type":"character","attributes":{},"value":["09-08-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["tidyModels","nflfastR","stan"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"]},{"type":"character","attributes":{},"value":["https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/bowser-1.9.3/bowser.min.js","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/distill-2.2.21/template.v2.js","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-12-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-13-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-16-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-21-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-22-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-23-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-24-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-25-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/header-attrs-2.3/header-attrs.js","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/jquery-1.11.3/jquery.min.js","estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/webcomponents-2.0.0/webcomponents.js","objects/final-full-xgb.RDS","objects/final-mod-test-dat.RDS","objects/no_epa_model.RDS","objects/xgb-grid-search.RDS"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #455a64;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative;}
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for table of contents */
+
+.d-toc {
+  color: rgba(0,0,0,0.8);
+  font-size: 0.8em;
+  line-height: 1em;
+}
+
+.d-toc-header {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 1.3em;
+}
+
+.d-toc a {
+  border-bottom: none;
+}
+
+.d-toc ul {
+  padding-left: 0;
+}
+
+.d-toc li>ul {
+  padding-top: 0.8em;
+  padding-left: 16px;
+  margin-bottom: 0.6em;
+}
+
+.d-toc ul,
+.d-toc li {
+  list-style-type: none;
+}
+
+.d-toc li {
+  margin-bottom: 0.9em;
+}
+
+.d-toc-separator {
+  margin-top: 20px;
+  margin-bottom: 2em;
+}
+
+.d-article-with-toc {
+  border-top: none;
+  padding-top: 0;
+}
+
+
+
+/* Tweak code blocks (note that this CSS is repeated above in an injection
+   into the d-code shadow dom) */
+
+d-code {
+  overflow-x: auto !important;
+}
+
+pre.d-code code.d-code {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+pre.text-output {
+
+  font-size: 12px;
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+@media(min-width: 768px) {
+
+d-code {
+  overflow-x: visible !important;
+}
+
+pre.d-code code.d-code  {
+    padding-left: 18px;
+    font-size: 14px;
+}
+pre.text-output {
+  font-size: 14px;
+}
+}
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // create d-bibliography
+  var bibliography = $('<d-bibliography></d-bibliography>');
+  $('#distill-bibliography').wrap(bibliography);
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace citations with <d-cite>
+  $('.citation').each(function(i, val) {
+    appendix = true;
+    var cites = $(this).attr('data-cites').split(" ");
+    var dt_cite = $('<d-cite></d-cite>');
+    dt_cite.attr('key', cites.join());
+    $(this).replaceWith(dt_cite);
+  });
+  // remove refs
+  $('#refs').remove();
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-toc a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // replace code blocks with d-code
+  $('pre>code').each(function(i, val) {
+    var code = $(this);
+    var pre = code.parent();
+    var clz = "";
+    var language = pre.attr('class');
+    if (language) {
+      // map unknown languages to "clike" (without this they just dissapear)
+      if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                               "javascript", "js", "julia", "lua", "markdown",
+                               "markup", "mathml", "python", "svg", "xml"]) == -1)
+        language = "clike";
+      language = ' language="' + language + '"';
+      var dt_code = $('<d-code block' + language + clz + '></d-code>');
+      dt_code.text(code.text());
+      pre.replaceWith(dt_code);
+    } else {
+      code.addClass('text-output').unwrap().changeElementType('pre');
+    }
+  });
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('d-code, pre.text-output, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // table of contents
+    if (have_authors) // adjust border if we are in authors
+      $('.d-toc').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+    $('d-code').each(function(i, val) {
+      var style = document.createElement('style');
+      style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                        '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+      if (this.shadowRoot)
+        this.shadowRoot.appendChild(style);
+    });
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-toc-header').remove();
+  $('.d-toc').remove();
+  $('.d-toc-separator').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-176408251-2');
+</script>
+<style type="text/css">
+d-article > d-code, d-article section > d-code {
+padding: 16px;
+overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f6f8fa;
+border-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+pre d-code{
+  border-left: 0;
+}
+
+.distill-site-nav {
+  color: #ffffff;
+  font-weight: 400;
+  background: #24292e;
+  border-bottom: 2px solid #DECF40;
+  -webkit-box-shadow: 1px 1px 18px #4d4d4d;
+  -moz-box-shadow: 1px 1px 18px #4d4d4d;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+  font-weight: 700;
+}
+
+d-title {
+background: #575757;
+color: white;
+}
+
+.distill-site-footer {
+  border-top: 2px solid #DECF40;
+  border-bottom: 0;
+}
+
+</style>
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Estimating Run/Pass Tendencies with tidyModels and  nflfastR","description":"This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script","authors":[{"author":"Richard Anderson","authorURL":"richjand.rbind.io","affiliation":"&nbsp;","affiliationURL":"#"}],"publishedDate":"2020-09-08T00:00:00.000-07:00","citationText":"Anderson, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo" href="https://twitter.com/Open_Source_FB">
+<img src="../../logo.png" alt="Logo"/>
+</a>
+<a href="../../index.html" class="title">Open Source Football</a>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../contributing.html">Contributing</a>
+<a href="../../contributors_list.html">Authors</a>
+<a href="../../about.html">About</a>
+<a href="https://github.com/mrcaseb/open-source-football">
+<i class="fa fa-github" aria-hidden="true"></i>
+</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Estimating Run/Pass Tendencies with tidyModels and nflfastR</h1>
+<p>This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script</p>
+</div>
+
+<div class="d-byline">
+  Richard Anderson richjand.rbind.io 
+  
+<br/>09-08-2020
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#estimating-prqb-dropback">Estimating Pr(QB Dropback)</a></li>
+<li><a href="#tidying-my-xgboost">Tidying my xgboost</a>
+<ul>
+<li><a href="#prepping-the-data">Prepping the Data</a></li>
+<li><a href="#prepping-the-model">Prepping the Model</a></li>
+<li><a href="#parameter-tuning">Parameter Tuning</a></li>
+<li><a href="#model-evaluation">Model Evaluation</a></li>
+</ul></li>
+<li><a href="#a-quick-look-at-team-tendencies">A Quick Look At Team Tendencies</a>
+<ul>
+<li><a href="#team-effects">Team Effects</a></li>
+</ul></li>
+<li><a href="#conclusions">Conclusions</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>As a Seahawks fan who spends a good amount of time online I’ve been exposed to a lot of discussion about the value of running vs. passing. A point used in favor of a rushing-focused attack is that good teams tend to run the ball a lot. This is usually met with the response that teams who are ahead will run to kill clock and minimize risk, meaning the causal arrow is backwards. The Patriots always run a lot, but the Patriots are always ahead so of course they are going to run.</p>
+<p>A common strategy to establish whether a team is run/pass heavy is to identify a subset of plays where the team is not bound by needing to pass to catch up or run to kill clock (<a href="https://twitter.com/SharpFootball/status/1281657545598341121">See Warren Sharp’s Tweet</a> and see what decisions teams actually made. If we see that the Patriots pass while games are competitive and run when they are closing out the game then we know that the Pats winning isn’t caused by rushing. The problem with this approach is that it tends to throw away a lot of useful information. Seeing a team run on 2nd and 11 (again, Seahawks fan here) tells us something very different than seeing a team run on 2nd and 1 just as throwing on 3rd and 1 tells us something different than throwing on 3rd and 10. Thanks to the awesome people at nflscrapR and nflfastR we can build that kind of context into our analysis.</p>
+<p>The basic roadmap for this post is</p>
+<ul>
+<li>Use tidyModels to classify plays as dropback/non-dropback</li>
+<li>Use model outputs as a variable in a multilevel model to estimate team tendencies</li>
+<li>Look at some basic findings from the multilevel model</li>
+</ul>
+<h2 id="estimating-prqb-dropback">Estimating Pr(QB Dropback)</h2>
+<p>The thing we ultimately want to understand is team tendencies. Once we account for the state of the game and any other information of interest, does it seem that team x is more run-focused or pass-focused? This post is basically an exercise in feature engineering where we’re trying to create a measure (dropback probability) that we can use as an input in another model that we’ll use to understand team tendencies. The model we want to build to is:</p>
+<center>
+<p><span class="math inline">\(y_{it} \sim Bernoulli(p_{it})\)</span></p>
+<p><span class="math inline">\(logit(p_{it}) = \alpha + \gamma_{t} + \beta_{1}\hat{p}_i + \boldsymbol\beta\textbf{X}_{i}\)</span></p>
+</center>
+<p>where <span class="math inline">\(y_{it}\)</span> is going to be whether team <span class="math inline">\(t\)</span> called a pass on play <span class="math inline">\(i\)</span>, <span class="math inline">\(\gamma_{t}\)</span> is a team effect which will be our measure of team strategy, and <span class="math inline">\(\boldsymbol\beta\textbf{X}_{i}\)</span> is going to be any other information we want to include such as quarterback ability, quality of defense, weather, or anything else of interest. <span class="math inline">\(\hat{p}_i\)</span> is the probability of a QB dropback that we’ll generate with our model below. In effect, this will give us an expectation from which we’ll measure deviances at the team level.</p>
+<p>Part of the impetus for this project was to learn how to use the <a href="https://www.tidymodels.org/">tidyModels</a> and <a href="https://github.com/tidymodels/parsnip">parsnip</a> packages so we will cover how these packages were used to build the model in some detail. If you’re interested in learning more about using tidyModels you should check out posts by <a href="https://juliasilge.com/blog/xgboost-tune-volleyball/">Julia Silge</a> and <a href="http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/">Rebecca Barter</a> which were extremely helpful in getting up and running in the tidyModels universe.</p>
+<p>This is a classification problem where we will predict predict whether or not a play will be a QB dropback. I predict the probability of a QB dropback using the nflfastR-provided variables that collectively capture the game state at the time of the play. These variables aren’t an exhaustive list of what goes into the game state, but hopefully capture most of the information relevant to teams in making the decision to run or pass. The variables are:</p>
+<ul>
+<li>Down (limited to 1,2,3)</li>
+<li>Yards for first down</li>
+<li>Yard line</li>
+<li>Score Differential</li>
+<li>Quarter</li>
+<li>Time remaining in half</li>
+<li>Number of timeouts for the offense and defense</li>
+</ul>
+<p>Note that a QB dropback is not the same as saying a pass occurred. QB dropbacks are plays where the offense intended to pass, even if they did not end up in an attempted pass (sacks, scrambles, etc…).</p>
+<p>We’ll use an xgboost model because we know there are non-linearities in the relationship between independent variables and dependent variable as well as some complex interactions between the variables. I can’t say anything about xgboost that hasn’t been said better in a million other data science posts so I’ll just say that I, like so many others, have found xgboost extremely useful for a variety of machine learning projects.</p>
+<h2 id="tidying-my-xgboost">Tidying my xgboost</h2>
+<p>First I’ll include everything to get the data set up. Note that I’m loading a few pre-built models. The code needed to build all of these objects is included but since each takes a long time to generate I’m just going to use saved versions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(rstan)
+library(lme4)
+library(tidyverse)
+library(vip)
+library(tidymodels)
+library(workflows)
+library(dials)
+library(tune)
+library(DT)
+library(arm)
+library(tidybayes)
+library(ggrepel)
+
+set.seed(1234)
+
+seasons &lt;- 2016:2019
+dat &lt;- purrr::map_df(seasons, function(x) {
+  readRDS(
+    url(
+      glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.rds&quot;)
+    )
+  )
+})
+
+post16 &lt;- filter(dat, 
+                     season_type == &#39;REG&#39; &amp; 
+                     down %in% c(1,2,3) &amp;
+                     !is.na(qb_dropback) &amp;
+                     !is.na(score_differential)) %&gt;%
+  mutate(qb_dropback = factor(qb_dropback),
+         off_to = if_else(posteam_type == &#39;away&#39;, away_timeouts_remaining, home_timeouts_remaining),
+         def_to = if_else(posteam_type == &#39;away&#39;, home_timeouts_remaining, away_timeouts_remaining)) %&gt;%
+  dplyr::select(qb_dropback, down, ydstogo, yardline_100, score_differential, qtr, half_seconds_remaining, off_to, def_to)
+
+xgb_res &lt;- readRDS(&#39;objects/xgb-grid-search.RDS&#39;) ## Loading hyperparameter grid results
+final_mod &lt;- readRDS(&#39;objects/final-mod-test-dat.RDS&#39;) ##Loading xgboost model
+final_qb_mod &lt;- readRDS(&#39;objects/final-full-xgb.RDS&#39;) ##loading xgboost model
+fit_no_epa &lt;- readRDS(&#39;objects/no_epa_model.RDS&#39;) ##loading stan model
+
+samps_no_epa &lt;- rstan::extract(fit_no_epa, pars = &#39;mu&#39;)$mu ##Extract mu estimates
+quantile_025_no_epa &lt;- apply(samps_no_epa, 2, quantile, .025) ##Calculate 2.5th percentile of mu estimates
+quantile_975_no_epa &lt;- apply(samps_no_epa, 2, quantile, .975) ##Extract 97.5th percentile of mu estimates
+mean_no_epa &lt;- apply(samps_no_epa, 2, mean) ##extract mean estimates
+
+teams &lt;- dat %&gt;%
+  filter(!is.na(posteam)) %&gt;%
+  dplyr::select(posteam, season, qb_dropback) %&gt;%
+  mutate(team_string = str_c(posteam, &#39;-&#39;, season),
+         team_idx = as.numeric(factor(team_string))) %&gt;%
+  group_by(posteam, season) %&gt;%
+  summarise(team_idx = max(team_idx),
+            dropback_pct = mean(qb_dropback)) %&gt;%
+  ungroup()
+
+teams$q_025_no_epa &lt;- quantile_025_no_epa
+teams$q_975_no_epa &lt;- quantile_975_no_epa
+teams$mean_no_epa &lt;- mean_no_epa
+teams$display_name &lt;- factor(str_c(teams$posteam, &#39; - &#39;, teams$season))
+teams$display_name &lt;- fct_reorder(teams$display_name, teams$mean_no_epa)
+teams &lt;- teams %&gt;%
+  group_by(season) %&gt;%
+  mutate(qb_dropback_rank = rank(desc(dropback_pct)),
+         qb_dropback_est_rank = rank(desc(mean_no_epa)))</code></pre>
+</div>
+<h3 id="prepping-the-data">Prepping the Data</h3>
+<p>The first step is going to be to split the data into train and test which we can do with the <code>initial_split</code> function. By default this function will use 75% of the data for training and the remaining 25% for testing. We’ll look at 2016-2019, which leaves ~100k observations for training and ~35k observations for testing.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dat_split &lt;- initial_split(post16)
+dat_train &lt;- training(dat_split)
+dat_test &lt;- testing(dat_split)</code></pre>
+</div>
+<p>We’re going be tuning our xgboost hyperparameters so we’ll want to perform some cross-validation to see which hyperparameters give us the best performance. We can create cross-validation sets using <code>vfold_cv()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_folds &lt;- vfold_cv(dat_train)</code></pre>
+</div>
+<h3 id="prepping-the-model">Prepping the Model</h3>
+<p>Next we’ll define a recipe using the <code>recipe()</code> function from the <code>recipes</code> package. Recipes involve setting a formula that looks like what you use to train most models in R and doing any pre-processing (scaling, normalizing, imputing, etc…) that you want to do to your variables. The nice thing about the recipe formulation is that it is the same regardless of which model you’ll ultimately be using so you don’t need to remember how data needs to be fed into <code>glmnet</code> vs. <code>xgboost</code> vs. <code>glm</code>. xgboost doesn’t require that data be regularized or normalized so we can specify our recipe as in the formula below, but if you do need to do some kind of pre-processing you can check out the dozens of packages in <code>recipes</code> that begin with <code>step_</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_recipe &lt;- recipe(qb_dropback ~ down + 
+                      ydstogo + 
+                      yardline_100 + 
+                      score_differential + 
+                      qtr + 
+                      half_seconds_remaining +
+                      off_to +
+                      def_to,
+    data = dat_train)</code></pre>
+</div>
+<p>Now that we have a recipe we will get our model set up. We’re going to use a boosted tree model which carries with it a bunch of tuneable hyperparameters. We will fix the number of trees to keep cross-validation from getting out of hand and tell the model to stop when there has been no improvement in 100 rounds. Everything else is going to be selected based on model fit.</p>
+<p>The <code>set_engine()</code> specifies the package that the model is coming from so if you preferred to use <code>gbm</code> instead of <code>xgboost</code> you would specify <code>set_engine(“gbm”)</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_model &lt;- 
+  boost_tree(
+    mtry = tune(),
+    trees = 2000, 
+    min_n = tune(),
+    tree_depth = tune(),
+    learn_rate = tune(),
+    loss_reduction = tune(),                    
+    sample_size = tune(),         
+    stop_iter = 100
+  ) %&gt;% 
+  set_engine(&quot;xgboost&quot;) %&gt;% 
+  set_mode(&quot;classification&quot;)</code></pre>
+</div>
+<p>Finally, we’re going to specify a workflow which is going to gather the recipe and model we built above. This is going to make it very easy to do parameter tuning and model building without repeatedly specifying the same information.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+qb_workflow &lt;- workflow() %&gt;%
+  add_recipe(qb_recipe) %&gt;%
+  add_model(qb_model)</code></pre>
+</div>
+<h3 id="parameter-tuning">Parameter Tuning</h3>
+<p>Now it’s time to actually do some modeling! We’ll use our cross-validation folds to try a bunch of different potential hyperparameter values and return which gives us the best out of sample fit. We’ll try 40 different combinations sampled from across the hyperparameter space. Note that the <code>mtry</code> and <code>sample_size</code> parameters require additional arguments. <code>mtry()</code> refers to the number of columns to be sampled at each split. This is one where you need to be careful. If the data frame you specify for <code>finizalize</code> has more variables than you actually plan on training with, you will waste your time testing mtry values that don’t make any sense for your problem. The <code>sample_size</code> argument requires a number between 0 and 1 as it’s the proportion of the data that you’ll use in the fitting routine.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+xgb_grid &lt;- grid_latin_hypercube(
+  finalize(mtry(), dat_train),
+  min_n(),
+  tree_depth(),
+  learn_rate(),
+  loss_reduction(),
+  sample_size = sample_prop(),
+  size = 40
+)</code></pre>
+</div>
+<p>Tuning your grid is as easy as specifying a workflow, your cross-validation data, and the grid of values to be tested. <code>save_pred = TRUE</code> is going to save all of the cross-validation predictions for later evaluation. Note that this is going to take awhile. A grid of 40 took ~6 hours on my machine. I’d set this off overnight and save the results so you can reload the object without rebuilding every time.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+  xgb_res &lt;- tune_grid(
+    qb_workflow,
+    resamples = qb_folds,
+    grid = xgb_grid,
+    control = control_grid(save_pred = TRUE)
+  )</code></pre>
+</div>
+<p>Julia Silge’s post has a nice plot to show the relationship between different parameter values and model performance that we’ll going to use here. On the y-axis we have the AUC of the model and on the x-axis we have the value of the hyperparameter. We’re looking to see if there are any obvious correlations between performance and hyperparameter value and if we might need to expand the range of tested values. It’s tough to draw any sweeping conclusions though it looks like higher values of mtry and, to a certain extent, tree depth perform better. It also doesn’t appear that the best values of our hyperparameters are on the edges of our plots. Were it the case that performance was clearly increasing with higher tree depth and we didn’t see a point at which model performance began to decline we would want to extend the range of hyperparameters that we test to make sure that we aren’t setting those values too low.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+xgb_res %&gt;%
+  collect_metrics() %&gt;%
+  filter(.metric == &quot;roc_auc&quot;) %&gt;%
+  dplyr::select(mean, mtry:sample_size) %&gt;%
+  pivot_longer(mtry:sample_size,
+               values_to = &quot;value&quot;,
+               names_to = &quot;parameter&quot;
+  ) %&gt;%
+  ggplot(aes(value, mean, color = parameter)) +
+  geom_point(alpha = 0.8, show.legend = FALSE) +
+  facet_wrap(~parameter, scales = &quot;free_x&quot;) +
+  labs(x = NULL, y = &quot;AUC&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png" width="1950" /></p>
+</div>
+<p>We can extract the best-performing set of hyperparameters using the <code>select_best()</code> function and use those values to finalize our workflow.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+best_auc &lt;- select_best(xgb_res, &quot;roc_auc&quot;)
+
+qb_xgb &lt;- finalize_workflow(
+  qb_workflow,
+  parameters = best_auc
+)</code></pre>
+</div>
+<p>At this point we’re ready to evaluate the performance of the model trained on our training data with our chosen hyperparameters on our test data which we can do with the <code>last_fit()</code> function. We’ll need to give the function our finalized workflow as well as our split data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+final_mod &lt;- last_fit(qb_xgb, dat_split)</code></pre>
+</div>
+<h3 id="model-evaluation">Model Evaluation</h3>
+<p>We can find out just how well the model did using <code>collect_metrics()</code>. We ended up with 69% accuracy and an AUC of .76 which seems about right given the application. If we could perfectly predict dropback probability from game state it would be very easy to be an NFL defensive coordinator! Again, Julia Silge did a great job visualizing model outputs in her post so we will basically lift her code for this ROC curve plot</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+collect_metrics(final_mod)</code></pre>
+<pre><code>
+# A tibble: 2 x 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.691
+2 roc_auc  binary         0.760</code></pre>
+<pre class="r"><code>
+final_mod %&gt;%
+  collect_predictions() %&gt;%
+  roc_curve(qb_dropback, .pred_0) %&gt;%
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_line(size = 1.5, color = &quot;midnightblue&quot;) +
+  xlab(&#39;1 - Specificity&#39;) +
+  ylab(&#39;Sensitivity&#39;) +
+  geom_abline(
+    lty = 2, alpha = 0.5,
+    color = &quot;gray50&quot;,
+    size = 1.2
+  ) +
+  ggtitle(&#39;ROC Curve&#39;) +
+  theme_minimal()</code></pre>
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-12-1.png" width="1950" /></p>
+</div>
+<p>As a final check on our results let’s look at calibration in our test data. We want our predicted dropback probabilities to be similar to the actual dropback probabilities and it looks like that’s the case! There’s only 14 plays in the far right dot so I’m not going to lose any sleep over it.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+final_mod %&gt;%
+  collect_predictions() %&gt;%
+  mutate(pred_rounded = round(.pred_1,1)) %&gt;%
+  group_by(pred_rounded) %&gt;%
+  summarise(mean_prediction = mean(.pred_1),
+            mean_actual = mean(as.numeric(qb_dropback) - 1),
+            n = n(),
+            se = sd(as.numeric(qb_dropback) - 1 - .pred_1)/sqrt(n)) %&gt;%
+  ggplot(aes(x = pred_rounded, y = mean_actual)) +
+  geom_abline() +
+  geom_point(aes(size = n)) +
+  theme_minimal() +
+  xlab(&#39;Predicted Probability&#39;) +
+  ylab(&#39;Actual Probability&#39;) +
+  ggtitle(&#39;Calibration Plot, Test Data&#39;) +
+  ylim(0,1) +
+  xlim(0,1)</code></pre>
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-13-1.png" width="1950" /></p>
+</div>
+<p>Finally, now that we’ve built some confidence in the model we’re going to build (using <code>fit()</code>) and predict (using <code>predict()</code>) the model on all data since 2016.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+final_qb_mod &lt;- fit(qb_xgb, post16)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+post16_pred_dat &lt;- filter(dat, season &gt;= 2016 &amp; 
+                   season_type == &#39;REG&#39; &amp; 
+                   down %in% c(1,2,3) &amp;
+                   !is.na(qb_dropback) &amp;
+                   !is.na(score_differential)) %&gt;%
+  mutate(qb_dropback = factor(qb_dropback),
+         off_to = if_else(posteam_type == &#39;away&#39;, away_timeouts_remaining, home_timeouts_remaining),
+         def_to = if_else(posteam_type == &#39;away&#39;, home_timeouts_remaining, away_timeouts_remaining)) %&gt;%
+  dplyr::select(qb_dropback, down, ydstogo, yardline_100, score_differential, qtr, half_seconds_remaining, off_to, def_to, epa, posteam, defteam, season)
+
+post16_pred_dat$dropback_prob &lt;- predict(final_qb_mod, new_data = post16_pred_dat, type = &#39;prob&#39;)$.pred_1</code></pre>
+</div>
+<p>As a basic sanity check let’s make sure the model thinks passing is more likely in situations that we would expect. Generally speaking, throwing is more likely on third down and more likely with more yards to go which is what we’d hope to see.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-16-1.png" width="1950" /></p>
+</div>
+<h2 id="a-quick-look-at-team-tendencies">A Quick Look At Team Tendencies</h2>
+<p>In the future we’ll want to build a model that builds in additional information, but for now we can build a simple model to get an idea of which teams were more or less likely to pass than we would expect based on game script alone. Going back to the equation at the top of the post, we’ll fit a multilevel model where we predict the probability of a QB dropback as a function of our predicted dropback probability along with team random effects. We can interpret these effects as the degree to which teams differ from the expectation set out by the model we made above.</p>
+<p>We’ll fit the model in stan, a popular language for fitting Bayesian models and one that people find especially useful for multilevel models. The stan code and the code to build the model in R is displayed below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data{
+  int&lt;lower = 0&gt; N; //number of observations
+  int&lt;lower = 1&gt; I; //number of team/seasons
+  int&lt;lower = 0, upper = 1&gt; y[N]; //qb_dropback
+  int&lt;lower = 0, upper = I&gt; ii[N]; //team/season indicator
+  vector[N] phat; //fitted probability from xgboost model
+}
+parameters{
+  vector[I] mu_raw; //team/season random effects
+  real beta_phat; //effect of p_hat, should be ~ 1
+  real alpha; //intercept
+  real&lt;lower = 0&gt; sigma_mu; //standard deviation of random effects
+}
+transformed parameters{
+  vector[I] mu = sigma_mu * mu_raw;
+}
+model{
+  alpha ~ normal(0, .25);
+  beta_phat ~ normal(1,.25);
+  mu_raw ~ normal(0,1);
+  sigma_mu ~ normal(0,1);
+  
+  y ~ bernoulli_logit(alpha + mu[ii] + beta_phat * phat);
+}</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+stan_mod &lt;- stan_model(file = &#39;/stan-models/pass-prob-stan-model-no-epa.stan&#39;)
+
+stan_dat_no_epa &lt;- list(
+  N = nrow(final_pred_dat),
+  I = max(final_pred_dat$team_idx),
+  y = as.numeric(final_pred_dat$qb_dropback) - 1,
+  ii = final_pred_dat$team_idx,
+  phat = arm::logit(final_pred_dat$dropback_prob)
+)
+
+fit_no_epa &lt;- sampling(stan_mod, data = stan_dat_no_epa, cores = 4, chains = 4, iter = 1000)</code></pre>
+</div>
+<p>Below we’ll print some parameters from the model. <code>alpha</code> is the intercept, <code>beta_phat</code> is the coefficient on the predicted pass probability from our xgboost model, and <code>sigma_mu</code> is the standard deviation in team effects. We’d expect a coefficient of 1 on <code>beta_phat</code>, so I should probably go back and look at why it’s coming out a little high. While there’s clearly a difference between beta_phat and our expectation, it’s pretty small in substantive terms. If our xgboost model was saying that the probability of a pass is .6, this model would suggest that that true probability is something like .61 for an average team. The .18 value of <code>sigma_mu</code> means that our predicted probabilities for different teams would range from about .52 on the low end and .69 on the high end for a play where an average team is at .6.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(fit_no_epa, pars = c(&#39;alpha&#39;,&#39;beta_phat&#39;,&#39;sigma_mu&#39;))</code></pre>
+<pre><code>
+Inference for Stan model: pass-prob-stan-model-no-epa.
+4 chains, each with iter=1000; warmup=500; thin=1; 
+post-warmup draws per chain=500, total post-warmup draws=2000.
+
+           mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
+alpha     -0.03       0 0.02 -0.07 -0.05 -0.03 -0.02  0.00   425 1.00
+beta_phat  1.19       0 0.01  1.17  1.18  1.19  1.19  1.20  3526 1.00
+sigma_mu   0.18       0 0.01  0.16  0.18  0.18  0.19  0.21   599 1.01
+
+Samples were drawn using NUTS(diag_e) at Sun Aug 16 20:23:53 2020.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+</div>
+<h3 id="team-effects">Team Effects</h3>
+<p>We can extract the samples from our model and use them to get our mean parameter estimates as well as the uncertainty in those estimates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+samps_no_epa &lt;- rstan::extract(fit_no_epa, pars = &#39;mu&#39;)$mu
+quantile_025_no_epa &lt;- apply(samps_no_epa, 2, quantile, .025)
+quantile_975_no_epa &lt;- apply(samps_no_epa, 2, quantile, .975)
+mean_no_epa &lt;- apply(samps_no_epa, 2, mean)
+
+teams &lt;- dat %&gt;%
+  filter(season &gt;= 2016 &amp; !is.na(posteam)) %&gt;%
+  dplyr::select(posteam, season, qb_dropback) %&gt;%
+  mutate(team_string = str_c(posteam, &#39;-&#39;, season),
+         team_idx = as.numeric(factor(team_string))) %&gt;%
+  group_by(posteam, season) %&gt;%
+  summarise(team_idx = max(team_idx),
+            dropback_pct = mean(qb_dropback)) %&gt;%
+  ungroup()
+  
+teams$q_025_no_epa &lt;- quantile_025_no_epa
+teams$q_975_no_epa &lt;- quantile_975_no_epa
+teams$mean_no_epa &lt;- mean_no_epa
+teams$display_name &lt;- factor(str_c(teams$posteam, &#39; - &#39;, teams$season))
+teams$display_name &lt;- fct_reorder(teams$display_name, teams$mean_no_epa)</code></pre>
+</div>
+<p>The plots below show the estimated team effects. Note that the effects on the x-axis are on the log-odds scale. The 2018 Seahawks estimate of -.47 means that we would predict a Seahawks pass with probability .38 in a situation where the league-wide probability is .5. We would predict the 2018 Steelers to pass with probability .62 in that same situation.</p>
+<p>One interesting thing is that, beyond 2018, the Seahawks haven’t been that big of an outlier. They were among the pass-heavier teams in 2016-17 and only slightly below average in 2019. We also see that some teams who run the ball a lot like the Patriots, Rams, and Saints show up as being more aggressive than dropback% would lead us to believe.</p>
+<h4 id="section">2016</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-21-1.png" width="1950" /></p>
+</div>
+<h4 id="section-1">2017</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-22-1.png" width="1950" /></p>
+</div>
+<h4 id="section-2">2018</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-23-1.png" width="1950" /></p>
+</div>
+<h4 id="section-3">2019</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-24-1.png" width="1950" /></p>
+</div>
+<p>The last thing I’ll show is how my estimated pass-heaviness correlates with QB Dropback%. To make the plot below I converted the model estimates and the actual QB dropback% into within-season ranks. Teams above the line are pass-heavier than their unadjusted dropback% would lead us to believe. Teams below the line are run-heavier. I highlight the Patriots to come back to the point at the beginning of the post. The Patriots consistently run more than average but are among the pass-heavier teams once game script is accounted for.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+teams %&gt;% 
+  mutate(display_name = if_else(posteam %in% c(&#39;NE&#39;), as.character(display_name), &quot;&quot;),
+         posteam = if_else(posteam %in% c(&#39;NE&#39;), as.character(posteam), &quot;&quot;)) %&gt;%
+  ggplot(aes(y = qb_dropback_rank, x = qb_dropback_est_rank)) + 
+  geom_text_repel(aes(label = display_name)) +
+  geom_point(aes(colour = posteam, shape = posteam), size = 2) +
+  ylab(&#39;Adjusted Dropback% Rank&#39;) +
+  xlab(&#39;Actual Dropback% Rank&#39;) +
+  geom_smooth(method = &#39;lm&#39;, alpha = .25) +
+  scale_colour_manual(values = c(&#39;gray&#39;,&#39;blue4&#39;)) +
+  theme_minimal() +
+  guides(colour = F, shape = F) +
+  labs(title = &quot;Adjusted Dropback Rank vs. Actual Dropback Rank&quot;)</code></pre>
+<p><img src="estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-25-1.png" width="1950" /></p>
+</div>
+<h2 id="conclusions">Conclusions</h2>
+<p>We showed here that we can use NFL play-by-play data to measure game script and better understand team tendencies. After adjusting for game script we find that teams that run the ball the most are not necessarily the run-heaviest teams. Except the 2018 Seahawks. They were the run heaviest team.</p>
+<p>To go back to the Seahawks, this doesn’t really address the “Let Russ Cook” debate. The 2019 Seahawks weren’t overly run-heavy when game script is taken into account but a big part of this debate is that the Seahawks have a great quarterback which should probably influence how much they use him! In a future post I’ll build QB ability into our model which will give us a better idea of how big an outlier the Seahawks are.</p>
+<!--radix_placeholder_article_footer-->
+<div class="article-footer">
+  <p class="social_footer">
+    <span class="article-sharing">
+      Share: &nbsp;
+      <a href="https://twitter.com/share?text=Estimating%20Run%2FPass%20Tendencies%20with%20tidyModels%20and%20%20nflfastR&amp;url=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr%2F">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fmrcaseb.github.io%2Fopen-source-football%2Fposts%2F2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr%2F">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </span>
+  </p>
+</div>
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+  <h3 id="updates-and-corrections">Corrections</h3>
+  <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/mrcaseb/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+  <h3 id="reuse">Reuse</h3>
+  <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Source code is available at <a href="https://github.com/mrcaseb/open-source-football">https://github.com/mrcaseb/open-source-football</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Anderson (2020, Sept. 8). Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR. Retrieved from https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{anderson2020estimating,
+  author = {Anderson, Richard},
+  title = {Open Source Football: Estimating Run/Pass Tendencies with tidyModels and  nflfastR},
+  url = {https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/},
+  year = {2020}
+}</pre>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>

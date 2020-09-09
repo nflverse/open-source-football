@@ -1,5 +1,27 @@
 [
   {
+    "path": "posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/",
+    "title": "Estimating Run/Pass Tendencies with tidyModels and  nflfastR",
+    "description": "This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script",
+    "author": [
+      {
+        "name": "Richard Anderson",
+        "url": "richjand.rbind.io"
+      }
+    ],
+    "date": "2020-09-08",
+    "categories": [
+      "tidyModels",
+      "nflfastR",
+      "stan"
+    ],
+    "preview": "posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png",
+    "last_modified": "2020-09-07T14:55:49-07:00",
+    "input_file": "estimating-runpass-tendencies-with-tidymodels-and-nflfastr.utf8.md",
+    "preview_width": 3900,
+    "preview_height": 2400
+  },
+  {
     "path": "posts/2020-08-21-rerun-exonerating-punters-for-large-returns/",
     "title": "RERUN",
     "description": "Exonerating punters for long returns",
