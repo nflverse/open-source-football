@@ -5,7 +5,7 @@ description: |
 author:
   - name: Mike Irene 
     url: https://twitter.com/mikeyirene
-date: "`r Sys.Date()`"
+date: "09-09-2020"
 output: 
   distill::distill_article:
   self_contained: false
@@ -206,3 +206,4 @@ Unsurprisingly, All-Pro Justin Tucker led all kickers in FGOE during the 2019 se
 ## Conclusion
 
 The xFG metric is a useful tool to measure kicker performance because it accounts for the difficulty of each kick, including factors for distance, weather, and game situation. A kicker's xFG can be compared to the actual number of field goals made to create FGOE. FGOE can help identify a kicker's impact by rewarding kickers that make difficult field goal attempts, and penalizing those that miss attempts with a high probability of being made.
+
