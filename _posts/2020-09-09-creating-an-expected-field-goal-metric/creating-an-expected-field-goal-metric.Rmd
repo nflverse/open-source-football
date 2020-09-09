@@ -6,7 +6,8 @@ author:
   - name: Mike Irene 
     url: https://twitter.com/mikeyirene
 date: "`r Sys.Date()`"
-output: distill::distill_article:
+output: 
+  distill::distill_article:
   self_contained: false
   toc: true
   toc_depth: 3
@@ -96,7 +97,7 @@ fg_data <- pbp %>% filter(play_type == 'field_goal', field_goal_result != "block
 
 I created a series of line charts and scatter plots to take a look at which independent variables might have an impact on Field Goal Percentage (number of made kicks divided by all attempts). The line charts take a look at the impact of each categorical variable (combined with distance) on field goal percentage, while the scatter plots focus on continuous variables like wind and temperature. 
 
-```{r, layout="l-page", fig.height=4.5}
+```{r, layout="l-page"}
 # Line charts of field goal rate by distance - split by categorical variables
 fg_data %>% 
   select(kick_distance,field_goal_result, div_game, TieorTakeLead:Precip) %>% 
@@ -111,24 +112,21 @@ fg_data %>%
   scale_x_continuous(breaks = seq(15, 60, by = 5), limits = c(15,65),  name = "Distance") +
   theme(legend.position = "top")+ 
   facet_wrap(~metric)
-```
 
-```{r, layout="l-page", fig.height=4.5}
 # Scatter plots of field goal result by distance and wind/temp  - split by continuous variables
 fg_data %>% 
   ggplot(aes(x=kick_distance, y= wind, group = field_goal_result, color = field_goal_result)) +
   geom_point() +
   scale_x_continuous(breaks = seq(15, 60, by = 5), limits = c(15,65),  name = "Distance") +
   theme(legend.position = "top") + coord_flip()
-```
 
-```{r, layout="l-page", fig.height=4.5}
 # Scatter plots of field goal result by distance and wind/temp  - split by continuous variables
 fg_data %>%
   ggplot(aes(x=kick_distance, y= temp, group = field_goal_result, color = field_goal_result)) +
   geom_point() +
   scale_x_continuous(breaks = seq(15, 60, by = 5), limits = c(15,65),  name = "Distance") +
   theme(legend.position = "top") + coord_flip()
+
 ```
 
 For the categorical variables, the line charts show some larger variances in Field Goal Percentage based on precipitation (Precip), field surface (NaturalGrass), and if the kick was a game-winning attempt (GW_FG_Att). The scatter plots show some potential variability in the field goal result at higher wind speeds and lower temperatures. 
@@ -137,7 +135,7 @@ For the categorical variables, the line charts show some larger variances in Fie
 
 To create the xFG model, the data was split into train (80%) and test (20%) subsets. The train subset was used to create the model, while the test subset was used to evaluate the performance of the xFG model. First, the logistic regression model was run using all variables, then a second model was created using only the statistically significant variables. The second model (xFG_model) was then used to predict the outcome of field goal attempts from the test subset. If the predicted "made" value was greater than 0.5 (50%), then the model predicted the field goal attempt was successful.  
 
-```{r}
+```{r, results='hide'}
 # Create Train and Test splits (80/20)
 set.seed(123)
 train <- fg_data %>% sample_frac(.8)
@@ -159,7 +157,7 @@ xFG_model <- glm(made ~
 summary(xFG_model)
 ```
 
-```{r}
+```{r, results='hide'}
 # Predict using test set. create confusion matrix 
 predictions <- predict(xFG_model, test)
 confusionMatrix(as.factor(if_else(predictions>=.5,1,0)), as.factor(test$made))
