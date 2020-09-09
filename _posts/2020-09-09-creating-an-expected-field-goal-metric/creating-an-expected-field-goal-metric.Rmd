@@ -169,7 +169,7 @@ pred_fg_data <- data.frame(fg_data, xFG)
 
 The xFG model was able to predict the field goal result with 86% accuracy. The model was much better at predicting if a field goal would be made (88%) than if the field goal would be missed (49%). For predictive purposes, this model does not provide a significant lift in accuracy over the 86% field goal percentage of our test sample. To improve on the predictive power of the xFG model, more detailed weather data could be pulled into the model to get the exact weather measurements at time of the field goal attempt.
 
-#xFG and FGOE
+## xFG and FGOE
 
 However, the xFG metric can still be useful in identifying kickers that converted more (or less) field goal attempts than expected. The chart below shows the top 10 kickers in Field Goals Over Expected (FGOE) for the 2019 Season:
 
