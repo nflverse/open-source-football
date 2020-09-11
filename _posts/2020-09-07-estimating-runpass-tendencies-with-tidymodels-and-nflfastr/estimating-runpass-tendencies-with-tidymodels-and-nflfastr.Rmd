@@ -4,7 +4,7 @@ description: "This article shows how to use tidyModels to predict QB dropbacks a
   
 author:
   - name: Richard Anderson
-    url: richjand.rbind.io
+    url: http://richjand.rbind.io
 date: 09-08-2020
 output:
   distill::distill_article:
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 As a Seahawks fan who spends a good amount of time online I've been exposed to a lot of discussion about the value of running vs. passing. A point used in favor of a rushing-focused attack is that good teams tend to run the ball a lot. This is usually met with the response that teams who are ahead will run to kill clock and minimize risk, meaning the causal arrow is backwards. The Patriots always run a lot, but the Patriots are always ahead so of course they are going to run.
 
-A common strategy to establish whether a team is run/pass heavy is to identify a subset of plays where the team is not bound by needing to pass to catch up or run to kill clock ([See Warren Sharp's Tweet](https://twitter.com/SharpFootball/status/1281657545598341121) and see what decisions teams actually made. If we see that the Patriots pass while games are competitive and run when they are closing out the game then we know that the Pats winning isn't caused by rushing. The problem with this approach is that it tends to throw away a lot of useful information. Seeing a team run on 2nd and 11 (again, Seahawks fan here) tells us something very different than seeing a team run on 2nd and 1 just as throwing on 3rd and 1 tells us something different than throwing on 3rd and 10. Thanks to the awesome people at nflscrapR and nflfastR we can build that kind of context into our analysis. 
+A common strategy to establish whether a team is run/pass heavy is to identify a subset of plays where the team is not bound by needing to pass to catch up or run to kill clock ([See Warren Sharp's Tweet](https://twitter.com/SharpFootball/status/1281657545598341121)) and see what decisions teams actually made. If we see that the Patriots pass while games are competitive and run when they are closing out the game then we know that the Pats winning isn't caused by rushing. The problem with this approach is that it tends to throw away a lot of useful information. Seeing a team run on 2nd and 11 (again, Seahawks fan here) tells us something very different than seeing a team run on 2nd and 1 just as throwing on 3rd and 1 tells us something different than throwing on 3rd and 10. Thanks to the awesome people at nflscrapR and nflfastR we can build that kind of context into our analysis. 
 
 The basic roadmap for this post is
 
@@ -53,7 +53,7 @@ where $y_{it}$ is going to be whether team $t$ called a pass on play $i$, $\gamm
 
 Part of the impetus for this project was to learn how to use the [tidyModels](https://www.tidymodels.org/) and [parsnip](https://github.com/tidymodels/parsnip) packages so we will cover how these packages were used to build the model in some detail. If you're interested in learning more about using tidyModels you should check out posts by [Julia Silge](https://juliasilge.com/blog/xgboost-tune-volleyball/) and [Rebecca Barter](http://www.rebeccabarter.com/blog/2020-03-25_machine_learning/) which were extremely helpful in getting up and running in the tidyModels universe.
 
-This is a classification problem where we will predict predict whether or not a play will be a QB dropback. I predict the probability of a QB dropback using the nflfastR-provided variables that collectively capture the game state at the time of the play. These variables aren't an exhaustive list of what goes into the game state, but hopefully capture most of the information relevant to teams in making the decision to run or pass. The variables are:
+This is a classification problem where we will predict whether or not a play will be a QB dropback. I predict the probability of a QB dropback using the nflfastR-provided variables that collectively capture the game state at the time of the play. These variables aren't an exhaustive list of what goes into the game state, but hopefully capture most of the information relevant to teams in making the decision to run or pass. The variables are:
 
   - Down (limited to 1,2,3)
   - Yards for first down
