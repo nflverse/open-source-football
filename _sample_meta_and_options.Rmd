@@ -5,7 +5,7 @@ description: |
 author:
   - name: First Last
     url: https://twitter.com/XXXYYYYZZZ
-date: MM-DD-YYYY
+date: "`r Sys.Date()`"
 output:
   distill::distill_article:
     self_contained: false
