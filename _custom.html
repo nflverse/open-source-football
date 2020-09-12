@@ -1,9 +1,13 @@
 <div class="sidebar-section custom">
-  <h3>Search (opens duckduckgo)</h3>
-  <form action="https://duckduckgo.com/">
-    <input type="text" name="q" placeholder="Search...">
-    <input type="hidden" name="sites"
-      value="https://www.opensourcefootball.com/"> <!-- Replace with your blog URL -->
-    <button type="submit">Search</button>
+  <h3>Search this Site with Google</h3>
+  <form action="https://www.google.com/search" class="searchform" method="get" name="searchform">
+    <input name="sitesearch" type="hidden" value="https://www.opensourcefootball.com">
+    <input autocomplete="on" class="form-control search" name="q" placeholder="Enter search phrase" required="required"  type="text">
+    <button class="button" type="submit">Search</button>
   </form>
 </div>
+
+<!--code for search form from https://stackoverflow.com/a/42926071
+target="_blank" removed because it seems counterintuitive to open a new
+tab for the search since clicking a link in the search list directs back
+to the website-->

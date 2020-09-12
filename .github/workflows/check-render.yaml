@@ -14,9 +14,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
-      - name: Install rmarkdown and distill
+      - name: Install necessary packages
         run: |
-          install.packages(c("rmarkdown", "distill", "dplyr", "tidyr", "jsonlite", "DT"), dependencies = TRUE)
+          install.packages(c("rmarkdown", "distill", "dplyr", "tidyr", "jsonlite", "DT", "stringi"), dependencies = TRUE)
         shell: Rscript {0}
       - name: Render Site
         run: Rscript -e 'rmarkdown::render_site(encoding = "UTF-8")'
