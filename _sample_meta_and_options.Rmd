@@ -19,8 +19,8 @@ categories:
 ---
 
 <!-- ####################################################################### -->
-<!-- Please keep the following chunks as is in your document. 
-They will set some global chunk options and create a hyperlink to the source file. -->
+<!-- Please keep the following chunk as is at the top of your document. 
+     It will set some global chunk options.  -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -32,18 +32,8 @@ knitr::opts_chunk$set(
   )
 ```
 
-```{r gh-source, results='asis', echo=FALSE}
-'%>%' <- magrittr::`%>%`
-fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
-fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
-glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
-               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
-              >View source code on GitHub
-           </a>'
-           )
-```
-
 <!-- ####################################################################### -->
+
 
 
 When creating a plot with a code chunk please consider using the whole page width 
@@ -63,3 +53,23 @@ like
 # code
 
 ```
+
+
+
+<!-- ####################################################################### -->
+<!-- Place at end of document 
+     Please keep thisc hunk as is at end of your document. 
+     It will create a hyperlink to the source file. -->
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+           )
+```
+
+<!-- ####################################################################### -->
