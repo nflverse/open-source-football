@@ -1,0 +1,62 @@
+---
+title: "% of runnning plays through games"
+description: |
+   This article looks at the percentage of running plays through some games
+author:
+  - name: Bruno Mioto
+    url: https://twitter.com/BrunoHMioto
+date: 09-14-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+library(nflfastR)
+library(tidyverse)
+
+
+#Get KC 2019-2020 games ID 
+ID_games_2019_to_2020 <- fast_scraper_schedules(2019:2020)%>%
+  filter(away_team == "KC"|home_team == "KC")
+
+#Select KC 2019-2020 games
+games_KC_2019_to_2020 <- fast_scraper(ID_games_2019_to_2020$game_id)
+
+
+#Get necessary data and calculate % of run in each play
+games_KC_2019_to_2020_perc <- games_KC_2019_to_2020%>%
+  filter(posteam == "KC")%>%
+  select(game_id, posteam, play_type,game_seconds_remaining)%>%
+  filter(play_type == "run"|play_type == "pass")%>%
+  group_by(game_id)%>%
+  group_by(game_id, play_type) %>% mutate(count_plays = sequence(n()))%>%
+  group_by(game_id) %>% mutate(count_all = sequence(n()))%>%
+  ungroup()%>%
+  mutate(count_run = ifelse(count_all == 1&play_type == "pass", 0, ifelse(play_type == "pass", NA, count_plays))) %>%
+  fill(count_run)%>%
+  #mutate(count_run = ifelse(count_all == 1, count_run = 1, fill(count_run)))%>%
+  mutate(perc = (count_run/count_all)*100)
+  
+#Make a plot with 2019-2020 data
+ggplot(games_KC_2019_to_2020_perc,aes(x=game_seconds_remaining,y=perc))+
+  geom_step(size = 1.1, color = "#E31837")+
+  scale_x_reverse(breaks = c(3600,2700,1800,900,0),
+                  limits = c(3600,0),
+                  labels=c("3600" = "1Q", "2700" = "2Q", "1800" = "3Q", "900" = "4Q", "0" = "END"))+
+  scale_y_continuous(limits = c(0,100), breaks = seq (0,100, by = 10))+
+  geom_vline(xintercept = c(3600,2700,1800,900,0))+
+  geom_hline(yintercept = 50,linetype=2)+
+  labs(title = "Percentage of running plays after each play - Chiefs, 2019-2020",
+       x="",y="% of run",
+       caption = "Source: nflfastR package")+
+  theme_bw()+
+  theme(panel.grid.minor.x = element_blank())+
+  theme(panel.grid.minor.y = element_blank())+
+  facet_wrap(~game_id)
+  
+
