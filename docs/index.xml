@@ -12,7 +12,20 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Receiving by Position</title>
+      <dc:creator>Arthur Gymer</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</link>
+      <description>Breaking down the receiving game by position using nflfastR data.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>Positional breakdown</category>
+      <category>Receiving</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</guid>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png" medium="image" type="image/png" width="3900" height="3600"/>
+    </item>
     <item>
       <title>Creating an Expected Field Goal Metric</title>
       <dc:creator>Mike Irene</dc:creator>
