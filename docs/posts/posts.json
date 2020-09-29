@@ -18,7 +18,7 @@
       "Model Calibration"
     ],
     "preview": "posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png",
-    "last_modified": "2020-09-28T18:16:30+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 9100,
     "preview_height": 5600
@@ -41,7 +41,7 @@
       "Receiving"
     ],
     "preview": "posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png",
-    "last_modified": "2020-09-28T18:16:30+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3600
@@ -63,7 +63,7 @@
       "placekicker"
     ],
     "preview": "posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png",
-    "last_modified": "2020-09-28T18:16:30+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -85,7 +85,7 @@
       "stan"
     ],
     "preview": "posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -107,7 +107,7 @@
     "date": "2020-09-06",
     "categories": [],
     "preview": "posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 1248,
     "preview_height": 768
@@ -128,7 +128,7 @@
       "Articles"
     ],
     "preview": "posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -150,7 +150,7 @@
       "nflfastR xYAC Model"
     ],
     "preview": "posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -172,7 +172,7 @@
       "nflfastR"
     ],
     "preview": {},
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {}
   },
   {
@@ -192,7 +192,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 1248,
     "preview_height": 768
@@ -213,7 +213,7 @@
       "python"
     ],
     "preview": "posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 6240,
     "preview_height": 4290
@@ -233,7 +233,7 @@
       "Efficiency"
     ],
     "preview": "posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 1248,
     "preview_height": 768
@@ -255,7 +255,7 @@
       "Completion Probability Intercept"
     ],
     "preview": "posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2700
@@ -277,7 +277,7 @@
       "Fantasy Football"
     ],
     "preview": "posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 5700,
     "preview_height": 3900
@@ -300,7 +300,7 @@
       "quarterbacks"
     ],
     "preview": "posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -320,7 +320,7 @@
       "Getting started"
     ],
     "preview": {},
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {}
   },
   {
@@ -342,7 +342,7 @@
       "Figures"
     ],
     "preview": "posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3000
@@ -364,7 +364,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:40+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -385,7 +385,7 @@
       "python"
     ],
     "preview": "posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2700
@@ -406,7 +406,7 @@
       "python"
     ],
     "preview": "posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 9600,
     "preview_height": 4800
@@ -427,7 +427,7 @@
       "python"
     ],
     "preview": "posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 7680,
     "preview_height": 5280
@@ -450,7 +450,7 @@
       "Packers"
     ],
     "preview": "posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -471,7 +471,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -493,7 +493,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -514,7 +514,7 @@
       "python"
     ],
     "preview": {},
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {}
   },
   {
@@ -534,7 +534,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 4800
@@ -556,7 +556,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 2400
@@ -577,7 +577,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
@@ -598,7 +598,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3000
@@ -621,7 +621,7 @@
       "nflfastR"
     ],
     "preview": "posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2020-09-28T18:16:29+00:00",
+    "last_modified": "2020-09-29T09:13:39+00:00",
     "input_file": {},
     "preview_width": 3900,
     "preview_height": 3300
