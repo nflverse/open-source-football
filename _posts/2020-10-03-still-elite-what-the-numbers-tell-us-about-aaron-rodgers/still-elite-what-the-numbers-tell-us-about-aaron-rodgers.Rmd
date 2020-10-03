@@ -1,0 +1,633 @@
+---
+title: "Still elite: What the numbers tell us about Aaron Rodgers"
+description: |
+  The more you look into the numbers, the better it looks for Aaron Rodgers
+author:
+  - name: Peter Owen
+    url: https://twitter.com/random_effects
+date: 10-03-2020
+output:
+  distill::distill_article:
+    toc : true
+    self_contained: false
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - nflfastR
+  - random effects
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+```
+# Still Elite?
+Week 1 of the 2020 NFL season brought about an MVP caliber display from Rodgers as he torched my beloved Vikings for 43 points. He put up over 0.4 epa/play on more than 40 dropbacks against a Mike Zimmer defense, which has only happened 2 times before in Zimmer's career as a head coach ^[Dak last year, and Tanehill in 2014]. PFF subsequently rewarded him with a grade of 96.0, the highest week 1 grade that's been given since Tom Brady's 96.9 in 2011. 
+
+He followed this up with another MVP level performance in week 2 receiving the 2nd highest PFF grade of the week and leading the offense to another 40 point game as the Packers comfortably swept aside the Lions.
+
+Thankfully for this piece, that was supposed to go out pre-season, Rodgers maintained his MVP form in week 3 against the Saints achieving the 4th highest grade of the week from PFF leading to another high scoring game for the Packers who ended up with 37 points.
+
+So far the Packers have racked up [3.73 points per drive](https://twitter.com/PFF_Mike/status/1311377488128376832?s=20)
+and are one of only 3 teams to be averaging over 40 points through the first 3 games in the play-by-play era ^[along with the Peyton-led 2013 Broncos and the Palmer-led 2015 Cardinals]
+
+We're now almost a year on from [Ben Baldwin's piece](https://theathletic.com/1200883/2019/10/16/no-longer-elite-what-the-numbers-tell-us-about-aaron-rodgers/?article_source=search&search_query=ben%20baldwin) on Aaron Rodgers demise, and I thought it would be worth checking what the numbers say about his performance, especially giving his rampant start to the season.
+
+# Best evaluation metrics
+We can start off with a piece of analysis done by [Baldwin himself](https://twitter.com/benbbaldwin/status/1207780568559235078) showing that for 2016-2019 SIS Total points was the best predictor of future performance. PFF offensive grade also comes out well in this analysis so let's start by looking at these two metrics over the past four years. 
+
+Here's the leaderboard for SIS Total points in 2019
+
+
+```{r, layout="l-body-outset", fig.width=5, fig.height=1.5 , echo=FALSE}
+library(reactable)
+library(tidyverse)
+sis_data <- read_csv("https://raw.githubusercontent.com/peteowen1/SIS_data/master/Total_Players_Data.csv")
+
+sis_table <- sis_data %>% filter(season == 2019, positionName == "QB") %>% 
+  select(player, team, g, Snaps,  Total) %>% arrange(-Total)
+
+reactable(sis_table, filterable = T, searchable = T, showPageSizeOptions = T,wrap = T , bordered = T,
+          columns = list(
+  player = colDef(name = "Player" , minWidth = 160),
+  team = colDef(name = "Team"),
+  g = colDef(name = "Games"),
+  Snaps = colDef(name = "Plays"),
+  Total = colDef(name = "SIS Total Points"))
+)
+
+```
+
+Rodgers was comfortably the most valuable player by Total Points in 2019 so perhaps the talks of his demise were too soon.
+A [great article from Mike Sando ](https://theathletic.com/2056194/2020/09/11/the-truth-about-aaron-rodgers-stats/?redirected=1) shows how last year Rodgers was negatively affected more by drops than in previous acclaimed years, something that SIS total points takes into account, but raw epa does not.
+
+Rodgers currently [sits in 2nd](https://sisdatahub.com/leaderboards/QB) for SIS total points in 2020, carrying on his good performance in the metric from the prior year. 
+
+If we switch to play grading rather than epa analysis Rodgers still came out as elite over recent times.
+In his recent ranking of NFL quarterback's Sam Monson stated that Rodgers ranked as the [4th best Quarterback of the past 2 years.](https://www.pff.com/news/nfl-monson-ranking-all-32-starting-quarterbacks-ahead-of-the-2020-nfl-season)
+
+
+The issue with just using raw epa per play is that although it improves on yardage totals it still misses out on a lot of context (e.g. receivers, defense, game conditions), a lot of which can be accounted for with data that's available in the nflfastR play-by-play; so let's have a go at creating our own QB metric and see how it changes things.
+
+First let's load the data:
+
+```{r , echo=TRUE}
+library(tidyverse)
+library(mgcv)
+library(mixedup)
+
+pbp <- map_df(2016 : 2019, ~{
+  readRDS(
+    url(
+      glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{.}.rds")
+    )
+  )
+}) %>% mutate(to_sticks = air_yards - ydstogo,
+         passer30 = fct_lump_n(passer , 30),
+         receiver100 = fct_lump_n(receiver , 100),
+         log_ydstogo = log(ydstogo))
+
+dbs <- pbp %>% filter(!is.na(passer), !is.na(epa))
+```
+
+
+
+# Initial Look
+Let's start by ranking QB's by epa/play since 2016 and see how it looks:
+
+```{r ,echo=F}
+dbs %>% 
+  group_by(passer) %>% 
+  summarise(dropbacks = n(), epa_p = round(mean(epa),4)) %>% 
+  filter(dropbacks > 150) %>% 
+  arrange(-epa_p) %>% 
+  reactable() 
+```
+
+
+We can see that Rodgers ranks 7th in this time-frame, which in itself isn't bad, but it's far away from his elite heights of 2011-2015 where he ranks 1st in epa/play by a wide margin.
+
+
+```{r , echo=F}
+old_df <- map_df(2011 : 2015, ~{
+  readRDS(
+    url(
+      glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{.}.rds")
+    )
+  ) %>% filter(!is.na(passer) , !is.na(epa))
+}) 
+
+old_df %>% group_by(passer) %>% 
+  summarise(dropbacks = n(), epa_p = round(mean(epa),4)) %>% 
+  filter(dropbacks > 150) %>% 
+  arrange(-epa_p) %>% 
+  reactable()
+```
+
+But we can do better than just average epa per play, we know the receivers that QBs throw to on every attempt, we know the defenses they faced on every dropback, we know the down, yardline, and yards to go for every snap; so let's account for this and come up with a metric that contains much more context and therefore is much more representative of true ability.
+
+Looking at epa/play since 2016 we can see that Garoppolo (2nd), Nick Mullens (11th), and Drew Lock (12th) ^[and possibly Lamar (4th) due to his replacement level 2018 season combined with MVP-level 2019 should probably rank him 10-15th overall] are far too high; Rodgers (7th), and Russ (14th) are too low. Let's see if adjusting for additional context changes our rankings at all.
+
+# How to improve on epa/play
+First of all we can see the value an average QB would generate from the type of play they perform on a particular dropback (take a sack, throw the ball away, scramble, or throw the ball a certain distance downfield). We can think of this as a mixture of decision making and running ability. This can be done by assigning a play it's epa value on all non-pass attempts, and then assigning the average value of a play on a pass attempt through modelling.
+
+Next we can then see how a QB outperforms pass attempts in regards to the throwing component (air EPA) and the yards after catch component (YAC EPA), then combine these with the first part to give us a combined view on:
+
+1. Play Quality - How good a QB is at avoiding pressure and getting a good type of throw off or a high quality scramble. 
+2. Air Yards - How good a QB is at completing passes above expectation and generating air EPA
+3. Yards After Catch - How good a QB is at hitting receivers in stride and generating YAC EPA
+
+We're going to do this by including the passer as a random effect in our model that predicts the epa of a play. We will include as much context as possible by including down, distance, yardline, and many other variables.
+In the 2nd and 3rd model we can also include receiver to adjust for qbs that either have a great/poor supporting cast. We'll make sure to include shrinkage throughout the models to avoid overfitting as much as possible.
+
+Doing this gives us the following:
+
+```{r , echo=FALSE, layout="l-page"}
+library(nflfastR)
+library(tidyverse)
+library(data.table)
+library(lubridate)
+library(mgcv)
+library(mixedup)
+
+#######
+pbp$home <- ifelse(pbp$home_team == pbp$posteam,1,0)
+
+############### create factors
+pbp$pass_location_adj <- as.factor(ifelse(pbp$pass_location=="middle","mid","outside"))
+pbp$down_type <- as.factor(ifelse(as.numeric(as.character(pbp$down)) < 3, "Early","Late"))
+pbp$down <- as.factor(pbp$down)
+pbp$posteam_timeouts_remaining <- as.factor(pbp$posteam_timeouts_remaining)
+pbp$defteam_timeouts_remaining <- as.factor(pbp$defteam_timeouts_remaining)
+pbp$pass_location <- as.factor(pbp$pass_location)
+pbp$qb_hit <- as.factor(pbp$qb_hit)
+pbp$shotgun <- as.factor(pbp$shotgun)
+pbp$no_huddle <- as.factor(pbp$no_huddle)
+pbp$home <- as.factor(pbp$home)
+pbp$roof <- as.factor(pbp$roof)
+pbp$goal_to_go <- as.factor(pbp$goal_to_go)
+pbp$season_f <- as.factor(pbp$season)
+pbp$season_pos <- with(pbp, interaction(season_f,posteam))
+pbp$season_def <- with(pbp, interaction(season_f,defteam))
+pbp$passer_id <- as.factor(pbp$passer_id)
+pbp$receiver_id <- as.factor(pbp$receiver_id)
+
+####new variables
+pbp$is_zero <- as.factor(ifelse(pbp$air_yards == 0 ,1, 0))
+pbp$day <- yday(pbp$game_date)
+pbp$game_date_numeric <- as.numeric(date(pbp$game_date))
+pbp$to_sticks <- pbp$air_yards - pbp$ydstogo
+pbp$ydstogo <- pmin(pbp$ydstogo,30)
+pbp$ydstogo_log <- log(pbp$ydstogo+1)
+
+pbp$game_passes <- rowid(pbp$game_id,pbp$passer)
+
+pbp <- pbp %>% mutate(pos_coach = as.factor(ifelse(posteam == home_team, home_coach,away_coach)),
+                                    def_coach = as.factor(ifelse(defteam == home_team, home_coach,away_coach)))
+
+#######################
+pbp$passer_id2 <- forcats::fct_lump_min(pbp$passer_id, 500)
+
+##### fix passing epa and air yards
+pbp$throw_epa <- ifelse(!is.na(pbp$passer_player_id) & !is.na(pbp$receiver_player_id),ifelse(pbp$complete_pass== 1, pbp$air_epa,  pbp$qb_epa) ,NA)
+pbp$after_catch_epa <- ifelse(pbp$complete_pass== 1, pbp$qb_epa - pbp$throw_epa, NA)
+pbp$sack_epa <- ifelse(pbp$sack== 1, pbp$qb_epa, NA)
+
+#### Build dropbacks
+dropbacks <- pbp %>%  filter(!is.na(passer_id),
+                                    !is.na(down),
+                                    !is.na(epa)
+                                    )
+
+
+dropbacks$passer_id2 <- forcats::fct_lump_min(dropbacks$passer_id, 100)
+
+qb_list <- as.data.frame(unique(dropbacks$passer_id2))
+names(qb_list)[1] <- "qbz"
+
+#############################################
+
+qb_rushing_df <- pbp %>%
+  filter(!is.na(down),!is.na(rusher_id),!is.na(epa), aborted_play == 0) %>%
+  inner_join(qb_list, by = c("rusher_id"="qbz"))
+
+nlevels_to_keep <- sum(table(qb_rushing_df$rusher_id) >= 5)
+qb_rushing_df$rusher_id2 <- forcats::fct_lump(qb_rushing_df$rusher_id, n = nlevels_to_keep)
+
+qb_rushing_df <- droplevels(qb_rushing_df)
+
+qb_rushing_df$passer_id2 <- qb_rushing_df$rusher_id2
+qb_rushing_df$passer <- qb_rushing_df$rusher
+
+dropbacks <- distinct(bind_rows(dropbacks,qb_rushing_df))
+
+##################
+#####
+dropbacks$air_yards <- pmin(pmax(dropbacks$air_yards,- 10),40)
+dropbacks$to_sticks <- pmin(pmax(dropbacks$to_sticks,- 25),40)
+
+dropbacks <- droplevels(dropbacks)
+
+####### Build Passes
+passes <- dropbacks %>% filter(!is.na(receiver_id)
+                               ,!is.na(air_yards)
+                               )
+
+
+# ##########################################################################################
+# ##################
+################
+passes_epa_mdl <- bam(epa ~
+                        te(air_yards,ydstogo_log,yardline_100, by = down_type , bs = "ts")
+                      + s(to_sticks , by = down_type, bs = "ts")
+                      + s(to_sticks, bs = "ts")
+                      + s(qb_hit , bs = "re")
+                      , family = gaussian , select = T
+                      ,discrete = T
+                      ,data = passes )
+
+
+dropbacks$pass_epa_pred <- predict.bam(passes_epa_mdl, newdata = dropbacks, type = 'response')
+
+dropbacks$sack_epa2 <- ifelse(!is.na(dropbacks$receiver_id) & !is.na(dropbacks$air_yards),
+                              dropbacks$pass_epa_pred,
+                              dropbacks$qb_epa)
+
+
+#################################
+completions <- passes  %>% filter(complete_pass == 1)
+
+##########
+
+completions <- droplevels(completions)
+passes <- droplevels(passes)
+
+##################
+################
+YAC_final_recs_epa <- bam(after_catch_epa ~
+                            te(air_yards,ydstogo_log,yardline_100, by = down_type , bs = "ts")
+                          + s(air_yards , by = pass_location_adj, bs = "ts")
+                          + s(air_yards , by = qb_hit, bs = "ts")
+                          + s(air_yards, bs = "ts")
+                          + s(ydstogo_log, bs = "ts")
+                          + s(yardline_100, bs = "ts")
+                          + s(to_sticks , by = down_type, bs = "ts")
+                          + s(to_sticks, bs = "ts")
+                          + s(half_seconds_remaining, bs = "ts")
+                          + te(game_seconds_remaining , wp, bs = "ts")
+                          + te(drive , wp, bs = "ts")
+                          + s(game_passes , bs = "ts")
+                          + s(down , bs = "re")
+                          + s(shotgun, bs = "re")
+                          + s(no_huddle, bs = "re")
+                          + s(qb_hit , bs = "re")
+                          + s(is_zero , bs = "re")
+                          + s(game_date_numeric , bs = "ts")
+                          + s(week, bs = "ts")
+                          + s(day , bs="cc")
+                          + s(home , bs="re")
+                          + s(roof, bs = "re")
+                          + s(pass_location_adj, bs = "re")
+                          + te(ep,wp, bs = "ts")
+                          + s(pos_coach, bs = "re")
+                          + s(def_coach, bs = "re")
+                          + s(season_pos , bs="re")
+                          + s(season_def , bs="re")
+                          + s(passer_id , bs="re")
+                          + s(receiver_id , bs="re")
+                          , family = gaussian , select = T
+                          ,discrete = T
+                          ,data = completions)
+
+############################
+
+AY_final_recs_epa <- bam(throw_epa ~
+                           te(air_yards,ydstogo_log,yardline_100, by = down_type, bs = "ts")
+                         + s(air_yards , by = pass_location_adj, bs = "ts")
+                         + s(air_yards , by = qb_hit, bs = "ts")
+                         + s(air_yards, bs = "ts")
+                         + s(ydstogo_log, bs = "ts")
+                         + s(yardline_100, bs = "ts")
+                         + s(to_sticks , by = down_type, bs = "ts")
+                         + s(to_sticks, bs = "ts")
+                         + s(half_seconds_remaining, bs = "ts")
+                         + te(game_seconds_remaining , wp, bs = "ts")
+                         + te(drive , wp, bs = "ts")
+                         + s(game_passes , bs = "ts")
+                         + s(down , bs = "re")
+                         + s(shotgun, bs = "re")
+                         + s(no_huddle, bs = "re")
+                         + s(qb_hit , bs = "re")
+                         + s(is_zero , bs = "re")
+                         + s(game_date_numeric , bs = "ts")
+                         + s(week, bs = "ts")
+                         + s(day , bs="cc")
+                         + s(home , bs="re")
+                         + s(roof, bs = "re")
+                         + s(pass_location_adj, bs = "re")
+                         + te(ep,wp, bs = "ts")
+                         + s(pos_coach, bs = "re")
+                         + s(def_coach, bs = "re")
+                         + s(season_pos , bs="re")
+                         + s(season_def , bs="re")
+                         + s(passer_id , bs="re")
+                         + s(receiver_id , bs="re"),
+                         family = gaussian , select = T
+                         ,discrete = T
+                         ,data = passes)
+
+
+#####
+#################
+SACK_final_recs_epa <- bam(sack_epa2 ~
+                             + te(yardline_100  ,ydstogo_log, by = down_type, bs = "ts")
+                           + s(ydstogo_log, bs = "ts")
+                           + s(yardline_100, bs = "ts")
+                           + s(half_seconds_remaining, bs = "ts")
+                           + te(game_seconds_remaining , wp, bs = "ts")
+                           + s(game_seconds_remaining, bs = "ts")
+                           + te(drive , wp, bs = "ts")
+                           + s(drive, bs = "ts")
+                           + s(game_passes , bs = "ts")
+                           + s(down , bs = "re")
+                           + s(shotgun, bs = "re")
+                           + s(no_huddle, bs = "re")
+                           + s(game_date_numeric , bs = "ts")
+                           + s(week, bs = "ts")
+                           + s(day , bs="cc")
+                           + te(ep,wp, bs = "ts")
+                           + s(home , bs="re")
+                           + s(roof, bs = "re")
+                           + s(pos_coach, bs = "re")
+                           + s(def_coach, bs = "re")
+                           + s(season_pos , bs="re")
+                           + s(season_def , bs="re")
+                           + s(passer_id , bs="re")
+                           , family = gaussian , select = T
+                           ,discrete = T
+                           ,data = dropbacks)
+
+# ######################
+passer_list <- unique(dropbacks %>% select(passer_id2,passer))
+
+passer_list %>%
+  inner_join(extract_random_effects(SACK_final_recs_epa) %>%
+              filter(group_var == "passer_id") , by = c( 'passer_id2' = 'group')) %>%
+  left_join(extract_random_effects(AY_final_recs_epa) %>%
+              filter(group_var == "passer_id") , by = c('passer_id2' = 'group')) %>%
+  left_join(extract_random_effects(YAC_final_recs_epa) %>%
+              filter(group_var == "passer_id") , by = c('passer_id2' = 'group')) %>%
+  left_join(dropbacks %>% group_by(passer) %>% summarise(epa_p = round(mean(epa),4) , dbs = n())) %>%
+  left_join(passes %>% group_by(passer) %>% summarise(mepa_ps = round(mean(epa),4) , passes = n())) %>%
+  left_join(completions %>% group_by(passer) %>% summarise(mepa_comp = mean(epa) , completions = n())) %>%
+  mutate(qb = passer,
+         total_value = value.x * dbs + value.y * passes + value * completions,
+         value_per_db = round(total_value / dbs,4))  %>%
+  select(qb, dbs, passes , completions, pq_value = value.x , ay_value = value.y , yac_value = value  ,epa_p, value_per_db) %>%
+  arrange(-value_per_db) %>%
+  reactable(filterable = T, searchable = T, showPageSizeOptions = T,wrap = T , bordered = T)
+```
+
+
+
+We can see straight away that this aligns much better with a consensus ranking of how players performed between 2016-2019.
+
+Garoppolo moves from 2nd to 11th; Mullens from 11th to 27th, Lock from 12th to 20th. These three seem to either benefit from scheme or just small sample sizes so good to see that the model accounts for both here.
+
+On the other side of things Russ moves up from 14th to 9th and Rodgers from 7th to 2nd. Both these players are clearly better than their epa ranking and our model seems to pick up on this, but what exactly causes these changes?
+
+
+# What makes Rodgers great? 
+
+If we look at the previous table we can see Rodgers is above average in all three components but in particular his effective pass accuracy shown by the air yards component is what stands out. 
+One of the noticeable adjustments made that seem to help him stems from teams faced, if we look at the top ten defenses against air yards EPA we find 4 of the 10 were division rivals
+
+```{r , echo=F}
+extract_random_effects(AY_final_recs_epa) %>% 
+  filter(group_var == "season_def") %>% 
+  select(team = group, value) %>% 
+  slice_min(value, n =10)
+
+```
+
+And Mike Zimmer's teams were easily the best in the league defensively
+
+```{r , echo=F}
+extract_random_effects(AY_final_recs_epa) %>% 
+  filter(group_var == "def_coach") %>% 
+  select(team = group, value) %>% 
+  slice_min(value, n =8)
+```
+
+But this adjustment is relatively small in the grand scheme of things, the main adjustment that benefits both his air yards component and play quality component is rather surprising, considering  his reputation, but this is what I found:
+
+```{r , echo=TRUE, layout="l-page"}
+mdl_3d <- bam(to_sticks ~ te(log_ydstogo , yardline_100) + s(passer30 , bs = "re") ,
+            data = dbs %>% filter(!is.na(receiver), !is.na(air_yards), down >= 3) ,
+            select = T , discrete = T)
+
+###
+df_re_3d <- (extract_random_effects(mdl_3d)) %>%
+  mutate(QB = fct_reorder(.f = group, .x = value, .fun = mean)) %>%
+  filter(QB != "Other")
+
+
+plot_3d <- ggplot(df_re_3d, aes(x=value, y=QB)) +
+  geom_errorbar(aes(xmin=value-se, xmax=value+se)) +
+  geom_point() +
+  labs(title = "Aggression on Late Downs" ,
+       subtitle = "Yards thrown past the sticks on 3rd & 4th Down
+compared to an average QB ",
+       x = "Yards compared to average")
+
+plot_3d
+```
+
+Rodgers is *by far* the most aggressive QB in the league on late downs and it isn't particularly close. Given his reputation of being too conservative this came as a big shock to me. The reason behind it is the fact that Rodgers is conservative on early downs and then flips the switch for late downs. It seems like Rodgers was one step ahead of the game as it makes a lot of sense to be conservative on early downs when yards before the sticks have high relative importance, and aggressive on later downs when yards before the sticks have almost zero importance. 
+
+Here's how much each individual yard before the sticks is worth on 1st down:
+
+```{r , echo=F, layout="l-page"}
+
+dwn <- 1
+ytg <- 10
+yds_bk <- 0
+yds_fwd <- 19
+igdf <- data.frame()
+igdf2 <- data.frame()
+
+  for (i in 1:50) {
+  yline <- (80 - i)
+
+  data <- tibble::tibble(
+    "season" = 2019,
+    'home_team' = 'GB',
+    'posteam' = 'GB',
+    'roof' = 'outdoors',
+    'half_seconds_remaining' = 900,
+    'yardline_100' = c((yline):(yline - yds_fwd)),
+    'down' = c(rep((dwn+1),(ytg+yds_bk)),rep(1,((yds_fwd+1)-ytg))),
+    'ydstogo' = c((ytg+yds_bk):1,rep((yds_fwd+1-ytg),((yds_fwd+1)-ytg))),
+    'posteam_timeouts_remaining' = 3,
+    'defteam_timeouts_remaining' = 3
+  )
+
+ igdf <-  nflfastR::calculate_expected_points(data) %>%
+    #select(season,down, yardline_100,ydstogo, td_prob, ep) %>%
+    mutate(incremental_gain = ep - lag(ep)) %>%
+    select(incremental_gain) %>% data.table::transpose()
+
+ igdf2 <- bind_rows(igdf2,igdf)
+  }
+
+
+colnames(igdf2) <- -(yds_bk+ytg):(yds_fwd-ytg)
+
+wfll <- data.frame(colMeans(igdf2)) %>% filter(!is.na(colMeans.igdf2.))
+colnames(wfll) <- "incremental_epa"
+wfll$cumsum <- cumsum(wfll$incremental_epa)
+wfll$start <- round(lag(wfll$cumsum) - wfll$cumsum[ytg+yds_bk],3)
+wfll$start[1] <- -wfll$cumsum[ytg+yds_bk]
+wfll$end <- round(wfll$start + wfll$incremental_epa,3)
+wfll$id <- seq_along(wfll$start)
+wfll$desc <- fct_inorder(rownames(wfll))
+
+###
+ggplot(wfll, aes(desc,fill = incremental_epa)) +
+  geom_rect(aes(x = desc,xmin = id - 0.45,xmax = id +0.45, ymin = end, ymax = start)) +
+  scale_fill_gradient2(low="red", mid="grey", high="blue") +
+  labs(title = "Incremental Value of each Yard on 1st Down" ,
+       #subtitle = "Yards thrown past the sticks on 3rd & 4th Down compared to an average QB ",
+       y = "Expected points relative to 1st Down at the sticks",
+       x = "Yards to Sticks") +
+  geom_vline(xintercept = ytg+yds_bk, linetype="dotted" ) +
+  geom_text(aes(label=round(incremental_epa,2) , y = end), vjust=-0.5 , size = 3)
+
+###################################
+######################
+```
+
+And the same again on 3rd down 
+
+```{r , echo=F, layout="l-page"}
+
+dwn <- 3
+ytg <- 10
+yds_bk <- 0
+yds_fwd <- 19
+igdf <- data.frame()
+igdf2 <- data.frame()
+
+  for (i in 1:50) {
+  yline <- (80 - i)
+
+  data <- tibble::tibble(
+    "season" = 2019,
+    'home_team' = 'GB',
+    'posteam' = 'GB',
+    'roof' = 'outdoors',
+    'half_seconds_remaining' = 900,
+    'yardline_100' = c((yline):(yline - yds_fwd)),
+    'down' = c(rep((dwn+1),(ytg+yds_bk)),rep(1,((yds_fwd+1)-ytg))),
+    'ydstogo' = c((ytg+yds_bk):1,rep((yds_fwd+1-ytg),((yds_fwd+1)-ytg))),
+    'posteam_timeouts_remaining' = 3,
+    'defteam_timeouts_remaining' = 3
+  )
+
+ igdf <-  nflfastR::calculate_expected_points(data) %>%
+    mutate(incremental_gain = ep - lag(ep)) %>%
+    select(incremental_gain) %>% data.table::transpose()
+
+ igdf2 <- bind_rows(igdf2,igdf)
+  }
+
+
+colnames(igdf2) <- -(yds_bk+ytg):(yds_fwd-ytg)
+
+wfll <- data.frame(colMeans(igdf2)) %>% filter(!is.na(colMeans.igdf2.))
+colnames(wfll) <- "incremental_epa"
+wfll$cumsum <- cumsum(wfll$incremental_epa)
+wfll$start <- round(lag(wfll$cumsum) - wfll$cumsum[ytg+yds_bk],3)
+wfll$start[1] <- -wfll$cumsum[ytg+yds_bk]
+wfll$end <- round(wfll$start + wfll$incremental_epa,3)
+wfll$id <- seq_along(wfll$start)
+wfll$desc <- fct_inorder(rownames(wfll))
+
+###
+ggplot(wfll, aes(desc,fill = incremental_epa)) +
+  geom_rect(aes(x = desc,xmin = id - 0.45,xmax = id +0.45, ymin = end, ymax = start)) +
+  scale_fill_gradient2(low="red", mid="grey", high="blue") +
+  labs(title = "Incremental Value of each Yard on 3rd Down" ,
+       #subtitle = "Yards thrown past the sticks on 3rd & 4th Down compared to an average QB ",
+       y = "Expected points relative to 1st Down at the sticks",
+       x = "Yards to Sticks") +
+  geom_vline(xintercept = ytg+yds_bk, linetype="dotted" ) +
+  geom_text(aes(label=round(incremental_epa,2) , y = end), vjust=-0.5,size=3)
+
+###################################
+######################
+```
+
+We see that gaining 8 yards (-2 yards to sticks) on 1st and 10 is similar to gaining 10 yards, while gaining 9 yards on 1st down is similar to gaining 12 yards. Therefore a QB who threw for 9 yards on every 1st down would be more valuable than a QB that threw for 11 yards.
+On 3rd down we see that the only thing that matters is getting to the first down marker.
+Rodgers is the only QB that seems to throw with this in mind, he thrives in the short passing game on early downs, and then attacks downfield when needed on later downs.
+
+In general QB's can add much more repeated excess value on 3rd downs than they can on 1st. Phillip Rivers was the best QB on 1st downs in this time frame and added ~0.15 epa/play over a replacement QB. Compare this to Rodgers who, although worse than Rivers on 1st downs, performed 0.38 epa/play better than a replacement QB on late downs. Mahomes was even better on late downs, although he benefited from a better receiving corps and is probably due for some regression since he isn't even close to Rodgers' level of aggression ^[although, you know, he's Pat Mahomes so he'll probably just get even better]
+
+```{r , echo=FALSE, layout="l-page"}
+#####################
+
+mdl_1 <- bam(to_sticks ~ te(yardline_100, ydstogo) + s(passer30 , bs = "re") ,
+             data = dbs %>% filter(down == 1 , !is.na(air_yards), !is.na(receiver)) , discrete = T , select = T )
+
+mdl_3 <- bam(to_sticks ~ te(yardline_100, ydstogo) + s(passer30 , bs = "re") ,
+             data = dbs %>% filter(down >= 3, !is.na(air_yards), !is.na(receiver)) , discrete = T , select = T )
+
+mdl_epa1 <- bam(qb_epa ~ te(yardline_100, ydstogo) + s(passer30 , bs = "re") ,
+             data = dbs %>% filter(down == 1 , !is.na(air_yards), !is.na(receiver)) , discrete = T , select = T )
+
+mdl_epa3 <- bam(qb_epa ~ te(yardline_100, ydstogo) + s(passer30 , bs = "re") ,
+             data = dbs %>% filter(down >= 3, !is.na(air_yards), !is.na(receiver)) , discrete = T , select = T )
+
+
+extract_random_effects(mdl_1) %>% 
+  left_join(extract_random_effects(mdl_3) , by = c('group' = 'group')) %>%
+  left_join(extract_random_effects(mdl_epa1) , by = c('group' = 'group')) %>%
+  left_join(extract_random_effects(mdl_epa3) , by = c('group' = 'group')) %>%
+  select(QB = group, '1st Down Aggression' =  value.x , 'Late Down Aggression' =  value.y ,'1st Down EPA' = value.x.x , 'Late Down EPA' = value.y.y) %>%
+  arrange(-`Late Down Aggression` ) %>%
+  reactable()
+```
+
+On 1st down it probably just makes sense to aim for a successful play, and defenses seem to defend heavily beyond the sticks so aiming for passes between 5-9 yards downfield is probably ideal. We can show this by looking at success rates by air yards on 1st down; where we see that success rate peaks at ~6 air yards, illustrating the benefit of the mid/short passing game on a fresh set of downs.
+
+```{r , echo=F}
+dbs %>% 
+  filter(down == 1 , ydstogo==10 , air_yards >= 3 , air_yards <= 12) %>% 
+  group_by(air_yards) %>% 
+  summarise(success_rate= round(mean(success),3), count = n()) %>% tibble()
+```
+
+In a similar vain to his peerless understanding of pass optimisation based on situation, he [laps the league](https://twitter.com/StatsbyLopez/status/1310418291400282113?s=20) in aggression on defensive offside penalties, again Rodgers has an adept understanding of when to throw deep and when to throw short that no other QB seems to be able to emulate.
+
+
+# Still Elite!
+So we've shown that with the abundance of data we have we can get a much clearer view on the value of a QB than just ranking by yards per play, or epa per play, and there are still plenty of improvements to be made from here!
+If we understand the volatility of different play types and how predictive certain situations are we can further improve our model, potentially splitting up into further components to get even more context on what makes every single QB good or bad.
+
+For now though we can say that all the best information we have pointed towards Rodgers having an MVP caliber season, and that's exactly what we've seen so far. The quality of teams faced and the quality of the player's team can having a significant impact on their performance. Davante Adams and Allen Lazard are both expected to miss week 4 with injuries so we may see a fall from grace this week in terms of epa/play, but this just further emphasises the point of how much context matters in the evaluation process.
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+           )
+```
