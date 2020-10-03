@@ -10,7 +10,7 @@ output:
   distill::distill_article:
     toc : true
     self_contained: false
-    repository_url: "https://github.com/mrcaseb/open-source-football"
+repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - nflfastR
   - random effects
