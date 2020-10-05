@@ -12,7 +12,21 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 03 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>nflfastR EP, WP, CP xYAC, and xPass models</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</link>
+      <description>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>Decision Trees</category>
+      <category>xgboost</category>
+      <category>Model Calibration</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
+    </item>
     <item>
       <title>Still elite: What the numbers tell us about Aaron Rodgers</title>
       <dc:creator>Peter Owen</dc:creator>
@@ -21,20 +35,6 @@
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</guid>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="3900" height="2400"/>
-    </item>
-    <item>
-      <title>nflfastR EP, WP, CP and xYAC models</title>
-      <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</link>
-      <description>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) and Expected Yards after Catch (xYAC) models.</description>
-      <category>Figures</category>
-      <category>nflfastR</category>
-      <category>Decision Trees</category>
-      <category>xgboost</category>
-      <category>Model Calibration</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
-      <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
     </item>
     <item>
       <title>Receiving by Position</title>
