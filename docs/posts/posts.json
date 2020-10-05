@@ -1,15 +1,15 @@
 [
   {
     "path": "posts/2020-09-28-nflfastr-ep-wp-and-cp-models/",
-    "title": "nflfastR EP, WP, CP and xYAC models",
-    "description": "A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) and Expected Yards after Catch (xYAC) models.",
+    "title": "nflfastR EP, WP, CP xYAC, and xPass models",
+    "description": "A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.",
     "author": [
       {
         "name": "Ben Baldwin",
         "url": "https://twitter.com/benbbaldwin"
       }
     ],
-    "date": "2020-09-28",
+    "date": "2020-10-04",
     "categories": [
       "Figures",
       "nflfastR",
@@ -18,8 +18,8 @@
       "Model Calibration"
     ],
     "preview": "posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png",
-    "last_modified": "2020-10-03T09:13:37+00:00",
-    "input_file": {},
+    "last_modified": "2020-10-05T04:11:07+02:00",
+    "input_file": "nflfastr-ep-wp-and-cp-models.utf8.md",
     "preview_width": 9100,
     "preview_height": 5600
   },

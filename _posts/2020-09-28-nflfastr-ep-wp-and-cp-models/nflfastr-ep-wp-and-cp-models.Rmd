@@ -246,7 +246,7 @@ plot <- cv_results %>%
 
 Here is the EP calibration plot. Points close to the diagonal dotted line are consistent with a well-calibrated model:
 
-```{r plot, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700, preview=TRUE}
 ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
                        lab = c("More times\nthan expected", "Fewer times\nthan expected"),
                        next_score_type = factor("No Score (0)"))
@@ -434,7 +434,7 @@ wp_cv_loso_calibration_results <- cv_results %>%
 
 The WP plot. Looks good!
 
-```{r plot_wp, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot_wp, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
 # Create a label data frame for the chart:
 ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
                        lab = c("More times\nthan expected", "Fewer times\nthan expected"),
@@ -574,7 +574,7 @@ wp_cv_loso_calibration_results <- cv_results %>%
 
 The WP plot.
 
-```{r plot_wp_spread, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot_wp_spread, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
 # Create a label data frame for the chart:
 ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
                        lab = c("More times\nthan expected", "Fewer times\nthan expected"),
@@ -722,7 +722,7 @@ ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
 
 Plot the results:
 
-```{r plot_cp, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot_cp, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
 cp_cv_loso_calibration_results %>%
   ungroup() %>%
   mutate(distance = fct_relevel(distance,
@@ -871,7 +871,7 @@ ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
                        )
 ```
 
-```{r plot-xyac, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot-xyac, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
 
 plot %>%
   ungroup() %>%
@@ -996,7 +996,7 @@ ann_text <- data.frame(x = c(.25, 0.75), y = c(0.75, 0.25),
 
 Plot the results:
 
-```{r plot_xp, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
+```{r plot_xp, layout="l-page", warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all', dpi = 700}
 xp_cv_loso_calibration_results %>%
   ungroup() %>%
   mutate(situation = fct_relevel(situation,
