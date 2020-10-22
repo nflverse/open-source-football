@@ -61,7 +61,6 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Seconds remaining in half
 * Seconds remaining in game
 * Yard line
-* Expected Points
 * Score differential
 * Ratio of expected score differential (expected points + point differential) to time remaining (feature borrowed from nflscrapR)
 * Down
@@ -69,7 +68,7 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Timeouts remaining for each team
 * Whether team will receive 2nd half kickoff
 * Whether possession team is at home
-* [Model with Vegas line only: point spread * log(3600 / (50 + (seconds elapsed in game))]
+* [Model with Vegas line only: point spread * exp(-4 * fraction of game elapsed)]
 
 ### CP and expected yards after the catch model features
 
@@ -352,7 +351,30 @@ We see that the new EP model is better calibrated. Note that nflscrapR reports a
 As with EP, do some initial setup to get the data ready for fitting.
 
 ```{r wp_setup}
-model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true'))
+
+# delete this once the change to spread time is merge into nflfastR
+prepare_wp_data <- function(pbp) {
+
+  pbp <- pbp %>%
+    dplyr::group_by(game_id) %>%
+    dplyr::mutate(
+      receive_2h_ko = dplyr::if_else(qtr <= 2 & posteam == dplyr::first(stats::na.omit(defteam)), 1, 0)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(
+      ExpScoreDiff = ep + score_differential,
+      posteam_spread = dplyr::if_else(home == 1, spread_line, -1 * spread_line),
+      elapsed_share = (3600 - game_seconds_remaining) / 3600,
+      spread_time = posteam_spread * exp(-4 * elapsed_share),
+      ExpScoreDiff_Time_Ratio = ExpScoreDiff / (game_seconds_remaining + 1)
+    )
+
+  return(pbp)
+
+}
+
+model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true')) %>%
+  filter(Winner != "TIE")
 model_data <- model_data %>%
   make_model_mutations() %>%
   prepare_wp_data() %>%
@@ -366,7 +388,6 @@ model_data <- model_data %>%
     game_seconds_remaining,
     ExpScoreDiff_Time_Ratio,
     score_differential,
-    ep,
     down,
     ydstogo,
     home,
@@ -518,18 +539,18 @@ Again, the new WP model represents an improvement.
 `nflfastR` has a secondary win probability model that also incorporates the pregame spread to more accurately reflect a team's chances of winning. Below are calibration results for this model. 
 
 ```{r wp_setup_spread}
-nrounds = 170
+nrounds = 710
 params <-
   list(
     booster = "gbtree",
     objective = "binary:logistic",
     eval_metric = c("logloss"),
-    eta = 0.075,
-    gamma = 3,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    eta = 0.02,
+    gamma = 9.748839e-01,
+    subsample = 0.3227177,
+    colsample_bytree = 0.92307692,
     max_depth = 5,
-    min_child_weight = .9
+    min_child_weight = 25
   )
 ```
 
