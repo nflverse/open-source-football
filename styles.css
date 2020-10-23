@@ -1,8 +1,5 @@
-div.sourceCode {
+d-article div.sourceCode pre {
   overflow-x: scroll !important;
-}
-
-d-article .sourceCode pre {
   font-size: 85%;
   line-height: 1.45;
   background-color: #f6f8fa;

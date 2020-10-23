@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
 <title>Open Source Football: Wins Above Expectation</title>
 
@@ -70,7 +136,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["wins-above-expectation_files/bowser-1.9.3/bowser.min.js","wins-above-expectation_files/distill-2.2.21/template.v2.js","wins-above-expectation_files/figure-html5/unnamed-chunk-1-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png","wins-above-expectation_files/jquery-1.11.3/jquery.min.js","wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["wins-above-expectation_files/anchor-4.2.2/anchor.min.js","wins-above-expectation_files/bowser-1.9.3/bowser.min.js","wins-above-expectation_files/distill-2.2.21/template.v2.js","wins-above-expectation_files/figure-html5/unnamed-chunk-1-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png","wins-above-expectation_files/header-attrs-2.5/header-attrs.js","wins-above-expectation_files/jquery-1.11.3/jquery.min.js","wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -1958,7 +2024,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.5/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1971,23 +2039,11 @@ gtag('js', new Date());
 gtag('config', 'UA-176408251-2');
 </script>
 <style type="text/css">
-d-article > d-code, d-article section > d-code {
-padding: 16px;
-overflow: auto;
-    overflow-x: auto;
-    overflow-y: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f6f8fa;
-border-radius: 6px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-}
-
-pre d-code{
+d-article div.sourceCode pre {
+  overflow-x: scroll !important;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
   border-left: 0;
 }
 
@@ -2007,8 +2063,8 @@ pre d-code{
 }
 
 d-title {
-background: #575757;
-color: white;
+  background: #575757;
+  color: white;
 }
 
 .distill-site-footer {
@@ -2027,7 +2083,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Wins Above Expectation","description":"This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR","orcidID":""}],"publishedDate":"2020-08-19T00:00:00.000+00:00","citationText":"Carl, 2020"}
+{"title":"Wins Above Expectation","description":"This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR","orcidID":""}],"publishedDate":"2020-08-19T00:00:00.000+02:00","citationText":"Carl, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2062,6 +2118,12 @@ color: white;
 
 <div class="d-title">
 <h1>Wins Above Expectation</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:Figures" class="dt-tag">Figures</a>
+  <a href="../../index.html#category:nflfastR" class="dt-tag">nflfastR</a>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>This article looks at the percentage of snaps with win probability over an arbitralily chosen critical value and compares it with the true win percentage.</p></p>
 </div>
 
@@ -2072,185 +2134,198 @@ color: white;
 </div>
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</a></li>
 <li><a href="#create-the-plots">Create the plots</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <h2 id="preface">Preface</h2>
 <p>In the NFL, practically everyone can beat anyone. So it often happens that games are tight until the very end and the winner is likely to have had some luck. Every year there are teams where you subjectively feel that they have lost or won particularly many of the aforementioned games.</p>
 <p>In this post I will show off a very simple way to illustrate that by looking at how many snaps a team played with the <a href="https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html">nflfastR win probability</a> (model with Vegas line) above a critical value (50%) more or less arbitrarily chosen by me and compare this value with the true win percentage.</p>
 <h2 id="load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</h2>
 <p>Since we want to compute true win percentage from nflfastR play-by-play data we have to do a little data wrangling before we can create the plot.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-library(tidyverse)
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
 
-# Parameter --------------------------------------------------------------------
+<span class='co'># Parameter --------------------------------------------------------------------</span>
 
-season &lt;- 2019
-wp_limit &lt;- 0.5
+<span class='va'>season</span> <span class='op'>&lt;-</span> <span class='fl'>2019</span>
+<span class='va'>wp_limit</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span>
 
-# Load the data ----------------------------------------------------------------
+<span class='co'># Load the data ----------------------------------------------------------------</span>
 
-pbp &lt;- readRDS(url(
-  glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{season}.rds&quot;)
-)) %&gt;%
-  filter(pass == 1 | rush == 1)
+<span class='va'>pbp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/connections.html'>url</a></span><span class='op'>(</span>
+  <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{season}.rds"</span><span class='op'>)</span>
+<span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>pass</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>rush</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
 
-# Compute outcomes and win percentage ------------------------------------------
+<span class='co'># Compute outcomes and win percentage ------------------------------------------</span>
 
-outcomes &lt;- pbp %&gt;%
-  group_by(season, game_id, home_team) %&gt;%
-  summarise(
-    home_win = if_else(result &gt; 0, 1, 0),
-    home_tie = if_else(result == 0, 1, 0)
-  ) %&gt;%
-  group_by(season, home_team) %&gt;%
-  summarise(
-    home_games = n(),
-    home_wins = sum(home_win),
-    home_ties = sum(home_tie)
-  ) %&gt;%
-  ungroup() %&gt;%
-  left_join(
-    # away games
-    pbp %&gt;%
-      group_by(season, game_id, away_team) %&gt;%
-      summarise(
-        away_win = if_else(result &lt; 0, 1, 0),
-        away_tie = if_else(result == 0, 1, 0)
-      ) %&gt;%
-      group_by(season, away_team) %&gt;%
-      summarise(
-        away_games = n(),
-        away_wins = sum(away_win),
-        away_ties = sum(away_tie)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;home_team&quot; = &quot;away_team&quot;)
-  ) %&gt;%
-  rename(team = &quot;home_team&quot;) %&gt;%
-  mutate(
-    games = home_games + away_games,
-    wins = home_wins + away_wins,
-    losses = games - wins,
-    ties = home_ties + away_ties,
-    win_percentage = (wins + 0.5 * ties) / games
-  ) %&gt;%
-  select(
-    season, team, games, wins, losses, ties, win_percentage
-  )
+<span class='va'>outcomes</span> <span class='op'>&lt;-</span> <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>game_id</span>, <span class='va'>home_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    home_win <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+    home_tie <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>home_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    home_games <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+    home_wins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>home_win</span><span class='op'>)</span>,
+    home_ties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>home_tie</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span>
+    <span class='co'># away games</span>
+    <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>game_id</span>, <span class='va'>away_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        away_win <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+        away_tie <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>away_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        away_games <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+        away_wins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>away_win</span><span class='op'>)</span>,
+        away_ties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>away_tie</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"home_team"</span> <span class='op'>=</span> <span class='st'>"away_team"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>team <span class='op'>=</span> <span class='st'>"home_team"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    games <span class='op'>=</span> <span class='va'>home_games</span> <span class='op'>+</span> <span class='va'>away_games</span>,
+    wins <span class='op'>=</span> <span class='va'>home_wins</span> <span class='op'>+</span> <span class='va'>away_wins</span>,
+    losses <span class='op'>=</span> <span class='va'>games</span> <span class='op'>-</span> <span class='va'>wins</span>,
+    ties <span class='op'>=</span> <span class='va'>home_ties</span> <span class='op'>+</span> <span class='va'>away_ties</span>,
+    win_percentage <span class='op'>=</span> <span class='op'>(</span><span class='va'>wins</span> <span class='op'>+</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='va'>ties</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>games</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span>
+    <span class='va'>season</span>, <span class='va'>team</span>, <span class='va'>games</span>, <span class='va'>wins</span>, <span class='va'>losses</span>, <span class='va'>ties</span>, <span class='va'>win_percentage</span>
+  <span class='op'>)</span>
 
-# Compute percentage of plays with wp &gt; wp_lim ---------------------------------
+<span class='co'># Compute percentage of plays with wp &gt; wp_lim ---------------------------------</span>
 
-wp_combined &lt;- pbp %&gt;%
-  filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-  group_by(season, posteam) %&gt;%
-  summarise(
-    pos_plays = n(),
-    pos_wp_lim_plays = sum(vegas_wp &gt; wp_limit)
-  ) %&gt;%
-  ungroup() %&gt;%
-  left_join(
-    pbp %&gt;%
-      filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-      group_by(season, defteam) %&gt;%
-      summarise(
-        def_plays = n(),
-        def_wp_lim_plays = sum(vegas_wp &lt; wp_limit)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;posteam&quot; = &quot;defteam&quot;)
-  ) %&gt;%
-  rename(team = &quot;posteam&quot;) %&gt;%
-  mutate(
-    wp_lim_percentage = as.numeric(pos_wp_lim_plays + def_wp_lim_plays) / as.numeric(pos_plays + def_plays)
-  ) %&gt;%
-  select(season, team, wp_lim_percentage)
+<span class='va'>wp_combined</span> <span class='op'>&lt;-</span> <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>vegas_wp</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>posteam</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>posteam</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    pos_plays <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+    pos_wp_lim_plays <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>vegas_wp</span> <span class='op'>&gt;</span> <span class='va'>wp_limit</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span>
+    <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>vegas_wp</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>posteam</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>defteam</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        def_plays <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+        def_wp_lim_plays <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>vegas_wp</span> <span class='op'>&lt;</span> <span class='va'>wp_limit</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"posteam"</span> <span class='op'>=</span> <span class='st'>"defteam"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>team <span class='op'>=</span> <span class='st'>"posteam"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    wp_lim_percentage <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>pos_wp_lim_plays</span> <span class='op'>+</span> <span class='va'>def_wp_lim_plays</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>pos_plays</span> <span class='op'>+</span> <span class='va'>def_plays</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>team</span>, <span class='va'>wp_lim_percentage</span><span class='op'>)</span>
 
-# Combine data and add colors and logos ----------------------------------------
+<span class='co'># Combine data and add colors and logos ----------------------------------------</span>
 
-chart &lt;- outcomes %&gt;%
-  left_join(wp_combined, by = c(&quot;season&quot;, &quot;team&quot;)) %&gt;%
-  filter(!is.na(wp_lim_percentage)) %&gt;%
-  mutate(diff = 100 * (win_percentage - wp_lim_percentage)) %&gt;%
-  group_by(team) %&gt;%
-  summarise_all(mean) %&gt;%
-  ungroup() %&gt;%
-  inner_join(
-    nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_color, team_logo_espn, team_logo_wikipedia),
-    by = c(&quot;team&quot; = &quot;team_abbr&quot;)
-  ) %&gt;%
-  mutate(
-    grob = map(seq_along(team_logo_espn), function(x) {
-      grid::rasterGrob(magick::image_read(team_logo_espn[[x]]))
-    })
-  ) %&gt;%
-  select(team, win_percentage, wp_lim_percentage, diff, team_color, grob) %&gt;%
-  arrange(desc(diff))</code></pre>
+<span class='va'>chart</span> <span class='op'>&lt;-</span> <span class='va'>outcomes</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>wp_combined</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"team"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>diff <span class='op'>=</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>win_percentage</span> <span class='op'>-</span> <span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise_all</span><span class='op'>(</span><span class='va'>mean</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>inner_join</span><span class='op'>(</span>
+    <span class='fu'>nflfastR</span><span class='fu'>::</span><span class='va'><a href='https://mrcaseb.github.io/nflfastR//reference/teams_colors_logos.html'>teams_colors_logos</a></span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>team_abbr</span>, <span class='va'>team_color</span>, <span class='va'>team_logo_espn</span>, <span class='va'>team_logo_wikipedia</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"team"</span> <span class='op'>=</span> <span class='st'>"team_abbr"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    grob <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>team_logo_espn</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'>grid</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/grid.raster.html'>rasterGrob</a></span><span class='op'>(</span><span class='fu'>magick</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/magick/reference/editing.html'>image_read</a></span><span class='op'>(</span><span class='va'>team_logo_espn</span><span class='op'>[[</span><span class='va'>x</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>}</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>team</span>, <span class='va'>win_percentage</span>, <span class='va'>wp_lim_percentage</span>, <span class='va'>diff</span>, <span class='va'>team_color</span>, <span class='va'>grob</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h2 id="create-the-plots">Create the plots</h2>
 <p>We will create two separate plots. A scatterplot comparing true win percentage with the percentage of plays with win probability &gt; 50% and a barplot showing the difference between the above variables.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-# Create scatterplot -----------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = wp_lim_percentage, y = win_percentage)) +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_hline(aes(yintercept = mean(win_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_vline(aes(xintercept = mean(wp_lim_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  ggpmisc::geom_grob(aes(x = wp_lim_percentage, y = win_percentage, label = grob), vp.width = 0.05) +
-  labs(
-    x = glue::glue(&quot;Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%&quot;),
-    y = &quot;True win percentage (including ties as half a win)&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
-  ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
-  theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
-  ) +
-  NULL</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Create scatterplot -----------------------------------------------------------</span>
+<span class='va'>chart</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wp_lim_percentage</span>, y <span class='op'>=</span> <span class='va'>win_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_abline</span><span class='op'>(</span>intercept <span class='op'>=</span> <span class='fl'>0</span>, slope <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>win_percentage</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_vline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggpmisc</span><span class='fu'>::</span><span class='fu'><a href='https://docs.r4photobiology.info/ggpmisc//reference/geom_grob.html'>geom_grob</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wp_lim_percentage</span>, y <span class='op'>=</span> <span class='va'>win_percentage</span>, label <span class='op'>=</span> <span class='va'>grob</span><span class='op'>)</span>, vp.width <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%"</span><span class='op'>)</span>,
+    y <span class='op'>=</span> <span class='st'>"True win percentage (including ties as half a win)"</span>,
+    title <span class='op'>=</span> <span class='st'>"NFL Team Efficiency"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Figure: @mrcaseb | Data: @nflfastR"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_stata.html'>theme_stata</a></span><span class='op'>(</span>scheme <span class='op'>=</span> <span class='st'>"sj"</span>, base_size <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>
+    plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    plot.caption <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+    axis.text.y <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+    legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span>, face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+    aspect.ratio <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>1.618</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='cn'>NULL</span>
+</code></pre>
+</div>
 <p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png" width="1950" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-# Create bar plot  -------------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = seq_along(diff), y = diff)) +
-  geom_hline(aes(yintercept = mean(diff)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_col(width = 0.5, colour = chart$team_color, fill = chart$team_color, alpha = 0.5) +
-  ggpmisc::geom_grob(aes(x = seq_along(diff), y = diff, label = grob), vp.width = 0.035) +
-  # scale_x_continuous(expand = c(0,0)) +
-  labs(
-    x = &quot;Rank&quot;,
-    y = &quot;Win Percentage Over Expectation&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    subtitle = &quot;How Lucky are the Teams?&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
-  ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
-  theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
-  ) +
-  NULL</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Create bar plot  -------------------------------------------------------------</span>
+<span class='va'>chart</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='va'>chart</span><span class='op'>$</span><span class='va'>team_color</span>, fill <span class='op'>=</span> <span class='va'>chart</span><span class='op'>$</span><span class='va'>team_color</span>, alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggpmisc</span><span class='fu'>::</span><span class='fu'><a href='https://docs.r4photobiology.info/ggpmisc//reference/geom_grob.html'>geom_grob</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>diff</span>, label <span class='op'>=</span> <span class='va'>grob</span><span class='op'>)</span>, vp.width <span class='op'>=</span> <span class='fl'>0.035</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='co'># scale_x_continuous(expand = c(0,0)) +</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Rank"</span>,
+    y <span class='op'>=</span> <span class='st'>"Win Percentage Over Expectation"</span>,
+    title <span class='op'>=</span> <span class='st'>"NFL Team Efficiency"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"How Lucky are the Teams?"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Figure: @mrcaseb | Data: @nflfastR"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_stata.html'>theme_stata</a></span><span class='op'>(</span>scheme <span class='op'>=</span> <span class='st'>"sj"</span>, base_size <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>
+    plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    plot.caption <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+    axis.text.y <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+    legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span>, face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+    aspect.ratio <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>1.618</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='cn'>NULL</span>
+</code></pre>
+</div>
 <p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
+<div class="layout-chunk" data-layout="l-body">
+<p><a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/2020-08-19-wins-above-expectation/wins-above-expectation.Rmd"
+    style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+   >View source code on GitHub </a></p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
@@ -2294,7 +2369,7 @@ chart %&gt;%
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

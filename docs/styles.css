@@ -1,20 +1,8 @@
-d-article > d-code, d-article section > d-code {
-padding: 16px;
-overflow: auto;
-    overflow-x: auto;
-    overflow-y: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f6f8fa;
-border-radius: 6px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-}
-
-pre d-code{
+d-article div.sourceCode pre {
+  overflow-x: scroll !important;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
   border-left: 0;
 }
 
@@ -34,8 +22,8 @@ pre d-code{
 }
 
 d-title {
-background: #575757;
-color: white;
+  background: #575757;
+  color: white;
 }
 
 .distill-site-footer {

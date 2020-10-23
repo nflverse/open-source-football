@@ -18,77 +18,188 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Wins Above Expectation</title>
-  
+
   <meta property="description" itemprop="description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
-  
-  
+
+
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2020-08-19"/>
   <meta property="article:created" itemprop="dateCreated" content="2020-08-19"/>
   <meta name="article:author" content="Sebastian Carl"/>
-  
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Wins Above Expectation"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
   <meta property="og:locale" content="en_US"/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Wins Above Expectation"/>
   <meta property="twitter:description" content="This article looks at the percentage of snaps with win probability over an &#10;arbitralily chosen critical value and compares it with the true win percentage."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["Wins Above Expectation"]},{"type":"character","attributes":{},"value":["This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Sebastian Carl"]},{"type":"character","attributes":{},"value":["https://twitter.com/mrcaseb"]},{"type":"character","attributes":{},"value":["nflfastR"]},{"type":"character","attributes":{},"value":["https://twitter.com/nflfastR"]}]}]},{"type":"character","attributes":{},"value":["08-19-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/mrcaseb/open-source-football"]},{"type":"character","attributes":{},"value":["Figures","nflfastR"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["wins-above-expectation_files/bowser-1.9.3/bowser.min.js","wins-above-expectation_files/distill-2.2.21/template.v2.js","wins-above-expectation_files/figure-html5/unnamed-chunk-1-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png","wins-above-expectation_files/jquery-1.11.3/jquery.min.js","wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["wins-above-expectation_files/anchor-4.2.2/anchor.min.js","wins-above-expectation_files/bowser-1.9.3/bowser.min.js","wins-above-expectation_files/distill-2.2.21/template.v2.js","wins-above-expectation_files/figure-html5/unnamed-chunk-1-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png","wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png","wins-above-expectation_files/header-attrs-2.5/header-attrs.js","wins-above-expectation_files/jquery-1.11.3/jquery.min.js","wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -96,43 +207,125 @@
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: hidden;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -140,128 +333,107 @@
     padding: 18px;
     box-sizing: border-box;
   }
-  
-  /* CSS for table of contents */
-  
-  .d-toc {
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
     color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
   }
-  
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
     margin-top: 0;
-    margin-bottom: 1.3em;
+    margin-bottom: 1em;
   }
-  
-  .d-toc a {
-    border-bottom: none;
+
+  .d-contents li {
+    list-style-type: none
   }
-  
-  .d-toc ul {
+
+  .d-contents nav > ul {
     padding-left: 0;
   }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
+
+  .d-contents ul {
+    padding-left: 1em
   }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
   }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
   }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
   }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
   }
-  
-  pre.d-code code.d-code {
-    padding-left: 10px;
-    font-size: 12px;
-    border-left: 2px solid rgba(0,0,0,0.1);
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
   }
-  
-  pre.text-output {
-  
-    font-size: 12px;
-    color: black;
-    background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-  
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-  
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
   }
-  
-  @media(min-width: 768px) {
-  
-  d-code {
-    overflow-x: visible !important;
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
   }
-  
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
-    font-size: 14px;
-  }
-  }
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -269,21 +441,31 @@
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
-  
-  
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -299,11 +481,11 @@
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -312,7 +494,7 @@
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -328,16 +510,16 @@
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -354,111 +536,401 @@
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
-  
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -470,11 +942,11 @@
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -491,7 +963,7 @@
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -511,14 +983,14 @@
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -529,21 +1001,27 @@
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -552,13 +1030,20 @@
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -571,54 +1056,39 @@
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -634,49 +1104,31 @@
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -687,39 +1139,60 @@
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
-  
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -731,11 +1204,11 @@
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -755,61 +1228,54 @@
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
-  
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
-  
+    $('.d-contents').remove();
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -817,62 +1283,62 @@
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -884,35 +1350,35 @@
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -926,18 +1392,20 @@
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="wins-above-expectation_files/header-attrs-2.5/header-attrs.js"></script>
   <script src="wins-above-expectation_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="wins-above-expectation_files/anchor-4.2.2/anchor.min.js"></script>
   <script src="wins-above-expectation_files/bowser-1.9.3/bowser.min.js"></script>
   <script src="wins-above-expectation_files/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="wins-above-expectation_files/distill-2.2.21/template.v2.js"></script>
@@ -952,7 +1420,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Wins Above Expectation","description":"This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR"}],"publishedDate":"2020-08-19T00:00:00.000+02:00","citationText":"Carl, 2020"}
+{"title":"Wins Above Expectation","description":"This article looks at the percentage of snaps with win probability over an \narbitralily chosen critical value and compares it with the true win percentage.","authors":[{"author":"Sebastian Carl","authorURL":"https://twitter.com/mrcaseb","affiliation":"nflfastR","affiliationURL":"https://twitter.com/nflfastR","orcidID":""}],"publishedDate":"2020-08-19T00:00:00.000+02:00","citationText":"Carl, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -963,6 +1431,12 @@
 
 <div class="d-title">
 <h1>Wins Above Expectation</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">Figures</div>
+<div class="dt=tag">nflfastR</div>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>This article looks at the percentage of snaps with win probability over an arbitralily chosen critical value and compares it with the true win percentage.</p></p>
 </div>
 
@@ -973,185 +1447,198 @@
 </div>
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</a></li>
 <li><a href="#create-the-plots">Create the plots</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <h2 id="preface">Preface</h2>
 <p>In the NFL, practically everyone can beat anyone. So it often happens that games are tight until the very end and the winner is likely to have had some luck. Every year there are teams where you subjectively feel that they have lost or won particularly many of the aforementioned games.</p>
 <p>In this post I will show off a very simple way to illustrate that by looking at how many snaps a team played with the <a href="https://mrcaseb.github.io/nflfastR/articles/nflfastR-models.html">nflfastR win probability</a> (model with Vegas line) above a critical value (50%) more or less arbitrarily chosen by me and compare this value with the true win percentage.</p>
 <h2 id="load-nflfastr-play-by-play-and-compute-some-helper-columns">Load nflfastR Play by Play and compute some helper columns</h2>
 <p>Since we want to compute true win percentage from nflfastR play-by-play data we have to do a little data wrangling before we can create the plot.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-library(tidyverse)
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
 
-# Parameter --------------------------------------------------------------------
+<span class='co'># Parameter --------------------------------------------------------------------</span>
 
-season &lt;- 2019
-wp_limit &lt;- 0.5
+<span class='va'>season</span> <span class='op'>&lt;-</span> <span class='fl'>2019</span>
+<span class='va'>wp_limit</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span>
 
-# Load the data ----------------------------------------------------------------
+<span class='co'># Load the data ----------------------------------------------------------------</span>
 
-pbp &lt;- readRDS(url(
-  glue::glue(&quot;https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{season}.rds&quot;)
-)) %&gt;%
-  filter(pass == 1 | rush == 1)
+<span class='va'>pbp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/connections.html'>url</a></span><span class='op'>(</span>
+  <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{season}.rds"</span><span class='op'>)</span>
+<span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>pass</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>rush</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span>
 
-# Compute outcomes and win percentage ------------------------------------------
+<span class='co'># Compute outcomes and win percentage ------------------------------------------</span>
 
-outcomes &lt;- pbp %&gt;%
-  group_by(season, game_id, home_team) %&gt;%
-  summarise(
-    home_win = if_else(result &gt; 0, 1, 0),
-    home_tie = if_else(result == 0, 1, 0)
-  ) %&gt;%
-  group_by(season, home_team) %&gt;%
-  summarise(
-    home_games = n(),
-    home_wins = sum(home_win),
-    home_ties = sum(home_tie)
-  ) %&gt;%
-  ungroup() %&gt;%
-  left_join(
-    # away games
-    pbp %&gt;%
-      group_by(season, game_id, away_team) %&gt;%
-      summarise(
-        away_win = if_else(result &lt; 0, 1, 0),
-        away_tie = if_else(result == 0, 1, 0)
-      ) %&gt;%
-      group_by(season, away_team) %&gt;%
-      summarise(
-        away_games = n(),
-        away_wins = sum(away_win),
-        away_ties = sum(away_tie)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;home_team&quot; = &quot;away_team&quot;)
-  ) %&gt;%
-  rename(team = &quot;home_team&quot;) %&gt;%
-  mutate(
-    games = home_games + away_games,
-    wins = home_wins + away_wins,
-    losses = games - wins,
-    ties = home_ties + away_ties,
-    win_percentage = (wins + 0.5 * ties) / games
-  ) %&gt;%
-  select(
-    season, team, games, wins, losses, ties, win_percentage
-  )
+<span class='va'>outcomes</span> <span class='op'>&lt;-</span> <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>game_id</span>, <span class='va'>home_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    home_win <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+    home_tie <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>home_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    home_games <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+    home_wins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>home_win</span><span class='op'>)</span>,
+    home_ties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>home_tie</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span>
+    <span class='co'># away games</span>
+    <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>game_id</span>, <span class='va'>away_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        away_win <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,
+        away_tie <span class='op'>=</span> <span class='fu'>if_else</span><span class='op'>(</span><span class='va'>result</span> <span class='op'>==</span> <span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>away_team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        away_games <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+        away_wins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>away_win</span><span class='op'>)</span>,
+        away_ties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>away_tie</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"home_team"</span> <span class='op'>=</span> <span class='st'>"away_team"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>team <span class='op'>=</span> <span class='st'>"home_team"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    games <span class='op'>=</span> <span class='va'>home_games</span> <span class='op'>+</span> <span class='va'>away_games</span>,
+    wins <span class='op'>=</span> <span class='va'>home_wins</span> <span class='op'>+</span> <span class='va'>away_wins</span>,
+    losses <span class='op'>=</span> <span class='va'>games</span> <span class='op'>-</span> <span class='va'>wins</span>,
+    ties <span class='op'>=</span> <span class='va'>home_ties</span> <span class='op'>+</span> <span class='va'>away_ties</span>,
+    win_percentage <span class='op'>=</span> <span class='op'>(</span><span class='va'>wins</span> <span class='op'>+</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='va'>ties</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>games</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span>
+    <span class='va'>season</span>, <span class='va'>team</span>, <span class='va'>games</span>, <span class='va'>wins</span>, <span class='va'>losses</span>, <span class='va'>ties</span>, <span class='va'>win_percentage</span>
+  <span class='op'>)</span>
 
-# Compute percentage of plays with wp &gt; wp_lim ---------------------------------
+<span class='co'># Compute percentage of plays with wp &gt; wp_lim ---------------------------------</span>
 
-wp_combined &lt;- pbp %&gt;%
-  filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-  group_by(season, posteam) %&gt;%
-  summarise(
-    pos_plays = n(),
-    pos_wp_lim_plays = sum(vegas_wp &gt; wp_limit)
-  ) %&gt;%
-  ungroup() %&gt;%
-  left_join(
-    pbp %&gt;%
-      filter(!is.na(vegas_wp) &amp; !is.na(posteam)) %&gt;%
-      group_by(season, defteam) %&gt;%
-      summarise(
-        def_plays = n(),
-        def_wp_lim_plays = sum(vegas_wp &lt; wp_limit)
-      ) %&gt;%
-      ungroup(),
-    by = c(&quot;season&quot;, &quot;posteam&quot; = &quot;defteam&quot;)
-  ) %&gt;%
-  rename(team = &quot;posteam&quot;) %&gt;%
-  mutate(
-    wp_lim_percentage = as.numeric(pos_wp_lim_plays + def_wp_lim_plays) / as.numeric(pos_plays + def_plays)
-  ) %&gt;%
-  select(season, team, wp_lim_percentage)
+<span class='va'>wp_combined</span> <span class='op'>&lt;-</span> <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>vegas_wp</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>posteam</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>posteam</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>
+    pos_plays <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+    pos_wp_lim_plays <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>vegas_wp</span> <span class='op'>&gt;</span> <span class='va'>wp_limit</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span>
+    <span class='va'>pbp</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>vegas_wp</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>posteam</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>defteam</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>summarise</span><span class='op'>(</span>
+        def_plays <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+        def_wp_lim_plays <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>vegas_wp</span> <span class='op'>&lt;</span> <span class='va'>wp_limit</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"posteam"</span> <span class='op'>=</span> <span class='st'>"defteam"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>team <span class='op'>=</span> <span class='st'>"posteam"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    wp_lim_percentage <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>pos_wp_lim_plays</span> <span class='op'>+</span> <span class='va'>def_wp_lim_plays</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>pos_plays</span> <span class='op'>+</span> <span class='va'>def_plays</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>season</span>, <span class='va'>team</span>, <span class='va'>wp_lim_percentage</span><span class='op'>)</span>
 
-# Combine data and add colors and logos ----------------------------------------
+<span class='co'># Combine data and add colors and logos ----------------------------------------</span>
 
-chart &lt;- outcomes %&gt;%
-  left_join(wp_combined, by = c(&quot;season&quot;, &quot;team&quot;)) %&gt;%
-  filter(!is.na(wp_lim_percentage)) %&gt;%
-  mutate(diff = 100 * (win_percentage - wp_lim_percentage)) %&gt;%
-  group_by(team) %&gt;%
-  summarise_all(mean) %&gt;%
-  ungroup() %&gt;%
-  inner_join(
-    nflfastR::teams_colors_logos %&gt;% select(team_abbr, team_color, team_logo_espn, team_logo_wikipedia),
-    by = c(&quot;team&quot; = &quot;team_abbr&quot;)
-  ) %&gt;%
-  mutate(
-    grob = map(seq_along(team_logo_espn), function(x) {
-      grid::rasterGrob(magick::image_read(team_logo_espn[[x]]))
-    })
-  ) %&gt;%
-  select(team, win_percentage, wp_lim_percentage, diff, team_color, grob) %&gt;%
-  arrange(desc(diff))</code></pre>
+<span class='va'>chart</span> <span class='op'>&lt;-</span> <span class='va'>outcomes</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>wp_combined</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"season"</span>, <span class='st'>"team"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>diff <span class='op'>=</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>win_percentage</span> <span class='op'>-</span> <span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>team</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise_all</span><span class='op'>(</span><span class='va'>mean</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>inner_join</span><span class='op'>(</span>
+    <span class='fu'>nflfastR</span><span class='fu'>::</span><span class='va'><a href='https://mrcaseb.github.io/nflfastR//reference/teams_colors_logos.html'>teams_colors_logos</a></span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>team_abbr</span>, <span class='va'>team_color</span>, <span class='va'>team_logo_espn</span>, <span class='va'>team_logo_wikipedia</span><span class='op'>)</span>,
+    by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"team"</span> <span class='op'>=</span> <span class='st'>"team_abbr"</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    grob <span class='op'>=</span> <span class='fu'>map</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>team_logo_espn</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'>grid</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grid/grid.raster.html'>rasterGrob</a></span><span class='op'>(</span><span class='fu'>magick</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/magick/reference/editing.html'>image_read</a></span><span class='op'>(</span><span class='va'>team_logo_espn</span><span class='op'>[[</span><span class='va'>x</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>}</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>team</span>, <span class='va'>win_percentage</span>, <span class='va'>wp_lim_percentage</span>, <span class='va'>diff</span>, <span class='va'>team_color</span>, <span class='va'>grob</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h2 id="create-the-plots">Create the plots</h2>
 <p>We will create two separate plots. A scatterplot comparing true win percentage with the percentage of plays with win probability &gt; 50% and a barplot showing the difference between the above variables.</p>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-# Create scatterplot -----------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = wp_lim_percentage, y = win_percentage)) +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_hline(aes(yintercept = mean(win_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_vline(aes(xintercept = mean(wp_lim_percentage)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  ggpmisc::geom_grob(aes(x = wp_lim_percentage, y = win_percentage, label = grob), vp.width = 0.05) +
-  labs(
-    x = glue::glue(&quot;Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%&quot;),
-    y = &quot;True win percentage (including ties as half a win)&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
-  ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
-  theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
-  ) +
-  NULL</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Create scatterplot -----------------------------------------------------------</span>
+<span class='va'>chart</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wp_lim_percentage</span>, y <span class='op'>=</span> <span class='va'>win_percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_abline</span><span class='op'>(</span>intercept <span class='op'>=</span> <span class='fl'>0</span>, slope <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>win_percentage</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_vline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>wp_lim_percentage</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggpmisc</span><span class='fu'>::</span><span class='fu'><a href='https://docs.r4photobiology.info/ggpmisc//reference/geom_grob.html'>geom_grob</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wp_lim_percentage</span>, y <span class='op'>=</span> <span class='va'>win_percentage</span>, label <span class='op'>=</span> <span class='va'>grob</span><span class='op'>)</span>, vp.width <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"Percentage of snaps with win probability (vegas_wp) over {100 * wp_limit}%"</span><span class='op'>)</span>,
+    y <span class='op'>=</span> <span class='st'>"True win percentage (including ties as half a win)"</span>,
+    title <span class='op'>=</span> <span class='st'>"NFL Team Efficiency"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Figure: @mrcaseb | Data: @nflfastR"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_stata.html'>theme_stata</a></span><span class='op'>(</span>scheme <span class='op'>=</span> <span class='st'>"sj"</span>, base_size <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>
+    plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    plot.caption <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+    axis.text.y <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+    legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span>, face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+    aspect.ratio <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>1.618</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='cn'>NULL</span>
+</code></pre>
+</div>
 <p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-2-1.png" width="1950" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-page">
-<pre class="r"><code>
-# Create bar plot  -------------------------------------------------------------
-chart %&gt;%
-  ggplot(aes(x = seq_along(diff), y = diff)) +
-  geom_hline(aes(yintercept = mean(diff)), color = &quot;red&quot;, linetype = &quot;dashed&quot;) +
-  geom_col(width = 0.5, colour = chart$team_color, fill = chart$team_color, alpha = 0.5) +
-  ggpmisc::geom_grob(aes(x = seq_along(diff), y = diff, label = grob), vp.width = 0.035) +
-  # scale_x_continuous(expand = c(0,0)) +
-  labs(
-    x = &quot;Rank&quot;,
-    y = &quot;Win Percentage Over Expectation&quot;,
-    title = &quot;NFL Team Efficiency&quot;,
-    subtitle = &quot;How Lucky are the Teams?&quot;,
-    caption = &quot;Figure: @mrcaseb | Data: @nflfastR&quot;
-  ) +
-  ggthemes::theme_stata(scheme = &quot;sj&quot;, base_size = 8) +
-  theme(
-    plot.title = element_text(face = &quot;bold&quot;),
-    plot.caption = element_text(hjust = 1),
-    axis.text.y = element_text(angle = 0, vjust = 0.5),
-    legend.title = element_text(size = 8, hjust = 0, vjust = 0.5, face = &quot;bold&quot;),
-    legend.position = &quot;top&quot;,
-    aspect.ratio = 1 / 1.618
-  ) +
-  NULL</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Create bar plot  -------------------------------------------------------------</span>
+<span class='va'>chart</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='va'>chart</span><span class='op'>$</span><span class='va'>team_color</span>, fill <span class='op'>=</span> <span class='va'>chart</span><span class='op'>$</span><span class='va'>team_color</span>, alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggpmisc</span><span class='fu'>::</span><span class='fu'><a href='https://docs.r4photobiology.info/ggpmisc//reference/geom_grob.html'>geom_grob</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>diff</span>, label <span class='op'>=</span> <span class='va'>grob</span><span class='op'>)</span>, vp.width <span class='op'>=</span> <span class='fl'>0.035</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='co'># scale_x_continuous(expand = c(0,0)) +</span>
+  <span class='fu'>labs</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='st'>"Rank"</span>,
+    y <span class='op'>=</span> <span class='st'>"Win Percentage Over Expectation"</span>,
+    title <span class='op'>=</span> <span class='st'>"NFL Team Efficiency"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"How Lucky are the Teams?"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Figure: @mrcaseb | Data: @nflfastR"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_stata.html'>theme_stata</a></span><span class='op'>(</span>scheme <span class='op'>=</span> <span class='st'>"sj"</span>, base_size <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>
+    plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    plot.caption <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+    axis.text.y <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+    legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, vjust <span class='op'>=</span> <span class='fl'>0.5</span>, face <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+    legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+    aspect.ratio <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>1.618</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='cn'>NULL</span>
+</code></pre>
+</div>
 <p><img src="wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
+<div class="layout-chunk" data-layout="l-body">
+<p><a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/2020-08-19-wins-above-expectation/wins-above-expectation.Rmd"
+    style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+   >View source code on GitHub </a></p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

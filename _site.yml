@@ -13,7 +13,6 @@ collections:
   posts:
     share: [twitter, facebook]
     feed_items_max: false
-    custom: _custom.html
 output_dir: "docs"
 navbar:
   logo:

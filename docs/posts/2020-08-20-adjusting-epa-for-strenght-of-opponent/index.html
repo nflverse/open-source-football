@@ -1970,23 +1970,11 @@ gtag('js', new Date());
 gtag('config', 'UA-176408251-2');
 </script>
 <style type="text/css">
-d-article > d-code, d-article section > d-code {
-padding: 16px;
-overflow: auto;
-    overflow-x: auto;
-    overflow-y: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f6f8fa;
-border-radius: 6px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-}
-
-pre d-code{
+d-article div.sourceCode pre {
+  overflow-x: scroll !important;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
   border-left: 0;
 }
 
@@ -2006,8 +1994,8 @@ pre d-code{
 }
 
 d-title {
-background: #575757;
-color: white;
+  background: #575757;
+  color: white;
 }
 
 .distill-site-footer {
@@ -2026,7 +2014,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Adjusting EPA for Strength of Opponent","description":"This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!","authors":[{"author":"Jonathan Goldberg","authorURL":"https://twitter.com/gberg1303","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-08-20T00:00:00.000+00:00","citationText":"Goldberg, 2020"}
+{"title":"Adjusting EPA for Strength of Opponent","description":"This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!","authors":[{"author":"Jonathan Goldberg","authorURL":"https://twitter.com/gberg1303","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-08-20T00:00:00.000+02:00","citationText":"Goldberg, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2234,7 +2222,7 @@ epa_data &lt;- epa_data %&gt;%
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

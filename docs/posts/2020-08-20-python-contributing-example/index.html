@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
 <title>Open Source Football: Python contributing example</title>
 
@@ -63,7 +129,7 @@
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["python-contributing-example_files/bowser-1.9.3/bowser.min.js","python-contributing-example_files/distill-2.2.21/template.v2.js","python-contributing-example_files/header-attrs-2.3/header-attrs.js","python-contributing-example_files/jquery-1.11.3/jquery.min.js","python-contributing-example_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["python-contributing-example_files/anchor-4.2.2/anchor.min.js","python-contributing-example_files/bowser-1.9.3/bowser.min.js","python-contributing-example_files/distill-2.2.21/template.v2.js","python-contributing-example_files/header-attrs-2.3/header-attrs.js","python-contributing-example_files/header-attrs-2.5/header-attrs.js","python-contributing-example_files/jquery-1.11.3/jquery.min.js","python-contributing-example_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -1951,7 +2017,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.5/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1964,23 +2032,11 @@ gtag('js', new Date());
 gtag('config', 'UA-176408251-2');
 </script>
 <style type="text/css">
-d-article > d-code, d-article section > d-code {
-padding: 16px;
-overflow: auto;
-    overflow-x: auto;
-    overflow-y: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f6f8fa;
-border-radius: 6px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-}
-
-pre d-code{
+d-article div.sourceCode pre {
+  overflow-x: scroll !important;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
   border-left: 0;
 }
 
@@ -2000,8 +2056,8 @@ pre d-code{
 }
 
 d-title {
-background: #575757;
-color: white;
+  background: #575757;
+  color: white;
 }
 
 .distill-site-footer {
@@ -2020,7 +2076,7 @@ color: white;
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Python contributing example","description":"Showing how to contribute using Python code","authors":[{"author":"Ben Baldwin","authorURL":"https://twitter.com/benbbaldwin","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-08-20T00:00:00.000+00:00","citationText":"Baldwin, 2020"}
+{"title":"Python contributing example","description":"Showing how to contribute using Python code","authors":[{"author":"Ben Baldwin","authorURL":"https://twitter.com/benbbaldwin","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-08-20T00:00:00.000+02:00","citationText":"Baldwin, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2055,6 +2111,12 @@ color: white;
 
 <div class="d-title">
 <h1>Python contributing example</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:nflfastR" class="dt-tag">nflfastR</a>
+  <a href="../../index.html#category:python" class="dt-tag">python</a>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>Showing how to contribute using Python code</p></p>
 </div>
 
@@ -2065,16 +2127,18 @@ color: white;
 </div>
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
-<li><a href="#contributing-in-python">Contributing in python</a><ul>
+<li><a href="#contributing-in-python">Contributing in python</a>
+<ul>
 <li><a href="#there-is-some-stuff-to-install-and-setup">There is some stuff to install and setup:</a></li>
 <li><a href="#once-setup-is-done">Once setup is done:</a></li>
 </ul></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <h2 id="contributing-in-python">Contributing in python</h2>
 <h3 id="there-is-some-stuff-to-install-and-setup">There is some stuff to install and setup:</h3>
 <ul>
@@ -2092,13 +2156,11 @@ color: white;
 </ul>
 <p>Once everything is set up, you can just use python code as normal. Here is a quick example borrowing some code from <a href="https://gist.github.com/Deryck97/dff8d33e9f841568201a2a0d5519ac5e">from Deryck’s nflfastR python guide</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="python"><code>
-import pandas
-data = pandas.read_csv(&quot;https://github.com/guga31bb/nflfastR-data/blob/master/data/play_by_play_2019.csv.gz?raw=True&quot;, compression=&#39;gzip&#39;, low_memory=False)
-data = data.loc[(data.play_type.isin([&#39;no_play&#39;,&#39;pass&#39;,&#39;run&#39;])) &amp; (data.epa.isna()==False)]
-data.groupby(&#39;posteam&#39;)[[&#39;epa&#39;]].mean()</code></pre>
-<pre><code>
-              epa
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="im">import</span> pandas</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>data <span class="op">=</span> pandas.read_csv(<span class="st">&quot;https://github.com/guga31bb/nflfastR-data/blob/master/data/play_by_play_2019.csv.gz?raw=True&quot;</span>, compression<span class="op">=</span><span class="st">&#39;gzip&#39;</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>data <span class="op">=</span> data.loc[(data.play_type.isin([<span class="st">&#39;no_play&#39;</span>,<span class="st">&#39;pass&#39;</span>,<span class="st">&#39;run&#39;</span>])) <span class="op">&amp;</span> (data.epa.isna()<span class="op">==</span><span class="va">False</span>)]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>data.groupby(<span class="st">&#39;posteam&#39;</span>)[[<span class="st">&#39;epa&#39;</span>]].mean()</span></code></pre></div>
+<pre><code>              epa
 posteam          
 ARI      0.002421
 ATL      0.009436
@@ -2135,24 +2197,22 @@ WAS     -0.133023</code></pre>
 </div>
 <p>Grouping by QBs:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="python"><code>
-qbs = data.groupby([&#39;passer&#39;,&#39;posteam&#39;], as_index=False).agg({&#39;epa&#39;:&#39;mean&#39;,
-                                                              &#39;cpoe&#39;:&#39;mean&#39;,
-                                                              &#39;play_id&#39;:&#39;count&#39;})
-# at least 200 plays
-qbs = qbs.loc[qbs.play_id&gt;199]
-# sort by EPA
-qbs.sort_values(&#39;epa&#39;, ascending=False, inplace=True)
-
-#Round to two decimal places where appropriate
-qbs = qbs.round(2)
-
-#Rename columns
-qbs.columns = [&#39;Player&#39;,&#39;Team&#39;,&#39;EPA per Dropback&#39;,&#39;CPOE&#39;,&#39;Dropbacks&#39;]
-
-qbs</code></pre>
-<pre><code>
-            Player Team  EPA per Dropback   CPOE  Dropbacks
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>qbs <span class="op">=</span> data.groupby([<span class="st">&#39;passer&#39;</span>,<span class="st">&#39;posteam&#39;</span>], as_index<span class="op">=</span><span class="va">False</span>).agg({<span class="st">&#39;epa&#39;</span>:<span class="st">&#39;mean&#39;</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>                                                              <span class="st">&#39;cpoe&#39;</span>:<span class="st">&#39;mean&#39;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>                                                              <span class="st">&#39;play_id&#39;</span>:<span class="st">&#39;count&#39;</span>})</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co"># at least 200 plays</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>qbs <span class="op">=</span> qbs.loc[qbs.play_id<span class="op">&gt;</span><span class="dv">199</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="co"># sort by EPA</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>qbs.sort_values(<span class="st">&#39;epa&#39;</span>, ascending<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="co">#Round to two decimal places where appropriate</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>qbs <span class="op">=</span> qbs.<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a><span class="co">#Rename columns</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>qbs.columns <span class="op">=</span> [<span class="st">&#39;Player&#39;</span>,<span class="st">&#39;Team&#39;</span>,<span class="st">&#39;EPA per Dropback&#39;</span>,<span class="st">&#39;CPOE&#39;</span>,<span class="st">&#39;Dropbacks&#39;</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>qbs</span></code></pre></div>
+<pre><code>            Player Team  EPA per Dropback   CPOE  Dropbacks
 86       P.Mahomes   KC              0.32   2.26        721
 71       L.Jackson  BAL              0.29   2.76        554
 81      M.Stafford  DET              0.22   2.09        330
@@ -2191,6 +2251,12 @@ qbs</code></pre>
 27        D.Blough  DET             -0.20 -13.59        209</code></pre>
 </div>
 <p>Hopefully the process is painless once all the setup is done.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/2020-08-20-python-contributing-example/python-contributing-example.Rmd"
+    style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+   >View source code on GitHub </a></p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
@@ -2234,7 +2300,7 @@ qbs</code></pre>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

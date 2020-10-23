@@ -212,3 +212,14 @@ chart %>%
   ) +
   NULL
 ```
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+           )
+```
