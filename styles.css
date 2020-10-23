@@ -1,11 +1,12 @@
+div.sourceCode {
+  overflow-x: scroll !important;
+}
+
 d-article .sourceCode pre {
-overflow: auto;
-    overflow-x: auto;
-    overflow-y: auto;
-font-size: 85%;
-line-height: 1.45;
-background-color: #f6f8fa;
-border-left: 0;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-left: 0;
 }
 
 .distill-site-nav {
@@ -24,8 +25,8 @@ border-left: 0;
 }
 
 d-title {
-background: #575757;
-color: white;
+  background: #575757;
+  color: white;
 }
 
 .distill-site-footer {
