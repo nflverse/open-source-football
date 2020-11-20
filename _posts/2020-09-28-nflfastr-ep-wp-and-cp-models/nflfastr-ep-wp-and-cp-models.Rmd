@@ -390,6 +390,7 @@ model_data <- model_data %>%
     score_differential,
     down,
     ydstogo,
+    yardline_100,
     home,
     posteam_timeouts_remaining,
     defteam_timeouts_remaining,
@@ -539,18 +540,18 @@ Again, the new WP model represents an improvement.
 `nflfastR` has a secondary win probability model that also incorporates the pregame spread to more accurately reflect a team's chances of winning. Below are calibration results for this model. 
 
 ```{r wp_setup_spread}
-nrounds = 710
+nrounds = 760
 params <-
   list(
     booster = "gbtree",
     objective = "binary:logistic",
     eval_metric = c("logloss"),
     eta = 0.02,
-    gamma = 9.748839e-01,
-    subsample = 0.3227177,
-    colsample_bytree = 0.92307692,
+    gamma = 0.3445502,
+    subsample = 0.7204741,
+    colsample_bytree = 0.5714286,
     max_depth = 5,
-    min_child_weight = 25
+    min_child_weight = 14
   )
 ```
 
@@ -651,7 +652,7 @@ nflscrapR:
 ))
 ```
 
-Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results.
+Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results. Adding the over/under also worsened calibration results.
 
 ## CP Model Calibration Results
 
