@@ -351,28 +351,6 @@ We see that the new EP model is better calibrated. Note that nflscrapR reports a
 As with EP, do some initial setup to get the data ready for fitting.
 
 ```{r wp_setup}
-
-# delete this once the change to spread time is merge into nflfastR
-prepare_wp_data <- function(pbp) {
-
-  pbp <- pbp %>%
-    dplyr::group_by(game_id) %>%
-    dplyr::mutate(
-      receive_2h_ko = dplyr::if_else(qtr <= 2 & posteam == dplyr::first(stats::na.omit(defteam)), 1, 0)
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(
-      ExpScoreDiff = ep + score_differential,
-      posteam_spread = dplyr::if_else(home == 1, spread_line, -1 * spread_line),
-      elapsed_share = (3600 - game_seconds_remaining) / 3600,
-      spread_time = posteam_spread * exp(-4 * elapsed_share),
-      ExpScoreDiff_Time_Ratio = ExpScoreDiff / (game_seconds_remaining + 1)
-    )
-
-  return(pbp)
-
-}
-
 model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true')) %>%
   filter(Winner != "TIE")
 model_data <- model_data %>%
