@@ -1371,209 +1371,6 @@
 <!--/radix_placeholder_site_before_body-->
 <!--radix_placeholder_article_listing-->
 
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
 
 <script type="application/javascript">
 
@@ -1625,16 +1422,16 @@ function init_posts_list() {
     set_posts_visible($('.posts-list').children('a'), false);
 
     // if we have a hash filter
-    if (window.location.hash) {
+    if (window.location.hash && window.location.hash.startsWith("#category:")) {
 
       // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
+      var page_category = window.location.hash.replace(/^#category:/, "");
       var posts = $('.post-metadata').map(function(idx, script) {
         var metadata = $.parseJSON($(script).html());
         var post = null;
         $.each(metadata.categories, function(idx, category) {
           category = category.replace(/ /g,"_");
-          if (category == page_category) {
+          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
             post = $(script).parent().get();
             return false;
           }
@@ -1646,10 +1443,22 @@ function init_posts_list() {
       // mark the hash active
       $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
 
+      // update the list_caption
+      var list_caption = $('.posts-list-caption');
+      var caption = (page_category || '').toLowerCase() === "articles"
+        ? list_caption.attr('data-caption')
+        : ('Category: ' + page_category.replace(/_/g," "));
+      list_caption.text(caption);
+
     } else {
 
       // no hash filter, make all posts visible (subject to max display)
       set_posts_visible($('.posts-list').children(), true);
+
+      // reset list caption
+      var list_caption = $('.posts-list-caption');
+      list_caption.text(list_caption.attr('data-caption'));
+
 
     }
   }
@@ -1664,6 +1473,12 @@ function init_posts_list() {
       $('.posts-more a').addClass('hidden');
     }
   }
+
+  // click handling for tags
+  $('.dt-tag').click(function(ev) {
+    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
+    return false;
+  })
 
   // hash filter handling
   apply_hash_filter();
@@ -1688,17 +1503,27 @@ function init_posts_list() {
 
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
-<h1 class="posts-list-caption">Latest posts</h1>
+<h1 class="posts-list-caption" data-caption="Latest posts">Latest posts</h1>
 <a href="posts/2020-09-28-nflfastr-ep-wp-and-cp-models/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Decision Trees","xgboost","Model Calibration"]}</script>
 <div class="metadata">
-<div class="publishedDate">Oct. 4, 2020</div>
+<div class="publishedDate">Nov. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png"/>
+<img src="posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png"/>
 </div>
 <div class="description">
 <h2>nflfastR EP, WP, CP xYAC, and xPass models</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Decision Trees</div>
+<div class="dt-tag">xgboost</div>
+<div class="dt-tag">Model Calibration</div>
+</div>
 <p>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.</p>
 </div>
 </a>
@@ -1706,12 +1531,16 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 3, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Peter Owen</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png"/>
+<img src="posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png"/>
 </div>
 <div class="description">
 <h2>Still elite: What the numbers tell us about Aaron Rodgers</h2>
+<div class="dt-tags"></div>
 <p>The more you look into the numbers, the better it looks for Aaron Rodgers</p>
 </div>
 </a>
@@ -1719,12 +1548,21 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Positional breakdown","Receiving"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 26, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Arthur Gymer</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png"/>
+<img src="posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png"/>
 </div>
 <div class="description">
 <h2>Receiving by Position</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Positional breakdown</div>
+<div class="dt-tag">Receiving</div>
+</div>
 <p>Breaking down the receiving game by position using nflfastR data.</p>
 </div>
 </a>
@@ -1732,12 +1570,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["field goal","nflfastR","placekicker"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 9, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Mike Irene</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png"/>
+<img src="posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png"/>
 </div>
 <div class="description">
 <h2>Creating an Expected Field Goal Metric</h2>
+<div class="dt-tags">
+<div class="dt-tag">field goal</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">placekicker</div>
+</div>
 <p>Using nflfastR play-by-play data to measure kicker performance.</p>
 </div>
 </a>
@@ -1745,12 +1591,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["tidyModels","nflfastR","stan"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 8, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Richard Anderson</div>
+</div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png"/>
+<img src="posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Estimating Run/Pass Tendencies with tidyModels and  nflfastR</h2>
+<div class="dt-tags">
+<div class="dt-tag">tidyModels</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">stan</div>
+</div>
 <p>This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script</p>
 </div>
 </a>
@@ -1758,12 +1612,17 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 6, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Dennis Brookner</div>
+<div class="dt-author">Raphael Laden-Guindon</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png"/>
 </div>
 <div class="description">
 <h2>RERUN</h2>
+<div class="dt-tags"></div>
 <p>Exonerating punters for long returns</p>
 </div>
 </a>
@@ -1771,12 +1630,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","Articles"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 31, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png"/>
 </div>
 <div class="description">
 <h2>Defense and rest time re-visited</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Articles</div>
+</div>
 <p>Does incorporating actual rest time help us predict how a defense will do?</p>
 </div>
 </a>
@@ -1784,12 +1650,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Fantasy Football","nflfastR","nflfastR xYAC Model"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 31, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Reinhard</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Calculating Expected Fantasy Points for Receivers</h2>
+<div class="dt-tags">
+<div class="dt-tag">Fantasy Football</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">nflfastR xYAC Model</div>
+</div>
 <p>Use the nflfastR xYAC &amp; CP models to calculate how many fantasy points an average receiver would expect to earn on each target.</p>
 </div>
 </a>
@@ -1797,12 +1671,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Scraping","Game Predicitions","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Jonathan Goldberg</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Adding ESPN and 538 Game Predictions to nflfastR Data</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">Game Predicitions</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Here, we'll look at how to scrape ESPN's and 538's pregame predictions and merge them into nflfastR data</p>
 </div>
 </a>
@@ -1810,12 +1692,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","Animation","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Faceted and Animated Heatmaps</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">Animation</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Combining lessons from multiple posts to create faceted or animated heatmaps.</p>
 </div>
 </a>
@@ -1823,12 +1713,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ethan Douglas</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png"/>
 </div>
 <div class="description">
 <h2>Player Density and Completion Surface Estimates</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Methods for modeling density estimates and expected completion percentages across the football field for individual players.</p>
 </div>
 </a>
@@ -1836,12 +1733,18 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Efficiency"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 28, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Fast Data Loading</h2>
+<div class="dt-tags">
+<div class="dt-tag">Efficiency</div>
+</div>
 <p>Loading your nfl data at 10x speed!</p>
 </div>
 </a>
@@ -1849,12 +1752,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Logistic Generalized Additive Mixed Models","Mixed Effects","Completion Probability Intercept"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 27, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Adrian Cadena</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png"/>
 </div>
 <div class="description">
 <h2>Individual Expected Completion using Logistic Generalized Additive Mixed Models</h2>
+<div class="dt-tags">
+<div class="dt-tag">Logistic Generalized Additive Mixed Models</div>
+<div class="dt-tag">Mixed Effects</div>
+<div class="dt-tag">Completion Probability Intercept</div>
+</div>
 <p>Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.</p>
 </div>
 </a>
@@ -1862,12 +1773,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Fantasy Football"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 26, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sam Hoppen</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Open Source (Fantasy) Football: Visualizing TRAP Backs</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Fantasy Football</div>
+</div>
 <p>Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model.</p>
 </div>
 </a>
@@ -1875,12 +1794,21 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","turnovers","quarterbacks"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 25, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Gadaleta</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png"/>
 </div>
 <div class="description">
 <h2>Expected Turnovers for Quarterbacks</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">turnovers</div>
+<div class="dt-tag">quarterbacks</div>
+</div>
 <p>Building expected interceptions and expected fumbles models to find QBs likely to increase or decrease their 
 interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 </div>
@@ -1889,12 +1817,18 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Getting started"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 24, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Getting into sports analytics</h2>
+<div class="dt-tags">
+<div class="dt-tag">Getting started</div>
+</div>
 <p>Collection of short answers to common questions.</p>
 </div>
 </a>
@@ -1902,12 +1836,22 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Scraping","espnscrapeR","Interactive plots","Total QBR","Figures"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 24, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Visualizing EPSN's Total QBR Using Interactive Plots</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">espnscrapeR</div>
+<div class="dt-tag">Interactive plots</div>
+<div class="dt-tag">Total QBR</div>
+<div class="dt-tag">Figures</div>
+</div>
 <p>How to get ESPN data and create interactive plots using the plotly ggplot2 library.</p>
 </div>
 </a>
@@ -1915,12 +1859,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Tidymodels","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 23, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Austin Ryan</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Exploring Wins with nflfastR</h2>
+<div class="dt-tags">
+<div class="dt-tag">Tidymodels</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</p>
 </div>
 </a>
@@ -1928,12 +1880,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Elo","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 22, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Robby Greer</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png"/>
 </div>
 <div class="description">
 <h2>Ranking QBs Using Era Adjusted Elo</h2>
+<div class="dt-tags">
+<div class="dt-tag">Elo</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</p>
 </div>
 </a>
@@ -1941,12 +1900,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Max Bolger</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png"/>
 </div>
 <div class="description">
 <h2>Game Excitement and Win Probability in the NFL</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Game excitement calculation and a win probability figure.</p>
 </div>
 </a>
@@ -1954,12 +1920,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ethan Douglas</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png"/>
 </div>
 <div class="description">
 <h2>NFL Pass Location Visualization</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Methods for visualizing NFL passing location data.</p>
 </div>
 </a>
@@ -1967,12 +1940,21 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","CPOE / EPA functions","Packers"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Austin Ryan</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Rodgers Efficiency Decline</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">CPOE / EPA functions</div>
+<div class="dt-tag">Packers</div>
+</div>
 <p>A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.</p>
 </div>
 </a>
@@ -1980,12 +1962,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Reinhard</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Visualizing the Run/Pass Efficiency Gap</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Using nflfastR data to show how much more efficient passing is than rushing at the team level</p>
 </div>
 </a>
@@ -1993,12 +1982,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Opponent adjusted EPA","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Jonathan Goldberg</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Adjusting EPA for Strength of Opponent</h2>
+<div class="dt-tags">
+<div class="dt-tag">Opponent adjusted EPA</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!</p>
 </div>
 </a>
@@ -2006,12 +2003,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Python contributing example</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Showing how to contribute using Python code</p>
 </div>
 </a>
@@ -2019,12 +2023,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","Roster","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
 </div>
 <div class="description">
 <h2>Matching players without ID keys</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">Roster</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Rebuilding player graphs when ID keys go missing or are corrupted.</p>
 </div>
 </a>
@@ -2032,12 +2044,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Keras","Tensorflow","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Neural Nets using R</h2>
+<div class="dt-tags">
+<div class="dt-tag">Keras</div>
+<div class="dt-tag">Tensorflow</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Using Keras in R to build neural networks.</p>
 </div>
 </a>
@@ -2045,12 +2065,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
 </div>
 <div class="description">
 <h2>The accumulation of QB hits vs passing efficiency</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
 </div>
 </a>
@@ -2058,12 +2085,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
 </div>
 <div class="description">
 <h2>Wins Above Expectation</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article looks at the percentage of snaps with win probability over an 
 arbitralily chosen critical value and compares it with the true win percentage.</p>
 </div>
@@ -2072,181 +2106,194 @@ arbitralily chosen critical value and compares it with the true win percentage.<
 <script class="post-metadata" type="text/json">{"categories":["Scraping","PFR","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 18, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png"/>
 </div>
 <div class="description">
 <h2>PFR's Bad Throw Percentage for Quarterbacks</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">PFR</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article shows how to scrape football data from Pro Football Reference and
 how to plot the bad throw percentage data for quarterbacks.</p>
 </div>
 </a>
 </div>
 <div class="posts-sidebar">
-<div><div class="sidebar-section custom">
-  <h3>Search this Site with Google</h3>
-  <form action="https://www.google.com/search" class="searchform" method="get" name="searchform">
-    <input name="sitesearch" type="hidden" value="https://www.opensourcefootball.com">
-    <input autocomplete="on" class="form-control search" name="q" placeholder="Enter search phrase" required="required"  type="text">
-    <button class="button" type="submit">Search</button>
-  </form>
-</div>
-
-<!--code for search form from https://stackoverflow.com/a/42926071
-target="_blank" removed because it seems counterintuitive to open a new
-tab for the search since clicking a link in the search list directs back
-to the website-->
+<div><div class="sidebar-section custom">
+  <h3>Search this Site with Google</h3>
+  <form action="https://www.google.com/search" class="searchform" method="get" name="searchform">
+    <input name="sitesearch" type="hidden" value="https://www.opensourcefootball.com">
+    <input autocomplete="on" class="form-control search" name="q" placeholder="Enter search phrase" required="required"  type="text">
+    <button class="button" type="submit">Search</button>
+  </form>
+</div>
+
+<!--code for search form from https://stackoverflow.com/a/42926071
+target="_blank" removed because it seems counterintuitive to open a new
+tab for the search since clicking a link in the search list directs back
+to the website-->
 </div>
 <div class="sidebar-section categories">
 <h3>Categories</h3>
 <ul>
 <li>
-<a href="#Animation">Animation</a>
+<a href="#category:Articles">Articles</a>
+<span class="category-count">(30)</span>
+</li>
+<li>
+<a href="#category:Animation">Animation</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Articles">Articles</a>
+<a href="#category:Articles">Articles</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Completion_Probability_Intercept">Completion Probability Intercept</a>
+<a href="#category:Completion_Probability_Intercept">Completion Probability Intercept</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#CPOE_/_EPA_functions">CPOE / EPA functions</a>
+<a href="#category:CPOE_/_EPA_functions">CPOE / EPA functions</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Decision_Trees">Decision Trees</a>
+<a href="#category:Decision_Trees">Decision Trees</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Efficiency">Efficiency</a>
+<a href="#category:Efficiency">Efficiency</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Elo">Elo</a>
+<a href="#category:Elo">Elo</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#espnscrapeR">espnscrapeR</a>
+<a href="#category:espnscrapeR">espnscrapeR</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Fantasy_Football">Fantasy Football</a>
+<a href="#category:Fantasy_Football">Fantasy Football</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
-<a href="#field_goal">field goal</a>
+<a href="#category:field_goal">field goal</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Figures">Figures</a>
+<a href="#category:Figures">Figures</a>
 <span class="category-count">(14)</span>
 </li>
 <li>
-<a href="#Game_Predicitions">Game Predicitions</a>
+<a href="#category:Game_Predicitions">Game Predicitions</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Getting_started">Getting started</a>
+<a href="#category:Getting_started">Getting started</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Interactive_plots">Interactive plots</a>
+<a href="#category:Interactive_plots">Interactive plots</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Keras">Keras</a>
+<a href="#category:Keras">Keras</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Logistic_Generalized_Additive_Mixed_Models">Logistic Generalized Additive Mixed Models</a>
+<a href="#category:Logistic_Generalized_Additive_Mixed_Models">Logistic Generalized Additive Mixed Models</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Mixed_Effects">Mixed Effects</a>
+<a href="#category:Mixed_Effects">Mixed Effects</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Model_Calibration">Model Calibration</a>
+<a href="#category:Model_Calibration">Model Calibration</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#nflfastR">nflfastR</a>
+<a href="#category:nflfastR">nflfastR</a>
 <span class="category-count">(23)</span>
 </li>
 <li>
-<a href="#nflfastR_xYAC_Model">nflfastR xYAC Model</a>
+<a href="#category:nflfastR_xYAC_Model">nflfastR xYAC Model</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Opponent_adjusted_EPA">Opponent adjusted EPA</a>
+<a href="#category:Opponent_adjusted_EPA">Opponent adjusted EPA</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Packers">Packers</a>
+<a href="#category:Packers">Packers</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#PFR">PFR</a>
+<a href="#category:PFR">PFR</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#placekicker">placekicker</a>
+<a href="#category:placekicker">placekicker</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Positional_breakdown">Positional breakdown</a>
+<a href="#category:Positional_breakdown">Positional breakdown</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#python">python</a>
+<a href="#category:python">python</a>
 <span class="category-count">(5)</span>
 </li>
 <li>
-<a href="#quarterbacks">quarterbacks</a>
+<a href="#category:quarterbacks">quarterbacks</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Receiving">Receiving</a>
+<a href="#category:Receiving">Receiving</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Roster">Roster</a>
+<a href="#category:Roster">Roster</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Scraping">Scraping</a>
+<a href="#category:Scraping">Scraping</a>
 <span class="category-count">(3)</span>
 </li>
 <li>
-<a href="#stan">stan</a>
+<a href="#category:stan">stan</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Tensorflow">Tensorflow</a>
+<a href="#category:Tensorflow">Tensorflow</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#tidyModels">tidyModels</a>
+<a href="#category:tidyModels">tidyModels</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Tidymodels">Tidymodels</a>
+<a href="#category:Tidymodels">Tidymodels</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Total_QBR">Total QBR</a>
+<a href="#category:Total_QBR">Total QBR</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#turnovers">turnovers</a>
+<a href="#category:turnovers">turnovers</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#xgboost">xgboost</a>
+<a href="#category:xgboost">xgboost</a>
 <span class="category-count">(1)</span>
 </li>
 </ul>
@@ -2256,7 +2303,7 @@ to the website-->
 <a href="#">More articles &raquo;</a>
 </div>
 </div>
-<!--/radix_placeholder_article_listing-->
+<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
 <h1>Latest posts</h1>

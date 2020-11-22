@@ -357,7 +357,11 @@ model_data <- model_data %>%
   make_model_mutations() %>%
   prepare_wp_data() %>%
   mutate(label = ifelse(posteam == Winner, 1, 0)) %>%
-  filter(!is.na(ep) & !is.na(score_differential) & !is.na(play_type) & !is.na(label)) %>%
+  filter(
+    !is.na(ep), !is.na(score_differential), !is.na(play_type), !is.na(label),
+    !is.na(defteam_timeouts_remaining), !is.na(posteam_timeouts_remaining),
+    !is.na(yardline_100)
+  ) %>%
   select(
     label,
     receive_2h_ko,
