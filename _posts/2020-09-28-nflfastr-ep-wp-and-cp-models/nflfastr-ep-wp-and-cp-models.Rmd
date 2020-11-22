@@ -61,7 +61,6 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Seconds remaining in half
 * Seconds remaining in game
 * Yard line
-* Expected Points
 * Score differential
 * Ratio of expected score differential (expected points + point differential) to time remaining (feature borrowed from nflscrapR)
 * Down
@@ -69,7 +68,7 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Timeouts remaining for each team
 * Whether team will receive 2nd half kickoff
 * Whether possession team is at home
-* [Model with Vegas line only: point spread * log(3600 / (50 + (seconds elapsed in game))]
+* [Model with Vegas line only: point spread * exp(-4 * fraction of game elapsed)]
 
 ### CP and expected yards after the catch model features
 
@@ -352,12 +351,17 @@ We see that the new EP model is better calibrated. Note that nflscrapR reports a
 As with EP, do some initial setup to get the data ready for fitting.
 
 ```{r wp_setup}
-model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true'))
+model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true')) %>%
+  filter(Winner != "TIE")
 model_data <- model_data %>%
   make_model_mutations() %>%
   prepare_wp_data() %>%
   mutate(label = ifelse(posteam == Winner, 1, 0)) %>%
-  filter(!is.na(ep) & !is.na(score_differential) & !is.na(play_type) & !is.na(label)) %>%
+  filter(
+    !is.na(ep), !is.na(score_differential), !is.na(play_type), !is.na(label),
+    !is.na(defteam_timeouts_remaining), !is.na(posteam_timeouts_remaining),
+    !is.na(yardline_100)
+  ) %>%
   select(
     label,
     receive_2h_ko,
@@ -366,9 +370,9 @@ model_data <- model_data %>%
     game_seconds_remaining,
     ExpScoreDiff_Time_Ratio,
     score_differential,
-    ep,
     down,
     ydstogo,
+    yardline_100,
     home,
     posteam_timeouts_remaining,
     defteam_timeouts_remaining,
@@ -518,18 +522,18 @@ Again, the new WP model represents an improvement.
 `nflfastR` has a secondary win probability model that also incorporates the pregame spread to more accurately reflect a team's chances of winning. Below are calibration results for this model. 
 
 ```{r wp_setup_spread}
-nrounds = 170
+nrounds = 760
 params <-
   list(
     booster = "gbtree",
     objective = "binary:logistic",
     eval_metric = c("logloss"),
-    eta = 0.075,
-    gamma = 3,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    eta = 0.02,
+    gamma = 0.3445502,
+    subsample = 0.7204741,
+    colsample_bytree = 0.5714286,
     max_depth = 5,
-    min_child_weight = .9
+    min_child_weight = 14
   )
 ```
 
@@ -630,7 +634,7 @@ nflscrapR:
 ))
 ```
 
-Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results.
+Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results. Adding the over/under also worsened calibration results.
 
 ## CP Model Calibration Results
 
