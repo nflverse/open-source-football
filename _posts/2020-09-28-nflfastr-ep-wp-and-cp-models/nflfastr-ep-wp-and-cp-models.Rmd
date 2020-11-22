@@ -331,7 +331,7 @@ nflscrapr <- pbp_data %>%
             n_scoring_event = sum(n_outcome, na.rm = TRUE))
 rm(pbp_data)
 
-message(glue::glue(
+glue::glue(
 '
 --CALIBRATION ERROR--
 
@@ -341,7 +341,7 @@ nflfastR:
 nflscrapR:
 {round(with(nflscrapr, weighted.mean(weight_cal_error, n_scoring_event)), 4)}
 '
-))
+)
 ```
 
 We see that the new EP model is better calibrated. Note that nflscrapR reports a calibration error of 0.01309723. The number is higher here because of the additional seasons included outside of the time period nflscrapR was trained on, and the lack of era adjustment in nflscrapR.
@@ -504,7 +504,7 @@ nflscrapR <- pbp_data %>%
   summarize(weight_cal_error = weighted.mean(cal_diff, n_plays, na.rm = TRUE),
             n_wins = sum(n_wins, na.rm = TRUE))
 
-message(glue::glue(
+glue::glue(
   '--CALIBRATION ERROR--
 
 nflfastR:
@@ -512,7 +512,7 @@ nflfastR:
 
 nflscrapR:
 {round(with(nflscrapR, weighted.mean(weight_cal_error, n_wins)), 4)}'
-))
+)
 ```
 
 Again, the new WP model represents an improvement.
@@ -623,7 +623,7 @@ wp_cv_cal_error <- wp_cv_loso_calibration_results %>%
   group_by(qtr) %>%
   summarize(weight_cal_error = weighted.mean(cal_diff, n_plays, na.rm = TRUE),
             n_wins = sum(n_wins, na.rm = TRUE))
-message(glue::glue(
+glue::glue(
   '--CALIBRATION ERROR--
 
 nflfastR with Vegas line:
@@ -631,7 +631,7 @@ nflfastR with Vegas line:
 
 nflscrapR:
 {round(with(nflscrapR, weighted.mean(weight_cal_error, n_wins)), 4)}'
-))
+)
 ```
 
 Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results. Adding the over/under also worsened calibration results.
