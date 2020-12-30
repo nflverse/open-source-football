@@ -12,7 +12,20 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 22 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Exploring Rolling Averages of EPA</title>
+      <dc:creator>Jack Lichtenstein</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</link>
+      <description>Use nflfastR to develop lagged rolling averages of EPA to best predict a game's outcome</description>
+      <category>nflfastR</category>
+      <category>EPA</category>
+      <category>Adjusting EPA</category>
+      <category>Rolling EPA</category>
+      <category>Prediction</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</guid>
+      <pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>nflfastR EP, WP, CP xYAC, and xPass models</title>
       <dc:creator>Ben Baldwin</dc:creator>
