@@ -1,7 +1,7 @@
 ---
 title: "Exploring Rolling Averages of EPA"
 description: |
-  Use nflfastR to develop rolling averages of EPA to best predict a game's outcome
+  Use nflfastR to develop lagged rolling averages of EPA to best predict a game's outcome
 author:
   - name: Jack Lichtenstein
     url: https://twitter.com/jacklich10
@@ -15,6 +15,7 @@ repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
   - nflfastR
   - EPA
+  - Adjusting EPA
   - Rolling EPA
   - Prediction
 ---
@@ -112,14 +113,12 @@ NFL_sec <- c('pos'='#FFFFFF',
 Let's start by first reading in play-by-play data from 1999-2020 from @nflfastR.
 
 ```{r load data, echo=TRUE, include=TRUE}
-#tictoc::tic()
 nfl_pbp <- purrr::map_df(1999:2020, function(x) {
   readr::read_csv(
     glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
   ) %>% 
     dplyr::select(-starts_with("blocked_"))
 })
-tictoc::toc()
 ```
 
 # Methodology
@@ -172,7 +171,7 @@ rm(nfl_pbp)
 
 We are going to build our dataset in a very similar manner to what Jonathan did in his post, with a few changes outlined below:
 
-* Convert each EPA statistic into a lagging moving average. The lag ensures that we compare a team’s performance against their opponent’s performance *up to that point in the season*.
+* Convert each EPA statistic into a lagging moving average. The lag ensures that we compare a team’s performance against their opponent’s performance ***up to that point in the season***.
 
 * Instead of weighting each game equally during the window, we will weight EPA by the number of plays in each game of the window.
 
@@ -586,14 +585,16 @@ plot_results <- function(results) {
   results %>% 
     dplyr::mutate(name = stringr::str_to_title(stringr::str_replace_all(metric, "_", " ")),
                   name = stringr::str_remove(name, "usted"),
+                  name = stringr::str_replace_all(name, "Point Differential", "Pt Diff"),
+                  name = stringr::str_remove(name, " Epa"),
                   type = dplyr::case_when(
-                    stringr::str_detect(metric, "pass_rush") ~ "Complex",
-                    stringr::str_detect(metric, "pass") ~ "Pass",
-                    stringr::str_detect(metric, "rush") ~ "Rush",
-                    stringr::str_detect(metric, "off_epa|def_epa") ~ "Total",
+                    stringr::str_detect(metric, "pass_rush") ~ "Complex EPA",
+                    stringr::str_detect(metric, "pass") ~ "Pass EPA",
+                    stringr::str_detect(metric, "rush") ~ "Rush EPA",
+                    stringr::str_detect(metric, "off_epa|def_epa") ~ "Total EPA",
                     stringr::str_detect(metric, "point_diff") ~ "Point Diff",
                     stringr::str_detect(metric, "dropback") ~ "Dropback")) %>%
-    dplyr::mutate(type = forcats::fct_relevel(type, "Point Diff", "Total", "Complex", "Pass", "Rush", "Dropback"),
+    dplyr::mutate(type = forcats::fct_relevel(type, "Point Diff", "Total EPA", "Complex EPA", "Pass EPA", "Rush EPA"),
                   name = forcats::fct_reorder(name, r.squared),
                   moving_avg = forcats::fct_reorder(moving_avg, r.squared)) %>% 
     dplyr::filter(type != "Dropback") %>% 
@@ -616,12 +617,13 @@ plot_results <- function(results) {
           axis.ticks = element_blank(),
           axis.text = element_text(size = 24/.pt),
           axis.title = element_text(face = "bold", size = 26/.pt),
-          plot.caption = element_text(face = "italic", size = 20/.pt)) +
+          plot.caption = element_text(face = "italic", size = 20/.pt),
+          legend.position = c(0.8, 0.2)) +
     labs(x = expression(bold("Nagelkerke pseudo"~R^2)),
          y = NULL,
          fill = NULL,
-         title = "Predictive power of various metrics for the outcome of an NFL game",
-         subtitle = "Logistic regression to predict win/loss",
+         title = "Predictive power of various EPA metrics for the outcome of an NFL game",
+         subtitle = "Logistic regression to predict win or loss",
          caption = "Chart: @jacklich10 | Data: @nflfastR | Games from 2000-2020 NFL seasons")
 }
 ```
@@ -649,7 +651,7 @@ results_dynamic <- double_for_accuracy_check(dataset = model_dataset, type = "Dy
 results <- dplyr::bind_rows(results_simple, results_dynamic)
 ```
 
-```{r plot init, layout="l-page", fig.height=5}
+```{r plot init, echo=FALSE, layout="l-page", fig.height=5}
 # Plot
 plot_results(results) +
   scale_fill_brewer(palette = "Dark2", 
@@ -664,7 +666,7 @@ $$\text{off_pass_rush_epa} = \text{off_dropback_pct}*\text{off_pass_epa} + (1-\t
 
 In other words, it combines a team's pass and rush EPA/play into a total EPA/play by weighting them by the percentage of time a team drops back to pass. The difference between this and total EPA/play is that the complex version adjusts pass and rush EPA separately according to the strength of opponent pass and rush EPA, whereas total EPA adjusts based on opponent holistically.
 
-What's interesting is that adjusting defensive EPA/play for opponent offenses faced actually *decreases* its predictive power, albeit a very small amount. This finding might provide a little support to the "defenses are simply a product of the offenses they face", as penalizing or rewarding defenses based on the quality of the offense they face might simply be adding noise. Of course, in general, defensive strength as measured through EPA is much less predictive than offensive strength. 
+What's interesting is that adjusting defensive EPA/play for opponent offenses faced actually ***decreases*** its predictive power, albeit a very small amount. This finding might provide a little support to the "defenses are simply a product of the offenses they face", as penalizing or rewarding defenses based on the quality of the offense they face might simply be adding noise. Of course, in general, defensive strength as measured through EPA is much less predictive than offensive strength. 
 
 Now that we know that using a dynamic window for the rolling averages works better than a simple static ten game window, let's play around with different types of moving averages from the `pracma` package. We will try *weighted*, *running* and *exponential* averages compared to the *simple* moving averages from above.
 
@@ -695,7 +697,7 @@ results <- dplyr::bind_rows(results_dynamic %>%
                               dplyr::mutate(moving_avg = "Simple"), results_weighted, results_running, results_exp)
 ```
 
-```{r plot pracma, layout="l-page", fig.height=5}
+```{r plot pracma, echo=FALSE, layout="l-page", fig.height=5}
 plot_results(results) +
   scale_fill_brewer(palette = "Dark2", 
                       guide = guide_legend(reverse = T))
@@ -729,7 +731,7 @@ results <- dplyr::bind_rows(results_dynamic %>%
                             results_weighted, results_running, results_exp, results_mixed)
 ```
 
-```{r plot mixed, layout="l-page", fig.height=5}
+```{r plot mixed, echo=FALSE, layout="l-page", fig.height=5}
 plot_results(results) +
   scale_fill_brewer(palette = "Dark2", 
                       guide = guide_legend(reverse = T))
@@ -767,18 +769,18 @@ current_epa <- dplyr::bind_rows(model_dataset %>%
                    by = "team")
 ```
 
-```{r team tiers, layout="l-page", fig.height=5, preview=TRUE}
+```{r team tiers, echo=FALSE, layout="l-page", fig.height=5, preview=TRUE}
 # Plot unadjusted team tiers with adjusted team tiers
 current_epa %>% 
   ggplot() +
   geom_segment(aes(x = off_epa, xend = adj_off_epa,
                    y = def_epa, yend = adj_def_epa, color = team),
-               lineend = "butt", linejoin = "round", size = 1.75, alpha = 0.8,
+               lineend = "butt", linejoin = "round", size = 1.5, alpha = 0.75,
                arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
   geom_point(aes(off_epa, def_epa, color = team),
              size = 2.5) +
   ggimage::geom_image(aes(adj_off_epa, adj_def_epa, image = team_logo_espn),
-                      asp = 1.618, by = "height", size = 0.075) +
+                      asp = 1.618, by = "height", size = 0.08) +
   # Averages as dashed lines
   geom_vline(aes(xintercept = mean(adj_off_epa)), lty = 2, color = "black") +
   geom_hline(aes(yintercept = mean(adj_def_epa)), lty = 2, color = "black") +
@@ -799,14 +801,14 @@ current_epa %>%
         axis.text = element_text(size = 24/.pt),
         axis.title = element_text(face = "bold", size = 26/.pt),
         plot.caption = element_text(face = "italic", size = 20/.pt)) +
-  labs(title = "2020 Predictive NFL Team Tiers after week 16",
+  labs(title = "2020 Predictive NFL Team Tiers through Week 16",
        subtitle = "Arrows point from unadjusted, cumulative mean EPA to adjusted and predictive EPA",
        x = "Offensive EPA",
        y = "Defensive EPA",
        caption = "Chart: @jacklich10 | Data: @nflfastR")
 ```
 
-Wow, look at the Bills and Ravens! Everybody thinks the Chiefs are unbeatable, but their path to the Super Bowl seems much more treacherous... We also see that the Rams and Steelers offenses and defenses have regressed since the beginning of the year.
+Wow, look at the Bills and Ravens! Everybody thinks the Chiefs are unbeatable, but their path to the Super Bowl seems much more treacherous than last years... We also see that the Rams' and Steelers' offenses and defenses have regressed since the beginning of the year.
 
 As a Jets fan, I can't help but look at the Jets ruining their quest for Trevor Lawrence as the Jags ensure the losing continues! `r emo::ji("cry")`
 
@@ -899,27 +901,23 @@ efficiency_over_time <- function(dataset, current_season, current_week, team_nam
 
 We can also look at a team's offensive and defensive efficiency over the course of the season using our methodology. Here's the Chiefs and some AFC competitors:
 
-```{r afc, layout="l-page", fig.height=5}
-chiefs <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "KC")
-bills <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "BUF")
-ravens <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "BAL")
-
-cowplot::plot_grid(chiefs, bills, ravens, nrow = 3)
+```{r afc, echo=FALSE, layout="l-page", fig.height=3}
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "KC")
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "BUF")
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "BAL")
 ```
 
 And here's some NFC competitors:
 
-```{r nfc, layout="l-page", fig.height=5}
-packers <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "GB")
-saints <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "NO")
-bucs <- efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "TB")
-
-cowplot::plot_grid(packers, saints, bucs, nrow = 3)
+```{r nfc, echo=FALSE, layout="l-page", fig.height=3}
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "GB")
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "NO")
+efficiency_over_time(model_dataset, current_season = 2020, current_week = 16, team_name = "TB")
 ```
 
 # Final Thoughts
 
-The main objective of this post was to improve the *predictiveness* of EPA by exploring rolling averages and dynamically moving windows. Certainly, rolling 250 play averages of EPA, for example, can provide important *descriptive* information. However, as with most predictive measures, this work provides evidence that using the widest window of available data yields the best results. Nonetheless, there are definitely ways to improve this methodology. More work can be done in altering which types of moving averages are used for each facet of play. Additionally, note that the post does not explore weighting EPA for given types of plays. For example, weighting EPA by win probability, increasing the value of EPA on early downs or down-weighting turnovers will probably yield significant increases in its predictive power. It is also somewhat surprising that adjusting pass and rush EPA individually for opponent does not seem to produce much of an advantage, although perhaps a more in-depth technique might yield predictive benefits. Hopefully this analysis is another small iteration in improving EPA as a predictive metric!
+The main objective of this post was to improve the ***predictiveness*** of EPA by exploring rolling averages and dynamically moving windows. Certainly, rolling 250 play averages of EPA, for example, can provide important ***descriptive*** information. However, as with most predictive measures, this work provides evidence that using the widest window of available data yields the best results. Nonetheless, there are definitely ways to improve this methodology. More work can be done in altering which types of moving averages are used for each facet of play. Additionally, note that the post does not explore weighting EPA for given types of plays. For example, weighting EPA by win probability, increasing the value of EPA on early downs or down-weighting turnovers will probably yield significant increases in its predictive power. It is also somewhat surprising that adjusting pass and rush EPA individually for opponent does not seem to produce much of an advantage, although perhaps a more in-depth technique might yield predictive benefits. Hopefully this analysis is another small iteration in improving EPA as a predictive metric!
 
 Thanks to Sebastian Carl and Ben Baldwin for creating this forum and providing awesome open source football analysis throughout the year, as well as to Jonathan Goldberg, Lee Sharpe and Robby Greer for their inspiration.
 
