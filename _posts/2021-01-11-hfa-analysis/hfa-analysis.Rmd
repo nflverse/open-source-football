@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 The sports betting industry and their enthusiasts continually try to find the correct value of a home field advantage (HFA) in terms of “point-spread” to create betting lines. In particular, NFL bookmakers tend to reward a home field with three points on average; this varies across different home teams per season. The idea is that playing at home is considered an advantage in the NFL, and some teams have a stronger HFA than others. Interested in this topic, I decided to use nflfastR and PFF data to quantify HFA advantage for the league and each team. I also leveraged the opportunity to analyze the behavior of HFA across seasons.
 
 ## League home field advantage vs. team-specific home field advantage
-Agreeing with consensus, I found the league home field advantage (LHFA) during 2006-2020 to be approximately three points (2.87). However, I found it to be fluid, so a 2.87 LHFA has not been true for every season during that period. In addition to LHFA, I calculated Team-Specific Home Field Advantage (iHFA), a concept suggested by  [Takoma Park](https://dartthrowingchimp.wordpress.com/2015/01/24/estimating-nfl-team-specific-home-field-advantage/). iHFA represents the additional or fewer points that each team has in terms of HFA compared to the league average. For example, the Ravens had an estimated iHFA of 0.26 points during 2006-2019; meanwhile, the Raiders had -0.37 points below league HFA.
+Agreeing with consensus, I found the league home field advantage (LHFA) during 2006-2020 to be approximately three points (2.85). However, I found it to be fluid, so a 2.85 LHFA has not been true for every season during that period. In addition to LHFA, I calculated Team-Specific Home Field Advantage (iHFA), a concept suggested by  [Takoma Park](https://dartthrowingchimp.wordpress.com/2015/01/24/estimating-nfl-team-specific-home-field-advantage/). iHFA represents the additional or fewer points that each team has in terms of HFA compared to the league average. For example, the Ravens had an estimated iHFA of 0.26 points during 2006-2019; meanwhile, the Raiders had -0.37 points below league HFA.
 
 When we add together LHFA and iHFA, we obtain the true HFA for each team. There have been seasons where iHFA is not statistically significant, meaning the difference in iHFA between teams is not meaningful. When that happens, each team receives an iHFA of zero, and their HFA equals the LHFA. iHFA is normally-distributed around a mean of zero during a given period. In other words, the positive and negative iHFA's for all teams add up to zero during the analyzed period.
 
@@ -80,7 +80,7 @@ This is a list of observations and findings informed by my analysis:
 
 6- iHFA seems to be volatile and unpredictable. Future analysis could determine if one or more iHFA’s is statistically better than the rest on a multi-season basis.
 
-Just for fun, here is true HFA for each team during the 2020 season, which presented significant iHFA among teams.
+Just for fun, here is true HFA for each team during the 2018 season, which presented significant iHFA among teams. Neither 2019 nor 2020 had significant iHFA; therefore, every team had the same HFA during those two seasons: -0.7 and 0.4 respectively.
 
 ![Figure 4.](figures/HFA18_chart-1.png)
 
@@ -113,3 +113,5 @@ Greer, Robby. “An Initial Exploration of Home Field Advantage in the NFL.” R
 Park, Takoma. “Estimating NFL Team-Specific Home-Field Advantage.” Dart, 24 Jan. 2015, dartthrowingchimp.wordpress.com/2015/01/24/estimating-nfl-team-specific-home-field-advantage/. 
 
 Walczak, Sam. “My Model Monday: NFL Home-Field Advantage.” Model 284, 22 Jan. 2018, model284.com/nfl-home-field-advantage/. 
+
+Special thanks to Robby Greerre @ greerreNFL and Abhijit Brahme @ captain_abhious for their comments and suggestions.
