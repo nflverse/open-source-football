@@ -110,8 +110,9 @@ Things I would like to analyze in the future:
 ## References
 Greer, Robby. “An Initial Exploration of Home Field Advantage in the NFL.” Robbygreer.com, Robbygreer.com, 21 Jan. 2020, https://www.nfeloapp.com/analysis/an-initial-exploration-of-home-field-advantage-in-the-nfl. 
 
-Park, Takoma. “Estimating NFL Team-Specific Home-Field Advantage.” Dart, 24 Jan. 2015, dartthrowingchimp.wordpress.com/2015/01/24/estimating-nfl-team-specific-home-field-advantage/. 
+Park, Takoma. “Estimating NFL Team-Specific Home-Field Advantage.” Dart, 24 Jan. 2015,
+https://dartthrowingchimp.wordpress.com/2015/01/24/estimating-nfl-team-specific-home-field-advantage/. 
 
-Walczak, Sam. “My Model Monday: NFL Home-Field Advantage.” Model 284, 22 Jan. 2018, model284.com/nfl-home-field-advantage/. 
+Walczak, Sam. “My Model Monday: NFL Home-Field Advantage.” Model 284, 22 Jan. 2018, https://model284.com/nfl-home-field-advantage/. 
 
 Special thanks to Robby Greerre @ greerreNFL and Abhijit Brahme @ captain_abhious for their comments and suggestions.
