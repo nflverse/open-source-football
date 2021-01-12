@@ -26,30 +26,7 @@ knitr::opts_chunk$set(
   dpi = 300, 
   tidy = 'styler'
   )
-
-# load needed packages
-library(lme4)
-library(dplyr)
-library(ggplot2)
-library(ggthemes)
-library(broom.mixed)
-library(stringr)
-library(magrittr)
-library(ggrepel)
-library(extrafont)
-loadfonts(device = "win")
-
-# Read data --------------------------------------------------------
-coach=read.csv(
-  "C:/Users/adrian-boss/Documents/GitHub/Quantifying-HFA/approach-1/hc_index.csv"
-  )
-
-sample<-readRDS('~/GitHub/Quantifying-HFA/gbg_hc.RDS') %>% 
-  inner_join(.,coach %>% 
-               select(HC_index = grade, coach),
-             by='coach')
 ```
-
 
 ## Introduction
 The sports betting industry and their enthusiasts continually try to find the correct value of a home field advantage (HFA) in terms of “point-spread” to create betting lines. In particular, NFL bookmakers tend to reward a home field with three points on average; this varies across different home teams per season. The idea is that playing at home is considered an advantage in the NFL, and some teams have a stronger HFA than others. Interested in this topic, I decided to use nflfastR and PFF data to quantify HFA advantage for the league and each team. I also leveraged the opportunity to analyze the behavior of HFA across seasons.
@@ -75,217 +52,18 @@ When thinking about strong home fields, most people think about Seattle, Pittsbu
 
 After adjusting for the listed variables, I found the real value of LHFA and iHFA. Unsurprisingly, these adjustments decreased iHFA for teams with successful head coaches and elite quarterbacks like NE, NO, and SEA. Overperformance by weak teams, bad QB’s, and incompetent HC’s is then explained by the home/away variable. A chart displaying HFA for each team, along with confidence intervals, during 2006-2020 is presented below.
 
-```{r HFA_chart, echo=FALSE, fig.height=7, fig.width=5}
-# Mixed model ----------------------------------------------------------------------
-model = sample %>%
-  filter(season>=2006) %>%
-  lmer(formula=
-         score_differential ~
-         Over + 
-         op_Over +
-         pass_grade +
-         op_pass_grade+
-         home +
-         HC_index +
-         (0+home|team))
+![Figure 1.](figures/HFA_chart-1.png)
 
-team_hf = broom.mixed::tidy(
-         model,effects="ran_vals"
-         ) %>%
-  filter(group=='team') %>%
-  mutate(
-    LHFA = fixef(model)[6],
-    HFA = estimate + LHFA,
-    LHFA.std.error = sqrt(diag(vcov(model)))[6],
-    HFA.std.error = std.error + LHFA.std.error,
-  ) %>% rename(iHFA = estimate,iHFA.std.error = std.error)%>% 
-  arrange(iHFA) %>%
-  arrange(iHFA) %>%
-  dplyr::select(
-    team=level,LHFA,iHFA,HFA,LHFA.std.error, iHFA.std.error,HFA.std.error
-    )
-
-logos = nflfastR::teams_colors_logos %>% 
-  select(
-    team_abbr,team_logo_espn
-    )
-plot = team_hf %>% inner_join(
-      .,logos, by = c("team" = "team_abbr")
-      )
-z=1.036
-
-plot %>%
-  ggplot(aes(x=factor(team, level = team),y=HFA)) + 
-  geom_linerange(size=.75,color='gray30',aes(ymin=(HFA - z * HFA.std.error),
-                                             ymax=(HFA + z * HFA.std.error)))+
-  ggimage::geom_image(aes(image = team_logo_espn),size=.035, asp=1) +
-  coord_flip()+
-  theme_bw() +
-  labs(
-    title='Estimated home field advantage per team',
-    subtitle = 'During 2006 - 2020. Regular season. 85% Confidence Intervals',
-    caption = 'Data: nflfastR & PFF | Chart by Adrian Cadena @adrian_stats',
-    y='Home field advantage'
-  )+
-  theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    plot.subtitle = element_text(hjust=0.5,size=10,color='gray20',family = "Trebuchet MS"),
-    axis.title = element_text(hjust=0.5,size=10,color='gray20',family = "Trebuchet MS"),
-    axis.title.y = element_blank(),
-    axis.text.x =  element_text(hjust=0.5,size=9,color='gray20',family = "Trebuchet MS"),
-    plot.caption = element_text(size=9,color='gray20',family = "Trebuchet MS"),
-    legend.position = 'right',
-    legend.title = element_text(size=9,color='gray20',family = "Trebuchet MS"),
-    legend.text = element_text(size=9,color='gray20',family = "Trebuchet MS")
-  ) +ggsave("C:/Users/adrian-boss/Documents/GitHub/website/content/post/HFA/plot1.png")
-```
 
 ## How does home field advantage behave?
 
 Sports analysts and betting enthusiasts have speculated about a possible shrinkage of LHFA during the last couple of years. In 2019, away teams slightly outscored home teams: 5858 to 5822 during the regular season. In 2020, home teams slightly outscored away teams: 6353 to 6339. Besides the shrinking theory, LHFA appears to have a cyclical behavior, meaning it changes year over year in an “up and down” fashion. The following chart shows how LHFA has moved since 2006 until reaching a negative value in 2019 and then moving back up to a low positive value in 2020.
 
-```{r LHFA_chart, echo=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE}
-lst = list()
-for (y in 2006:2020){
-  data_y = sample %>% dplyr::filter(season == y)
-  # Mixed model
-  model =  lmer(
-    score_differential ~
-      Over + 
-      op_Over +
-      pass_grade +
-      op_pass_grade+
-      home +
-      HC_index +
-      (0+home|team)
-    ,
-    control = lmerControl(
-      optimizer = "nloptwrap", calc.derivs = FALSE,
-      optCtrl = list(method = "nlminb", starttests = FALSE, kkt = FALSE))
-    ,
-    data = data_y
-    )
-
-  hf = broom.mixed::tidy(model,effects="ran_vals")  %>%
-    filter(group=='team') %>%
-    mutate(
-      estimate = fixef(model)[6]) %>% 
-    arrange(estimate) %>%
-    dplyr::select(level,HFA = estimate,std.error) 
-  
-  hf$season = y
-
-  lst[[toString(y)]] = hf
-} 
-HFA_ = dplyr::bind_rows(lst)
-
-HFA_seas = HFA_ %>% 
-  dplyr::group_by(season) %>% 
-  dplyr::summarise(
-    HFA = mean(HFA)
-  )
-
-HFA_seas %>% ggplot(aes(x=season,y=HFA)) +
-  geom_line(color="#ef8a62",size=1)+
-  geom_smooth(color="#67a9cf",fill="#B6D6E8")+
-  geom_text(
-    aes(y=HFA,label=round(HFA,1)),
-    family="Trebuchet MS",fontface='bold',
-    size=3.5
-    )+
-  labs(
-    title = "Movement of league home field advantage",
-    subtitle = "My model suggests that league home field advantage has been declining during the 
-last couple of seasons until reaching a negative value in 2019",
-    caption = 'Data: nflfastR & PFF | Chart by Adrian Cadena @adrian_stats',
-    y='Estimated League Home Field Advantage',
-    x='Season') + 
-  scale_x_continuous(breaks=c(2006,2008,2010,2012,2014,2016,2018,2020))+
-  theme_bw()+
-  theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(hjust=0.5,size=14,color='gray20',family = "Trebuchet MS"),
-    plot.subtitle = element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    axis.title = element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    axis.text.y =  element_blank(),
-    axis.text.x =  element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    plot.caption = element_text(size=10,color='gray20',family = "Trebuchet MS")
-    ) 
-```
+![Figure 2.](figures/LHFA_chart-1.png)
 
 Similar to LHFA, iHFA for a given team is not the same across seasons. For example, according to my model, the Panthers were a better home team in 2006 (+2.4 points) than in 2007 (+0 points). iHFA appears to be very unpredictable and almost random on a year over year basis. The following chart presents a two-team example of iHFA behavior (Arizona Cardinals and Philadelphia Eagles).
 
-```{r iHFA_chart, echo=FALSE, fig.height=6, fig.width=7}
-lst = list()
-for (y in 2006:2020){
-  data_y = sample %>% dplyr::filter(season == y)
-
-  model =  lmer(
-    score_differential ~
-      Over + 
-      op_Over +
-      pass_grade +
-      op_pass_grade+
-      home +
-      HC_index +
-      (0+home|team)
-    ,
-    control = lmerControl(
-      optimizer = "nloptwrap", calc.derivs = FALSE,
-      optCtrl = list(method = "nlminb", starttests = FALSE, kkt = FALSE)
-    )
-    ,
-    data = data_y)
-
-  hf = broom.mixed::tidy(model,effects="ran_vals")  %>%
-    filter(group=='team') %>%
-    mutate(
-      LHFA = fixef(model)[6],
-      HFA = estimate + LHFA,
-      LHFA.std.error = sqrt(diag(vcov(model)))[6],
-      HFA.std.error = std.error + LHFA.std.error
-      )%>% 
-    arrange(estimate) %>%
-    dplyr::select(team=level,LHFA,iHFA = estimate,HFA,LHFA.std.error,iHFA.std.error = std.error,HFA.std.error) 
-  
-  hf$season = y
-  
-  lst[[toString(y)]] = hf
-} 
-
-HFA = dplyr::bind_rows(lst) 
-
-colors = nflfastR::teams_colors_logos %>%
-  filter(team_abbr %in% c('ARI','PHI'))%>%
-  select(color=team_color) 
-
-HFA %>% 
-  filter(team %in% c('ARI','PHI'))%>%
-  ggplot(aes(x=season,y=iHFA))+
-  scale_colour_manual( values = colors$color)+
-  geom_line(aes(color=team),size=1)+
-  theme_bw() +
-  labs(
-    title = 'Movement of team-specific home field advantage', 
-    subtitle = 'The behavior of team-specific home field advantage is volatile and unpredictable.
-As an example, I present iHFA for ARI and PHI since 2006.',
-    caption = 'Data: nflfastR & PFF | Chart by Adrian Cadena @adrian_stats',
-    x = 'Season',
-    y = 'Team-Specific Home Field Advantage (iHFA)',
-    color = "Team"
-  )+
-  theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(hjust=0.5,size=14,color='gray20',family = "Trebuchet MS"),
-    plot.subtitle = element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    axis.text.x =  element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    plot.caption = element_text(size=10,color='gray20',family = "Trebuchet MS"),
-    legend.position = 'top',
-    legend.title = element_text(size=9,color='gray20',family = "Trebuchet MS"),
-    legend.text = element_text(size=9,color='gray20',family = "Trebuchet MS")
-  ) + scale_x_continuous(breaks=c(2006,2008,2010,2012,2014,2016,2018,2020))
-```
+![Figure 3.](figures/iHFA_chart-1.png)
 
 ## Summary
 This is a list of observations and findings informed by my analysis:
@@ -304,71 +82,7 @@ This is a list of observations and findings informed by my analysis:
 
 Just for fun, here is true HFA for each team during the 2020 season, which presented significant iHFA among teams.
 
-```{r HFA18_chart, echo=FALSE, fig.height=7, fig.width=5}
-# Mixed model ----------------------------------------------------------------------
-model = sample %>%
-  filter(season==2020) %>%
-  lmer(formula=
-         score_differential ~
-         Over + 
-         op_Over +
-         pass_grade +
-         op_pass_grade+
-         home +
-         HC_index +
-         (0+home|team))
-
-team_hf = broom.mixed::tidy(
-         model,effects="ran_vals"
-         ) %>%
-  filter(group=='team') %>%
-  mutate(
-    LHFA = fixef(model)[6],
-    HFA = estimate + LHFA,
-    LHFA.std.error = sqrt(diag(vcov(model)))[6],
-    HFA.std.error = std.error + LHFA.std.error,
-  ) %>% rename(iHFA = estimate,iHFA.std.error = std.error)%>% 
-  arrange(iHFA) %>%
-  arrange(iHFA) %>%
-  dplyr::select(
-    team=level,LHFA,iHFA,HFA,LHFA.std.error, iHFA.std.error,HFA.std.error
-    )
-
-logos = nflfastR::teams_colors_logos %>% 
-  select(
-    team_abbr,team_logo_espn
-    )
-plot = team_hf %>% inner_join(
-      .,logos, by = c("team" = "team_abbr")
-      )
-z=1.036
-
-plot %>%
-  ggplot(aes(x=factor(team, level = team),y=HFA)) + 
-  geom_linerange(size=.75,color='gray30',aes(ymin=(HFA - z * HFA.std.error),
-                                             ymax=(HFA + z * HFA.std.error)))+
-  ggimage::geom_image(aes(image = team_logo_espn),size=.035, asp=1) +
-  coord_flip()+
-  theme_bw() +
-  labs(
-    title='Estimated home field advantage per team',
-    subtitle = 'Regular season 2020. 85% Confidence Intervals.',
-    caption = 'Data: nflfastR & PFF | Chart by Adrian Cadena @adrian_stats',
-    y='Home field advantage'
-  )+
-  theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(hjust=0.5,size=12,color='gray20',family = "Trebuchet MS"),
-    plot.subtitle = element_text(hjust=0.5,size=10,color='gray20',family = "Trebuchet MS"),
-    axis.title = element_text(hjust=0.5,size=10,color='gray20',family = "Trebuchet MS"),
-    axis.title.y = element_blank(),
-    axis.text.x =  element_text(hjust=0.5,size=9,color='gray20',family = "Trebuchet MS"),
-    plot.caption = element_text(size=9,color='gray20',family = "Trebuchet MS"),
-    legend.position = 'right',
-    legend.title = element_text(size=9,color='gray20',family = "Trebuchet MS"),
-    legend.text = element_text(size=9,color='gray20',family = "Trebuchet MS")
-  ) 
-```
+![Figure 4.](figures/HFA18_chart-1.png)
 
 ## Methodology
 My response variable was point differential, which is the standard practice. Adjusting for different variables is not a novel approach; in fact, we wouldn’t get reasonable HFA estimates if we didn’t do that. My approach’s novelty lies in analyzing each team in a given game separately, meaning two observations per game instead of one. This methodology allowed me to compare how each team performs home vs. away, ceteris paribus. To get LHFA, I used a fixed-effect binary variable, “home.” To get iHFA, I used a random slope (home) within the group (team), making it (0+home|team). I used fixed effects to control for strength of team/opponent, quarterback/opposing quarterback, and head coach/opposing head coach. A description of the fixed-effect variables is listed below:

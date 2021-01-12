@@ -116,7 +116,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["hfa-analysis_files/figure-html5/HFA_chart-1.png","hfa-analysis_files/figure-html5/HFA18_chart-1.png","hfa-analysis_files/figure-html5/iHFA_chart-1.png","hfa-analysis_files/figure-html5/LHFA_chart-1.png"]}
+  {"type":"character","attributes":{},"value":["figures/HFA_chart-1.png","figures/HFA18_chart-1.png","figures/iHFA_chart-1.png","figures/LHFA_chart-1.png","hfa-analysis_files/anchor-4.2.2/anchor.min.js","hfa-analysis_files/bowser-1.9.3/bowser.min.js","hfa-analysis_files/distill-2.2.21/template.v2.js","hfa-analysis_files/jquery-1.11.3/jquery.min.js","hfa-analysis_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1478,18 +1478,18 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <li><p>How each team performs home vs. away</p></li>
 </ul>
 <p>After adjusting for the listed variables, I found the real value of LHFA and iHFA. Unsurprisingly, these adjustments decreased iHFA for teams with successful head coaches and elite quarterbacks like NE, NO, and SEA. Overperformance by weak teams, bad QB’s, and incompetent HC’s is then explained by the home/away variable. A chart displaying HFA for each team, along with confidence intervals, during 2006-2020 is presented below.</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="hfa-analysis_files/figure-html5/HFA_chart-1.png" width="1500" /></p>
-</div>
+<figure>
+<img src="figures/HFA_chart-1.png" alt="" /><figcaption>Figure 1.</figcaption>
+</figure>
 <h2 id="how-does-home-field-advantage-behave">How does home field advantage behave?</h2>
 <p>Sports analysts and betting enthusiasts have speculated about a possible shrinkage of LHFA during the last couple of years. In 2019, away teams slightly outscored home teams: 5858 to 5822 during the regular season. In 2020, home teams slightly outscored away teams: 6353 to 6339. Besides the shrinking theory, LHFA appears to have a cyclical behavior, meaning it changes year over year in an “up and down” fashion. The following chart shows how LHFA has moved since 2006 until reaching a negative value in 2019 and then moving back up to a low positive value in 2020.</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="hfa-analysis_files/figure-html5/LHFA_chart-1.png" width="2100" /></p>
-</div>
+<figure>
+<img src="figures/LHFA_chart-1.png" alt="" /><figcaption>Figure 2.</figcaption>
+</figure>
 <p>Similar to LHFA, iHFA for a given team is not the same across seasons. For example, according to my model, the Panthers were a better home team in 2006 (+2.4 points) than in 2007 (+0 points). iHFA appears to be very unpredictable and almost random on a year over year basis. The following chart presents a two-team example of iHFA behavior (Arizona Cardinals and Philadelphia Eagles).</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="hfa-analysis_files/figure-html5/iHFA_chart-1.png" width="2100" /></p>
-</div>
+<figure>
+<img src="figures/iHFA_chart-1.png" alt="" /><figcaption>Figure 3.</figcaption>
+</figure>
 <h2 id="summary">Summary</h2>
 <p>This is a list of observations and findings informed by my analysis:</p>
 <p>1- League Home Field Advantage (LHFA) is fluid year over year and appears to have a cyclical behavior.</p>
@@ -1499,9 +1499,9 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <p>5- Team-Specific Home Field Advantage (iHFA) increase or decrease the effect of LHFA in a given season for each team</p>
 <p>6- iHFA seems to be volatile and unpredictable. Future analysis could determine if one or more iHFA’s is statistically better than the rest on a multi-season basis.</p>
 <p>Just for fun, here is true HFA for each team during the 2020 season, which presented significant iHFA among teams.</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="hfa-analysis_files/figure-html5/HFA18_chart-1.png" width="1500" /></p>
-</div>
+<figure>
+<img src="figures/HFA18_chart-1.png" alt="" /><figcaption>Figure 4.</figcaption>
+</figure>
 <h2 id="methodology">Methodology</h2>
 <p>My response variable was point differential, which is the standard practice. Adjusting for different variables is not a novel approach; in fact, we wouldn’t get reasonable HFA estimates if we didn’t do that. My approach’s novelty lies in analyzing each team in a given game separately, meaning two observations per game instead of one. This methodology allowed me to compare how each team performs home vs. away, ceteris paribus. To get LHFA, I used a fixed-effect binary variable, “home.” To get iHFA, I used a random slope (home) within the group (team), making it (0+home|team). I used fixed effects to control for strength of team/opponent, quarterback/opposing quarterback, and head coach/opposing head coach. A description of the fixed-effect variables is listed below:</p>
 <p>• Strength of team and opponent: used PFF season grades for each team</p>
