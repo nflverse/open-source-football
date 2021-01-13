@@ -455,8 +455,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -564,19 +571,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
             var results = fuse.search(query, searchOptions);
             callback(results
               .map(function(result) { return result.item; })
-              .filter(function(item) { return !!item.description; })
             );
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
                   <div class="search-item-description">
-                    ${suggestion.description}
+                    ${suggestion.description || ''}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -599,6 +608,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
   
   <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
   
   /* Algolioa Autocomplete */
   
@@ -674,6 +687,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
   
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
@@ -901,6 +915,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: underline;
   }
   
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
   d-article pre,
@@ -1055,6 +1074,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
   }
   
   
@@ -1722,7 +1752,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('div.sourceCode, pre, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1837,6 +1867,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -2008,13 +2052,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/dt-ext-fixedheader-1.10.20/js/dataTables.fixedHeader.min.js"></script>
   <link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
   <script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
-  <script>
+  <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+  <script type="text/javascript" cookie-consent="tracking">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -2117,8 +2165,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <p>We have <code>32</code> posts from <code>19</code> authors! Our hope that we can get as many volunteers as possible to publish their code on this website. This section provides a full list of posts and their authors.</p>
 <div class="layout-chunk" data-layout="l-page">
-<div id="htmlwidget-b2d269f13b26841706cd" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b2d269f13b26841706cd">{"x":{"filter":"none","extensions":["FixedHeader"],"data":[["<a href = \"https://adriancadena.com/\">Adrian Cadena<\/a>","<a href = \"https://twitter.com/jacklich10\">Jack Lichtenstein<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/random_effects\">Peter Owen<\/a>","<a href = \"https://twitter.com/awgymer\">Arthur Gymer<\/a>","<a href = \"https://twitter.com/mikeyirene\">Mike Irene<\/a>","<a href = \"http://richjand.rbind.io\">Richard Anderson<\/a>","<a href = \"NA\">c(\"Dennis Brookner\", \"Raphael Laden-Guindon\")<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/reinhurdler\">Anthony Reinhard<\/a>","<a href = \"https://twitter.com/gberg1303\">Jonathan Goldberg<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/ChiefsAnalytics\">Ethan Douglas<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/adrian_cadem\">Adrian Cadena<\/a>","<a href = \"https://twitter.com/SamHoppen\">Sam Hoppen<\/a>","<a href = \"https://twitter.com/AG_8\">Anthony Gadaleta<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>","<a href = \"https://twitter.com/packeRanalytics\">Austin Ryan<\/a>","<a href = \"https://twitter.com/greerreNFL\">Robby Greer<\/a>","<a href = \"https://twitter.com/mnpykings\">Max Bolger<\/a>","<a href = \"https://twitter.com/ChiefsAnalytics\">Ethan Douglas<\/a>","<a href = \"https://twitter.com/packeRanalytics\">Austin Ryan<\/a>","<a href = \"https://twitter.com/reinhurdler\">Anthony Reinhard<\/a>","<a href = \"https://twitter.com/gberg1303\">Jonathan Goldberg<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>"],["2021-01-11","2020-12-29","2020-11-22","2020-10-03","2020-09-26","2020-09-09","2020-09-08","2020-09-06","2020-08-31","2020-08-31","2020-08-29","2020-08-29","2020-08-29","2020-08-28","2020-08-27","2020-08-26","2020-08-25","2020-08-24","2020-08-24","2020-08-23","2020-08-22","2020-08-21","2020-08-21","2020-08-21","2020-08-20","2020-08-20","2020-08-20","2020-08-19","2020-08-19","2020-08-19","2020-08-19","2020-08-18"],["<a href = \"https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis/\">Analyzing Home Field Advantage in the NFL<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa/\">Exploring Rolling Averages of EPA<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/\">nflfastR EP, WP, CP xYAC, and xPass models<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/\">Still elite: What the numbers tell us about Aaron Rodgers<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/\">Receiving by Position<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric/\">Creating an Expected Field Goal Metric<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/\">Estimating Run/Pass Tendencies with tidyModels and  nflfastR<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/\">RERUN<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited/\">Defense and rest time re-visited<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/\">Calculating Expected Fantasy Points for Receivers<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/\">Adding ESPN and 538 Game Predictions to nflfastR Data<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/\">Faceted and Animated Heatmaps<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/\">Player Density and Completion Surface Estimates<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/\">Fast Data Loading<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/\">Individual Expected Completion using Logistic Generalized Additive Mixed Models<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/\">Open Source (Fantasy) Football: Visualizing TRAP Backs<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/\">Expected Turnovers for Quarterbacks<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics/\">Getting into sports analytics<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/\">Visualizing EPSN's Total QBR Using Interactive Plots<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/\">Exploring Wins with nflfastR<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/\">Ranking QBs Using Era Adjusted Elo<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/\">Game Excitement and Win Probability in the NFL<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/\">NFL Pass Location Visualization<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/\">Rodgers Efficiency Decline<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/\">Visualizing the Run/Pass Efficiency Gap<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/\">Adjusting EPA for Strength of Opponent<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example/\">Python contributing example<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/\">Matching players without ID keys<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/\">Neural Nets using R<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/\">The accumulation of QB hits vs passing efficiency<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/\">Wins Above Expectation<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/\">PFR's Bad Throw Percentage for Quarterbacks<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Author<\/th>\n      <th>Published<\/th>\n      <th>Title<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatDate(data, \"toLocaleDateString\", [\"en-US\",{\"year\":\"numeric\",\"month\":\"numeric\",\"day\":\"numeric\"}]);\n  }"},{"className":"dt-center","targets":"_all"}],"orderClasses":true,"fixedHeader":true,"order":[],"autoWidth":false}},"evals":["options.columnDefs.0.render"],"jsHooks":[]}</script>
+<div id="htmlwidget-9ee9a9389bef2fd23b6e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9ee9a9389bef2fd23b6e">{"x":{"filter":"none","extensions":["FixedHeader"],"data":[["<a href = \"https://adriancadena.com/\">Adrian Cadena<\/a>","<a href = \"https://twitter.com/jacklich10\">Jack Lichtenstein<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/random_effects\">Peter Owen<\/a>","<a href = \"https://twitter.com/awgymer\">Arthur Gymer<\/a>","<a href = \"https://twitter.com/mikeyirene\">Mike Irene<\/a>","<a href = \"http://richjand.rbind.io\">Richard Anderson<\/a>","<a href = \"NA\">c(\"Dennis Brookner\", \"Raphael Laden-Guindon\")<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/reinhurdler\">Anthony Reinhard<\/a>","<a href = \"https://twitter.com/gberg1303\">Jonathan Goldberg<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/ChiefsAnalytics\">Ethan Douglas<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/adrian_cadem\">Adrian Cadena<\/a>","<a href = \"https://twitter.com/SamHoppen\">Sam Hoppen<\/a>","<a href = \"https://twitter.com/AG_8\">Anthony Gadaleta<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>","<a href = \"https://twitter.com/packeRanalytics\">Austin Ryan<\/a>","<a href = \"https://twitter.com/greerreNFL\">Robby Greer<\/a>","<a href = \"https://twitter.com/mnpykings\">Max Bolger<\/a>","<a href = \"https://twitter.com/ChiefsAnalytics\">Ethan Douglas<\/a>","<a href = \"https://twitter.com/packeRanalytics\">Austin Ryan<\/a>","<a href = \"https://twitter.com/reinhurdler\">Anthony Reinhard<\/a>","<a href = \"https://twitter.com/gberg1303\">Jonathan Goldberg<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/footballdaRkweb\">Analytics Darkweb<\/a>","<a href = \"https://twitter.com/benbbaldwin\">Ben Baldwin<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>","<a href = \"https://twitter.com/mrcaseb\">Sebastian Carl<\/a>"],["2021-01-11","2020-12-29","2020-11-22","2020-10-03","2020-09-26","2020-09-09","2020-09-08","2020-09-06","2020-08-31","2020-08-31","2020-08-29","2020-08-29","2020-08-29","2020-08-28","2020-08-27","2020-08-26","2020-08-25","2020-08-24","2020-08-24","2020-08-23","2020-08-22","2020-08-21","2020-08-21","2020-08-21","2020-08-20","2020-08-20","2020-08-20","2020-08-19","2020-08-19","2020-08-19","2020-08-19","2020-08-18"],["<a href = \"https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis/\">Analyzing Home Field Advantage in the NFL<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa/\">Exploring Rolling Averages of EPA<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/\">nflfastR EP, WP, CP xYAC, and xPass models<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/\">Still elite: What the numbers tell us about Aaron Rodgers<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/\">Receiving by Position<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric/\">Creating an Expected Field Goal Metric<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/\">Estimating Run/Pass Tendencies with tidyModels and  nflfastR<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/\">RERUN<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited/\">Defense and rest time re-visited<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/\">Calculating Expected Fantasy Points for Receivers<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/\">Adding ESPN and 538 Game Predictions to nflfastR Data<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/\">Faceted and Animated Heatmaps<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/\">Player Density and Completion Surface Estimates<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/\">Fast Data Loading<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/\">Individual Expected Completion using Logistic Generalized Additive Mixed Models<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/\">Open Source (Fantasy) Football: Visualizing TRAP Backs<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/\">Expected Turnovers for Quarterbacks<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics/\">Getting into sports analytics<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/\">Visualizing EPSN's Total QBR Using Interactive Plots<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/\">Exploring Wins with nflfastR<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/\">Ranking QBs Using Era Adjusted Elo<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/\">Game Excitement and Win Probability in the NFL<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/\">NFL Pass Location Visualization<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/\">Rodgers Efficiency Decline<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/\">Visualizing the Run/Pass Efficiency Gap<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/\">Adjusting EPA for Strength of Opponent<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example/\">Python contributing example<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/\">Matching players without ID keys<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/\">Neural Nets using R<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/\">The accumulation of QB hits vs passing efficiency<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/\">Wins Above Expectation<\/a>","<a href = \"https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/\">PFR's Bad Throw Percentage for Quarterbacks<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Author<\/th>\n      <th>Published<\/th>\n      <th>Title<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatDate(data, \"toLocaleDateString\", [\"en-US\",{\"year\":\"numeric\",\"month\":\"numeric\",\"day\":\"numeric\"}]);\n  }"},{"className":"dt-center","targets":"_all"}],"orderClasses":true,"fixedHeader":true,"order":[],"autoWidth":false}},"evals":["options.columnDefs.0.render"],"jsHooks":[]}</script>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
