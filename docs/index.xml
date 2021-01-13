@@ -12,7 +12,18 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 29 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Analyzing Home Field Advantage in the NFL</title>
+      <dc:creator>Adrian Cadena</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</link>
+      <description>Multi-season analysis of league and team-specific home-field advantage in the NFL.</description>
+      <category>nflfastR</category>
+      <category>Articles</category>
+      <category>Home Field Advantage</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</guid>
+      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Exploring Rolling Averages of EPA</title>
       <dc:creator>Jack Lichtenstein</dc:creator>
