@@ -5,8 +5,8 @@ on:
       - master
 
   schedule:
-    # run every day at 9:00 AM UTC = 5AM ET
-    - cron:  '0 9 * * *'
+    # run every Friday at 9:00 AM UTC = 5AM ET
+    - cron:  '0 9 * * 5'
 
   # pull_request:
   #   branches:
