@@ -48,7 +48,7 @@ discuss some steps more detailed in the next section). Please note we assume tha
 you have [RStudio](https://rstudio.com/) and git (I highly recommend [Hadley's
 git section](http://r-pkgs.had.co.nz/git.html) in "R packages") installed. 
 
-1. Install the R packages you will need to contribute
+1. Install the R packages you will need to contribute (**Note the minimum version requirement of 'distill'**)
 1. Create a copy of the website repo to your GitHub (you'll need a free account)
 1. Load it into a new RStudio project and start working in a new branch
 1. Create the new article (see [the 
@@ -75,6 +75,13 @@ Install the packages `distill` and `rmarkdown` with
 
 ```{r, eval=FALSE}
 install.packages(c("distill", "rmarkdown"))
+```
+
+**Important!**
+Rendering of the site will fail or be incomplete if an outdated version of `distill` is installed, so please check if you have installed `distill >= 1.0` by running
+
+```{r, eval=TRUE}
+paste0("You are running distill v", utils::packageVersion("distill"))
 ```
 
 ### Fork the repo
