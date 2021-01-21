@@ -18,6 +18,72 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
 <title>Open Source Football: Defense and rest time re-visited</title>
 
@@ -1993,9 +2059,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.3/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
   <script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
@@ -2087,6 +2159,12 @@ d-title {
 
 <div class="d-title">
 <h1>Defense and rest time re-visited</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:nflfastR" class="dt-tag">nflfastR</a>
+  <a href="../../index.html#category:Articles" class="dt-tag">Articles</a>
+</div>
+<!--/radix_placeholder_categories-->
 <p><p>Does incorporating actual rest time help us predict how a defense will do?</p></p>
 </div>
 
@@ -2097,8 +2175,9 @@ d-title {
 </div>
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#overview-of-rest-time">Overview of rest time</a></li>
@@ -2108,7 +2187,7 @@ d-title {
 <li><a href="#wrapping-up">Wrapping up</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <h2 id="introduction">Introduction</h2>
 <p>In this post, we revisit an old piece I <a href="https://www.footballoutsiders.com/stat-analysis/2018/defense-and-rest-time">did for Football Outsiders</a>. In that piece, I looked at the relationship between defensive rest time and defensive performance, finding no evidence of a relationship. However, without a direct measure of rest time, I had to use plays of rest and time of possession of rest rather than the actual time in minutes that had gone by since the defense took the field. In the time since, <code>nflfastR</code>’s release means we now have the hour, minute, and second of each snap, so we can know how much time goes by between when the defense last took the field and the start of their subsequent defensive drive.</p>
 <p>A few quick notes before we dive in. This piece uses data from the 2015 through 2019 seasons. It would be possible to add more but each additional season involves some manual cleaning to remove games with clock errors and games with delays mid-game (e.g. from lightening), both of which cause all the figures to look bad. In total, I remove five games with delays and six games with assorted problems with the clock time. With five seasons of data, we still have nearly 30,000 drives to analyze.</p>
@@ -2336,6 +2415,7 @@ Touchdown
 <h2 id="wrapping-up">Wrapping up</h2>
 <p>This has hopefully been a useful peak at what we can do with the newly-available time of day information in <code>nflfastR</code>. After taking a tour of this data applied to rest time, I don’t think I’ve seen anything to change the conclusions about defensive rest obtained from measuring plays or time of possession. The most direct way an offense affects its team’s defense is through field position, with all other effects (including rest time) being secondary at best.</p>
 <p>In the future, it might be interesting to look at whether repeated short drives by an offense have a measurable effect on defensive performance. Given what we’ve already seen, my guess would be no, but it can’t hurt to find out.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
