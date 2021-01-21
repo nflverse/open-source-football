@@ -4,9 +4,9 @@ on:
     branches:
       - master
 
-  schedule:
+  # schedule:
     # run every Friday at 9:00 AM UTC = 5AM ET
-    - cron:  '0 9 * * 5'
+    # - cron:  '0 9 * * 5'
 
   # pull_request:
   #   branches:
