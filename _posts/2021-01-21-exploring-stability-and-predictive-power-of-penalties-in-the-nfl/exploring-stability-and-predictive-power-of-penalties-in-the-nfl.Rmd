@@ -1,0 +1,1516 @@
+---
+title: "Exploring Stability and Predictive Power of Penalties in the NFL"
+description: |
+  Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes
+author:
+  - name: Jack Lichtenstein
+    url: https://twitter.com/jacklich10
+date: "1/21/21"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - nflfastR
+  - EPA
+  - Penalty EPA
+  - Prediction
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+)
+```
+
+In the @nflfastR era (1999-2020), there have been over 64,000 penalties called! Penalties called in high leverage situations can have huge influences on game outcomes and also advanced metrics like expected points added (EPA). One of the reasons that many highly regarded power ranking systems had the 2020 New Orleans Saints very highly rated was due to their "unluckiness" with penalty rates. This article will explore how stable penalties are across teams. Are certain penalty types a reflection of a team's underlying talent/skill (thus being useful for out of sample prediction), or are they simply random noise that does not predict future performance? If we find that certain penalties are stable for teams across a season, we can probably find a way to incorporate the EPA lost or gained from penalties to develop better predictive measures.
+
+```{r libraries, echo=FALSE, include=FALSE}
+# Load libraries
+library(tidyverse)
+library(nflfastR)
+# Initialize team colors
+NFL_pri <- c('ARI'='#97233f',
+             'ATL'='#a71930',
+             'BAL'='#241773',
+             'BUF'='#00338d',
+             'CAR'='#0085ca',
+             'CHI'='#0b162a',
+             'CIN'='#000000',
+             'CLE'='#fb4f14',
+             'DAL'='#002244',
+             'DEN'='#002244',
+             'DET'='#005a8b',
+             'GB'='#203731',
+             'HOU'='#03202f',
+             'IND'='#002c5f',
+             'JAX'='#000000',
+             'KC'='#e31837',
+             'LAC'='#002244',
+             'LA'='#003693',
+             'MIA'='#008e97',
+             'MIN'='#4f2683',
+             'NE'='#002244',
+             'NO'='#9f8958',
+             'NYG'='#0b2265',
+             'NYJ'='#125740',
+             'OAK'='#a5acaf',
+             'LV'='#a5acaf',
+             'PHI'='#004953',
+             'PIT'='#000000',
+             'SF'='#aa0000',
+             'SEA'='#002244',
+             'TB'='#d50a0a',
+             'TEN'='#002244',
+             'WAS'='#773141')
+
+NFL_sec <- c('pos'='#FFFFFF',
+             'neg'='#000000',
+             'ARI'='#000000',
+             'ATL'='#000000',
+             'BAL'='#000000',
+             'BUF'='#c60c30',
+             'CAR'='#000000',
+             'CHI'='#c83803',
+             'CIN'='#fb4f14',
+             'CLE'='#22150c',
+             'DAL'='#b0b7bc',
+             'DEN'='#fb4f14',
+             'DET'='#b0b7bc',
+             'GB'='#ffb612',
+             'HOU'='#a71930',
+             'IND'='#a5acaf',
+             'JAX'='#006778',
+             'KC'='#ffb612',
+             'LAC'='#0073cf',
+             'LA'='#ffd000',
+             'MIA'='#f58220',
+             'MIN'='#ffc62f',
+             'NE'='#c60c30',
+             'NO'='#000000',
+             'NYG'='#a71930',
+             'NYJ'='#000000',
+             'OAK'='#000000',
+             'LV'='#000000',
+             'PHI'='#a5acaf',
+             'PIT'='#ffb612',
+             'SF'='#b3995d',
+             'SEA'='#69be28',
+             'TB'='#34302b',
+             'TEN'='#4b92db',
+             'WAS'='#ffb612')
+# Set a theme
+theme_set(theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = 28/.pt, hjust = 0),
+                  plot.subtitle = element_text(face = "italic", size = 24/.pt),
+                  strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 3.5, linetype = "blank"),
+                  strip.text = element_text(face = "bold", size = 24/.pt),
+                  panel.grid.minor.x = element_blank(),
+                  panel.grid.minor.y = element_blank(),
+                  panel.border = element_blank(),
+                  axis.ticks = element_blank(),
+                  axis.text = element_text(size = 24/.pt),
+                  axis.title = element_text(face = "bold", size = 26/.pt),
+                  plot.caption = element_text(face = "italic", size = 20/.pt),
+                  legend.title = element_text(size = 24/.pt),
+                  legend.text = element_text(size = 20/.pt),
+                  legend.key.size = unit(0.75, "lines")))
+```
+
+# Loading in the data
+
+Let's start by first reading in play-by-play data from 1999-2020 from @nflfastR.
+
+```{r load data, echo=TRUE, include=TRUE}
+nfl_pbp <- purrr::map_df(1999:2020, function(x) {
+  readr::read_csv(
+    glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz")
+  ) %>% 
+    dplyr::select(game_id, play_id, season, week, home_team, away_team, roof, 
+                  half_seconds_remaining, yardline_100, ydstogo, posteam, defteam, 
+                  desc, play_type, qb_dropback, qb_kneel, qb_spike, rush_attempt, pass_attempt,
+                  ep, epa, contains("penalty"), yards_gained, down, 
+                  posteam_timeouts_remaining, defteam_timeouts_remaining,
+                  -c(penalty_player_id, penalty_player_name, first_down_penalty)) %>% 
+    # change penalty yards to negative yardage if it is on the offense
+    dplyr::mutate(penalty_yards = ifelse(penalty_team == posteam, -penalty_yards, penalty_yards))
+})
+```
+
+# Exploring stability of penalties
+
+Since penalties are relatively rare events, especially when grouping by specific penalty types, we will bucket each team and penalty type into quarter seasons (a 4 game window) and then find the correlation between quarter season penalty percentages across teams during a season.
+
+Note that we group Encroachment, Defensive Offside and Neutral Zone Infraction penalties as all Defensive Offsides penalties, Illegal Contact, Defensive Holding and Defensive Pass Interference penalties as all Defensive Pass Interference and Illegal Shift, Illegal Formation and Illegal Motion as all Illegal Shift penalties, among other groupings.
+
+```{r summarizing penalties, echo=FALSE, include=FALSE}
+# dataset of number of plays on offense/defense by team for every week
+plays_data <- nfl_pbp %>%
+  dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam),
+                play_type =="pass" | play_type =="run" | penalty == 1, qb_kneel != 1) %>%
+  dplyr::group_by(game_id, season, week, posteam, home_team) %>%
+  dplyr::summarise(off_plays = sum(qb_dropback == 1 | qb_dropback == 0),
+                   .groups = "drop") %>%
+  dplyr::left_join(nfl_pbp %>%
+                     dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam),
+                                   play_type =="pass" | play_type =="run" | penalty == 1, qb_kneel != 1) %>%
+                     dplyr::group_by(game_id, season, week, defteam, away_team) %>%
+                     dplyr::summarise(def_plays = sum(qb_dropback == 1 | qb_dropback == 0),
+                                      .groups = "drop"),
+                   by = c("game_id", "posteam" = "defteam", "season", "week"))
+
+# summarize plays into four game (quarter-season) buckets
+plays_summarized <- plays_data %>% 
+  dplyr::group_by(season, posteam) %>% 
+  dplyr::mutate(game_number = dplyr::row_number()) %>% 
+  dplyr::filter(game_number <= 16) %>% 
+  dplyr::mutate(game_cut = cut(game_number, breaks = c(0, 4, 8, 12, 16, 20))) %>% 
+  dplyr::group_by(season, game_cut, team = posteam) %>% 
+  dplyr::summarise(off_plays = sum(off_plays),
+                   def_plays = sum(def_plays),
+                   .groups = "drop")
+
+# find all penalties
+all_penalties <- nfl_pbp %>% 
+  dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam), penalty == 1, !is.na(down),
+                !play_type %in% c("punt", "field_goal", "kickoff", "extra_point")) %>% 
+  # trying to fix NAs in penalty_type
+  dplyr::mutate(penalty_type = dplyr::case_when(
+    is.na(penalty_type) & stringr::str_detect(desc, "False Start") ~ "False Start",
+    is.na(penalty_type) & stringr::str_detect(desc, "Delay of Game") ~ "Delay of Game",
+    is.na(penalty_type) & stringr::str_detect(desc, "Face Mask|Personal Foul|Horse Collar") ~ "Personal Foul",
+    is.na(penalty_type) & stringr::str_detect(desc, "Defensive Holding|Defensive Pass Interference|Illegal Contact") ~ "Defensive Pass Interference",
+    is.na(penalty_type) & stringr::str_detect(desc, "Offensive Holding") ~ "Offensive Holding",
+    is.na(penalty_type) & stringr::str_detect(desc, "Roughing the Passer") ~ "Roughing the Passer",
+    is.na(penalty_type) & stringr::str_detect(desc, "Defensive 12 On-field|Defensive Too Many Men on Field") ~ "Defensive Too Many Men on Field",
+    is.na(penalty_type) & stringr::str_detect(desc, "Offensive 12 On-field|Offensive Too Many Men on Field") ~ "Offensive Too Many Men on Field",
+    is.na(penalty_type) & stringr::str_detect(desc, "Encroachment|Defensive Offside|Neutral Zone Infraction") ~ "Defensive Offside",
+    is.na(penalty_type) & stringr::str_detect(desc, "Illegal Formation|Illegal Shift|Illegal Motion") ~ "Illegal Shift",
+        is.na(penalty_type) & stringr::str_detect(desc, "Illegal Use of Hands") ~ "Illegal Use of Hands",
+    is.na(penalty_type) & stringr::str_detect(desc, "Unnecessary Roughness|Lowering the Head to Initiate Contact") ~ "Unnecessary Roughness",
+    is.na(penalty_type) & stringr::str_detect(desc, "Unsportsmanlike Conduct|Taunting") ~ "Unsportsmanlike Conduct",
+    is.na(penalty_type) & stringr::str_detect(desc, "Chop Block") ~ "Chop Block",
+    is.na(penalty_type) & !stringr::str_detect(desc, "INTERCEPTED") & stringr::str_detect(desc, "Illegal Blindside Block") ~ "Illegal Blindside Block",
+    is.na(penalty_type) & stringr::str_detect(desc, "Tripping") ~ "Tripping",
+    TRUE ~ penalty_type)) %>% 
+  # binning penalties together
+  dplyr::mutate(penalty_type = dplyr::case_when(
+    penalty_type %in% c("Encroachment", "Defensive Offside", "Neutral Zone Infraction") ~ "Defensive Offside",
+    penalty_type %in% c("Illegal Shift", "Illegal Motion", "Illegal Formation", "Illegal Procedure") ~ "Illegal Shift",
+    penalty_type %in% c("Illegal Contact", "Defensive Holding", "Defensive Pass Interference") ~ "Defensive Pass Interference",
+    penalty_type %in% c("Horse Collar Tackle", "Horse Collar", "Personal Foul", "Clipping") ~ "Personal Foul",
+    penalty_type %in% c("Unsportsmanlike Conduct", "Taunting") ~ "Unsportsmanlike Conduct",
+    penalty_type %in% c("Offensive Offside", "False Start") ~ "False Start",
+    penalty_type %in% c("Low Block", "Illegal Peelback", "Illegal Crackback") ~ "Illegal Crackback",
+    penalty_type %in% c("Unnecessary Roughness", "Lowering the Head to Initiate Contact") ~ "Unnecessary Roughness",
+    TRUE ~ penalty_type))
+```
+
+```{r lagging for correlations, echo=FALSE, include=FALSE}
+# find penalties for each team by week
+penalties_summarized <- all_penalties %>% 
+  dplyr::mutate(penalty_type = ifelse(penalty_team == posteam, 
+                                      paste0(penalty_type, ": Off"),
+                                      paste0(penalty_type, ": Def"))) %>% 
+  dplyr::group_by(game_id, season, week, posteam, defteam, penalty_team, penalty_type) %>% 
+  dplyr::summarise(n = n(),
+                   .groups = "drop") %>% 
+  dplyr::ungroup() 
+
+# join back each team's game number during that year
+penalties_summarized <- penalties_summarized %>% 
+  dplyr::left_join(penalties_summarized %>% 
+                     dplyr::distinct(game_id, season, penalty_team) %>% 
+                     dplyr::group_by(season, penalty_team) %>% 
+                     dplyr::mutate(game_number = dplyr::row_number()),
+                   by = c("game_id", "season", "penalty_team")) %>% 
+  # only look at regular season
+  dplyr::filter(game_number <= 16)
+
+# join offensive and defensive penalties, group into 4 game buckets, find percentage of penalties
+# and lag to prepare for correlations
+lagged <- penalties_summarized %>% 
+  dplyr::mutate(game_cut = cut(game_number, breaks = c(0, 4, 8, 12, 16, 20))) %>% 
+  dplyr::group_by(season, game_cut, posteam, penalty_type) %>% 
+  dplyr::summarise(n = sum(n, na.rm = T),
+                   .groups = "drop") %>% 
+  dplyr::ungroup() %>% 
+  tidyr::complete(season, game_cut, posteam, penalty_type, fill = list(n = 0)) %>%
+  dplyr::arrange(season, game_cut, posteam, penalty_type) %>% 
+  dplyr::left_join(plays_summarized, by = c("game_cut", "season", "posteam" = "team")) %>% 
+  dplyr::group_by(season, posteam, penalty_type) %>% 
+  dplyr::mutate(prev_n = dplyr::lag(n),
+                prev_n = ifelse(is.na(prev_n), 0, prev_n),
+                pct_penalty = n/off_plays,
+                prev_pct_penalty = dplyr::lag(pct_penalty),
+                prev_pct_penalty =  ifelse(is.na(prev_pct_penalty), 0, prev_pct_penalty)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(weight = sqrt(off_plays^2 + dplyr::lag(off_plays)^2)) %>% 
+  dplyr::filter(!game_cut %in% c("(0,4]", "(16,20]")) %>% 
+  dplyr::mutate(type = "Offense") %>% 
+  dplyr::bind_rows(.,  penalties_summarized %>% 
+                     dplyr::mutate(game_cut = cut(game_number, breaks = c(0, 4, 8, 12, 16, 20))) %>% 
+                     dplyr::group_by(season, game_cut, defteam, penalty_type) %>% 
+                     dplyr::summarise(n = sum(n, na.rm = T),
+                                      .groups = "drop") %>% 
+                     dplyr::ungroup() %>% 
+                     tidyr::complete(season, game_cut, defteam, penalty_type, fill = list(n = 0)) %>%
+                     dplyr::arrange(season, game_cut, defteam, penalty_type) %>% 
+                     dplyr::left_join(plays_summarized, by = c("game_cut", "season", "defteam" = "team")) %>% 
+                     dplyr::group_by(season, defteam, penalty_type) %>% 
+                     dplyr::mutate(prev_n = dplyr::lag(n),
+                                   prev_n = ifelse(is.na(prev_n), 0, prev_n),
+                                   pct_penalty = n/def_plays,
+                                   prev_pct_penalty = dplyr::lag(pct_penalty),
+                                   prev_pct_penalty =  ifelse(is.na(prev_pct_penalty), 0, prev_pct_penalty)) %>% 
+                     dplyr::ungroup() %>% 
+                     dplyr::mutate(weight = sqrt(def_plays^2 + dplyr::lag(def_plays)^2)) %>% 
+                     dplyr::filter(!game_cut %in% c("(0,4]", "(16,20]")) %>% 
+                     dplyr::mutate(type = "Defense"))
+```
+
+```{r plot correlations, echo=FALSE, layout="l-page", fig.height=5.5}
+# linear model to predict quarter season penalty pct
+results <- lagged %>% 
+  dplyr::add_count(type, penalty_type, wt = n, name = "tot_penalties") %>% 
+  tidyr::nest(data = c(-penalty_type, -tot_penalties, -type)) %>% 
+  dplyr::mutate(lm = map(data, ~ lm(pct_penalty ~ prev_pct_penalty, weights = weight, data = .)),
+                glanced = map(lm, broom::glance)) %>% 
+  tidyr::hoist(glanced, r_squared = "r.squared") %>% 
+  dplyr::select(tot_penalties, type, penalty_type, r_squared) %>% 
+  dplyr::arrange(dplyr::desc(r_squared))
+
+# plot results
+results %>% 
+  dplyr::filter(tot_penalties >= 200) %>%
+  dplyr::filter(!stringr::str_detect(penalty_type, "NA:")) %>% 
+  dplyr::mutate(penalty_type = dplyr::case_when(
+    penalty_type %in% c("Unnecessary Roughness: Off") ~ "Offensive Unnecessary Roughness",
+    penalty_type %in% c("Unnecessary Roughness: Def") ~ "Defensive Unnecessary Roughness",
+    penalty_type %in% c("Illegal Use of Hands: Off") ~ "Offensive Illegal Use of Hands",
+    penalty_type %in% c("Illegal Use of Hands: Def") ~ "Defensive Illegal Use of Hands",
+    penalty_type %in% c("Unsportsmanlike Conduct: Off") ~ "Offensive Unsportsmanlike Conduct",
+    penalty_type %in% c("Unsportsmanlike Conduct: Def") ~ "Defensive Unsportsmanlike Conduct",
+    penalty_type %in% c("Personal Foul: Off") ~ "Offensive Personal Foul",
+    penalty_type %in% c("Personal Foul: Def") ~ "Defensive Personal Foul",
+    TRUE ~ penalty_type),
+    penalty_type = stringr::str_remove(penalty_type, ": Off|: Def"),
+    penalty_type = stringr::str_remove(penalty_type, "ensive"),
+    # penalty_type = paste0(penalty_type, " (", tot_penalties, ")"),
+    penalty_type = tidytext::reorder_within(penalty_type, r_squared, type),
+    type = forcats::fct_rev(type)) %>% 
+  ggplot(aes(r_squared, penalty_type, fill = type)) +
+  geom_col(show.legend = F) +
+  geom_text(aes(label = round(r_squared, 4)),
+            hjust = 1, size = 2.5, color = "white", fontface = "bold") +
+  facet_wrap(~ type, scales = "free_y", nrow = 2) +
+  tidytext::scale_y_reordered() +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_fill_brewer(palette = "Set1") +
+  theme(panel.grid.major.y = element_blank(),
+        strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 1.5, linetype = "blank"),
+        strip.text = element_text(face = "bold", size = 20/.pt),
+        legend.position = "top") +
+  labs(x = expression(bold("Quarter Season Correlation:"~R^2)),
+       y = NULL,
+       fill = NULL,
+       title = "Stability of penalties in the NFL",
+       subtitle = "Correlation of team offensive and defensive penalty percentages across four game windows",
+       caption = "Chart: @jacklich10 | Data: @nflfastR | Minimum 200 penalties called from 1999-2020")
+```
+
+```{r plot correlations over time, echo=FALSE, layout="l-page", fig.height=5, preview=TRUE}
+results <- lagged %>% 
+  dplyr::mutate(season = 4 * (season %/% 4)) %>% 
+  dplyr::filter(season >= 2000) %>% 
+  dplyr::add_count(season, type, penalty_type, wt = n, name = "tot_penalties") %>% 
+  tidyr::nest(data = c(-season, -penalty_type, -tot_penalties, -type)) %>% 
+  dplyr::mutate(lm = map(data, ~ lm(pct_penalty ~ prev_pct_penalty, weights = weight, data = .)),
+                glanced = map(lm, broom::glance)) %>% 
+  tidyr::hoist(glanced, r_squared = "r.squared") %>% 
+  dplyr::select(season, tot_penalties, type, penalty_type, r_squared) %>% 
+  dplyr::arrange(dplyr::desc(r_squared))
+
+# find top 16 penalties
+top_pen <- results %>% 
+  dplyr::count(penalty_type, wt = tot_penalties, sort = T) %>% 
+  head(16) %>% 
+  dplyr::pull(penalty_type)
+
+# plot
+results %>% 
+  dplyr::filter(penalty_type %in% top_pen, 
+                !stringr::str_detect(penalty_type, "NA:")) %>% 
+  dplyr::mutate(penalty_type = dplyr::case_when(
+    penalty_type %in% c("Unnecessary Roughness: Off") ~ "Offensive Unnecessary Roughness",
+    penalty_type %in% c("Unnecessary Roughness: Def") ~ "Defensive Unnecessary Roughness",
+    penalty_type %in% c("Illegal Use of Hands: Off") ~ "Offensive Illegal Use of Hands",
+    penalty_type %in% c("Illegal Use of Hands: Def") ~ "Defensive Illegal Use of Hands",
+    penalty_type %in% c("Unsportsmanlike Conduct: Off") ~ "Offensive Unsportsmanlike Conduct",
+    penalty_type %in% c("Unsportsmanlike Conduct: Def") ~ "Defensive Unsportsmanlike Conduct",
+    penalty_type %in% c("Personal Foul: Off") ~ "Offensive Personal Foul",
+    penalty_type %in% c("Personal Foul: Def") ~ "Defensive Personal Foul",
+    TRUE ~ penalty_type),
+    penalty_type = stringr::str_remove(penalty_type, ": Off|: Def"),
+    penalty_type = stringr::str_remove(penalty_type, "ensive"),
+                penalty_type = forcats::fct_reorder(penalty_type, -tot_penalties)) %>% 
+  ggplot(aes(season, r_squared, color = type)) +
+  geom_line() +
+  geom_point(aes(size = tot_penalties)) +
+  facet_wrap(~ penalty_type) +
+  scale_color_brewer(palette = "Set1") +
+  guides(size = F) +
+  theme(strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 1.25, linetype = "blank"),
+        strip.text = element_text(face = "bold", size = 14/.pt),
+        legend.position = "top") +
+  labs(x = "Season",
+       y = expression(bold("Correlation:"~R^2)),
+       color = NULL,
+       size = NULL,
+       title = "Stability of penalties in the NFL over time",
+       subtitle = "Seasons binned into four year periods | Top 16 penalties called",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+```
+
+```{r remove data, include=FALSE, echo=FALSE}
+rm(plays_data, plays_summarized, penalties_summarized, lagged, results)
+```
+
+These results are fairly intuitive! Immediately, we see that the less subjective penalties like offensive False Start and Defensive Offside penalties are the most stable penalty types in football. In other words, the number of False Start penalties an offense commits probably reflect some measure of team skill or discipline that might be helpful in predicting future outcomes. We also notice, that for the most part, offenses control penalties more than defenses. For example, while obviously penalizing a defense, Defensive Too Many Men on Field penalties are controlled more by the offense than the defense! After all, defenses are inherently reactionary to their offensive counterparts.
+
+Generally, however, penalties are *extremely* fluky and unstable metrics for teams, especially for defenses (other than Defensive Offsides), and especially when we take into account how penalty rates have changed *over time*. As such, how can we take this information into account for prediction. Should we be rewarding defenses with negative EPA (negative is good for defense) when the offense commits a False Start or Delay of Game, for example? Probably not. If we are going to predict future game outcomes, it might be smart to evaluate a team in a sort of "penalty-free" environment (save for the few penalties that might carry some signal for future performance). 
+
+# Penalty EPA methodology
+
+In the @nflfastR database, it is important to note that the expected points added value does not account for a nullified play by penalty. In other words, a long rush that is called back on an Offensive Holding penalty will be negative EPA, and in some sense, we lose the EPA of the long rush had it not been called back.
+
+Thus, for each play with a penalty, we will calculate the EPA of the nullified play using the `nflfastR::calculate_expected_points()` function. Then, we can compare this value to the actual observed EPA value from the penalty. This new value, called `penalty_epa`, is the difference between the EPA a team would have gained/lost if there was no penalty and the actual observed EPA from the penalty. Finally, we calculate `no_penalty_epa`, which is the difference between the original EPA and penalty EPA, representing the EPA gained/lost in a "penalty-free" world.
+
+Note that we are *not* going to look at any special teams penalties. The code for calculating `penalty_epa` and `no_penalty_epa` can be found in the source code. If these values are something that interests the community, maybe they can be added to the @nflfastR play by play dataset over the off-season.
+
+```{r penalty_epa, echo=FALSE, include=FALSE}
+# initialize pre-snap penalty types
+pre_snap_penalties <- c("Delay of Game", "False Start")
+# calculate expected points if the play had no penalty, and compare to actual expected points
+# to find `penalty_epa`
+all_penalties_epa <- all_penalties %>% 
+  dplyr::select(-ep, -epa) %>% 
+  dplyr::bind_cols(all_penalties %>% 
+                     dplyr::rename_with(.cols = c(half_seconds_remaining, down, ydstogo, posteam_timeouts_remaining,
+                                                  defteam_timeouts_remaining, yardline_100, ep, epa),
+                                        ~ paste0("orig_", .)) %>% 
+                     dplyr::select(dplyr::starts_with("orig_"))) %>% 
+  dplyr::mutate(yards_gained_pre = as.integer(stringr::str_remove(stringr::str_extract(desc, " for \\d+| for -\\d+"), " for ")),
+                # extract yards gained if there was no penalty
+                yards_gained_pre = ifelse(is.na(yards_gained_pre), 0, yards_gained_pre),
+                # if actual yards gained does not equal if there was no penalty (like offensive holding 
+                # down the field spot foul), change yards gained to what it would have been without the foul
+                yards_gained = ifelse(yards_gained != yards_gained_pre & !stringr::str_detect(desc, "REVERSED"), yards_gained_pre, yards_gained),
+                # turnovers
+                turnover = ifelse(orig_down == 4 & yards_gained < orig_ydstogo, 1, 0),
+                turnover = ifelse(stringr::str_detect(desc, "INTERCEPTED") & !stringr::str_detect(desc, "REVERSED"), 1, 0),
+                fumble = ifelse(stringr::str_detect(desc, "FUMBLES"), 1, 0),
+                rec_team = str_sub(stringr::str_extract(desc, "RECOVERED by [[:upper:]]{2,3}|recovered by [[:upper:]]{2,3}"), start = 14, end = 17),
+                rec_team = ifelse(stringr::str_detect(desc, "and recovers"), posteam, rec_team),
+                rec_team = ifelse(stringr::str_detect(desc, "out of bounds"), posteam, rec_team),
+                turnover = ifelse(turnover == 1 | fumble == 1 & rec_team == defteam, 1, 0),
+                yardline_100 = ifelse(turnover == 1, orig_yardline_100, orig_yardline_100 - yards_gained),
+                down = ifelse(yards_gained >= orig_ydstogo, 1, orig_down + 1),
+                ydstogo = ifelse(yards_gained >= orig_ydstogo, 10, orig_ydstogo - yards_gained),
+                # possession change if 4th down failed
+                down = ifelse(turnover == 1, as.integer(1), as.integer(down)),
+                ydstogo = ifelse(turnover == 1, as.integer(10), as.integer(ydstogo)),
+                # flip yardline_100 and timeouts for turnovers
+                yardline_100 = ifelse(turnover == 1, as.integer(100 - yardline_100), as.integer(yardline_100)),
+                # posteam = ifelse(turnover == 1, defteam, posteam),
+                posteam_timeouts_remaining = ifelse(turnover == 1,
+                                                    orig_defteam_timeouts_remaining,
+                                                    orig_posteam_timeouts_remaining),
+                defteam_timeouts_remaining = ifelse(turnover == 1,
+                                                    orig_posteam_timeouts_remaining,
+                                                    orig_defteam_timeouts_remaining),
+                # ydstogo can't be bigger than yardline
+                ydstogo = ifelse(ydstogo >= yardline_100, as.integer(yardline_100), as.integer(ydstogo)),
+                half_seconds_remaining = orig_half_seconds_remaining - 5.065401) %>% 
+  nflfastR::calculate_expected_points() %>% 
+  dplyr::mutate(epa = ifelse(turnover == 1, -ep - orig_ep, ep - orig_ep),
+                penalty_epa = orig_epa - epa) %>% 
+  dplyr::select(play_id, game_id, season, week, home_team, away_team, posteam, defteam, roof, desc, play_type,
+                yards_gained, dplyr::starts_with("orig_"), dplyr::contains("penalty")) %>% 
+  dplyr::rename_with(.cols = dplyr::starts_with("orig_"), ~ stringr::str_remove(., "orig_")) %>% 
+  # pre-snap penalties are equal to original epa
+  dplyr::mutate(penalty_epa = ifelse(penalty_type %in% pre_snap_penalties, epa, penalty_epa),
+                penalty_epa = ifelse(stringr::str_detect(desc, "field goal|TWO-POINT CONVERSION ATTEMPT|punts"), 0, penalty_epa),
+                penalty_epa = ifelse(is.na(penalty_epa), 0, penalty_epa),
+                no_penalty_epa = epa - penalty_epa)
+```
+
+```{r remove data 2, include=FALSE, echo=FALSE}
+# remove unnecessary data
+rm(all_penalties)
+```
+
+First, let's examine the distributions of penalty EPA by penalty type as a sanity check. These distributions look pretty good and match our expectations. For example, Defensive Pass Interference penalties are positive EPA while Offensive Holding penalties are negative EPA. Notice that there are a couple observations in many penalty types where penalty EPA does *not* match our expectations. I have tried to fix these edge cases the best I can, but also note that an Illegal Shift penalty that negates a 3rd down failed conversion would actually yield *positive* EPA for an offense since the down is replayed, giving the offense another chance at conversion.
+
+```{r penalty epa dist, echo=FALSE, layout="l-page", fig.height=5}
+# find top penalty types
+top_pen <- all_penalties_epa %>% 
+  dplyr::filter(!is.na(penalty_type)) %>% 
+  dplyr::count(penalty_type) %>% 
+  dplyr::slice_max(n, n = 16) %>% 
+  dplyr::pull(penalty_type)
+
+# plot distributions
+all_penalties_epa %>% 
+  dplyr::filter(penalty_type %in% top_pen) %>% 
+  dplyr::add_count(penalty_type) %>% 
+  dplyr::mutate(penalty_type = paste0(penalty_type, " (", n, ")"),
+                penalty_type = forcats::fct_reorder(penalty_type, -n),
+                fill = ifelse(penalty_team == posteam, "Offense", "Defense")) %>% 
+  ggplot(aes(penalty_epa, fill = fill)) +
+  geom_histogram() +
+  geom_vline(xintercept = 0, color = "red", lty = 2) +
+  scale_fill_brewer(palette = "Set1") +
+  facet_wrap(~ penalty_type, scales = "free") +
+  theme(strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 2, linetype = "blank"),
+        strip.text = element_text(face = "bold", size = 14/.pt),
+        legend.position = "top") +
+  labs(x = NULL,
+       y = "Count",
+       fill = "Penalty Team",
+       title = "Distributions of penalty EPA by penalty type",
+       subtitle = "Top 16 most frequent penalties | Games from 1999-2020 NFL seasons",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+
+# remove unnecessary data
+rm(top_pen)
+```
+
+We can also examine the difference between the observed EPA and penalty-free EPA on plays with penalties by simply looking at the distributions of each. This is another way we can see that EPA on plays with penalties is highly volatile! The distribution of observed EPA has large outliers and is almost bimodal around zero (EPA on penalties is often extremely positive or extremely negative due to automatic first downs and large yardage lost or gained). These penalties can have massive influences on games! The "penalty-free" EPA smooths out a lot of this variability, as it pulls EPA towards zero. This is expected, as penalty-free EPA should align with normal values of EPA where most plays do not have significant swings in expected points.
+
+```{r epa vs no penalty epa dist, echo=FALSE, layout="l-page", fig.height=3.5}
+all_penalties_epa %>% 
+  dplyr::filter(penalty == 1) %>% 
+  tidyr::pivot_longer(cols = c(epa, no_penalty_epa),
+                      names_to = "type",
+                      values_to = "epa") %>% 
+  dplyr::mutate(type = ifelse(type == "epa", "Observed EPA", "No Penalty EPA"),
+                type = forcats::fct_rev(type)) %>% 
+  ggplot(aes(epa, fill = type)) +
+  geom_histogram(show.legend = F) +
+  scale_fill_brewer(palette = "Set1") +
+  facet_wrap(~ type, nrow = 2) +
+  labs(title = "Comparing distributions of EPA and No Penalty EPA on plays with penalties",
+       subtitle = "EPA distribution in a 'penalty-free' world centers toward zero and has fewer outliers",
+       x = NULL,
+       y = "Count",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+```
+
+Finally, to understand the `penalty_epa` and `no_penalty_epa` values better on an individual basis, let's look at two plays from the Seattle Seahawks @ Arizona Cardinals game from week 7 of 2020 as an example:
+
+```{r seahawks example, echo=FALSE, include=TRUE, layout="l-page", fig.height=3}
+# return a team's ESPN logo
+ESPN_logo_url <- function(x) {
+  ifelse(is.na(x), NA, paste0('https://a.espncdn.com/i/teamlogos/nfl/500/',x,'.png'))
+}
+# Seahawks example of nullified TD
+all_penalties_epa %>% 
+  dplyr::filter(game_id == "2020_07_SEA_ARI", play_id %in% c(2835, 5271)) %>% 
+  dplyr::mutate(desc = str_remove(str_sub(desc, start = 18), ". PENALTY^*"),
+                situation = paste0(down, "&", ydstogo)) %>% 
+  dplyr::select(posteam, defteam, situation, yardline_100, desc, 
+                penalty_type, epa, no_penalty_epa, penalty_epa) %>% 
+  dplyr::mutate(situation) %>% 
+  gt::gt() %>% 
+  gt::cols_label(posteam = "Off",
+                 defteam = "Def",
+                 situation = "",
+                 yardline_100 = "Dist. to Endzone",
+                 penalty_type = "Penalty",
+                 epa = "EPA",
+                 no_penalty_epa = "No Penalty EPA",
+                 penalty_epa = "Penalty EPA") %>% 
+  gt::fmt_number(columns = dplyr::contains("epa"),
+                 decimals = 2) %>% 
+  gt::tab_style(style = list(
+      gt::cell_borders(
+        sides = "left",
+        color = "black",
+        weight = gt::px(3))),
+      locations = list(
+        gt::cells_body(
+          columns = vars(epa)))) %>%
+    gt::tab_style(style = list(
+      gt::cell_borders(
+        sides = "bottom",
+        color = "black",
+        weight = gt::px(3))),
+      locations = list(
+        gt::cells_column_labels(
+          columns = gt::everything()))) %>% 
+  gt::text_transform(locations = gt::cells_body(columns = dplyr::vars(posteam, defteam)),
+                     fn = function(x) gt::web_image(url = ESPN_logo_url(x), height = 30)) %>% 
+  gt::tab_source_note("Table: @jacklich10 | Data: @nflfastR") %>%
+  espnscrapeR::gt_theme_538() %>% 
+  gt::cols_width(dplyr::vars(posteam, defteam) ~ px(40))
+```
+
+In the first play, Arizona had a 3rd and 5 on their own 12 yard line when Bobby Wagner was called for a questionable Unnecessary Roughness penalty. This play generated around 2.21 expected points. Using our methodology, we can see that had no penalty been called, the play would have lost about 1.48 expected points. Therefore, we can conclude that the penalty generated roughly 3.69 expected points (2.21 - (-1.48)) on its own!
+
+The second play is an Offensive Holding call that cost the Seahawks more than 5 expected points when DK Metcalf scored a long touchdown on 3rd and 10 that was called back.
+
+# Leveraging instability of penalties for prediction
+
+It is fair to wonder from the two plays above, did the Cardinals really *earn* that first down or *earn* the Offensive Holding call on defense, or was it simply a bit of randomness that swung their way? With regard to predicting future performance, it might be best to look at `no_penalty_epa` rather than `epa`, as it hopefully can do a better job of teasing out the fluky-ness of the penalties.
+
+In order to leverage this information, we will try to predict game outcomes using the methodology I outlined in my previous [post](https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa/). In short, we will convert each EPA statistic into a lagging moving average using a dynamic window that starts at 10 games. The lag ensures that we compare a team’s performance against their opponent’s performance ***up to that point in the season***. The dynamic window works such that we will use a ten game window to predict the winner of the 11th game in a season, but for say the 15th game in a season, we will use a 14 game window. We will also make use of exponential and running moving averages for different EPA measures, as we found these to be the most predictive versions of EPA in the post.
+
+As a baseline, we will explore the predictive power of EPA before altering EPA for penalties as well as the predictive power of EPA in a completely "penalty-free" environment. Then, we will play around with different ways of manipulating penalty EPA to try to come up with more predictive measures. For example, we will try to penalize offenses for False Start penalties (recall these are the most stable) while living in a "penalty-free" world for all other penalties.
+
+Note that pre-snap penalties like False Start and Delay of Game in the @nflfastR database occur when `qb_dropback` is zero - as such, they will fall under "Rush EPA".
+
+```{r join penalty epa, include=FALSE, echo=FALSE}
+# find vector of all penalty types
+all_pen <- all_penalties_epa %>% 
+  dplyr::distinct(penalty_type) %>% 
+  dplyr::filter(!is.na(penalty_type)) %>% 
+  dplyr::pull(penalty_type)
+
+# join penalty epa
+with_penalties <- nfl_pbp %>% 
+  dplyr::select(-penalty_type) %>% 
+  dplyr::left_join(all_penalties_epa %>% 
+                     dplyr::select(play_id, game_id, season, week, 
+                                   posteam, defteam, desc, penalty_type, penalty_epa, no_penalty_epa),
+                   by = c("play_id", "game_id", "season", "week", "posteam", "defteam", "desc")) %>% 
+  # make NAs 0 (no penalty on play)
+  dplyr::mutate(penalty_epa = ifelse(is.na(penalty_epa), 0, penalty_epa),
+                no_penalty_epa = epa - penalty_epa,
+                # change penalties to qb dropback plays when a pass or sack happens
+                qb_dropback = ifelse(stringr::str_detect(desc, " pass | sacked ") & penalty_type %in% all_pen, 1, qb_dropback),
+                # change certain penalty types to qb dropbacks always
+                qb_dropback = ifelse(penalty_type %in% c("Offensive Pass Interference", "Roughing the Passer", "Ineligible Downfield Pass", "Illegal Touch Pass", "Illegal Forward Pass", "Intentional Grounding"), 1, qb_dropback))
+
+# remove unnecessary data
+rm(nfl_pbp)
+
+# function to summarize pbp data into epa data by team, week
+summarise_epa_data <- function(pbp_off, pbp_def, metric_off = epa, metric_def = epa) {
+  # Offense EPA
+  epa_data <- pbp_off %>%
+    dplyr::filter(!is.na(epa), !is.na(ep), !is.na(posteam),
+                  play_type == "pass" | play_type == "run" | penalty == 1, qb_kneel != 1) %>%
+    dplyr::group_by(game_id, season, week, posteam, home_team) %>%
+    dplyr::summarise(off_dropback_pct = mean(qb_dropback == 1),
+                     off_epa = mean({{ metric_off }}),
+                     off_pass_epa = mean({{ metric_off }}[qb_dropback == 1]),
+                     off_rush_epa = mean({{ metric_off }}[qb_dropback == 0]),
+                     off_epa_n = sum(qb_dropback == 1 | qb_dropback == 0),
+                     off_pass_epa_n = sum(qb_dropback == 1),
+                     off_rush_epa_n = sum(qb_dropback == 0),
+                     .groups = "drop") %>%
+    # Defense EPA
+    dplyr::left_join(pbp_def %>%
+                       filter(!is.na(epa), !is.na(ep), !is.na(posteam), 
+                              play_type == "pass" | play_type == "run" | penalty == 1, qb_kneel != 1) %>%
+                       dplyr::group_by(game_id, season, week, defteam, away_team) %>%
+                       dplyr::summarise(def_epa = mean({{ metric_def }}),
+                                        def_dropback_pct = mean(qb_dropback == 1),
+                                        def_pass_epa = mean({{ metric_def }}[qb_dropback == 1]),
+                                        def_rush_epa = mean({{ metric_def }}[qb_dropback == 0]),
+                                        def_epa_n = sum(qb_dropback == 1 | qb_dropback == 0),
+                                        def_pass_epa_n = sum(qb_dropback == 1),
+                                        def_rush_epa_n = sum(qb_dropback == 0),
+                                        .groups = "drop"),
+                     by = c("game_id", "posteam" = "defteam", "season", "week")) %>%
+    dplyr::mutate(opponent = ifelse(posteam == home_team, away_team, home_team)) %>%
+    dplyr::select(game_id, season, week, home_team, away_team, posteam, opponent, 
+                  off_dropback_pct, off_epa, off_pass_epa, off_rush_epa,
+                  off_epa_n, off_pass_epa_n, off_rush_epa_n,
+                  def_epa_n, def_pass_epa_n, def_rush_epa_n,
+                  def_dropback_pct, def_epa, def_pass_epa, def_rush_epa) %>% 
+    # Not sure why, but there is one instance where the posteam = ""
+    dplyr::filter(posteam != "")
+}
+```
+
+```{r functions, echo=FALSE, include=FALSE}
+# function to get moving average of a dynamic window from 10 - 20 games
+wt_mov_avg_local <- function(var, weight, window, type, moving = T) {
+  if (length(weight) == 1 & weight[1] == 1) {
+    weight <- rep(1, length(var))
+  }
+  if (moving) {
+    dplyr::case_when(
+      window == 10 ~ pracma::movavg(var*weight, n = 10, type = type)/
+        pracma::movavg(weight, n = 10, type = type),
+      window == 11 ~ pracma::movavg(var*weight, n = 11, type = type)/
+        pracma::movavg(weight, n = 11, type = type),
+      window == 12 ~ pracma::movavg(var*weight, n = 12, type = type)/
+        pracma::movavg(weight, n = 12, type = type),
+      window == 13 ~ pracma::movavg(var*weight, n = 13, type = type)/
+        pracma::movavg(weight, n = 13, type = type),
+      window == 14 ~ pracma::movavg(var*weight, n = 14, type = type)/
+        pracma::movavg(weight, n = 14, type = type),
+      window == 15 ~ pracma::movavg(var*weight, n = 15, type = type)/
+        pracma::movavg(weight, n = 15, type = type),
+      window == 16 ~ pracma::movavg(var*weight, n = 16, type = type)/
+        pracma::movavg(weight, n = 16, type = type),
+      window == 17 ~ pracma::movavg(var*weight, n = 17, type = type)/
+        pracma::movavg(weight, n = 17, type = type),
+      window == 18 ~ pracma::movavg(var*weight, n = 18, type = type)/
+        pracma::movavg(weight, n = 18, type = type),
+      window == 19 ~ pracma::movavg(var*weight, n = 19, type = type)/
+        pracma::movavg(weight, n = 19, type = type),
+      window == 20 ~ pracma::movavg(var*weight, n = 20, type = type)/
+        pracma::movavg(weight, n = 20, type = type)
+    )
+  } else {
+    pracma::movavg(var*weight, n = 10, type = type)/
+      pracma::movavg(weight, n = 10, type = type)
+  }
+}
+
+# function to create the dataset
+create_rolling_data <- function(epa_data, move = T, team_n = 10, pt_diff_type = "r", epa_off = "e", epa_pass_o = "e", epa_rush_o = "r", epa_def = "r", epa_pass_d = "r", epa_rush_d = "r", epa_drop = "r") {
+  
+  # Join back opponent off/def EPA
+  epa_data <- epa_data %>%
+    dplyr::group_by(season, posteam) %>% 
+    dplyr::mutate(game_number = row_number()) %>% 
+    dplyr::left_join(epa_data %>%
+                       dplyr::group_by(season, posteam) %>% 
+                       dplyr::mutate(opp_game_number = row_number()) %>% 
+                       dplyr::select(-opponent) %>%
+                       dplyr::rename(opp_off_epa = off_epa,
+                                     opp_off_pass_epa = off_pass_epa,
+                                     opp_off_rush_epa = off_rush_epa,
+                                     opp_def_epa = def_epa,
+                                     opp_def_pass_epa = def_pass_epa,
+                                     opp_def_rush_epa = def_rush_epa,
+                                     opp_off_epa_n =  off_epa_n, 
+                                     opp_off_pass_epa_n = off_pass_epa_n, 
+                                     opp_off_rush_epa_n = off_rush_epa_n,
+                                     opp_def_epa_n =  def_epa_n, 
+                                     opp_def_pass_epa_n = def_pass_epa_n, 
+                                     opp_def_rush_epa_n = def_rush_epa_n,
+                                     opp_off_dropback_pct = off_dropback_pct,
+                                     opp_def_dropback_pct = def_dropback_pct) %>%
+                       dplyr::group_by(posteam) %>%
+                       dplyr::arrange(season, week) %>%
+                       dplyr::mutate(
+                         window = ifelse(opp_game_number <= 10, team_n, opp_game_number),
+                         # Opponent off EPA
+                         opp_off_epa = dplyr::lag(wt_mov_avg_local(var = opp_off_epa, weight = opp_off_epa_n, window = window, type = epa_off, moving = move)),
+                         opp_off_pass_epa = dplyr::lag(wt_mov_avg_local(var = opp_off_pass_epa, weight = opp_off_pass_epa_n, window = window, type = epa_pass_o, moving = move)),
+                         opp_off_rush_epa = dplyr::lag(wt_mov_avg_local(var = opp_off_rush_epa, weight = opp_off_rush_epa_n, window = window, type = epa_rush_o, moving = move)),
+                         # Opponent def EPA
+                         opp_def_epa = dplyr::lag(wt_mov_avg_local(var = opp_def_epa, weight = opp_def_epa_n, window = window, type = epa_def, moving = move)),
+                         opp_def_pass_epa = dplyr::lag(wt_mov_avg_local(var = opp_def_pass_epa, weight = opp_def_pass_epa_n, window = window, type = epa_pass_d, moving = move)),
+                         opp_def_rush_epa = dplyr::lag(wt_mov_avg_local(var = opp_def_rush_epa, weight = opp_def_rush_epa_n, window = window, type = epa_rush_d, moving = move)),
+                         # Opponent defense dropbacks
+                         opp_def_dropback_pct = dplyr::lag(wt_mov_avg_local(var = opp_def_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move)),
+                         # Opponent offense dropbacks
+                         opp_off_dropback_pct = dplyr::lag(wt_mov_avg_local(var = opp_off_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move))),
+                     by = c("game_id", "season", "week", "home_team", "away_team", "opponent" = "posteam")) %>% 
+    # Fix errors that occur for "1999_01_BAL_STL", "2000_06_BUF_MIA", "2000_03_SD_KC" games (NAs)
+    dplyr::mutate(dplyr::across(c(opp_off_dropback_pct:opp_off_rush_epa, opp_def_dropback_pct:opp_def_rush_epa),
+                                ~ ifelse(is.na(.) & week != 1, 0, .)))
+  
+  # Join in league mean of EPA by season, week to prepare for opponent adjustments
+  epa_data <- epa_data %>%
+    dplyr::left_join(epa_data %>%
+                       dplyr::filter(posteam == home_team) %>%
+                       dplyr::group_by(season, week) %>%
+                       dplyr::summarise(league_mean_total = sum(off_epa*off_epa_n + def_epa*def_epa_n)/sum(off_epa_n + def_epa_n),
+                                        league_mean_dropback_pct = (mean(off_dropback_pct) + mean(def_dropback_pct))/2,
+                                        league_mean_pass = sum(off_pass_epa*off_pass_epa_n + def_pass_epa*def_pass_epa_n)/sum(off_pass_epa_n + def_pass_epa_n),
+                                        league_mean_rush = sum(off_rush_epa*off_rush_epa_n + def_rush_epa*def_rush_epa_n)/sum(off_rush_epa_n + def_rush_epa_n),
+                                        .groups = "drop") %>%
+                       dplyr::ungroup() %>%
+                       dplyr::group_by(season) %>%
+                       dplyr::mutate(league_mean_total = dplyr::lag(cummean(league_mean_total)),
+                                     league_mean_dropback_pct = dplyr::lag(cummean(league_mean_dropback_pct)),
+                                     league_mean_pass = dplyr::lag(cummean(league_mean_pass)),
+                                     league_mean_rush = dplyr::lag(cummean(league_mean_rush))) %>% 
+                       dplyr::ungroup(),
+                     by = c("season", "week")) %>% 
+    dplyr::ungroup()
+  
+  # Adjust EPA for opponent
+  epa_data <- epa_data %>%
+    dplyr::mutate(
+      # Total off/def adjustments
+      off_adjustment_factor = ifelse(!is.na(league_mean_total), league_mean_total-opp_def_epa, 0),
+      def_adjustment_factor = ifelse(!is.na(league_mean_total), league_mean_total-opp_off_epa, 0),
+      adjusted_off_epa = off_epa + off_adjustment_factor,
+      adjusted_def_epa = def_epa + def_adjustment_factor,
+      # Dropback pct off/def adjustments
+      off_dropback_adjustment_factor = ifelse(!is.na(league_mean_dropback_pct), league_mean_dropback_pct-opp_def_dropback_pct, 0),
+      def_dropback_adjustment_factor = ifelse(!is.na(league_mean_dropback_pct), league_mean_dropback_pct-opp_off_dropback_pct, 0),
+      adjusted_off_dropback_pct = off_dropback_pct + off_dropback_adjustment_factor,
+      adjusted_def_dropback_pct = def_dropback_pct + def_dropback_adjustment_factor,
+      # Pass off/def adjustments
+      off_pass_adjustment_factor = ifelse(!is.na(league_mean_pass), league_mean_pass-opp_def_pass_epa, 0),
+      def_pass_adjustment_factor = ifelse(!is.na(league_mean_pass), league_mean_pass-opp_off_pass_epa, 0),
+      adjusted_off_pass_epa = off_pass_epa + off_pass_adjustment_factor,
+      adjusted_def_pass_epa = def_pass_epa + def_pass_adjustment_factor,
+      # Rush off/def adjustments
+      off_rush_adjustment_factor = ifelse(!is.na(league_mean_rush), league_mean_rush-opp_def_rush_epa, 0),
+      def_rush_adjustment_factor = ifelse(!is.na(league_mean_rush), league_mean_rush-opp_off_rush_epa, 0),
+      adjusted_off_rush_epa = off_rush_epa + off_rush_adjustment_factor,
+      adjusted_def_rush_epa = def_rush_epa + def_rush_adjustment_factor)
+  
+  # Group and calculate rolling average of EPA metrics
+  epa_data <- epa_data %>%
+    dplyr::group_by(posteam) %>%
+    dplyr::arrange(season, week) %>%
+    dplyr::mutate(
+      window = ifelse(game_number <= 10, team_n, game_number),
+      ### Current metrics
+      # Total off/def epa
+      off_epa_curr = wt_mov_avg_local(var = off_epa, weight = off_epa_n, window = window, type = epa_off, moving = move),
+      def_epa_curr = wt_mov_avg_local(var = def_epa, weight = def_epa_n, window = window, type = epa_def, moving = move),
+      adjusted_off_epa_curr = wt_mov_avg_local(var = adjusted_off_epa, weight = off_epa_n, window = window, type = epa_off, moving = move),
+      adjusted_def_epa_curr = wt_mov_avg_local(var = adjusted_def_epa, weight = def_epa_n, window = window, type = epa_def, moving = move),
+      # Pass off/def epa
+      off_pass_epa_curr = wt_mov_avg_local(var = off_pass_epa, weight = off_pass_epa_n, window = window, type = epa_pass_o, moving = move),
+      def_pass_epa_curr = wt_mov_avg_local(var = def_pass_epa, weight = def_pass_epa_n, window = window, type = epa_pass_d, moving = move),
+      adjusted_off_pass_epa_curr = wt_mov_avg_local(var = adjusted_off_pass_epa, weight = off_pass_epa_n, window = window, type = epa_pass_o, moving = move),
+      adjusted_def_pass_epa_curr = wt_mov_avg_local(var = adjusted_def_pass_epa, weight = def_pass_epa_n, window = window, type = epa_pass_d, moving = move),
+      # Rush off/def epa
+      off_rush_epa_curr = wt_mov_avg_local(var = off_rush_epa, weight = off_rush_epa_n, window = window, type = epa_rush_o, moving = move),
+      def_rush_epa_curr = wt_mov_avg_local(var = def_rush_epa, weight = def_rush_epa_n, window = window, type = epa_rush_d, moving = move),
+      adjusted_off_rush_epa_curr = wt_mov_avg_local(var = adjusted_off_rush_epa, weight = off_rush_epa_n, window = window, type = epa_rush_o, moving = move),
+      adjusted_def_rush_epa_curr = wt_mov_avg_local(var = adjusted_def_rush_epa, weight = def_rush_epa_n, window = window, type = epa_rush_d, moving = move),
+      # Dropback pct
+      off_dropback_pct_curr = wt_mov_avg_local(var = off_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move),
+      def_dropback_pct_curr = wt_mov_avg_local(var = def_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move),
+      adjusted_off_dropback_pct_curr = wt_mov_avg_local(var = adjusted_off_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move),
+      adjusted_def_dropback_pct_curr = wt_mov_avg_local(var = adjusted_def_dropback_pct, weight = 1, window = window, type = epa_drop, moving = move),
+      ### Lagged metrics
+      dplyr::across(c(off_epa_curr:adjusted_def_dropback_pct_curr),
+                    ~ dplyr::lag(.),
+                    .names = "{.col}_{.fn}")) %>% 
+    dplyr::select(-c(off_epa, def_epa, adjusted_off_epa, adjusted_def_epa,
+                     off_pass_epa, def_pass_epa,
+                     adjusted_off_pass_epa, adjusted_def_pass_epa,
+                     off_rush_epa, def_rush_epa,
+                     adjusted_off_rush_epa, adjusted_def_rush_epa,
+                     off_dropback_pct, def_dropback_pct,
+                     adjusted_off_dropback_pct, adjusted_def_dropback_pct)) %>% 
+    dplyr::rename_with(.cols = ends_with("_1"), ~ str_remove(., "_curr_1")) %>% 
+    dplyr::ungroup() %>%
+    dplyr::select(game_id, season, week, posteam,
+                  off_epa, def_epa, adjusted_off_epa, adjusted_def_epa,
+                  off_dropback_pct, def_dropback_pct, adjusted_off_dropback_pct, adjusted_def_dropback_pct,
+                  off_pass_epa, def_pass_epa, adjusted_off_pass_epa, adjusted_def_pass_epa,
+                  off_rush_epa, def_rush_epa, adjusted_off_rush_epa, adjusted_def_rush_epa,
+                  ends_with("_curr"))
+  
+  ### Get schedule and game outcomes from Lee Sharpe
+  weekly_outcomes <- suppressWarnings(readr::read_csv("https://raw.githubusercontent.com/leesharpe/nfldata/master/data/games.csv", col_types = cols())) %>% 
+    dplyr::filter(!is.na(result)) %>% 
+    dplyr::mutate_at(dplyr::vars(home_team, away_team),
+                     ~ stringr::str_replace_all(., c("JAC" = "JAX",
+                                                     "STL" = "LA",
+                                                     "SL" = "LA",
+                                                     "ARZ" = "ARI",
+                                                     "BLT" = "BAL",
+                                                     "CLV" = "CLE",
+                                                     "HST" = "HOU",
+                                                     "SD" = "LAC",
+                                                     "OAK" = "LV")))
+  
+  # Double games (one row per team rather than one row per game)
+  weekly_outcomes <- weekly_outcomes %>% 
+    dplyr::transmute(season, week, game_date = gameday, game_id,
+                     home_team, away_team, home_score, away_score,
+                     team = away_team,
+                     opponent = home_team,
+                     points_for = away_score,
+                     points_against = home_score,
+                     point_differential = -result) %>% 
+    dplyr::bind_rows(., weekly_outcomes %>% 
+                       dplyr::transmute(season, week, game_date = gameday, game_id,
+                                        home_team, away_team, home_score, away_score,
+                                        team = home_team,
+                                        opponent = away_team,
+                                        points_for = home_score,
+                                        points_against = away_score,
+                                        point_differential = result)) %>% 
+    dplyr::mutate(win = ifelse(point_differential > 0, 1, 0),
+                  winner = ifelse(point_differential > 0, team, opponent),
+                  loser = ifelse(point_differential < 0, team, opponent)) %>% 
+    dplyr::arrange(season, week) %>% 
+    dplyr::group_by(season, team) %>% 
+    dplyr::mutate(game_number = dplyr::row_number()) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::relocate(c(game_number, team, opponent, winner, loser), .after = game_id)
+  
+  # Join back opponent game outcome metrics
+  weekly_outcomes <- weekly_outcomes %>%
+    dplyr::left_join(weekly_outcomes %>%
+                       dplyr::select(game_id, season, week, game_number, team, opponent, points_for, points_against) %>%
+                       dplyr::rename(opp_points_for = points_for, 
+                                     opp_points_against = points_against,
+                                     opp_game_number = game_number) %>%
+                       dplyr::group_by(team) %>%
+                       dplyr::arrange(season, week) %>%
+                       dplyr::mutate(window = ifelse(opp_game_number <= 10, team_n, opp_game_number),
+                                     opp_points_for = dplyr::lag(wt_mov_avg_local(var = opp_points_for, weight = 1, window = window, type = pt_diff_type, moving = move)),
+                                     opp_points_against = dplyr::lag(wt_mov_avg_local(var = opp_points_against, weight = 1, window = window, type = pt_diff_type, moving = move))) %>%
+                       dplyr::select(-season, -week),
+                     by = c("game_id", "team" = "opponent", "opponent" = "team"))
+  
+  # Join league average point scoring, differentials for opponent adjustments
+  weekly_outcomes <- weekly_outcomes %>% 
+    dplyr::left_join(weekly_outcomes %>%
+                       dplyr::filter(team == home_team) %>%
+                       dplyr::group_by(season, week) %>%
+                       dplyr::summarise(league_mean_pts = mean(points_for),
+                                        .groups = "drop") %>%
+                       dplyr::ungroup() %>%
+                       dplyr::group_by(season) %>%
+                       dplyr::mutate(league_mean_pts = dplyr::lag(cummean(league_mean_pts))),
+                     by = c("season", "week")) %>% 
+    # Adjust points for
+    dplyr::mutate(off_adjustment_factor = ifelse(!is.na(league_mean_pts) & !is.na(opp_points_against), league_mean_pts-opp_points_against, 0),
+                  def_adjustment_factor = ifelse(!is.na(league_mean_pts) & !is.na(opp_points_for), league_mean_pts-opp_points_for, 0),
+                  adjusted_points_for = points_for + off_adjustment_factor,
+                  adjusted_points_against = points_against + def_adjustment_factor,
+                  adjusted_point_differential = adjusted_points_for - adjusted_points_against)
+  
+  # Group and calculate rolling average of point differential metrics
+  weekly_outcomes <- weekly_outcomes %>%
+    dplyr::group_by(team) %>%
+    dplyr::arrange(season, week) %>%
+    dplyr::mutate(
+      window = ifelse(game_number <= 10, team_n, game_number),
+      ### Current metrics
+      adjusted_points_for_curr = wt_mov_avg_local(var = adjusted_points_for, weight = 1, window = window, type = pt_diff_type, moving = move),
+      adjusted_points_against_curr = wt_mov_avg_local(var = adjusted_points_against, weight = 1, window = window, type = pt_diff_type, moving = move),
+      point_differential_curr = wt_mov_avg_local(var = point_differential, weight = 1, window = window, type = pt_diff_type, moving = move),
+      adjusted_point_differential_curr = wt_mov_avg_local(var = adjusted_point_differential, weight = 1, window = window, type = pt_diff_type, moving = move),     
+      ### Lagged metrics
+      across(c(adjusted_points_for_curr:adjusted_point_differential_curr),
+             ~ dplyr::lag(.),
+             .names = "{.col}_{.fn}")) %>%
+    dplyr::select(-c(point_differential, adjusted_point_differential,
+                     adjusted_points_for, adjusted_points_against)) %>% 
+    dplyr::rename_with(.cols = ends_with("_1"), ~ str_remove(., "_curr_1")) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::select(-c(league_mean_pts, off_adjustment_factor, def_adjustment_factor))
+  
+  ### Create Model Dataset
+  model_dataset <- weekly_outcomes %>%
+    # Add opponent box score statistics
+    dplyr::left_join(weekly_outcomes %>%
+                       dplyr::select(game_id, team, adjusted_points_for, adjusted_points_against,
+                                     point_differential, adjusted_point_differential) %>%
+                       dplyr::rename(opp_point_differential = point_differential, 
+                                     opp_adjusted_points_for = adjusted_points_for,
+                                     opp_adjusted_points_against = adjusted_points_against,
+                                     opp_adjusted_point_differential = adjusted_point_differential),
+                     by = c("game_id", "opponent" = "team")) %>%
+    # Add EPA statistics
+    dplyr::left_join(epa_data, by = c("game_id", "season", "week", "home_team" = "posteam")) %>%
+    dplyr::left_join(epa_data %>%
+                       dplyr::rename(
+                         # Total off/def EPA
+                         opp_off_epa = off_epa,
+                         opp_def_epa = def_epa,
+                         opp_adjusted_off_epa = adjusted_off_epa,
+                         opp_adjusted_def_epa = adjusted_def_epa,
+                         # Dropback off/def pct
+                         opp_off_dropback_pct = off_dropback_pct,
+                         opp_def_dropback_pct = def_dropback_pct,
+                         opp_adjusted_off_dropback_pct = adjusted_off_dropback_pct,
+                         opp_adjusted_def_dropback_pct = adjusted_def_dropback_pct,
+                         # Pass off/def EPA
+                         opp_off_pass_epa = off_pass_epa,
+                         opp_def_pass_epa = def_pass_epa,
+                         opp_adjusted_off_pass_epa = adjusted_off_pass_epa,
+                         opp_adjusted_def_pass_epa = adjusted_def_pass_epa,
+                         # Rush off/def EPA
+                         opp_off_rush_epa = off_rush_epa,
+                         opp_def_rush_epa = def_rush_epa,
+                         opp_adjusted_off_rush_epa = adjusted_off_rush_epa,
+                         opp_adjusted_def_rush_epa = adjusted_def_rush_epa),
+                     by = c("game_id", "season", "week", "away_team" = "posteam")) %>%
+    dplyr::filter(home_team == team) %>%
+    # Add home margin
+    dplyr::mutate(home_margin = home_score - away_score) %>%
+    # Filter NAs
+    dplyr::filter(!is.na(off_epa)) %>%
+    # Add numeric ID
+    dplyr::mutate(numeric_id = row_number()) %>% 
+    dplyr::rename(gameday = game_date)
+
+  return(model_dataset)
+}
+
+# function to compute predictiveness
+double_for_accuracy_check <- function(dataset, type) {
+  # Double games (one row per team rather than one row per game)
+  g1 <- dataset %>% 
+    dplyr::transmute(gameday, game_id, season, week, 
+                     team = away_team,
+                     opponent = home_team,
+                     win = ifelse(win == 1, 0, 1),
+                     margin = -home_margin,
+                     opp_adjusted_point_differential,
+                     opp_adjusted_off_epa,
+                     opp_adjusted_def_epa,
+                     opp_adjusted_off_pass_epa,
+                     opp_adjusted_def_pass_epa,
+                     opp_adjusted_off_rush_epa,
+                     opp_adjusted_def_rush_epa,
+                     opp_adjusted_off_dropback_pct,
+                     opp_adjusted_def_dropback_pct,
+                     opp_point_differential,
+                     opp_off_epa,
+                     opp_def_epa,
+                     opp_off_pass_epa,
+                     opp_def_pass_epa,
+                     opp_off_rush_epa,
+                     opp_def_rush_epa,
+                     opp_off_dropback_pct,
+                     opp_def_dropback_pct) %>% 
+    dplyr::rename_with(.cols = starts_with("opp_"), ~ stringr::str_remove(., "opp_")) %>% 
+    dplyr::mutate(location = "Away")
+  
+  g2 <- dataset %>% 
+    dplyr::transmute(gameday, game_id, season, week, 
+                     team = home_team,
+                     opponent = away_team,
+                     win,
+                     margin = home_margin,
+                     adjusted_point_differential,
+                     adjusted_off_epa,
+                     adjusted_def_epa,
+                     adjusted_off_pass_epa,
+                     adjusted_def_pass_epa,
+                     adjusted_off_rush_epa,
+                     adjusted_def_rush_epa,
+                     adjusted_off_dropback_pct,
+                     adjusted_def_dropback_pct,
+                     point_differential,
+                     off_epa,
+                     def_epa,
+                     off_pass_epa,
+                     def_pass_epa,
+                     off_rush_epa,
+                     def_rush_epa,
+                     off_dropback_pct,
+                     def_dropback_pct) %>% 
+    dplyr::mutate(location = "Home")
+  
+  doubled <- dplyr::bind_rows(g1, g2) %>% 
+    dplyr::arrange(game_id, gameday, season, week) %>% 
+    dplyr::mutate(off_pass_rush_epa = off_dropback_pct*off_pass_epa + (1-off_dropback_pct)*off_rush_epa,
+                  def_pass_rush_epa = def_dropback_pct*def_pass_epa + (1-adjusted_def_dropback_pct)*adjusted_def_rush_epa,
+                  adjusted_off_pass_rush_epa = adjusted_off_dropback_pct*adjusted_off_pass_epa + (1-adjusted_off_dropback_pct)*adjusted_off_rush_epa,
+                  adjusted_def_pass_rush_epa = adjusted_def_dropback_pct*adjusted_def_pass_epa + (1-adjusted_def_dropback_pct)*adjusted_def_rush_epa)
+  
+  results <- doubled %>% 
+    dplyr::filter(season > 1999) %>% 
+    tidyr::pivot_longer(cols = c(-c(gameday:margin, location)), 
+                        names_to = "metric", 
+                        values_to = "value") %>% 
+    tidyr::nest(data = c(-metric)) %>% 
+    dplyr::mutate(regression = map(data, ~ glm(win ~ value, data = ., family = "binomial")),
+                  r_squared = map(regression, fmsb::NagelkerkeR2)) %>% 
+    tidyr::hoist(r_squared, r.squared = "R2") %>% 
+    dplyr::arrange(desc(r.squared)) %>% 
+    dplyr::select(metric, r.squared) %>% 
+    dplyr::mutate(moving_avg = type)
+}
+
+# function to plot results
+plot_results <- function(results) {
+  results %>% 
+    dplyr::mutate(name = stringr::str_to_title(stringr::str_replace_all(metric, "_", " ")),
+                  name = stringr::str_remove(name, "usted"),
+                  name = stringr::str_replace_all(name, "Point Differential", "Pt Diff"),
+                  name = stringr::str_remove(name, " Epa"),
+                  type = dplyr::case_when(
+                    stringr::str_detect(metric, "pass_rush") ~ "Complex EPA",
+                    stringr::str_detect(metric, "pass") ~ "Pass EPA",
+                    stringr::str_detect(metric, "rush") ~ "Rush EPA",
+                    stringr::str_detect(metric, "off_epa|def_epa") ~ "Total EPA",
+                    stringr::str_detect(metric, "point_diff") ~ "Point Diff",
+                    stringr::str_detect(metric, "dropback") ~ "Dropback")) %>%
+    dplyr::mutate(type = forcats::fct_relevel(type, "Point Diff", "Total EPA", "Complex EPA", "Pass EPA", "Rush EPA"),
+                  name = forcats::fct_reorder(name, r.squared),
+                  moving_avg = forcats::fct_reorder(moving_avg, r.squared)) %>% 
+    dplyr::filter(!type %in% c("Dropback", "Point Diff")) %>% 
+    ggplot(aes(r.squared, name, fill = moving_avg)) +
+    geom_col(position = position_dodge(0.9)) +
+    geom_text(aes(label = round(r.squared, 4)),
+              hjust = 1, size = 2.5, color = "white", fontface = "bold",
+              position = position_dodge(0.9)) +
+    facet_wrap( ~ type, scales = "free") +
+    scale_x_continuous(expand = c(0, 0)) +
+    theme_bw() +
+    theme(plot.title = element_text(face = "bold", size = 28/.pt, hjust = 0),
+          plot.subtitle = element_text(face = "italic", size = 24/.pt),
+          strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 3.5, linetype = "blank"),
+          strip.text.x = element_text(face = "bold", size = 24/.pt),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          panel.grid.major.y = element_blank(),
+          panel.border = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text = element_text(size = 24/.pt),
+          axis.title = element_text(face = "bold", size = 26/.pt),
+          plot.caption = element_text(face = "italic", size = 20/.pt),
+          legend.title = element_text(size = 24/.pt),
+          legend.text = element_text(size = 20/.pt),
+          legend.key.size = unit(0.75, "lines"),
+          legend.position = c(0.9, 0.1)) +
+    labs(x = expression(bold("Nagelkerke pseudo"~R^2)),
+         y = NULL,
+         fill = NULL,
+         title = "Predictive power of various EPA metrics for the outcome of an NFL game",
+         subtitle = "Logistic regression to predict win or loss",
+         caption = "Chart: @jacklich10 | Data: @nflfastR | Games from 2000-2020 NFL seasons")
+}
+```
+
+```{r baseline data, echo=FALSE, include=FALSE}
+# baseline data (penalties included and un-altered)
+epa_data <- summarise_epa_data(pbp_off = with_penalties, pbp_def = with_penalties)
+
+model_dataset <- create_rolling_data(epa_data, move = T)
+
+results_base <- double_for_accuracy_check(dataset = model_dataset, type = "Baseline")
+
+# completely 'penalty-free' world
+epa_data <- summarise_epa_data(pbp_off = with_penalties, pbp_def = with_penalties, 
+                               metric_off = no_penalty_epa, metric_def = no_penalty_epa)
+
+model_dataset <- create_rolling_data(epa_data, move = T)
+
+results_no_pen <- double_for_accuracy_check(dataset = model_dataset, type = "No Penalties")
+
+results <- dplyr::bind_rows(results_base, results_no_pen)
+```
+
+```{r plot init, echo=FALSE, layout="l-page", fig.height=4.5}
+# Plot
+plot_results(results) +
+  scale_fill_brewer(palette = "Set1", 
+                      guide = guide_legend(reverse = T))
+```
+
+Comparing the predictive power of baseline EPA to "penalty-free" EPA, we notice that:
+
+- Penalties (at least certain types) do carry some signal, as we lose predictive power when removing them from the equation
+- Eliminating the effects of penalties for offenses, especially pre-snap penalties, significantly decreases its predictive power when there is no QB dropback (Rush EPA)
+- Eliminating the effects of penalties for defenses mostly increases its predictive power (this aligns with what we saw earlier - that defenses rarely control their penalty rates)
+
+This initial exploration gels nicely with our discoveries earlier, mainly that offenses control penalty rates more than defenses. As such, removing penalties from the equation causes offensive strength metrics to lose signal and defensive strength metrics to gain signal by eliminating some noise.
+
+Next, let's try to only account for penalties that we know are at least *somewhat* stable for teams over time. Specifically, we will account for False Start, Offensive Holding, and Defensive Offside penalties for the offense as well as account for Defensive Offside and Defensive Pass Interference penalties for the defense. To be clear, this means that for the penalties listed above, we will use the observed EPA, while on all other penalties we will use our calculated "penalty-free" EPA.
+
+```{r selective penalties, echo=FALSE, include=FALSE}
+# SELECT PENALTIES
+# penalties that will be accounted for on offense
+off_penalties <- c("False Start", "Offensive Holding", 
+                   # "Defensive Pass Interference", 
+                   "Defensive Offside")
+# penalties that will be accounted for on defense
+def_penalties <- c("Defensive Pass Interference", "Defensive Offside")
+
+# # PENALTIES 1
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Offside")
+# 
+# # PENALTIES 2
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Offside")
+# 
+# # PENALTIES 3 (better than 2 and 1)
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Pass Interference", "Defensive Offside")
+# 
+# # PENALTIES 4 (better than 3, 2, 1)
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding", "Defensive Offside")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Pass Interference", "Defensive Offside")
+# 
+# # PENALTIES 5 (slightly better than 4)
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding", "Defensive Offside", "Defensive Pass Interference")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Pass Interference", "Defensive Offside")
+# 
+# # PENALTIES 6 (slightly better than 4)
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding", "Defensive Offside", "Defensive Pass Interference",
+#                    "Defensive Too Many Men on Field")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Pass Interference", "Defensive Offside")
+# 
+# # PENALTIES 7 (slightly better than 6)
+# # penalties that will be accounted for on offense
+# off_penalties <- c("False Start", "Offensive Holding", "Defensive Offside", "Defensive Pass Interference",
+#                    "Defensive Too Many Men on Field")
+# # penalties that will be accounted for on defense
+# def_penalties <- c("Defensive Pass Interference", "Defensive Offside", "Unnecessary Roughness")
+# 
+# with_penalties %>% 
+#   filter(penalty == 1, qb_dropback == 1) %>% view()
+# 
+# a <- with_penalties %>% 
+#   filter(penalty == 1, qb_dropback == 1) %>% 
+#   count(penalty_type, sort = T)
+# 
+# a <- with_penalties %>% 
+#   filter(penalty == 1, qb_dropback == 0) %>% 
+#   count(penalty_type, sort = T)
+
+epa_data <- summarise_epa_data(pbp_off = with_penalties %>% 
+                                 dplyr::mutate(no_penalty_epa = dplyr::case_when(
+                                   penalty == 0 ~ epa,
+                                   penalty_type %in% off_penalties ~ epa,
+                                   TRUE ~ 0.5*no_penalty_epa)), 
+                               pbp_def = with_penalties %>% 
+                                 dplyr::mutate(no_penalty_epa = dplyr::case_when(
+                                   penalty == 0 ~ epa,
+                                   penalty_type %in% def_penalties ~ epa,
+                                   TRUE ~ 0.5*no_penalty_epa)),
+                               metric_off = no_penalty_epa,
+                               metric_def = no_penalty_epa)
+
+model_dataset <- create_rolling_data(epa_data, move = T)
+
+results_penalty <- double_for_accuracy_check(dataset = model_dataset, type = "Select Penalties")
+# results_penalty2 <- double_for_accuracy_check(dataset = model_dataset, type = "Select Penalties2")
+# results <- dplyr::bind_rows(results_penalty, results_penalty2)
+
+results <- dplyr::bind_rows(results_base, results_no_pen, results_penalty)
+```
+
+```{r plot select penalties, echo=FALSE, layout="l-page", fig.height=4.5}
+# Plot
+plot_results(results) +
+  scale_fill_brewer(palette = "Set1", 
+                      guide = guide_legend(reverse = T))
+```
+
+Awesome! While we failed to achieve the predictive power of baseline rush EPA for offenses, in almost every other category of predictor we increased the signal of EPA metrics, including both total offense and total defense EPA. In other words, when we only use the observed EPA for the more stable penalty types outlined above and use the calculated EPA in a "penalty-free" world otherwise, we can better predict future performance!
+
+```{r bind adj unadj, eval=FALSE, include=FALSE, echo=FALSE}
+# baseline data (penalties included and un-altered)
+epa_data <- summarise_epa_data(pbp_off = with_penalties, pbp_def = with_penalties)
+
+model_dataset_penalty <- create_rolling_data(epa_data, move = T)
+
+# join adjusted EPA/play together with penalty adjusted version
+current_epa <- dplyr::bind_rows(model_dataset %>% 
+                                  dplyr::filter(season == 2020) %>% 
+                                  dplyr::filter(week == max(week[week <= 17])) %>% 
+                                  dplyr::transmute(team,
+                                                   adj_off_epa = adjusted_off_epa_curr.x,
+                                                   adj_def_epa = adjusted_def_epa_curr.x),
+                                model_dataset %>% 
+                                  dplyr::filter(season == 2020) %>% 
+                                  dplyr::filter(week == max(week[week <= 17])) %>% 
+                                  dplyr::transmute(team = opponent,
+                                                   adj_off_epa = adjusted_off_epa_curr.y,
+                                                   adj_def_epa = adjusted_def_epa_curr.y)) %>% 
+  # dplyr::left_join(dplyr::bind_rows(model_dataset_penalty %>% 
+  #                                     dplyr::filter(season == 2020) %>% 
+  #                                     dplyr::filter(week == max(week[week <= 17])) %>% 
+  #                                     dplyr::transmute(team,
+  #                                                      off_epa = adjusted_off_epa_curr.x,
+  #                                                      def_epa = adjusted_def_epa_curr.x),
+  #                                   model_dataset_penalty %>% 
+  #                                     dplyr::filter(season == 2020) %>% 
+  #                                     dplyr::filter(week == max(week[week <= 17])) %>% 
+  #                                     dplyr::transmute(team = opponent,
+  #                                                      off_epa = adjusted_off_epa_curr.y,
+  #                                                      def_epa = adjusted_def_epa_curr.y)),
+  #                  by = "team") %>% 
+  dplyr::left_join(epa_data %>% 
+                     dplyr::filter(season == 2020) %>% 
+                     dplyr::group_by(team = posteam) %>% 
+                     dplyr::summarise(off_epa = sum(off_epa*off_epa_n)/sum(off_epa_n),
+                                      def_epa = sum(def_epa*def_epa_n)/sum(def_epa_n)) %>% 
+                     dplyr::ungroup(),
+                   by = "team") %>% 
+  dplyr::left_join(nflfastR::teams_colors_logos %>% 
+                     dplyr::select(team = team_abbr, team_logo_espn),
+                   by = "team")
+```
+
+```{r team tiers, eval=FALSE, echo=FALSE, layout="l-page", fig.height=5}
+# plot unadjusted team tiers with adjusted team tiers
+current_epa %>% 
+  ggplot() +
+  geom_segment(aes(x = off_epa, xend = adj_off_epa,
+                   y = def_epa, yend = adj_def_epa, color = team),
+               lineend = "butt", linejoin = "round", size = 1.5, alpha = 0.75,
+               arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
+  geom_point(aes(off_epa, def_epa, color = team),
+             size = 2.5) +
+  ggimage::geom_image(aes(adj_off_epa, adj_def_epa, image = team_logo_espn),
+                      asp = 1.618, by = "height", size = 0.08) +
+  # Averages as dashed lines
+  geom_vline(aes(xintercept = mean(adj_off_epa)), lty = 2, color = "black") +
+  geom_hline(aes(yintercept = mean(adj_def_epa)), lty = 2, color = "black") +
+  # Slopes for 'tiers'
+  geom_abline(slope = -1.5, intercept = c(-0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5), alpha = .2) +
+  coord_equal() +
+  scale_y_reverse() +
+  scale_color_manual(values = NFL_pri) +
+  theme_bw() +
+  theme(aspect.ratio = 9/16,
+        legend.position = "none",
+        plot.title = element_text(face = "bold", size = 28/.pt, hjust = 0),
+        plot.subtitle = element_text(face = "italic", size = 24/.pt),
+        strip.background = element_rect(color = "black", fill = "#C0C0C0", size = 3.5, linetype = "blank"),
+        strip.text.x = element_text(face = "bold"),
+        panel.border = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(size = 24/.pt),
+        axis.title = element_text(face = "bold", size = 26/.pt),
+        plot.caption = element_text(face = "italic", size = 20/.pt)) +
+  labs(title = "2020 Predictive NFL Team Tiers through Week 17",
+       subtitle = "Arrows point from adjusted EPA to penalty-adjusted and predictive EPA",
+       x = "Offensive EPA",
+       y = "Defensive EPA",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+```
+
+For fun, let's examine the offenses that were helped most by opposing defensive penalties as well as defenses that were helped most by opposing offensive penalties in 2020. We see that Tampa Bay's and Philadelphia's offenses were helped out most by opposing defensive penalties while  Dallas' and Jacksonville's defenses were helped by opposing offensive penalties. 
+
+```{r 2020 penalty epa, include=FALSE, echo=FALSE}
+# Offensive penalty EPA 2020
+off_pen_epa <- all_penalties_epa %>% 
+  dplyr::filter(season == 2020,
+                # !penalty_type %in% c(off_penalties)
+                ) %>% 
+  dplyr::mutate(penalty_team = ifelse(penalty_team == posteam, 
+                                      "Penalties on Offense", 
+                                      "Penalties on Opposing Defense")) %>% 
+  dplyr::group_by(posteam, penalty_team) %>% 
+  dplyr::summarise(penalties = sum(penalty, na.rm = T),
+                   penalty_epa = sum(penalty_epa, na.rm = T),
+                   no_penalty_epa = sum(no_penalty_epa, na.rm = T),
+                   penalty_yards = sum(penalty_yards, na.rm = T)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::group_by(posteam) %>% 
+  dplyr::mutate(tot_off_penalty_epa = sum(penalty_epa, na.rm = T)) %>% 
+  dplyr::ungroup() %>%
+  dplyr::left_join(nflfastR::teams_colors_logos %>% 
+                     dplyr::select(team = team_abbr, team_logo_espn),
+                   by = c("posteam" = "team")) 
+
+# Defensive penalty EPA 2020
+def_pen_epa <- all_penalties_epa %>% 
+  dplyr::filter(season == 2020,
+                # !penalty_type %in% c(off_penalties)
+                ) %>% 
+  dplyr::mutate(penalty_team = ifelse(penalty_team == posteam, 
+                                      "Penalties on Opposing Offense", 
+                                      "Penalties on Defense")) %>% 
+  dplyr::group_by(defteam, penalty_team) %>% 
+  dplyr::summarise(penalties = sum(penalty, na.rm = T),
+                   penalty_epa = sum(penalty_epa, na.rm = T),
+                   no_penalty_epa = sum(no_penalty_epa, na.rm = T),
+                   penalty_yards = sum(penalty_yards, na.rm = T)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::group_by(defteam) %>% 
+  dplyr::mutate(tot_def_penalty_epa = sum(penalty_epa, na.rm = T)) %>% 
+  dplyr::ungroup() %>%
+  dplyr::left_join(nflfastR::teams_colors_logos %>% 
+                     dplyr::select(team = team_abbr, team_logo_espn),
+                   by = c("defteam" = "team")) 
+```
+
+```{r opposing penalty epa, echo=FALSE, layout="l-page", fig.height=5}
+off_pen_epa %>% 
+  dplyr::filter(penalty_team == "Penalties on Opposing Defense") %>% 
+  dplyr::select(posteam, team_logo_espn,
+                off_penalty_epa = penalty_epa, 
+                off_penalties = penalties) %>% 
+  dplyr::left_join(def_pen_epa %>% 
+                     dplyr::filter(penalty_team == "Penalties on Opposing Offense") %>% 
+                     dplyr::select(defteam, 
+                                   def_penalty_epa = penalty_epa,
+                                   def_penalties = penalties),
+                   by = c("posteam" = "defteam")) %>% 
+  ggplot(aes(off_penalty_epa, def_penalty_epa)) +
+  geom_vline(aes(xintercept = mean(off_penalty_epa)),
+             lty = 2, color = "red") +
+  geom_hline(aes(yintercept = mean(def_penalty_epa)),
+             lty = 2, color = "red") +
+  # geom_text(aes(label = paste0("Off: ", off_penalties, "\nDef: ", def_penalties))) +
+  ggimage::geom_image(aes(image = team_logo_espn),
+                      asp = 1.618, by = "height", size = 0.08) +
+  annotate(geom = "text", x = 75, y = -61.5, 
+           label = "Offenses helped by opposing defensive penalties",
+           fontface = "italic", size = 2.5) +
+  annotate(geom = "segment", x = 70, xend = 80, y = -60, yend = -60,
+           lineend = "butt", linejoin = "round",
+           arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
+  annotate(geom = "text", x = 42, y = -50, 
+           label = "Defenses helped by\nopposing offensive penalties",
+           fontface = "italic", size = 2.5) +
+  annotate(geom = "segment", x = 52, xend = 52, y = -42, yend = -52,
+           lineend = "butt", linejoin = "round",
+           arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
+  scale_y_reverse() +
+  theme(aspect.ratio = 9/16) +
+  labs(title = "Teams who were helped by opposing offensive and opposing defensive penalties",
+       subtitle = "Penalty EPA is difference in EPA a team would have gained/lost if there\nwas no penalty and actual observed EPA from penalty",
+       x = "Offensive Penalty EPA Gained by Opposing Defensive Penalties",
+       y = "Defensive Penalty EPA Gained by Opposing Offensive Penalties",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+```
+
+```{r off penalty epa, eval=FALSE, echo=FALSE, layout="l-page", fig.height=5}
+off_pen_epa %>% 
+  dplyr::mutate(diff = penalty_epa - no_penalty_epa,
+                posteam_relevel = tidytext::reorder_within(posteam, penalty_epa, penalty_team),
+                penalty_team = forcats::fct_rev(penalty_team)) %>% 
+  ggplot(aes(penalty_epa, posteam_relevel)) +
+  geom_col(aes(fill = posteam, color = posteam), 
+           show.legend = F) +
+  # geom_text(aes(label = penalties, hjust = ifelse(penalty_team == "Penalties on Offense",
+  #                                                 -0.25, 1)),
+  #           size = 2.5, color = "white", fontface = "bold") +
+  ggimage::geom_image(aes(image = team_logo_espn),
+                      asp = 1.618, by = "height", size = 0.05) +
+  facet_wrap(~ penalty_team, scales = "free") +
+  # scale_x_continuous(expand = expansion(mult = c(0, 0))) +
+  tidytext::scale_y_reordered() +
+  theme(aspect.ratio = 9/16,
+        axis.text.y = element_blank()) +
+  labs(title = "Tampa Bay's and Philadelphia's offenses were helped out most by opposing defensive penalties",
+       subtitle = "Penalty EPA is difference in EPA a team would have gained/lost if there was no penalty and actual observed EPA from penalty | 2020 NFL Season",
+       x = "Penalty EPA",
+       y = NULL,
+       caption = "Chart: @jacklich10 | Data: @nflfastR")+
+  scale_fill_manual(values = NFL_pri) +
+  scale_color_manual(values = NFL_sec)
+```
+
+Similarly, a look at the offenses that hurt themselves the most with penalties as well as defenses that hurt themselves the most with penalties. We see that Minnesota and Kansas City's offenses lost the most EPA from offensive penalties while Tampa Bay's and Jacksonville's defenses lost the most EPA from defensive penalties.
+
+Note that for an offense like the Jets, while they lost a marginal amount of EPA from their own offensive penalties, this is primarily due to the fact that their penalties did not negate any explosive plays. This is in contrast to a team like the Patriots, who lost the least EPA from their own offensive and defensive penalties due to committing very few penalties in the first place.
+
+```{r def penalty epa, eval=FALSE, echo=FALSE, layout="l-page", fig.height=5}
+all_penalties_epa %>% 
+  dplyr::filter(season == 2020,
+                # !penalty_type %in% c(def_penalties)
+                ) %>% 
+  dplyr::mutate(penalty_team = ifelse(penalty_team == posteam, 
+                                      "Penalties on Opposing Offense", 
+                                      "Penalties on Defense")) %>% 
+  dplyr::group_by(defteam, penalty_team) %>% 
+  dplyr::summarise(penalties = sum(penalty, na.rm = T),
+                   penalty_epa = sum(penalty_epa, na.rm = T),
+                   no_penalty_epa = sum(no_penalty_epa, na.rm = T),
+                   penalty_yards = sum(penalty_yards, na.rm = T)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::group_by(defteam) %>% 
+  dplyr::mutate(tot_penalty_epa = sum(penalty_epa, na.rm = T)) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::left_join(nflfastR::teams_colors_logos %>% 
+                     dplyr::select(team = team_abbr, team_logo_espn),
+                   by = c("defteam" = "team")) %>% 
+  dplyr::mutate(diff = penalty_epa - no_penalty_epa,
+                defteam_relevel = tidytext::reorder_within(defteam, penalty_epa, penalty_team),
+                penalty_team = forcats::fct_rev(penalty_team)) %>% 
+  ggplot(aes(penalty_epa, defteam_relevel)) +
+  geom_col(aes(fill = defteam, color = defteam), 
+           show.legend = F) +
+  # geom_text(aes(label = penalties, hjust = ifelse(penalty_team == "Penalties on Offense",
+  #                                                 -0.25, 1)),
+  #           size = 2.5, color = "white", fontface = "bold") +
+  ggimage::geom_image(aes(image = team_logo_espn),
+                      asp = 1.618, by = "height", size = 0.05) +
+  facet_wrap(~ penalty_team, scales = "free") +
+  # scale_x_continuous(expand = expansion(mult = c(0, 0))) +
+  tidytext::scale_y_reordered() +
+  theme(aspect.ratio = 9/16,
+        axis.text.y = element_blank()) +
+  labs(title = "Dallas' and Jacksonville's defenses were helped by undisciplined opposing offenses",
+       subtitle = "Penalty EPA is difference in EPA a team would have gained/lost if there was no penalty and actual observed EPA from penalty | 2020 NFL Season",
+       x = "Penalty EPA",
+       y = NULL,
+       caption = "Chart: @jacklich10 | Data: @nflfastR")+
+  scale_fill_manual(values = NFL_pri) +
+  scale_color_manual(values = NFL_sec)
+```
+
+```{r own penalty epa, echo=FALSE, layout="l-page", fig.height=5}
+off_pen_epa %>% 
+  dplyr::filter(penalty_team == "Penalties on Offense") %>% 
+  dplyr::select(posteam, off_penalty_epa = penalty_epa, team_logo_espn) %>% 
+  dplyr::left_join(def_pen_epa %>% 
+                     dplyr::filter(penalty_team == "Penalties on Defense") %>% 
+                     dplyr::select(defteam, def_penalty_epa = penalty_epa),
+                   by = c("posteam" = "defteam")) %>% 
+  ggplot(aes(off_penalty_epa, def_penalty_epa)) +
+  geom_vline(aes(xintercept = mean(off_penalty_epa)),
+             lty = 2, color = "red") +
+  geom_hline(aes(yintercept = mean(def_penalty_epa)),
+             lty = 2, color = "red") +
+  ggimage::geom_image(aes(image = team_logo_espn),
+                      asp = 1.618, by = "height", size = 0.08) +
+  annotate(geom = "text", x = -62, y = 108,
+           label = "Offenses hurt by own offensive penalties",
+           fontface = "italic", size = 2.5) +
+  annotate(geom = "segment", x = -57, xend = -67, y = 110, yend = 110,
+           lineend = "butt", linejoin = "round",
+           arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
+  annotate(geom = "text", x = -69, y = 70,
+           label = "Defenses hurt by\nown defensive penalties",
+           fontface = "italic", size = 2.5) +
+  annotate(geom = "segment", x = -64, xend = -64, y = 60, yend = 80,
+           lineend = "butt", linejoin = "round",
+           arrow = arrow(length = unit(0.03, "npc"), type = "closed")) +
+  scale_y_reverse() +
+  theme(aspect.ratio = 9/16) +
+  labs(title = "Teams who were hurt by their own offensive and defensive penalties",
+       subtitle = "Penalty EPA is difference in EPA a team would have gained/lost if there\nwas no penalty and actual observed EPA from penalty",
+       x = "Offensive Penalty EPA Lost by Offensive Penalties",
+       y = "Defensive Penalty EPA Lost by Defensive Penalties",
+       caption = "Chart: @jacklich10 | Data: @nflfastR")
+```
+
+# Final Thoughts
+
+While I played around with various configurations of penalty types to include/not include as signal or noise, this was not a rigorous process. It is possible that a different approach to handling penalty EPA will yield greater strides in predictive power. For example, I played around with weighting observed EPA and "penalty-free" EPA for certain penalty types, though did not find any predictive benefits. One could also experiment with regressing "penalty-free" EPA differently depending on penalty type. Maybe for more stable penalties like False Starts, "penalty-free" EPA should be regressed slightly, while flukier penalties could be regressed more.
+
+Generally, due to the rarity and volatility of penalties, adjusting EPA metrics to improve predictive power on plays with penalties is very difficult. Further, as we saw from the stability of team penalty percentages *over time*, the NFL is non-stationary. It is possible that certain penalty types will become more or less stable over time, and there is always the possibility of NFL rule changes or points of emphasis (like calling very few Holding penalties in 2020) that alter the NFL landscape. Hopefully, the penalty EPA methodology can be refined and explored further by the community in the future. 
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+)
+```
