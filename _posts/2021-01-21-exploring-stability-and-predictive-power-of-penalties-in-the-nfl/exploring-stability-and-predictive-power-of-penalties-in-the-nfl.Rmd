@@ -1345,7 +1345,7 @@ def_pen_epa <- all_penalties_epa %>%
                    by = c("defteam" = "team")) 
 ```
 
-```{r opposing penalty epa, echo=FALSE, layout="l-page", fig.height=5}
+```{r opposing penalty epa, echo=FALSE, layout="l-page", fig.height=5, preview=TRUE}
 off_pen_epa %>% 
   dplyr::filter(penalty_team == "Penalties on Opposing Defense") %>% 
   dplyr::select(posteam, team_logo_espn,

@@ -20,19 +20,18 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +51,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
@@ -130,7 +129,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/epa vs no penalty epa dist-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/opposing penalty epa-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/own penalty epa-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/penalty epa dist-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot correlations over time-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot correlations-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot init-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot select penalties-1.png"]}
+  {"type":"character","attributes":{},"value":["exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/anchor-4.2.2/anchor.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/bowser-1.9.3/bowser.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/distill-2.2.21/template.v2.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/epa vs no penalty epa dist-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/opposing penalty epa-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/own penalty epa-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/penalty epa dist-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot correlations-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot correlations over time-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot init-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/plot select penalties-1.png","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/header-attrs-2.6/header-attrs.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/jquery-1.11.3/jquery.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/popper-2.6.0/popper.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/tippy-6.2.7/tippy-bundle.umd.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/tippy-6.2.7/tippy-light-border.css","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/tippy-6.2.7/tippy.css","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/tippy-6.2.7/tippy.umd.min.js","exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2054,7 +2053,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2112,7 +2116,7 @@ d-title {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Exploring Stability and Predictive Power of Penalties in the NFL","description":"Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes","authors":[{"author":"Jack Lichtenstein","authorURL":"https://twitter.com/jacklich10","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-21T00:00:00.000+00:00","citationText":"Lichtenstein, 2021"}
+{"title":"Exploring Stability and Predictive Power of Penalties in the NFL","description":"Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes","authors":[{"author":"Jack Lichtenstein","authorURL":"https://twitter.com/jacklich10","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-21T00:00:00.000+01:00","citationText":"Lichtenstein, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2182,7 +2186,7 @@ d-title {
 <p>Let’s start by first reading in play-by-play data from 1999-2020 from <span class="citation" data-cites="nflfastR">@nflfastR</span>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>nfl_pbp</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span><span class='fl'>1999</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nfl_pbp</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span><span class='fl'>1999</span><span class='op'>:</span><span class='fl'>2020</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span>
     <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.csv.gz"</span><span class='op'>)</span>
   <span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2230,7 +2234,7 @@ html {
   font-family: Chivo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uhxmpzigxk .gt_table {
+#twqaoorvit .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2255,7 +2259,7 @@ html {
   border-left-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_heading {
+#twqaoorvit .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2267,7 +2271,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_title {
+#twqaoorvit .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2277,7 +2281,7 @@ html {
   border-bottom-width: 0;
 }
 
-#uhxmpzigxk .gt_subtitle {
+#twqaoorvit .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2287,13 +2291,13 @@ html {
   border-top-width: 0;
 }
 
-#uhxmpzigxk .gt_bottom_border {
+#twqaoorvit .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_col_headings {
+#twqaoorvit .gt_col_headings {
   border-top-style: solid;
   border-top-width: 3px;
   border-top-color: transparent;
@@ -2308,7 +2312,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_col_heading {
+#twqaoorvit .gt_col_heading {
   color: #333333;
   background-color: white;
   font-size: 80%;
@@ -2328,7 +2332,7 @@ html {
   overflow-x: hidden;
 }
 
-#uhxmpzigxk .gt_column_spanner_outer {
+#twqaoorvit .gt_column_spanner_outer {
   color: #333333;
   background-color: white;
   font-size: 80%;
@@ -2340,15 +2344,15 @@ html {
   padding-right: 4px;
 }
 
-#uhxmpzigxk .gt_column_spanner_outer:first-child {
+#twqaoorvit .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uhxmpzigxk .gt_column_spanner_outer:last-child {
+#twqaoorvit .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uhxmpzigxk .gt_column_spanner {
+#twqaoorvit .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 3px;
   border-bottom-color: black;
@@ -2360,7 +2364,7 @@ html {
   width: 100%;
 }
 
-#uhxmpzigxk .gt_group_heading {
+#twqaoorvit .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2382,7 +2386,7 @@ html {
   vertical-align: middle;
 }
 
-#uhxmpzigxk .gt_empty_group_heading {
+#twqaoorvit .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2397,15 +2401,15 @@ html {
   vertical-align: middle;
 }
 
-#uhxmpzigxk .gt_from_md > :first-child {
+#twqaoorvit .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uhxmpzigxk .gt_from_md > :last-child {
+#twqaoorvit .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uhxmpzigxk .gt_row {
+#twqaoorvit .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -2424,7 +2428,7 @@ html {
   overflow-x: hidden;
 }
 
-#uhxmpzigxk .gt_stub {
+#twqaoorvit .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -2436,7 +2440,7 @@ html {
   padding-left: 12px;
 }
 
-#uhxmpzigxk .gt_summary_row {
+#twqaoorvit .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2446,7 +2450,7 @@ html {
   padding-right: 5px;
 }
 
-#uhxmpzigxk .gt_first_summary_row {
+#twqaoorvit .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2456,7 +2460,7 @@ html {
   border-top-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_grand_summary_row {
+#twqaoorvit .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2466,7 +2470,7 @@ html {
   padding-right: 5px;
 }
 
-#uhxmpzigxk .gt_first_grand_summary_row {
+#twqaoorvit .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2476,11 +2480,11 @@ html {
   border-top-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_striped {
+#twqaoorvit .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uhxmpzigxk .gt_table_body {
+#twqaoorvit .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2489,7 +2493,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_footnotes {
+#twqaoorvit .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2503,13 +2507,13 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_footnote {
+#twqaoorvit .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#uhxmpzigxk .gt_sourcenotes {
+#twqaoorvit .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2523,46 +2527,46 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#uhxmpzigxk .gt_sourcenote {
+#twqaoorvit .gt_sourcenote {
   font-size: 12px;
   padding: 4px;
 }
 
-#uhxmpzigxk .gt_left {
+#twqaoorvit .gt_left {
   text-align: left;
 }
 
-#uhxmpzigxk .gt_center {
+#twqaoorvit .gt_center {
   text-align: center;
 }
 
-#uhxmpzigxk .gt_right {
+#twqaoorvit .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uhxmpzigxk .gt_font_normal {
+#twqaoorvit .gt_font_normal {
   font-weight: normal;
 }
 
-#uhxmpzigxk .gt_font_bold {
+#twqaoorvit .gt_font_bold {
   font-weight: bold;
 }
 
-#uhxmpzigxk .gt_font_italic {
+#twqaoorvit .gt_font_italic {
   font-style: italic;
 }
 
-#uhxmpzigxk .gt_super {
+#twqaoorvit .gt_super {
   font-size: 65%;
 }
 
-#uhxmpzigxk .gt_footnote_marks {
+#twqaoorvit .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="uhxmpzigxk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table" style="table-layout: fixed;">
+<div id="twqaoorvit" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table" style="table-layout: fixed;">
   <colgroup>
     <col style="width:40px;"/>
     <col style="width:40px;"/>
@@ -2647,7 +2651,7 @@ html {
 </div>
 <p>For fun, let’s examine the offenses that were helped most by opposing defensive penalties as well as defenses that were helped most by opposing offensive penalties in 2020. We see that Tampa Bay’s and Philadelphia’s offenses were helped out most by opposing defensive penalties while Dallas’ and Jacksonville’s defenses were helped by opposing offensive penalties.</p>
 <div class="layout-chunk" data-layout="l-page">
-<p><img src="exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/opposing%20penalty%20epa-1.png" width="1950" /></p>
+<p><img src="exploring-stability-and-predictive-power-of-penalties-in-the-nfl_files/figure-html5/opposing%20penalty%20epa-1.png" width="1950" data-distill-preview=1 /></p>
 </div>
 <div class="layout-chunk" data-layout="l-page">
 
@@ -2712,7 +2716,7 @@ html {
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-  <p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+  <p>Â©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 
