@@ -12,18 +12,18 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 03 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Jan 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Modeling NFL game outcomes using Python and scikit-learn</title>
-      <dc:creator>Ben Dominguez</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</link>
-      <description>Use Python and scikit-learn to build a NFL game outcomes and build a pre-game win probability model.</description>
-      <category>Python</category>
-      <category>scikit-learn</category>
-      <category>Game Prediction</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</guid>
-      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <title>Exploring Stability and Predictive Power of Penalties in the NFL</title>
+      <dc:creator>Jack Lichtenstein</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</link>
+      <description>Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes</description>
+      <category>nflfastR</category>
+      <category>EPA</category>
+      <category>Penalty EPA</category>
+      <category>Prediction</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</guid>
+      <pubDate>Thu, 21 Jan 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Analyzing Home Field Advantage in the NFL</title>
