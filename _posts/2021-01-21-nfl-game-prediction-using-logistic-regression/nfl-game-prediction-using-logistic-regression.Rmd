@@ -1,12 +1,12 @@
 ---
 title: "Modeling NFL game outcomes using Python and scikit-learn"
 description: |
-  Use Python and scikit-learn to build a NFL game outcomes and build a pre-game win probability model.
+  Use Python and scikit-learn to model NFL game outcomes and build a pre-game win probability model.
 author:
   - name: Ben Dominguez
     url: https://twitter.com/bendominguez011
     affiliation: Fantasy Football Data Pros
-    affiliation_url: https://www.fantasyfootballdatapros.com
+    affiliation_url: https://www.fantasyfootballdatapros.cominstal
 date: "`r Sys.Date()`"
 output:
   distill::distill_article:
@@ -16,7 +16,7 @@ output:
     
 repository_url: "https://github.com/mrcaseb/open-source-football"
 categories:
-  - Python
+  - python
   - scikit-learn
   - Game Prediction
 ---
@@ -34,7 +34,7 @@ use_python('usr/bin/python')
 ```
 # Intro to NFL game modeling in Python
 
-In this post we are going to cover modeling NFL game outcomes and pre-game win probability using a logistic regression model in Python and scikit-learn. Previous posts on Open Source Football have covered engineering EPA to maximize it's predictive value, and this post will partly build upon those written by [Jack Lichtenstien](https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa/) and [John Goldberg](https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/). 
+In this post we are going to cover modeling NFL game outcomes and pre-game win probability using a logistic regression model in Python and scikit-learn. Previous posts on Open Source Football have covered engineering EPA to maximize it's predictive value, and this post will build partly upon those written by [Jack Lichtenstien](https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa/) and [John Goldberg](https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/). 
 
 The goal of this post will be to provide you with an introduction to modeling in Python and a baseline model to work from. Python's de-facto machine learning library, sklearn, is built upon a streamlined API which allows ML code to be iterated upon easily. To switch to a more complex model wouldn't take much tweaking of the code I'll provide here, as every supervised algorithm is implemented via sklearn in more or less the same fashion. As with any machine learning task, the bulk of the work will be in the data munging, cleaning, and feature extraction/engineering process.
 
@@ -85,7 +85,7 @@ data = pd.concat([nfl.load_pbp_data(season).assign(season=season) for season in 
 
 The code below is going to calculate a rolling EPA with a static and dynamic window. I've included both, although we'll only be using the rolling EPA with the dynamic window in our model.
 
-```{python}
+```{python, ewma_dynamic_window}
 
 def dynamic_window_ewma(x):
     """
@@ -162,7 +162,7 @@ epa.head()
 
 We can plot EPA for the Green Bay Packers alongside our moving averages. We can see that the static window EMA and dynamic window EMA are quite similar, with slight divergences towards season ends.
 
-```{python epa_plot}
+```{python epa_plot, fig.height=12, fig.width=18, results='hide', fig.keep='all', layout='1-page', preview='TRUE'}
 tm = epa.loc[epa['team'] == 'GB', :].assign(
     season_week = lambda x: 'w' + x.week.astype(str) + ' (' + x.season.astype(str) + ')'
 ).set_index('season_week')
@@ -198,16 +198,16 @@ df.head()
 
 We'll set some variables to isolate our target and features. Here, we are only including the dynamic window columns. I've found that the dynamic window does produce a slightly better model score. You're welcome to use the EWMA features with the static window size.
 
-```{python}
+```{python, isolating_features}
 target = 'home_team_win'
 features = [column for column in df.columns if 'ewma' in column and 'dynamic' in column]
 for feature in features:
   print(feature)
 ```
 
-Here, we finally train and test our model. In sklearn, each supervised algorithm is implemented in the same fashion, First, you bring in your class (which we did earlier in the code). You then instantiate the class, providing model hyperparameters at instantiation. Here, since we're just doing Logistic Regression, we have none (although sklearn allows us to provide `C` as a hyperpameter - which controls regularization). Then, you call the `fit` method which trains your model. For evaluating model accuracy, you have a couple options. Notice here we did not split our model in to train and test sets, as we'll be using 10-fold cross validation to train and test instead using the `cross_val_scores` function we brought in earlier.
+Here, we finally train and test our model. In sklearn, each supervised algorithm is implemented in the same fashion, First, you bring in your class (which we did earlier in the code). You then instantiate the class, providing model hyperparameters at instantiation. Here, since we're just doing Logistic Regression, we have none (although sklearn allows us to provide `C` as a hyperpameter - which controls regularization). Then, you call the `fit` method which trains your model. For evaluating model accuracy, you have a couple options. Notice here we did not split our model in to train and test sets, as we'll be using 10-fold cross validation to train and test instead, using the `cross_val_scores` function we brought in earlier.
 
-```{python}
+```{python train_and_test}
 df = df.dropna()
 
 X = df.loc[df['season'] != 2020, features].values
@@ -222,7 +222,7 @@ log_losses = cross_val_score(clf, X, y, cv=10, scoring='neg_log_loss')
 print('Model Accuracy:', np.mean(accuracy_scores))
 print('Neg log loss:', np.mean(log_losses))
 ```
-```{python feature_importance_plot}
+```{python feature_importance_plot, out.width='\\textwidth', fig.width=20, fig.height=12, fig.align='center'}
 fig, ax = plt.subplots()
 
 feature_names = ['_'.join(feature_name.split('_')[3:]) for feature_name in features]
@@ -240,9 +240,9 @@ ax.barh(features_sorted, coef_sorted);
 plt.show();
 ```
 
-We see our week model has about a 63.5% accuracy score. Not terrible, considering if you head over to nflpickwatch.com, you'll see that the best experts tend to cluster around 68%.
+We see our model has about a 63.5% accuracy score. Not terrible, considering if you head over to nflpickwatch.com, you'll see that the best experts tend to cluster around 68%.
 
-We also found the negative log loss. This is important because the model could have value as a win probability model as opposed to a straight pick'em model.
+We also found the negative log loss. This is important because the model could have a lot of value as a win probability model as opposed to a straight pick'em model.
 
 The model can definitely be improved. Some possible improvements and things I'd like to explore in future iterations of this model:
 
@@ -253,7 +253,7 @@ The model can definitely be improved. Some possible improvements and things I'd 
 
 Something fun we can do now is see how the model would have predicted this past season. Notice we took out 2020 data from our training data, and so now we are free to see how the model would have done in 2020 (since none of the 2020 data was used for training).
 
-```{python}
+```{python, model_most_confident_about}
 df_2020 = df.loc[(df['season'] == 2020)].assign(
     predicted_winner = lambda x: clf.predict(x[features]),
     home_team_win_probability = lambda x: clf.predict_proba(x[features])[:, 1]
@@ -276,7 +276,7 @@ We can also view how our model would have done this season by week. There doesn'
 
 You would expect that maybe the model would get better as the season went on, but the data doesn't make that clear here.
 
-```{python}
+```{python, results}
 correct = df_2020.loc[df_2020['correct_prediction'] == 1].groupby('week')['correct_prediction'].sum()
 
 num_games = df_2020.groupby('week')['correct_prediction'].size()
@@ -288,19 +288,19 @@ results
 
 The model would have done the best in week 2 of the 2020 season, with a 87.5% accuracy score (14-2)!
 
-```{python}
+```{python, week_2}
 print(df_2020.loc[df_2020['week'] == results.idxmax()].sort_values(by='win_probability', ascending=False))
 ```
 
 We can also view how our model would have done in the playoffs by filtering out weeks prior to week 17.
 
-```{python}
+```{python, playoffs}
 df_2020.loc[df_2020['week'] > 17]
 ```
 
 And of course, an NFL game prediction post a couple days out from the super bowl isn't complete without a super bowl prediction.
 
-```{python}
+```{python, super_bowl}
 import itertools
 
 def ewma(data, window):
