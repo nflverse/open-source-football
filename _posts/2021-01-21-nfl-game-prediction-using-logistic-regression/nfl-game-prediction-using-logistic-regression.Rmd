@@ -6,7 +6,7 @@ author:
   - name: Ben Dominguez
     url: https://twitter.com/bendominguez011
     affiliation: Fantasy Football Data Pros
-    affiliation_url: https://www.fantasyfootballdatapros.cominstal
+    affiliation_url: https://www.fantasyfootballdatapros.com
 date: "`r Sys.Date()`"
 output:
   distill::distill_article:
