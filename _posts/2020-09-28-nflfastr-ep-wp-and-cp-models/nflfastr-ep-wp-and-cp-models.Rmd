@@ -62,7 +62,7 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Seconds remaining in game
 * Yard line
 * Score differential
-* Ratio of expected score differential (expected points + point differential) to time remaining (feature borrowed from nflscrapR)
+* Ratio of point differential) to exp(-4 * fraction of game elapsed)
 * Down
 * Yards to go
 * Timeouts remaining for each team
@@ -351,36 +351,35 @@ We see that the new EP model is better calibrated. Note that nflscrapR reports a
 As with EP, do some initial setup to get the data ready for fitting.
 
 ```{r wp_setup}
-model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/cal_data.rds?raw=true')) %>%
-  filter(Winner != "TIE")
-model_data <- model_data %>%
+model_data <- 
+  readRDS(url('https://github.com/guga31bb/metrics/blob/master/wp_tuning/cal_data.rds?raw=true')) %>%
+  filter(Winner != "TIE") %>%
   make_model_mutations() %>%
   prepare_wp_data() %>%
   mutate(label = ifelse(posteam == Winner, 1, 0)) %>%
   filter(
     !is.na(ep), !is.na(score_differential), !is.na(play_type), !is.na(label),
     !is.na(defteam_timeouts_remaining), !is.na(posteam_timeouts_remaining),
-    !is.na(yardline_100)
+    !is.na(yardline_100), qtr <= 4
   ) %>%
   select(
     label,
     receive_2h_ko,
     spread_time,
+    home,
     half_seconds_remaining,
     game_seconds_remaining,
-    ExpScoreDiff_Time_Ratio,
+    Diff_Time_Ratio,
     score_differential,
     down,
     ydstogo,
     yardline_100,
-    home,
     posteam_timeouts_remaining,
     defteam_timeouts_remaining,
     season,
     #only needed for the plots here, not used in model
     qtr
-  ) %>%
-  filter(qtr <= 4)
+  )
 
 nrounds = 65
 params <-
@@ -395,6 +394,8 @@ params <-
     max_depth = 4,
     min_child_weight = 1
   )
+
+seasons <- unique(model_data$season)
 ```
 
 Do the LOSO fitting:
@@ -522,18 +523,20 @@ Again, the new WP model represents an improvement.
 `nflfastR` has a secondary win probability model that also incorporates the pregame spread to more accurately reflect a team's chances of winning. Below are calibration results for this model. 
 
 ```{r wp_setup_spread}
-nrounds = 760
+nrounds = 534
 params <-
   list(
     booster = "gbtree",
     objective = "binary:logistic",
     eval_metric = c("logloss"),
-    eta = 0.02,
-    gamma = 0.3445502,
-    subsample = 0.7204741,
-    colsample_bytree = 0.5714286,
+    eta = 0.05,
+    gamma = .79012017,
+    subsample= 0.9224245,
+    colsample_bytree= 5/12,
     max_depth = 5,
-    min_child_weight = 14
+    min_child_weight = 7,
+    monotone_constraints =
+      "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
   )
 ```
 
@@ -634,7 +637,7 @@ nflscrapR:
 )
 ```
 
-Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .45). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results. Adding the over/under also worsened calibration results.
+Again, the new WP model is better calibrated than nflscrapR. In our testing, incorporating the spread substantially improved the performance of the model as measured by cross-validation classification accuracy (reduced error rate from 27% to 23%) and log loss (reduced from .52 to .44). We include a time-decaying function of spread on its own as including spread on its own increases the LOSO calibration error, especially in the fourth quarter. We also tried removing the `home` indicator in the spread model, but this worsened the calibration results. Adding the over/under also worsened calibration results.
 
 ## CP Model Calibration Results
 
@@ -661,6 +664,8 @@ model_data <- pbp %>%
     outdoors, retractable, dome, distance_to_sticks
   )
 rm(pbp)
+
+seasons <- unique(model_data$season)
 
 
 nrounds = 560
