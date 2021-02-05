@@ -62,13 +62,13 @@ The models are trained using xgboost, which uses training data to create [decisi
 * Seconds remaining in game
 * Yard line
 * Score differential
-* Ratio of point differential) to exp(-4 * fraction of game elapsed)
+* Ratio of point differential: $$\mathrm{diff\_time\_ratio}=\mathrm{point\_differential}\cdot e^{4\cdot\frac{3600-\mathrm{game\_seconds\_remaining}}{3600}}$$
 * Down
 * Yards to go
 * Timeouts remaining for each team
 * Whether team will receive 2nd half kickoff
 * Whether possession team is at home
-* [Model with Vegas line only: point spread * exp(-4 * fraction of game elapsed)]
+* *Model with Vegas line only:* $$\mathrm{spread\_time}=\mathrm{posteam\_spread}\cdot e^{-4\cdot\frac{3600-\mathrm{game\_seconds\_remaining}}{3600}}$$
 
 ### CP and expected yards after the catch model features
 
