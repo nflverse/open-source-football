@@ -19,6 +19,73 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Open Source Football: Latest posts</title>
   
@@ -46,6 +113,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -57,6 +125,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -105,7 +174,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -168,6 +237,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -309,7 +379,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -378,11 +448,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -406,6 +742,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -447,6 +828,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -458,91 +840,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -560,20 +899,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -611,6 +1058,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -686,6 +1154,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -740,6 +1293,211 @@
   
   .custom p {
     margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -871,6 +1629,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -886,6 +1650,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -932,23 +1703,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -966,39 +1722,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -1007,7 +1745,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1024,6 +1762,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1039,12 +1784,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1094,18 +1853,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1137,9 +1905,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1268,36 +2034,28 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
-  <script>
+  <script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
+  <script type="text/javascript" cookie-consent="tracking">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'UA-176408251-2');
   </script>
   <style type="text/css">
-  d-article > d-code, d-article section > d-code {
-  padding: 16px;
-  overflow: auto;
-      overflow-x: auto;
-      overflow-y: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-left-radius: 6px;
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-  }
-  
-  pre d-code{
+  d-article div.sourceCode pre {
+    overflow-x: scroll !important;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f6f8fa;
     border-left: 0;
   }
   
@@ -1317,8 +2075,8 @@
   }
   
   d-title {
-  background: #575757;
-  color: white;
+    background: #575757;
+    color: white;
   }
   
   .distill-site-footer {
@@ -1350,6 +2108,7 @@
 <img src="logo.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title">Open Source Football</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
@@ -1371,209 +2130,6 @@
 <!--/radix_placeholder_site_before_body-->
 <!--radix_placeholder_article_listing-->
 
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
 
 <script type="application/javascript">
 
@@ -1625,16 +2181,16 @@ function init_posts_list() {
     set_posts_visible($('.posts-list').children('a'), false);
 
     // if we have a hash filter
-    if (window.location.hash) {
+    if (window.location.hash && window.location.hash.startsWith("#category:")) {
 
       // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
+      var page_category = window.location.hash.replace(/^#category:/, "");
       var posts = $('.post-metadata').map(function(idx, script) {
         var metadata = $.parseJSON($(script).html());
         var post = null;
         $.each(metadata.categories, function(idx, category) {
           category = category.replace(/ /g,"_");
-          if (category == page_category) {
+          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
             post = $(script).parent().get();
             return false;
           }
@@ -1646,10 +2202,22 @@ function init_posts_list() {
       // mark the hash active
       $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
 
+      // update the list_caption
+      var list_caption = $('.posts-list-caption');
+      var caption = (page_category || '').toLowerCase() === "articles"
+        ? list_caption.attr('data-caption')
+        : ('Category: ' + page_category.replace(/_/g," "));
+      list_caption.text(caption);
+
     } else {
 
       // no hash filter, make all posts visible (subject to max display)
       set_posts_visible($('.posts-list').children(), true);
+
+      // reset list caption
+      var list_caption = $('.posts-list-caption');
+      list_caption.text(list_caption.attr('data-caption'));
+
 
     }
   }
@@ -1664,6 +2232,12 @@ function init_posts_list() {
       $('.posts-more a').addClass('hidden');
     }
   }
+
+  // click handling for tags
+  $('.dt-tag').click(function(ev) {
+    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
+    return false;
+  })
 
   // hash filter handling
   apply_hash_filter();
@@ -1688,17 +2262,195 @@ function init_posts_list() {
 
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
-<h1 class="posts-list-caption">Latest posts</h1>
+<h1 class="posts-list-caption" data-caption="Latest posts">Latest posts</h1>
+<a href="posts/2021-02-05-gunslingers-and-game-managers/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Quarterback Analysis","nflfastR","Stupid Internet Arguments"]}</script>
+<div class="metadata">
+<div class="publishedDate">Feb. 5, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">David Anderson</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png"/>
+</div>
+<div class="description">
+<h2>Gunslingers and Game Managers</h2>
+<div class="dt-tags">
+<div class="dt-tag">Quarterback Analysis</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Stupid Internet Arguments</div>
+</div>
+<p>Quantifying Quarterbacks' performance along the "game manager" and "gunslinger" dimensions.</p>
+</div>
+</a>
+<a href="posts/2021-01-21-nfl-game-prediction-using-logistic-regression/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["python","scikit-learn","Game Prediction"]}</script>
+<div class="metadata">
+<div class="publishedDate">Feb. 4, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Dominguez</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png"/>
+</div>
+<div class="description">
+<h2>Modeling NFL game outcomes using Python and scikit-learn</h2>
+<div class="dt-tags">
+<div class="dt-tag">python</div>
+<div class="dt-tag">scikit-learn</div>
+<div class="dt-tag">Game Prediction</div>
+</div>
+<p>Use Python and scikit-learn to model NFL game outcomes and build a pre-game win probability model.</p>
+</div>
+</a>
+<a href="posts/2020-09-28-nflfastr-ep-wp-and-cp-models/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Decision Trees","xgboost","Model Calibration"]}</script>
+<div class="metadata">
+<div class="publishedDate">Feb. 3, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png"/>
+</div>
+<div class="description">
+<h2>nflfastR EP, WP, CP xYAC, and xPass models</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Decision Trees</div>
+<div class="dt-tag">xgboost</div>
+<div class="dt-tag">Model Calibration</div>
+</div>
+<p>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.</p>
+</div>
+</a>
+<a href="posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["nflfastR","EPA","Penalty EPA","Prediction"]}</script>
+<div class="metadata">
+<div class="publishedDate">Jan. 21, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Jack Lichtenstein</div>
+</div>
+</div>
+<div class="thumbnail">
+<img/>
+</div>
+<div class="description">
+<h2>Exploring Stability and Predictive Power of Penalties in the NFL</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">EPA</div>
+<div class="dt-tag">Penalty EPA</div>
+<div class="dt-tag">Prediction</div>
+</div>
+<p>Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes</p>
+</div>
+</a>
+<a href="posts/2021-01-11-hfa-analysis/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["nflfastR","Articles","Home Field Advantage"]}</script>
+<div class="metadata">
+<div class="publishedDate">Jan. 11, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Adrian Cadena</div>
+</div>
+</div>
+<div class="thumbnail">
+<img/>
+</div>
+<div class="description">
+<h2>Analyzing Home Field Advantage in the NFL</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Articles</div>
+<div class="dt-tag">Home Field Advantage</div>
+</div>
+<p>Multi-season analysis of league and team-specific home-field advantage in the NFL.</p>
+</div>
+</a>
+<a href="posts/2020-12-29-exploring-rolling-averages-of-epa/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["nflfastR","EPA","Adjusting EPA","Rolling EPA","Prediction"]}</script>
+<div class="metadata">
+<div class="publishedDate">Dec. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Jack Lichtenstein</div>
+</div>
+</div>
+<div class="thumbnail">
+<img/>
+</div>
+<div class="description">
+<h2>Exploring Rolling Averages of EPA</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">EPA</div>
+<div class="dt-tag">Adjusting EPA</div>
+<div class="dt-tag">Rolling EPA</div>
+<div class="dt-tag">Prediction</div>
+</div>
+<p>Use nflfastR to develop lagged rolling averages of EPA to best predict a game's outcome</p>
+</div>
+</a>
+<a href="posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">Oct. 3, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Peter Owen</div>
+</div>
+</div>
+<div class="thumbnail">
+<img data-src="posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png"/>
+</div>
+<div class="description">
+<h2>Still elite: What the numbers tell us about Aaron Rodgers</h2>
+<div class="dt-tags"></div>
+<p>The more you look into the numbers, the better it looks for Aaron Rodgers</p>
+</div>
+</a>
+<a href="posts/2020-09-26-receiving-by-position/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Positional breakdown","Receiving"]}</script>
+<div class="metadata">
+<div class="publishedDate">Sept. 26, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Arthur Gymer</div>
+</div>
+</div>
+<div class="thumbnail">
+<img data-src="posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png"/>
+</div>
+<div class="description">
+<h2>Receiving by Position</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Positional breakdown</div>
+<div class="dt-tag">Receiving</div>
+</div>
+<p>Breaking down the receiving game by position using nflfastR data.</p>
+</div>
+</a>
 <a href="posts/2020-09-09-creating-an-expected-field-goal-metric/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["field goal","nflfastR","placekicker"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 9, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Mike Irene</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png"/>
 </div>
 <div class="description">
 <h2>Creating an Expected Field Goal Metric</h2>
+<div class="dt-tags">
+<div class="dt-tag">field goal</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">placekicker</div>
+</div>
 <p>Using nflfastR play-by-play data to measure kicker performance.</p>
 </div>
 </a>
@@ -1706,12 +2458,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["tidyModels","nflfastR","stan"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 8, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Richard Anderson</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Estimating Run/Pass Tendencies with tidyModels and  nflfastR</h2>
+<div class="dt-tags">
+<div class="dt-tag">tidyModels</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">stan</div>
+</div>
 <p>This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script</p>
 </div>
 </a>
@@ -1719,12 +2479,17 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 6, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Dennis Brookner</div>
+<div class="dt-author">Raphael Laden-Guindon</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png"/>
 </div>
 <div class="description">
 <h2>RERUN</h2>
+<div class="dt-tags"></div>
 <p>Exonerating punters for long returns</p>
 </div>
 </a>
@@ -1732,12 +2497,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","Articles"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 31, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png"/>
 </div>
 <div class="description">
 <h2>Defense and rest time re-visited</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Articles</div>
+</div>
 <p>Does incorporating actual rest time help us predict how a defense will do?</p>
 </div>
 </a>
@@ -1745,12 +2517,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Fantasy Football","nflfastR","nflfastR xYAC Model"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 31, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Reinhard</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Calculating Expected Fantasy Points for Receivers</h2>
+<div class="dt-tags">
+<div class="dt-tag">Fantasy Football</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">nflfastR xYAC Model</div>
+</div>
 <p>Use the nflfastR xYAC &amp; CP models to calculate how many fantasy points an average receiver would expect to earn on each target.</p>
 </div>
 </a>
@@ -1758,12 +2538,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Scraping","Game Predicitions","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Jonathan Goldberg</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Adding ESPN and 538 Game Predictions to nflfastR Data</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">Game Predicitions</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Here, we'll look at how to scrape ESPN's and 538's pregame predictions and merge them into nflfastR data</p>
 </div>
 </a>
@@ -1771,12 +2559,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","Animation","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Faceted and Animated Heatmaps</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">Animation</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Combining lessons from multiple posts to create faceted or animated heatmaps.</p>
 </div>
 </a>
@@ -1784,12 +2580,19 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 29, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ethan Douglas</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png"/>
 </div>
 <div class="description">
 <h2>Player Density and Completion Surface Estimates</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Methods for modeling density estimates and expected completion percentages across the football field for individual players.</p>
 </div>
 </a>
@@ -1797,12 +2600,18 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Efficiency"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 28, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Fast Data Loading</h2>
+<div class="dt-tags">
+<div class="dt-tag">Efficiency</div>
+</div>
 <p>Loading your nfl data at 10x speed!</p>
 </div>
 </a>
@@ -1810,12 +2619,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Logistic Generalized Additive Mixed Models","Mixed Effects","Completion Probability Intercept"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 27, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Adrian Cadena</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png"/>
 </div>
 <div class="description">
 <h2>Individual Expected Completion using Logistic Generalized Additive Mixed Models</h2>
+<div class="dt-tags">
+<div class="dt-tag">Logistic Generalized Additive Mixed Models</div>
+<div class="dt-tag">Mixed Effects</div>
+<div class="dt-tag">Completion Probability Intercept</div>
+</div>
 <p>Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.</p>
 </div>
 </a>
@@ -1823,12 +2640,20 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","Fantasy Football"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 26, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sam Hoppen</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Open Source (Fantasy) Football: Visualizing TRAP Backs</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">Fantasy Football</div>
+</div>
 <p>Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model.</p>
 </div>
 </a>
@@ -1836,12 +2661,21 @@ function init_posts_list() {
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","turnovers","quarterbacks"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 25, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Gadaleta</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png"/>
 </div>
 <div class="description">
 <h2>Expected Turnovers for Quarterbacks</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">turnovers</div>
+<div class="dt-tag">quarterbacks</div>
+</div>
 <p>Building expected interceptions and expected fumbles models to find QBs likely to increase or decrease their 
 interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 </div>
@@ -1850,12 +2684,18 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Getting started"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 24, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Getting into sports analytics</h2>
+<div class="dt-tags">
+<div class="dt-tag">Getting started</div>
+</div>
 <p>Collection of short answers to common questions.</p>
 </div>
 </a>
@@ -1863,12 +2703,22 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Scraping","espnscrapeR","Interactive plots","Total QBR","Figures"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 24, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Visualizing EPSN's Total QBR Using Interactive Plots</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">espnscrapeR</div>
+<div class="dt-tag">Interactive plots</div>
+<div class="dt-tag">Total QBR</div>
+<div class="dt-tag">Figures</div>
+</div>
 <p>How to get ESPN data and create interactive plots using the plotly ggplot2 library.</p>
 </div>
 </a>
@@ -1876,12 +2726,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Tidymodels","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 23, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Austin Ryan</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Exploring Wins with nflfastR</h2>
+<div class="dt-tags">
+<div class="dt-tag">Tidymodels</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</p>
 </div>
 </a>
@@ -1889,12 +2747,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Elo","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 22, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Robby Greer</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png"/>
 </div>
 <div class="description">
 <h2>Ranking QBs Using Era Adjusted Elo</h2>
+<div class="dt-tags">
+<div class="dt-tag">Elo</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</p>
 </div>
 </a>
@@ -1902,12 +2767,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Max Bolger</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png"/>
 </div>
 <div class="description">
 <h2>Game Excitement and Win Probability in the NFL</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Game excitement calculation and a win probability figure.</p>
 </div>
 </a>
@@ -1915,12 +2787,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ethan Douglas</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png"/>
 </div>
 <div class="description">
 <h2>NFL Pass Location Visualization</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Methods for visualizing NFL passing location data.</p>
 </div>
 </a>
@@ -1928,12 +2807,21 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR","CPOE / EPA functions","Packers"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 21, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Austin Ryan</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Rodgers Efficiency Decline</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">CPOE / EPA functions</div>
+<div class="dt-tag">Packers</div>
+</div>
 <p>A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.</p>
 </div>
 </a>
@@ -1941,12 +2829,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Anthony Reinhard</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Visualizing the Run/Pass Efficiency Gap</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Using nflfastR data to show how much more efficient passing is than rushing at the team level</p>
 </div>
 </a>
@@ -1954,12 +2849,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Opponent adjusted EPA","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Jonathan Goldberg</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png"/>
 </div>
 <div class="description">
 <h2>Adjusting EPA for Strength of Opponent</h2>
+<div class="dt-tags">
+<div class="dt-tag">Opponent adjusted EPA</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!</p>
 </div>
 </a>
@@ -1967,12 +2870,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["nflfastR","python"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 20, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
 <h2>Python contributing example</h2>
+<div class="dt-tags">
+<div class="dt-tag">nflfastR</div>
+<div class="dt-tag">python</div>
+</div>
 <p>Showing how to contribute using Python code</p>
 </div>
 </a>
@@ -1980,12 +2890,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","Roster","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png"/>
 </div>
 <div class="description">
 <h2>Matching players without ID keys</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">Roster</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Rebuilding player graphs when ID keys go missing or are corrupted.</p>
 </div>
 </a>
@@ -1993,12 +2911,20 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Keras","Tensorflow","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Analytics Darkweb</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png"/>
 </div>
 <div class="description">
 <h2>Neural Nets using R</h2>
+<div class="dt-tags">
+<div class="dt-tag">Keras</div>
+<div class="dt-tag">Tensorflow</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Using Keras in R to build neural networks.</p>
 </div>
 </a>
@@ -2006,12 +2932,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Ben Baldwin</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png"/>
 </div>
 <div class="description">
 <h2>The accumulation of QB hits vs passing efficiency</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>Do quarterbacks who get hit see their performance decline throughout the game?</p>
 </div>
 </a>
@@ -2019,12 +2952,19 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</p>
 <script class="post-metadata" type="text/json">{"categories":["Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 19, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png"/>
 </div>
 <div class="description">
 <h2>Wins Above Expectation</h2>
+<div class="dt-tags">
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article looks at the percentage of snaps with win probability over an 
 arbitralily chosen critical value and compares it with the true win percentage.</p>
 </div>
@@ -2033,12 +2973,21 @@ arbitralily chosen critical value and compares it with the true win percentage.<
 <script class="post-metadata" type="text/json">{"categories":["Scraping","PFR","Figures","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Aug. 18, 2020</div>
+<div class="dt-authors">
+<div class="dt-author">Sebastian Carl</div>
+</div>
 </div>
 <div class="thumbnail">
 <img data-src="posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png"/>
 </div>
 <div class="description">
 <h2>PFR's Bad Throw Percentage for Quarterbacks</h2>
+<div class="dt-tags">
+<div class="dt-tag">Scraping</div>
+<div class="dt-tag">PFR</div>
+<div class="dt-tag">Figures</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>This article shows how to scrape football data from Pro Football Reference and
 how to plot the bad throw percentage data for quarterbacks.</p>
 </div>
@@ -2049,131 +2998,195 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 <h3>Categories</h3>
 <ul>
 <li>
-<a href="#Animation">Animation</a>
+<a href="#category:Articles">Articles</a>
+<span class="category-count">(35)</span>
+</li>
+<li>
+<a href="#category:Adjusting_EPA">Adjusting EPA</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Articles">Articles</a>
+<a href="#category:Animation">Animation</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Completion_Probability_Intercept">Completion Probability Intercept</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#CPOE_/_EPA_functions">CPOE / EPA functions</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Efficiency">Efficiency</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Elo">Elo</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#espnscrapeR">espnscrapeR</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Fantasy_Football">Fantasy Football</a>
+<a href="#category:Articles">Articles</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
-<a href="#field_goal">field goal</a>
+<a href="#category:Completion_Probability_Intercept">Completion Probability Intercept</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Figures">Figures</a>
-<span class="category-count">(12)</span>
-</li>
-<li>
-<a href="#Game_Predicitions">Game Predicitions</a>
+<a href="#category:CPOE_/_EPA_functions">CPOE / EPA functions</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Getting_started">Getting started</a>
+<a href="#category:Decision_Trees">Decision Trees</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Interactive_plots">Interactive plots</a>
+<a href="#category:Efficiency">Efficiency</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Keras">Keras</a>
+<a href="#category:Elo">Elo</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Logistic_Generalized_Additive_Mixed_Models">Logistic Generalized Additive Mixed Models</a>
+<a href="#category:EPA">EPA</a>
+<span class="category-count">(2)</span>
+</li>
+<li>
+<a href="#category:espnscrapeR">espnscrapeR</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Mixed_Effects">Mixed Effects</a>
+<a href="#category:Fantasy_Football">Fantasy Football</a>
+<span class="category-count">(2)</span>
+</li>
+<li>
+<a href="#category:field_goal">field goal</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#nflfastR">nflfastR</a>
-<span class="category-count">(21)</span>
+<a href="#category:Figures">Figures</a>
+<span class="category-count">(14)</span>
 </li>
 <li>
-<a href="#nflfastR_xYAC_Model">nflfastR xYAC Model</a>
+<a href="#category:Game_Predicitions">Game Predicitions</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Opponent_adjusted_EPA">Opponent adjusted EPA</a>
+<a href="#category:Game_Prediction">Game Prediction</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Packers">Packers</a>
+<a href="#category:Getting_started">Getting started</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#PFR">PFR</a>
+<a href="#category:Home_Field_Advantage">Home Field Advantage</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#placekicker">placekicker</a>
+<a href="#category:Interactive_plots">Interactive plots</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#python">python</a>
-<span class="category-count">(5)</span>
-</li>
-<li>
-<a href="#quarterbacks">quarterbacks</a>
+<a href="#category:Keras">Keras</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Roster">Roster</a>
+<a href="#category:Logistic_Generalized_Additive_Mixed_Models">Logistic Generalized Additive Mixed Models</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Scraping">Scraping</a>
+<a href="#category:Mixed_Effects">Mixed Effects</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Model_Calibration">Model Calibration</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:nflfastR">nflfastR</a>
+<span class="category-count">(27)</span>
+</li>
+<li>
+<a href="#category:nflfastR_xYAC_Model">nflfastR xYAC Model</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Opponent_adjusted_EPA">Opponent adjusted EPA</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Packers">Packers</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Penalty_EPA">Penalty EPA</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:PFR">PFR</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:placekicker">placekicker</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Positional_breakdown">Positional breakdown</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Prediction">Prediction</a>
+<span class="category-count">(2)</span>
+</li>
+<li>
+<a href="#category:python">python</a>
+<span class="category-count">(6)</span>
+</li>
+<li>
+<a href="#category:Quarterback_Analysis">Quarterback Analysis</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:quarterbacks">quarterbacks</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Receiving">Receiving</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Rolling_EPA">Rolling EPA</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Roster">Roster</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:scikit-learn">scikit-learn</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Scraping">Scraping</a>
 <span class="category-count">(3)</span>
 </li>
 <li>
-<a href="#stan">stan</a>
+<a href="#category:stan">stan</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Tensorflow">Tensorflow</a>
+<a href="#category:Stupid_Internet_Arguments">Stupid Internet Arguments</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#tidyModels">tidyModels</a>
+<a href="#category:Tensorflow">Tensorflow</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Tidymodels">Tidymodels</a>
+<a href="#category:tidyModels">tidyModels</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#Total_QBR">Total QBR</a>
+<a href="#category:Tidymodels">Tidymodels</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
-<a href="#turnovers">turnovers</a>
+<a href="#category:Total_QBR">Total QBR</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:turnovers">turnovers</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:xgboost">xgboost</a>
 <span class="category-count">(1)</span>
 </li>
 </ul>
@@ -2187,12 +3200,14 @@ how to plot the bad throw percentage data for quarterbacks.</p>
 
 <div class="d-title">
 <h1>Latest posts</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 
 </div>
 
 
 <div class="d-article">
-
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

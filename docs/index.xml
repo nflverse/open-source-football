@@ -12,7 +12,103 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Gunslingers and Game Managers</title>
+      <dc:creator>David Anderson</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</link>
+      <description>Quantifying Quarterbacks' performance along the "game manager" and "gunslinger" dimensions.</description>
+      <category>Quarterback Analysis</category>
+      <category>nflfastR</category>
+      <category>Stupid Internet Arguments</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</guid>
+      <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+    </item>
+    <item>
+      <title>Modeling NFL game outcomes using Python and scikit-learn</title>
+      <dc:creator>Ben Dominguez</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</link>
+      <description>Use Python and scikit-learn to model NFL game outcomes and build a pre-game win probability model.</description>
+      <category>python</category>
+      <category>scikit-learn</category>
+      <category>Game Prediction</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</guid>
+      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png" medium="image" type="image/png" width="10800" height="7200"/>
+    </item>
+    <item>
+      <title>nflfastR EP, WP, CP xYAC, and xPass models</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</link>
+      <description>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>Decision Trees</category>
+      <category>xgboost</category>
+      <category>Model Calibration</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
+    </item>
+    <item>
+      <title>Exploring Stability and Predictive Power of Penalties in the NFL</title>
+      <dc:creator>Jack Lichtenstein</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</link>
+      <description>Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes</description>
+      <category>nflfastR</category>
+      <category>EPA</category>
+      <category>Penalty EPA</category>
+      <category>Prediction</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</guid>
+      <pubDate>Thu, 21 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Analyzing Home Field Advantage in the NFL</title>
+      <dc:creator>Adrian Cadena</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</link>
+      <description>Multi-season analysis of league and team-specific home-field advantage in the NFL.</description>
+      <category>nflfastR</category>
+      <category>Articles</category>
+      <category>Home Field Advantage</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</guid>
+      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Exploring Rolling Averages of EPA</title>
+      <dc:creator>Jack Lichtenstein</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</link>
+      <description>Use nflfastR to develop lagged rolling averages of EPA to best predict a game's outcome</description>
+      <category>nflfastR</category>
+      <category>EPA</category>
+      <category>Adjusting EPA</category>
+      <category>Rolling EPA</category>
+      <category>Prediction</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</guid>
+      <pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Still elite: What the numbers tell us about Aaron Rodgers</title>
+      <dc:creator>Peter Owen</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</link>
+      <description>The more you look into the numbers, the better it looks for Aaron Rodgers</description>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</guid>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+    </item>
+    <item>
+      <title>Receiving by Position</title>
+      <dc:creator>Arthur Gymer</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</link>
+      <description>Breaking down the receiving game by position using nflfastR data.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>Positional breakdown</category>
+      <category>Receiving</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</guid>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png" medium="image" type="image/png" width="3900" height="3600"/>
+    </item>
     <item>
       <title>Creating an Expected Field Goal Metric</title>
       <dc:creator>Mike Irene</dc:creator>
