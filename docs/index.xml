@@ -12,7 +12,19 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 04 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Gunslingers and Game Managers</title>
+      <dc:creator>David Anderson</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</link>
+      <description>Quantifying Quarterbacks' performance along the "game manager" and "gunslinger" dimensions.</description>
+      <category>Quarterback Analysis</category>
+      <category>nflfastR</category>
+      <category>Stupid Internet Arguments</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</guid>
+      <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+    </item>
     <item>
       <title>Modeling NFL game outcomes using Python and scikit-learn</title>
       <dc:creator>Ben Dominguez</dc:creator>
@@ -36,7 +48,7 @@
       <category>xgboost</category>
       <category>Model Calibration</category>
       <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
     </item>
     <item>
