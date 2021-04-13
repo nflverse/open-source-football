@@ -1,0 +1,580 @@
+---
+title: "Creating a model from scratch using xgboost in R"
+description: |
+  xgboost and R
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin
+date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/mrcaseb/open-source-football"
+categories:
+  - xgboost
+  - nflfastR
+---
+
+<!-- ####################################################################### -->
+<!-- Please keep the following chunk as is at the top of your document. 
+     It will set some global chunk options.  -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 300, 
+  tidy = 'styler'
+  )
+```
+
+<!-- ####################################################################### -->
+
+## Intro
+
+One of the most frequent questions I get asked is how I put together the `nflfastR` win probability and expected points added models. [As demonstrated here](https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/), they can offer an improvement over simpler methods such as logistic regression.
+
+Before we go on, some links:
+* [Introduction to boosted trees](https://xgboost.readthedocs.io/en/latest/tutorials/model.html)
+* [What the parameters do](https://xgboost.readthedocs.io/en/latest/parameter.html)
+
+Parts of this draw on [Richard Anderson's OSF post](https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/), which in turn is based on [this post from Julia Silge](https://juliasilge.com/blog/xgboost-tune-volleyball/).
+
+Is this at all necessary? No, there are a million xgboost tutorials out there. But none of them had quite the combination of different things I wanted to do, so I'm writing everything down here in case it helps someone out. If there is a better way to do certain things, please let me know! 
+
+This is by no means a full "tidymodels" approach because I still can't figure it out.
+
+## Get the data
+
+First let's load and label the data (1 = win, 0 = loss) from `nflfastR`.
+
+```{r setup}
+library(tidyverse)
+library(nflfastR)
+library(splitTools)
+library(dials)
+library(xgboost)
+library(tidymodels)
+set.seed(2013) # gohawks
+# this should be the default u y do this R
+options(scipen = 999999)
+```
+
+```{r data}
+future::plan("multisession")
+pbp_data <- nflfastR::load_pbp(2001:2020) %>%
+  dplyr::mutate(
+    # label data with whether possession team ended up winning
+    label = dplyr::case_when(
+      result > 0 & posteam == home_team ~ 1,
+      result < 0 & posteam == away_team ~ 1,
+      TRUE ~ 0
+    ),
+    # create home indicator
+    home = ifelse(posteam == home_team, 1, 0)
+  ) %>%
+  # creates Diff_Time_Ratio and spread_time 
+  nflfastR:::prepare_wp_data() %>%
+  dplyr::filter(
+    !is.na(down), 
+    !is.na(game_seconds_remaining),
+    !is.na(yardline_100),
+    !is.na(score_differential),
+    # overtime is hard
+    qtr <= 4,
+    !is.na(result),
+    !is.na(posteam),
+    # throw out ties
+    result != 0
+    ) %>%
+  dplyr::select(
+    label,
+    game_id,
+    receive_2h_ko,
+    spread_time,
+    home,
+    half_seconds_remaining,
+    game_seconds_remaining,
+    Diff_Time_Ratio,
+    score_differential,
+    down,
+    ydstogo,
+    yardline_100,
+    posteam_timeouts_remaining,
+    defteam_timeouts_remaining,
+    season
+  )
+```
+
+## tidymodels
+
+```{r}
+train <- pbp_data %>%
+  filter(season != 2020)
+
+test <- pbp_data %>%
+  filter(season == 2020)
+
+xgb_spec <- boost_tree(
+  trees = 1000,
+  tree_depth = tune(),
+  min_n = tune(),
+  loss_reduction = tune(),
+  sample_size = tune(),
+  mtry = tune(),
+  learn_rate = tune()
+) %>%
+  set_engine("xgboost") %>%
+  set_mode("classification")
+
+xgb_spec
+
+xgb_grid <-
+  grid_latin_hypercube(
+    tree_depth(),
+    min_n(),
+    loss_reduction(),
+    sample_size = sample_prop(),
+    finalize(mtry(), train),
+    learn_rate(),
+    size = 10
+  )
+
+xgb_grid
+
+xgb_wf <- workflow() %>%
+  add_formula(y ~ .) %>%
+  add_model(xgb_spec)
+
+xgb_wf
+
+folds <- group_vfold_cv(
+  data = train,
+  group = game_id,
+  v = 10
+)
+
+xgb_res <- tune_grid(
+  xgb_wf,
+  resamples = folds,
+  grid = xgb_grid,
+  control = control_grid(save_pred = TRUE)
+)
+
+xgb_res
+
+# Tuning results
+# Group 10-fold cross-validation 
+# A tibble: 10 x 5
+   splits                 id         .metrics .notes           .predictions
+   <list>                 <chr>      <list>   <list>           <list>      
+ 1 <split [673103/75194]> Resample01 <NULL>   <tibble [1 x 1]> <NULL>      
+ 2 <split [673140/75157]> Resample02 <NULL>   <tibble [1 x 1]> <NULL>      
+ 3 <split [673315/74982]> Resample03 <NULL>   <tibble [1 x 1]> <NULL>      
+ 4 <split [673876/74421]> Resample04 <NULL>   <tibble [1 x 1]> <NULL>      
+ 5 <split [673545/74752]> Resample05 <NULL>   <tibble [1 x 1]> <NULL>      
+ 6 <split [673137/75160]> Resample06 <NULL>   <tibble [1 x 1]> <NULL>      
+ 7 <split [673444/74853]> Resample07 <NULL>   <tibble [1 x 1]> <NULL>      
+ 8 <split [673880/74417]> Resample08 <NULL>   <tibble [1 x 1]> <NULL>      
+ 9 <split [673543/74754]> Resample09 <NULL>   <tibble [1 x 1]> <NULL>      
+10 <split [673690/74607]> Resample10 <NULL>   <tibble [1 x 1]> <NULL>      
+Warning message:
+This tuning result has notes. Example notes on model fitting include:
+preprocessor 1/1: Error: cannot allocate vector of size 22.9 Gb
+preprocessor 1/1: Error: cannot allocate vector of size 22.9 Gb
+preprocessor 1/1: Error: cannot allocate vector of size 22.9 Gb 
+
+
+
+collect_metrics(xgb_res)
+best_rmse <- select_best(xgb_res, "rmse")
+best_rmse
+final_xgb <- finalize_workflow(
+  xgb_wf,
+  best_rmse
+)
+final_xgb
+library(vip)
+final_xgb %>%
+  fit(data = train) %>%
+  pull_workflow_fit() %>%
+  vip(geom = "point")
+final_res <- last_fit(final_xgb, data_split)
+collect_metrics(final_res)
+test_results <-
+  test_results %>%
+  rename(
+    xgb_predictions = .pred
+  ) %>%
+  bind_cols(
+    predict(final_xgb %>%
+              fit(data = train) %>%
+              pull_workflow_fit(), new_data = test[, preds])
+  ) 
+```
+
+
+## Make some splits
+
+Let's hold out 2020 for the final test. For the rest, let's create some validation folds that we can use in xgboost.
+
+```{r}
+test_data <- pbp_data %>%
+  filter(season == 2020)
+
+train_data <- pbp_data %>%
+  filter(season != 2020)
+
+folds <- splitTools::create_folds(
+  y = train_data$game_id, 
+  k = 5, 
+  type = "grouped", 
+  invert = TRUE
+  )
+
+train_labels <- train_data %>%
+  select(label)
+
+# get rid of extra columns
+train_data <- train_data %>%
+  select(-season, -game_id, -label)
+
+str(folds)
+```
+
+The important bit above is the part that creates the `folds` object that will be used in `xgb.cv`. From the [xgboost documentation](https://rdrr.io/cran/xgboost/man/xgb.cv.html):
+
+`folds` (list) provides a possibility to use a list of pre-defined CV folds (each element must be a vector of test fold's indices). When folds are supplied, the `nfold` and `stratified` parameters are ignored.
+
+From the `splitTools` docs, what the above is doing: 
+
+* `y`:  Either the variable used for "stratification" or "grouped" splits. Here, we're going to "group" based on `game_id`, which means that "groups specified by y are kept together when splitting".
+* `k`:  number of folds
+* As noted above, "grouped" means that games are kept together when splitting
+* `invert = TRUE`: Docs say "Set to TRUE if the row numbers not in the fold are to be returned". Because xgboost requires each split to show the test fold indices, we want this to be the case.
+
+The **very important step** here is that since labels are shared across observations -- i.e., for a given team in a given game, each of their rows will be labeled either 1 or 0 since they either win or they don't -- we must be very careful to make sure each game has a corresponding validation fold where it is held out. This is what the "grouped" part does above. An alternative would be to create folds based on season (instead of game) where seasons are held out from a given fold.
+
+## Tuning
+
+Let's use `dials` to create a set of hyperparameters to tune over. This is the one thing from tidymodels that I have been able to use successfully, though with some modifications.
+
+```{r}
+grid <- dials::grid_latin_hypercube(
+  # this finalize thing is because mtry depends on # of columns in data
+  dials::finalize(dials::mtry(), train_data),
+  dials::min_n(),
+  dials::tree_depth(),
+  dials::loss_reduction(),
+  sample_size = dials::sample_prop(),
+  size = 40
+) %>%
+  mutate(
+    # has to be between 0 and 1 for xgb
+    # for some reason mtry gives the number of columns rather than proportion
+    mtry = mtry / length(train_data),
+    # start with a high learn_rate for tuning
+    learn_rate = 0.3,
+    monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+    
+  # for the monotone constraints
+  
+  # receive_2h_ko, 0
+  # spread_time, 0
+  # home, 0
+  
+  # half_seconds_remaining, 0
+  # game_seconds_remaining, 0
+  # Diff_Time_Ratio, 1
+  
+  # score_differential, 1
+  # down, -1
+  # ydstogo, -1
+  
+  # yardline_100, -1
+  # posteam_timeouts_remaining, 1
+  # defteam_timeouts_remaining, -1
+  
+
+  ) %>%
+  # make these the right names for xgb
+  dplyr::rename(
+    eta = learn_rate,
+    gamma = loss_reduction,
+    subsample = sample_size,
+    colsample_bytree = mtry,
+    max_depth = tree_depth,
+    min_child_weight = min_n
+  )
+
+grid
+```
+A lot of notes here:
+
+* See [the docs](https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html) for what monotonic constraints do. In short, we want to impose constraints on certain columns. For example, all else equal, we want a team's win probability to be increasing as the team gets closer to the opponent's end zone or ahead by more points.
+* The `size` parameter tells it how many rows you want to fill out to search over
+* I do some renaming so that the things are called what `xgboost` expects
+
+And now we need a function to take a row from our `grid` and train the model using those hyperparameters.
+
+```{r}
+# function to search over hyperparameter grid
+get_row <- function(row) {
+  
+  params <-
+    list(
+      booster = "gbtree",
+      objective = "binary:logistic",
+      eval_metric = c("logloss"),
+      eta = row$eta,
+      gamma = row$gamma,
+      subsample= row$subsample,
+      colsample_bytree= row$colsample_bytree,
+      max_depth = row$max_depth,
+      min_child_weight = row$min_child_weight,
+      monotone_constraints = row$monotone_constraints
+    )
+  
+  # do the cross validation for tuning
+  wp_cv_model <- xgboost::xgb.cv(
+    data = as.matrix(train_data), 
+    label = train_labels$label,
+    params = params, 
+    nrounds = 15000,
+    folds = folds, 
+    metrics = list("logloss"),
+    early_stopping_rounds = 20, 
+    print_every_n = 50
+    )
+  
+  output <- params
+  output$iter = wp_cv_model$best_iteration
+  output$logloss = wp_cv_model$evaluation_log[output$iter]$test_logloss_mean
+  output$error = wp_cv_model$evaluation_log[output$iter]$test_error_mean
+  
+  row_result <- bind_rows(output)
+  
+  return(row_result)
+}
+```
+
+Now we're ready to go through the hyperparameter grid.
+
+```{r, results = "hide"}
+# get results
+results <- map_df(1 : nrow(grid), function(x) {
+  
+  get_row(grid %>% dplyr::slice(x))
+  
+})
+```
+Let's take a look at what we've got.
+
+And plot it:
+```{r}
+results %>%
+  select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
+  pivot_longer(eta:min_child_weight,
+               values_to = "value",
+               names_to = "parameter"
+  ) %>%
+  ggplot(aes(value, logloss, color = parameter)) +
+  geom_point(alpha = 0.8, show.legend = FALSE, size = 3) +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(x = NULL, y = "logloss") +
+  theme_minimal()
+```
+Looking at the results, it seems like we want max depth somewhere in the 3-4 range and colsample_bytree definitely greater than 1/2. So let's hone in on that and re-tune. Note that we're now giving `dials` some ranges to work with in some of these.
+
+```{r}
+grid <- dials::grid_latin_hypercube(
+  # don't need the finalize business since we're using length in here
+  dials::mtry(range = c(length(train_data) / 2, length(train_data))),
+  dials::min_n(),
+  dials::tree_depth(range = c(3L, 5L)),
+  dials::loss_reduction(),
+  sample_size = dials::sample_prop(),
+  size = 40
+) %>%
+  mutate(
+    # has to be between 0 and 1 for xgb
+    # for some reason mtry gives the number of columns rather than proportion
+    mtry = mtry / length(train_data),
+    # start with a high learn_rate for tuning
+    learn_rate = 0.3,
+    monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+  ) %>%
+  # make these the right names for xgb
+  dplyr::rename(
+    gamma = loss_reduction,
+    subsample = sample_size,
+    colsample_bytree = mtry,
+    max_depth = tree_depth,
+    min_child_weight = min_n
+  )
+
+grid
+```
+
+And now we can re-run our function with the new grid:
+
+```{r, results = "hide"}
+# get results
+results <- map_df(1 : nrow(grid), function(x) {
+  
+  get_row(grid %>% dplyr::slice(x))
+  
+})
+```
+
+And plot it again:
+
+```{r}
+results %>%
+  select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
+  pivot_longer(eta:min_child_weight,
+               values_to = "value",
+               names_to = "parameter"
+  ) %>%
+  ggplot(aes(value, logloss, color = parameter)) +
+  geom_point(alpha = 0.8, show.legend = FALSE, size = 3) +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(x = NULL, y = "logloss") +
+  theme_minimal()
+```
+
+Let's call that good enough. One thing I'm curious is whether we can add a monotone constraint on `spread_time`, which is the time-decaying value for point spread from the perspective of the possession team.
+
+```{r}
+grid2 <- grid %>%
+  mutate(
+    # old
+    # monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+    
+    # new
+      monotone_constraints = "(0, 1, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+  )
+
+results2 <- map_df(1 : nrow(grid2), function(x) {
+  
+  get_row(grid2 %>% dplyr::slice(x))
+  
+})
+```
+
+```{r}
+glue::glue(
+  '--BEST LOGLOSS--
+
+No monotone constraint on spread_time:
+{round(results %>% arrange(logloss) %>% dplyr::slice(1) %>% pull(logloss), 5)}
+
+Monotone constraint on spread_time:
+{round(results2 %>% arrange(logloss) %>% dplyr::slice(1) %>% pull(logloss), 5)}'
+)
+
+```
+
+## Try out some learning rates
+
+Let's take the results from our best model and try out some different learning rates. Maybe there's a better way to do this.
+
+```{r}
+best_model <- results %>%
+  dplyr::arrange(logloss) %>%
+  dplyr::slice(1)
+
+grid <- tibble::tibble(
+  eta = c(.01, .025, .05, .10, .20),
+  gamma = best_model$gamma,
+  subsample=  best_model$subsample,
+  colsample_bytree=  best_model$colsample_bytree,
+  max_depth =  best_model$max_depth,
+  min_child_weight =  best_model$min_child_weight,
+  monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+)
+
+grid
+```
+
+```{r, results = "hide"}
+# get results
+results <- map_df(1 : nrow(grid), function(x) {
+  
+  get_row(grid %>% dplyr::slice(x))
+  
+})
+```
+
+See which learning rate (eta) looks best:
+
+```{r}
+results %>%
+  arrange(logloss) %>%
+  select(eta, logloss)
+
+best_model <- results %>%
+  dplyr::arrange(logloss) %>%
+  dplyr::slice(1)
+```
+
+## Train the model
+
+```{r}
+params <-
+  list(
+    booster = "gbtree",
+    objective = "binary:logistic",
+    eval_metric = c("logloss"),
+    eta = best_model$eta,
+    gamma = best_model$gamma,
+    subsample= best_model$subsample,
+    colsample_bytree= best_model$colsample_bytree,
+    max_depth = best_model$max_depth,
+    min_child_weight = best_model$min_child_weight,
+    monotone_constraints = 
+      "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
+  )
+
+nrounds <- best_model$iter
+```
+
+```{r}
+wp_model_spread <- xgboost::xgboost(
+  params = params, 
+  data = as.matrix(train_data), 
+  label = train_labels$label,
+  nrounds = nrounds, 
+  verbose = 2
+  )
+```
+
+Let's check the variable importance.
+
+```{r}
+importance <- xgboost::xgb.importance(feature_names = colnames(wp_model_spread), model = wp_model_spread)
+xgboost::xgb.ggplot.importance(importance_matrix = importance)
+```
+
+
+<!-- ####################################################################### -->
+<!-- Place at end of document 
+     Please keep this chunk as is at end of your document. 
+     It will create a hyperlink to the source file. -->
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+           )
+```
+
+<!-- ####################################################################### -->
+
