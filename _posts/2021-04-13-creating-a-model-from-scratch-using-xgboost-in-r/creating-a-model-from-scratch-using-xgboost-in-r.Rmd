@@ -56,6 +56,7 @@ library(nflfastR)
 library(splitTools)
 library(dials)
 library(xgboost)
+library(ggplot2)
 library(tidyverse)
 set.seed(2013) # gohawks
 # this should be the default u y do this R
@@ -128,10 +129,10 @@ Let's hold out 2020 for the final test and chop the remainder into folds for cro
 
 ```{r splits}
 test_data <- pbp_data %>%
-  filter(season == 2020)
+  dplyr::filter(season == 2020)
 
 train_data <- pbp_data %>%
-  filter(season != 2020)
+  dplyr::filter(season != 2020)
 
 folds <- splitTools::create_folds(
   y = train_data$game_id, 
@@ -141,11 +142,11 @@ folds <- splitTools::create_folds(
   )
 
 train_labels <- train_data %>%
-  select(label)
+  dplyr::select(label)
 
 # get rid of extra columns
 train_data <- train_data %>%
-  select(-season, -game_id, -label)
+  dplyr::select(-season, -game_id, -label)
 
 str(folds)
 ```
@@ -177,7 +178,7 @@ grid <- dials::grid_latin_hypercube(
   sample_size = dials::sample_prop(),
   size = grid_size
 ) %>%
-  mutate(
+  dplyr::mutate(
     # has to be between 0 and 1 for xgb
     # for some reason mtry gives the number of columns rather than proportion
     mtry = mtry / length(train_data),
@@ -273,7 +274,7 @@ Now we're ready to run the function above on each row of our hyperparameter grid
 
 ```{r tune1, results = "hide"}
 # get results
-results <- map_df(1 : nrow(grid), function(x) {
+results <- purrr::map_df(1 : nrow(grid), function(x) {
   
   get_row(grid %>% dplyr::slice(x))
   
@@ -284,8 +285,8 @@ Let's take a look at what we've got with thanks to the code from [Julia Silge me
 
 ```{r plot1, layout="l-body", fig.height=4.5}
 results %>%
-  select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
-  pivot_longer(
+  dplyr::select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
+  tidyr::pivot_longer(
     eta:min_child_weight,
     values_to = "value",
     names_to = "parameter"
@@ -310,7 +311,7 @@ grid <- dials::grid_latin_hypercube(
   sample_size = dials::sample_prop(),
   size = grid_size
 ) %>%
-  mutate(
+  dplyr::mutate(
     # has to be between 0 and 1 for xgb
     # for some reason mtry gives the number of columns rather than proportion
     mtry = mtry / length(train_data),
@@ -335,7 +336,7 @@ And now we can re-run our function with the new grid:
 
 ```{r tune2, results = "hide"}
 # get results
-results <- map_df(1 : nrow(grid), function(x) {
+results <- purrr::map_df(1 : nrow(grid), function(x) {
   
   get_row(grid %>% dplyr::slice(x))
   
@@ -346,8 +347,8 @@ And plot it again:
 
 ```{r plot2, layout="l-body", fig.height=4.5}
 results %>%
-  select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
-  pivot_longer(eta:min_child_weight,
+  dplyr::select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
+  tidyr::pivot_longer(eta:min_child_weight,
                values_to = "value",
                names_to = "parameter"
   ) %>%
@@ -362,7 +363,7 @@ One thing I'm curious is whether we can add a monotone constraint on `spread_tim
 
 ```{r tune3, results = "hide"}
 grid2 <- grid %>%
-  mutate(
+  dplyr::mutate(
     # old
     # monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
     
@@ -370,7 +371,7 @@ grid2 <- grid %>%
       monotone_constraints = "(0, 1, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
   )
 
-results2 <- map_df(1 : nrow(grid2), function(x) {
+results2 <- purrr::map_df(1 : nrow(grid2), function(x) {
   
   get_row(grid2 %>% dplyr::slice(x))
   
@@ -426,8 +427,8 @@ See which learning rate (eta) looks best:
 
 ```{r best_model}
 results %>%
-  arrange(logloss) %>%
-  select(eta, logloss)
+  dplyr::arrange(logloss) %>%
+  dplyr::select(eta, logloss)
 
 best_model <- results %>%
   dplyr::arrange(logloss) %>%
@@ -529,8 +530,8 @@ If we wanted the test error instead of test logloss:
 ```{r acc}
 MLmetrics::Accuracy(
   preds %>% 
-    mutate(pred = ifelse(wp > .5, 1, 0)) %>%
-    pull(pred), 
+    dplyr::mutate(pred = ifelse(wp > .5, 1, 0)) %>%
+    dplyr::pull(pred), 
   preds$label
   )
 ```
@@ -542,15 +543,15 @@ Finally, let's make sure a calibration plot looks okay:
 ```{r calib_plot_data}
 plot <- preds %>%
   # Create BINS for wp:
-  mutate(bin_pred_prob = round(wp / 0.05) * .05) %>%
-  group_by(bin_pred_prob) %>%
+  dplyr::mutate(bin_pred_prob = round(wp / 0.05) * .05) %>%
+  dplyr::group_by(bin_pred_prob) %>%
   # Calculate the calibration results:
-  summarize(
+  dplyr::summarize(
     n_plays = n(),
     n_wins = length(which(label == 1)),
     bin_actual_prob = n_wins / n_plays
   ) %>%
-  ungroup()
+  dplyr::ungroup()
 
 ann_text <- data.frame(
   x = c(.25, 0.75), y = c(0.75, 0.25),
