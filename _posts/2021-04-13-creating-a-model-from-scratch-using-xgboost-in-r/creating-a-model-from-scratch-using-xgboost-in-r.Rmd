@@ -1,5 +1,5 @@
 ---
-title: "Creating a model from scratch using xgboost in R"
+title: "NFL win probability from scratch using xgboost in R"
 description: |
   xgboost and R
 author:
@@ -35,49 +35,50 @@ knitr::opts_chunk$set(
 
 ## Intro
 
-One of the most frequent questions I get asked is how I put together the `nflfastR` win probability and expected points added models. [As demonstrated here](https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/), they can offer an improvement over simpler methods such as logistic regression.
+I get a lot of questions about win probability / expected points models and `xgboost`. [As demonstrated here](https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/), tree-based models like `xgboost` can offer an improvement over simpler methods such as logistic regression. This post is designed to show how to tune and train a win probability model.
 
-Before we go on, some links:
+Before we go on, a couple links:
+
 * [Introduction to boosted trees](https://xgboost.readthedocs.io/en/latest/tutorials/model.html)
-* [What the parameters do](https://xgboost.readthedocs.io/en/latest/parameter.html)
+* [What the xgboost parameters do](https://xgboost.readthedocs.io/en/latest/parameter.html)
 
-Parts of this drawn from [Richard Anderson's OSF post](https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/), which in turn is based on [this post from Julia Silge](https://juliasilge.com/blog/xgboost-tune-volleyball/).
+In general, the xgboost documentation is very, very good so I recommend checking it out if you plan to use it. Parts of this post are drawn from the extremely helplful [Richard Anderson OSF post](https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/), which in turn is based on [this excellent post from Julia Silge](https://juliasilge.com/blog/xgboost-tune-volleyball/).
 
-There are a million xgboost tutorials out there, so why does this exist? In short, none of them had quite the combination of different things I wanted to do, so I'm writing everything down here in case it helps someone out. If there is a better way to do certain things, please let me know! 
-
-This is by no means a full "tidymodels" approach because I still can't figure it out. I'm also skipping important steps like exploratory data analysis and feature construction. This also doesn't cover handling `NA`s (which I just drop), categorical variables, and probably a lot of other stuff. All of that is important, but probably worth a separate post on its own. For this post, let's assume we have a good idea of what the features in the model should be and just want to properly tune and train it.
+This overview skips over some important steps like exploratory data analysis and feature engineering. This also doesn't cover handling `NA`s (which I just drop), categorical variables, and probably a lot of other stuff. All of those are important steps, but covering them would probably worth a separate post on its own. For this one, we're taking a starting point of knowing which features will be included and wanting to properly tune and train a model.
 
 ## Boring preliminary stuff
 
 Let's load the necessary packages and set some variables needed later.
 
 ```{r}
+# packages
 library(nflfastR)
 library(splitTools)
 library(dials)
 library(xgboost)
 library(ggplot2)
 library(tidyverse)
+
 set.seed(2013) # gohawks
+
 # this should be the default u y do this R
 options(scipen = 999999)
 
 # size of hyperparameter grid to search over
-grid_size <- 2
-
-# learn_rate (eta) to use for the tuning part
-base_learn_rate <- 0.50
+# if you don't have a potato computer, can set this to a bigger number
+grid_size <- 40
 ```
 
 ## Get the data
 
-First let's load the data from `nflfastR` and label it (1 = win, 0 = loss) .
+First let's load the data from `nflfastR`, label it (1 = win, 0 = loss), and keep the necessary columns.
 
 ```{r data}
 future::plan("multisession")
 pbp_data <- nflfastR::load_pbp(2001:2020) %>%
   dplyr::mutate(
     # label data with whether possession team ended up winning
+    # note that NA result and ties dealt with later
     label = dplyr::case_when(
       result > 0 & posteam == home_team ~ 1,
       result < 0 & posteam == away_team ~ 1,
@@ -125,15 +126,16 @@ pbp_data <- nflfastR::load_pbp(2001:2020) %>%
 
 ## Make some splits
 
-Let's hold out 2020 for the final test and chop the remainder into folds for cross validation. This is somewhat different than a typical tutorial one might see because we can't just take random samples of the data since that has the potential to split up a given game across the training and test sets, which would be bad (more on this below).
+Let's hold out 2019 and 2020 for the final test and chop the remainder into folds for cross validation. This is somewhat different than a typical tutorial because we can't just take random samples of the data since that would split up plays from a given game across the training and test sets, which would be bad (more on this below).
 
 ```{r splits}
 test_data <- pbp_data %>%
-  dplyr::filter(season == 2020)
+  dplyr::filter(season >= 2019)
 
 train_data <- pbp_data %>%
-  dplyr::filter(season != 2020)
+  dplyr::filter(season < 2019)
 
+# explanation of this step below
 folds <- splitTools::create_folds(
   y = train_data$game_id, 
   k = 5, 
@@ -151,22 +153,22 @@ train_data <- train_data %>%
 str(folds)
 ```
 
-Above, we create the `folds` object that will be passed to `xgb.cv` later. From the [`xgboost` documentation](https://rdrr.io/cran/xgboost/man/xgb.cv.html): "`folds` (list) provides a possibility to use a list of pre-defined CV folds (**each element must be a vector of test fold's indices**). When folds are supplied, the `nfold` and `stratified` parameters are ignored."
+Above, we create the `folds` object that will be passed to `xgb.cv` later. From the [`xgboost` documentation](https://rdrr.io/cran/xgboost/man/xgb.cv.html): "`folds` (list) provides a possibility to use a list of pre-defined CV folds (**each element must be a vector of test fold's indices**)."
 
-From the `splitTools` docs, what the above is doing: 
+We are thus using `splitTools` to create such folds. From the `splitTools` docs, what the above is doing: 
 
-* `y`:  "Either the variable used for `stratification` or `grouped` splits." Here, we're going to "group" based on `game_id`, which means that "groups specified by `y` are kept together when splitting".
+* `y`:  "Either the variable used for `stratification` or `grouped` splits." Here, we're going to "group" based on `game_id`, which means that "groups specified by `y` are kept together when splitting" as wanted.
 * `k`:  number of folds. Typically 5 or 10
 * `type`: As noted above, "grouped" means that rows with the same `game_id` are kept together when splitting
-* `invert = TRUE`: Docs: "Set to `TRUE` if the row numbers not in the fold are to be returned". This is confusingly worded, but basically this means that when `TRUE`, the hold-out indices for a given fold are returned (rather than the train indices). Because `xgboost` requires each split to show the test fold indices (see bolded part above), we want this to be the case.
+* `invert = TRUE`: Docs: "Set to `TRUE` if the row numbers not in the fold are to be returned". This is confusingly worded, but basically this means that when `TRUE`, the hold-out indices for a given fold are returned (rather than the train indices). Because `xgboost` requires test fold indices (see bolded part above), we want this to be the case.
 
-The **very important note** here is that since labels are shared across observations -- i.e., for a given team in a given game, each of their rows will be labeled either 1 or 0 since they either win or they don't -- we must be very careful to make sure each game has a corresponding validation fold where it is held out. This is what the "grouped" part does above. Otherwise we would experience what is referred to as "leakage" across the train and validation sets, and would encounter a very bad surprise when trying to predict out of sample because the model would overfit badly.
+The **very important note** here is that since labels are shared across observations -- i.e., for a given team in a given game, each of their rows will be labeled either 1 or 0 since they either win or they don't -- we must be very careful to make sure that when a game is in a validation fold, there are no plays from that game in other folds. This is what the "grouped" part does above. If we failed to do this, we would experience what is referred to as "leakage" across the train and validation sets, and would encounter a very bad surprise when trying to predict out of sample because the model would overfit badly.
 
-An alternative to what I'm doing here would be to create folds based on seasons, instead of games, where seasons are held out from a given fold. This is what I did for `nflfastR` since I hadn't discovered how to easily split based on games. Finally, if you're modeling something without interdependence across observations (e.g., an expected completion model where each observation is a one-off), you can skip this and just let `xgb.cv` handle the folds by using the `nfold` parameter.
+An alternative to what I'm doing here would be to create folds based on seasons, instead of games. This is what I did for `nflfastR` since I hadn't discovered how to easily split based on games (thanks to [Andrew Patton](https://github.com/anpatton/basic-nba-tutorials/blob/main/win_probability/make_win_probability_model.md) for the tip), but it shouldn't make much of a difference regardless. Finally, if you're modeling something without interdependence across observations (e.g., an expected completion model where each observation is a one-off), you can skip manually creating folds and just let `xgb.cv` handle the folds by using the `nfold` parameter.
 
 ## Tuning
 
-Let's use `dials` to create a grid of hyperparameters to search over. This is the one thing from tidymodels that I have been able to use successfully, though with some modifications because it doesn't use the same names for hyperparameters as `xgboost` does.
+Let's use `dials` to create a grid of hyperparameters to search over. This is one thing from `tidymodels` that I have found very useful, though note that it has different names for the hyperparameters than `xgboost` so there's some renaming things at the end.
 
 ```{r grid}
 grid <- dials::grid_latin_hypercube(
@@ -174,6 +176,11 @@ grid <- dials::grid_latin_hypercube(
   dials::finalize(dials::mtry(), train_data),
   dials::min_n(),
   dials::tree_depth(),
+  # to force learn_rate to not be crazy small like dials defaults to
+  # because my computer is slow
+  # if you're trying this for a different problem, expand the range here
+  # by using more negative values
+  dials::learn_rate(range = c(-1.5, -0.5), trans = scales::log10_trans()),
   dials::loss_reduction(),
   sample_size = dials::sample_prop(),
   size = grid_size
@@ -182,12 +189,12 @@ grid <- dials::grid_latin_hypercube(
     # has to be between 0 and 1 for xgb
     # for some reason mtry gives the number of columns rather than proportion
     mtry = mtry / length(train_data),
-    # start with a high learn_rate for tuning, this is specified above
-    learn_rate = base_learn_rate,
     # see note below
     monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
     
   # for the monotone constraints
+  # these are notes to myself to make sure the constraints are in the right order
+  # the order of the constraints needs to match up with the columns in the df
   
   # receive_2h_ko, 0
   # spread_time, 0
@@ -222,10 +229,10 @@ grid
 A lot of notes here:
 
 * See [the docs](https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html) for what monotone constraints do. In short, we want to impose constraints on certain columns such that larger (or smaller) values for those columns can only increase (or decrease) the prediction. For example, all else equal, we want a team's win probability to be higher if they are ahead by more points; or stated another way, we want it to be impossible for increasing the size of a team's lead to result in a decrease in win probability
-* The `size` parameter tells it how many rows you want to fill out to search over. We defined `grid_size` above (normally I would just put `grid_size` directly into here but I have a couple things defined at the top to make testing the knitting of this file quicker)
+* The `size` parameter tells it how many rows you want to fill out to search over. We defined `grid_size` above (normally I would just put the size directly into here but I have it defined at the top to make testing the knitting of this file quicker)
 * I do some renaming so that the things are called what `xgboost` expects
 
-And now we need a function to take a row from our `grid` and trains the model using those hyperparameters using `xgb.cv`. This is the sort of thing that `tidymodels` would handle but I find it easier to just write a function myself. For example, passing monotone constraints to `xgboost` using `tidymodels` [takes writing a custom function anyway](https://github.com/tidymodels/parsnip/issues/260).
+And now we need a function to take a row from our `grid` and trains the model using those hyperparameters using `xgb.cv`. This is the sort of thing that `tidymodels` would handle but I find it easier to just write a function myself. For example, passing monotone constraints to `xgboost` using `tidymodels` [requires writing a custom function anyway](https://github.com/tidymodels/parsnip/issues/260).
 
 ```{r fn}
 # function to perform xgb.cv for a given row in a hyperparameter grid
@@ -250,6 +257,8 @@ get_row <- function(row) {
     data = as.matrix(train_data), 
     label = train_labels$label,
     params = params, 
+    # this doesn't matter with early stopping in xgb.cv, just set a big number
+    # the actual optimal rounds will be found in this tuning process
     nrounds = 15000,
     # created above
     folds = folds, 
@@ -262,8 +271,7 @@ get_row <- function(row) {
   output <- params
   output$iter = wp_cv_model$best_iteration
   output$logloss = wp_cv_model$evaluation_log[output$iter]$test_logloss_mean
-  output$error = wp_cv_model$evaluation_log[output$iter]$test_error_mean
-  
+
   row_result <- bind_rows(output)
   
   return(row_result)
@@ -281,9 +289,9 @@ results <- purrr::map_df(1 : nrow(grid), function(x) {
 })
 ```
 
-Let's take a look at what we've got with thanks to the code from [Julia Silge mentioned above](https://juliasilge.com/blog/xgboost-tune-volleyball/):
+Let's take a look at what we've got with thanks to the code from [Julia Silge's post mentioned above](https://juliasilge.com/blog/xgboost-tune-volleyball/):
 
-```{r plot1, layout="l-body", fig.height=4.5}
+```{r plot1, layout="l-body", fig.height=3.5}
 results %>%
   dplyr::select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
   tidyr::pivot_longer(
@@ -298,15 +306,17 @@ results %>%
   theme_minimal()
 ```
 
-Looking at the results, it seems like we want `max_depth` somewhere in the 3-4 range and `colsample_bytree` definitely greater than 1/2. So let's hone in on that and re-tune. This is partially done to show an example of giving `dials` some ranges to work with rather than letting it pull numbers from anywhere:
+Looking at the results, it appears that we want `max_depth` somewhere in the 4-8 range, `colsample_bytree` definitely greater than 1/4, and `learn_rate` no greater than 0.10. So let's hone in on that and re-tune. This is partially done to show an example of giving `dials` some ranges to work with rather than letting it pull numbers from anywhere:
 
 ```{r grid2}
 grid <- dials::grid_latin_hypercube(
   # don't need the finalize business since we're using length in here
-  dials::mtry(range = c(length(train_data) / 2, length(train_data))),
+  dials::mtry(range = c(length(train_data) / 4, length(train_data))),
   dials::min_n(),
   # force tree depth to be between 3 and 5
-  dials::tree_depth(range = c(3L, 5L)),
+  dials::tree_depth(range = c(4L, 8L)),
+  # to force learn_rate to not be crazy small like dials defaults to
+  dials::learn_rate(range = c(-1.5, -1), trans = scales::log10_trans()),
   dials::loss_reduction(),
   sample_size = dials::sample_prop(),
   size = grid_size
@@ -315,8 +325,6 @@ grid <- dials::grid_latin_hypercube(
     # has to be between 0 and 1 for xgb
     # for some reason mtry gives the number of columns rather than proportion
     mtry = mtry / length(train_data),
-    # defined above
-    learn_rate = base_learn_rate,
     monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
   ) %>%
   # make these the right names for xgb
@@ -345,7 +353,7 @@ results <- purrr::map_df(1 : nrow(grid), function(x) {
 
 And plot it again:
 
-```{r plot2, layout="l-body", fig.height=4.5}
+```{r plot2, layout="l-body", fig.height=3.5}
 results %>%
   dplyr::select(logloss, eta, gamma, subsample, colsample_bytree, max_depth, min_child_weight) %>%
   tidyr::pivot_longer(eta:min_child_weight,
@@ -390,54 +398,21 @@ Monotone constraint on spread_time:
 )
 ```
 
-So it doesn't seem to make much of a difference but since it should be monotonic (teams favored by more should have higher win prob, and the strength of point spread should decrease as the game goes on), let's use that model.
-
-## Try out some learning rates
-
-Let's take the results from our best model and try out some different learning rates. There is certainly a better way to do this but every person I ask gives a different answer so we have definitely reached the "I have no idea what I'm doing" portion of this. Since the optimal `eta` could depend on the other hyperparameters, it would probably be better to use a range of `eta` when tuning, but if I did that on this old laptop it would never finish.
-
-```{r check_eta}
-best_model <- results2 %>%
-  dplyr::arrange(logloss) %>%
-  dplyr::slice(1)
-
-grid <- tibble::tibble(
-  eta = c(.01, .025, .05, .10, .20),
-  gamma = best_model$gamma,
-  subsample =  best_model$subsample,
-  colsample_bytree =  best_model$colsample_bytree,
-  max_depth =  best_model$max_depth,
-  min_child_weight =  best_model$min_child_weight,
-  monotone_constraints = "(0, 1, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"
-)
-
-grid
-```
-
-```{r eta_results, results = "hide"}
-# get results
-results <- map_df(1 : nrow(grid), function(x) {
-  
-  get_row(grid %>% dplyr::slice(x))
-  
-})
-```
-
-See which learning rate (eta) looks best:
+It doesn't seem to make much of a difference but since it should be monotonic (teams favored by more should have higher win prob, and the strength of point spread should decrease as the game goes on), let's use that model. I find it a bit puzzling that adding the constraint doesn't actually help the logloss, but oh well.
 
 ```{r best_model}
-results %>%
+results2 %>%
   dplyr::arrange(logloss) %>%
-  dplyr::select(eta, logloss)
+  dplyr::select(eta, subsample, colsample_bytree, max_depth, logloss, min_child_weight, iter)
 
-best_model <- results %>%
+best_model <- results2 %>%
   dplyr::arrange(logloss) %>%
   dplyr::slice(1)
 ```
 
 ## Collect best parameters
 
-Now we've finally picked everything that we need to train the model with. We can set our `params` with the results from `best_model`.
+Now we've finally picked everything that we need to train the model with. We can set our `params` with the results from `best_model`, including how many rounds to train for.
 
 ```{r train_params}
 params <-
@@ -455,14 +430,16 @@ params <-
   )
 
 nrounds <- best_model$iter
+```
 
+```{r show_params}
 params
 glue::glue("nrounds: {nrounds}")
 ```
 
 ## Train the model
 
-And finally train using `xgboost`:
+And finally train using `xgboost` and the best parameters saved above:
 
 ```{r train, results = "hide"}
 wp_model <- xgboost::xgboost(
@@ -476,10 +453,13 @@ wp_model <- xgboost::xgboost(
 
 Let's check the variable importance.
 
-```{r importance, layout="l-body", fig.height=4.5, preview=TRUE}
-importance <- xgboost::xgb.importance(feature_names = colnames(wp_model), model = wp_model)
+```{r importance, layout="l-body", fig.height=3.5, preview=TRUE}
+importance <- xgboost::xgb.importance(
+  feature_names = colnames(wp_model), 
+  model = wp_model)
 xgboost::xgb.ggplot.importance(importance_matrix = importance)
 ```
+
 Unsurprisingly, score differential and the ratio of score differential to time left are the most important features. In addition, pregame point spread matters a lot.
 
 A couple other notes:
@@ -489,7 +469,7 @@ A couple other notes:
 
 ## Prediction
 
-Now that we have our model, we can predict with the hold out set, which in this case is the 2020 season. There might be a better way to do this, but I just join the predictions to the test dataframe.
+Now that we have our model, we can predict with the hold out set, which in this case is the 2019 and 2020 seasons. There might be a better way to do this, but I just join the predictions to the test dataframe.
 
 ```{r prediction}
 preds <- stats::predict(
@@ -515,30 +495,34 @@ preds %>%
   dplyr::select(wp, label, game_seconds_remaining, score_differential)
 ```
 
-So the Bucs had an estimated win probability of about 90% to start their next possession.
+So the Bucs had an estimated win probability of about 90% to start their next possession (final row).
 
 ## Model evaluation
 
-Calculating logloss on the 2020 data:
+Calculating logloss on the 2019 and 2020 test data:
 
 ```{r logloss}
 MLmetrics::LogLoss(preds$wp, preds$label)
 ```
 
+This is better than the logloss in tuning with `xgb.cv`. I don't think this is normal but it's possible there are some data errors in older seasons that make predictions easier in 2019 and 2020. This raises the question of whether the model would be better if I didn't use some of the oldest seasons when training, but this thing already takes too long to run on my computer.
+
 If we wanted the test error instead of test logloss:
 
 ```{r acc}
 MLmetrics::Accuracy(
+  # say a team is predicted to win if they have win prob > .5
   preds %>% 
     dplyr::mutate(pred = ifelse(wp > .5, 1, 0)) %>%
     dplyr::pull(pred), 
+  # compare to whether they actually won
   preds$label
   )
 ```
 
-So about 80 percent of the time, the team favored to win on a given play ends up winning.
+So about 80 percent of the time, the team expected to win on a given play ends up winning.
 
-Finally, let's make sure a calibration plot looks okay:
+Finally, let's make sure a calibration plot looks okay, with this plot inspired by the [Yurko et al. paper](https://arxiv.org/pdf/1802.00998.pdf):
 
 ```{r calib_plot_data}
 plot <- preds %>%
@@ -589,7 +573,13 @@ plot %>%
   )
 ```
 
-Looks reasonable! 
+Looks pretty good, and remember that this is entirely out of sample!
+
+## Wrapping up
+
+Hopefully this has given you the tools to apply `xgboost` to your own problems. I've found `xgboost` to be very powerful for a variety of applications, but not all (some examples of it failing are modeling overtime win probability and whether a team will go for it on 4th down). 
+
+Thanks for reading! If you have questions or suggestions, the best place to discuss this post is in the [nflfastR discord](https://discord.com/invite/5Er2FBnnQa). 
 
 <!-- ####################################################################### -->
 <!-- Place at end of document 
