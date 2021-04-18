@@ -11,7 +11,7 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
-repository_url: "https://github.com/mrcaseb/open-source-football"
+repository_url: "https://github.com/nflverse/open-source-football"
 categories:
   - xgboost
   - nflfastR

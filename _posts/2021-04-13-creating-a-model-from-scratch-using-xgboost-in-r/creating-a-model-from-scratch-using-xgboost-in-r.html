@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>NFL win probability from scratch using xgboost in R</title>
+
+  <meta property="description" itemprop="description" content="xgboost and R"/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-04-17"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-17"/>
+  <meta name="article:author" content="Ben Baldwin"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="NFL win probability from scratch using xgboost in R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="xgboost and R"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="NFL win probability from scratch using xgboost in R"/>
+  <meta property="twitter:description" content="xgboost and R"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","repository_url","categories"]}},"value":[{"type":"character","attributes":{},"value":["NFL win probability from scratch using xgboost in R"]},{"type":"character","attributes":{},"value":["xgboost and R\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Ben Baldwin"]},{"type":"character","attributes":{},"value":["https://twitter.com/benbbaldwin"]}]}]},{"type":"character","attributes":{},"value":["2021-04-17"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"character","attributes":{},"value":["https://github.com/nflverse/open-source-football"]},{"type":"character","attributes":{},"value":["xgboost","nflfastR"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/calib_plot-1.png","creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/importance-1.png","creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/plot1-1.png","creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/plot2-1.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/header-attrs-2.7/header-attrs.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/popper-2.6.0/popper.min.js"></script>
+  <link href="creating-a-model-from-scratch-using-xgboost-in-r_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="creating-a-model-from-scratch-using-xgboost-in-r_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="creating-a-model-from-scratch-using-xgboost-in-r_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"NFL win probability from scratch using xgboost in R","description":"xgboost and R","authors":[{"author":"Ben Baldwin","authorURL":"https://twitter.com/benbbaldwin","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-17T00:00:00.000+02:00","citationText":"Baldwin, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>NFL win probability from scratch using xgboost in R</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">xgboost</div>
+<div class="dt=tag">nflfastR</div>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>xgboost and R</p></p>
+</div>
+
+<div class="d-byline">
+  Ben Baldwin <a href="https://twitter.com/benbbaldwin" class="uri">https://twitter.com/benbbaldwin</a> 
+  
+<br/>2021-04-17
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#boring-preliminary-stuff">Boring preliminary stuff</a></li>
+<li><a href="#get-the-data">Get the data</a></li>
+<li><a href="#make-some-splits">Make some splits</a></li>
+<li><a href="#tuning">Tuning</a></li>
+<li><a href="#collect-best-parameters">Collect best parameters</a></li>
+<li><a href="#train-the-model">Train the model</a></li>
+<li><a href="#prediction">Prediction</a></li>
+<li><a href="#model-evaluation">Model evaluation</a></li>
+<li><a href="#wrapping-up">Wrapping up</a></li>
+</ul>
+</nav>
+</div>
+<!-- ####################################################################### -->
+<!-- Please keep the following chunk as is at the top of your document. 
+     It will set some global chunk options.  -->
+<!-- ####################################################################### -->
+<h2 id="intro">Intro</h2>
+<p>I get a lot of questions about win probability / expected points models and <code>xgboost</code>. <a href="https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/">As demonstrated here</a>, tree-based models like <code>xgboost</code> can offer an improvement over simpler methods such as logistic regression. This post is designed to show how to tune and train a win probability model.</p>
+<p>Before we go on, a couple links:</p>
+<ul>
+<li><a href="https://xgboost.readthedocs.io/en/latest/tutorials/model.html">Introduction to boosted trees</a></li>
+<li><a href="https://xgboost.readthedocs.io/en/latest/parameter.html">What the xgboost parameters do</a></li>
+</ul>
+<p>In general, the xgboost documentation is very, very good so I recommend checking it out if you plan to use it. Parts of this post are drawn from the extremely helplful <a href="https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/">Richard Anderson OSF post</a>, which in turn is based on <a href="https://juliasilge.com/blog/xgboost-tune-volleyball/">this excellent post from Julia Silge</a>.</p>
+<p>This overview skips over some important steps like exploratory data analysis and feature engineering. This also doesn’t cover handling <code>NA</code>s (which I just drop), categorical variables, and probably a lot of other stuff. All of those are important steps, but covering them would probably worth a separate post on its own. For this one, we’re taking a starting point of knowing which features will be included and wanting to properly tune and train a model.</p>
+<h2 id="boring-preliminary-stuff">Boring preliminary stuff</h2>
+<p>Let’s load the necessary packages and set some variables needed later.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># packages</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://www.nflfastr.com/'>nflfastR</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/mayer79/splitTools'>splitTools</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dials.tidymodels.org'>dials</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dmlc/xgboost'>xgboost</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2013</span><span class='op'>)</span> <span class='co'># gohawks</span>
+
+<span class='co'># this should be the default u y do this R</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>scipen <span class='op'>=</span> <span class='fl'>999999</span><span class='op'>)</span>
+
+<span class='co'># size of hyperparameter grid to search over</span>
+<span class='co'># if you don't have a potato computer, can set this to a bigger number</span>
+<span class='va'>grid_size</span> <span class='op'>&lt;-</span> <span class='fl'>40</span>
+</code></pre>
+</div>
+</div>
+<h2 id="get-the-data">Get the data</h2>
+<p>First let’s load the data from <code>nflfastR</code>, label it (1 = win, 0 = loss), and keep the necessary columns.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>future</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></span><span class='op'>(</span><span class='st'>"multisession"</span><span class='op'>)</span>
+<span class='va'>pbp_data</span> <span class='op'>&lt;-</span> <span class='fu'>nflfastR</span><span class='fu'>::</span><span class='fu'><a href='https://www.nflfastr.com//reference/load_pbp.html'>load_pbp</a></span><span class='op'>(</span><span class='fl'>2001</span><span class='op'>:</span><span class='fl'>2020</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
+    <span class='co'># label data with whether possession team ended up winning</span>
+    <span class='co'># note that NA result and ties dealt with later</span>
+    label <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
+      <span class='va'>result</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>posteam</span> <span class='op'>==</span> <span class='va'>home_team</span> <span class='op'>~</span> <span class='fl'>1</span>,
+      <span class='va'>result</span> <span class='op'>&lt;</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>posteam</span> <span class='op'>==</span> <span class='va'>away_team</span> <span class='op'>~</span> <span class='fl'>1</span>,
+      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span>
+    <span class='op'>)</span>,
+    <span class='co'># create home indicator used in model</span>
+    home <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>posteam</span> <span class='op'>==</span> <span class='va'>home_team</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># creates Diff_Time_Ratio and spread_time</span>
+  <span class='fu'>nflfastR</span><span class='fu'>:::</span><span class='fu'>prepare_wp_data</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># don't deal with NA, just drop</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span>
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>down</span><span class='op'>)</span>,
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>game_seconds_remaining</span><span class='op'>)</span>,
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>yardline_100</span><span class='op'>)</span>,
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>score_differential</span><span class='op'>)</span>,
+    <span class='co'># overtime is hard</span>
+    <span class='va'>qtr</span> <span class='op'>&lt;=</span> <span class='fl'>4</span>,
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>,
+    <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>posteam</span><span class='op'>)</span>,
+    <span class='co'># throw out ties</span>
+    <span class='va'>result</span> <span class='op'>!=</span> <span class='fl'>0</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>
+    <span class='co'># label and identifying info</span>
+    <span class='va'>label</span>,
+    <span class='va'>game_id</span>,
+    <span class='va'>season</span>,
+
+    <span class='co'># features</span>
+    <span class='va'>receive_2h_ko</span>,
+    <span class='va'>spread_time</span>,
+    <span class='va'>home</span>,
+    <span class='va'>half_seconds_remaining</span>,
+    <span class='va'>game_seconds_remaining</span>,
+    <span class='va'>Diff_Time_Ratio</span>,
+    <span class='va'>score_differential</span>,
+    <span class='va'>down</span>,
+    <span class='va'>ydstogo</span>,
+    <span class='va'>yardline_100</span>,
+    <span class='va'>posteam_timeouts_remaining</span>,
+    <span class='va'>defteam_timeouts_remaining</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="make-some-splits">Make some splits</h2>
+<p>Let’s hold out 2019 and 2020 for the final test and chop the remainder into folds for cross validation. This is somewhat different than a typical tutorial because we can’t just take random samples of the data since that would split up plays from a given game across the training and test sets, which would be bad (more on this below).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>pbp_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>season</span> <span class='op'>&gt;=</span> <span class='fl'>2019</span><span class='op'>)</span>
+
+<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>pbp_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>season</span> <span class='op'>&lt;</span> <span class='fl'>2019</span><span class='op'>)</span>
+
+<span class='co'># explanation of this step below</span>
+<span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'>splitTools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/splitTools/man/create_folds.html'>create_folds</a></span><span class='op'>(</span>
+  y <span class='op'>=</span> <span class='va'>train_data</span><span class='op'>$</span><span class='va'>game_id</span>,
+  k <span class='op'>=</span> <span class='fl'>5</span>,
+  type <span class='op'>=</span> <span class='st'>"grouped"</span>,
+  invert <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='va'>train_labels</span> <span class='op'>&lt;-</span> <span class='va'>train_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>label</span><span class='op'>)</span>
+
+<span class='co'># get rid of extra columns</span>
+<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>train_data</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>season</span>, <span class='op'>-</span><span class='va'>game_id</span>, <span class='op'>-</span><span class='va'>label</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>List of 5
+ $ Fold1: int [1:142027] 141 142 143 144 145 146 147 148 149 150 ...
+ $ Fold2: int [1:141614] 1891 1892 1893 1894 1895 1896 1897 1898 1899 1900 ...
+ $ Fold3: int [1:141321] 1 2 3 4 5 6 7 8 9 10 ...
+ $ Fold4: int [1:141883] 579 580 581 582 583 584 585 586 587 588 ...
+ $ Fold5: int [1:141960] 718 719 720 721 722 723 724 725 726 727 ...</code></pre>
+</div>
+<p>Above, we create the <code>folds</code> object that will be passed to <code>xgb.cv</code> later. From the <a href="https://rdrr.io/cran/xgboost/man/xgb.cv.html"><code>xgboost</code> documentation</a>: “<code>folds</code> (list) provides a possibility to use a list of pre-defined CV folds (<strong>each element must be a vector of test fold’s indices</strong>).”</p>
+<p>We are thus using <code>splitTools</code> to create such folds. From the <code>splitTools</code> docs, what the above is doing:</p>
+<ul>
+<li><code>y</code>: “Either the variable used for <code>stratification</code> or <code>grouped</code> splits.” Here, we’re going to “group” based on <code>game_id</code>, which means that “groups specified by <code>y</code> are kept together when splitting” as wanted.</li>
+<li><code>k</code>: number of folds. Typically 5 or 10</li>
+<li><code>type</code>: As noted above, “grouped” means that rows with the same <code>game_id</code> are kept together when splitting</li>
+<li><code>invert = TRUE</code>: Docs: “Set to <code>TRUE</code> if the row numbers not in the fold are to be returned”. This is confusingly worded, but basically this means that when <code>TRUE</code>, the hold-out indices for a given fold are returned (rather than the train indices). Because <code>xgboost</code> requires test fold indices (see bolded part above), we want this to be the case.</li>
+</ul>
+<p>The <strong>very important note</strong> here is that since labels are shared across observations – i.e., for a given team in a given game, each of their rows will be labeled either 1 or 0 since they either win or they don’t – we must be very careful to make sure that when a game is in a validation fold, there are no plays from that game in other folds. This is what the “grouped” part does above. If we failed to do this, we would experience what is referred to as “leakage” across the train and validation sets, and would encounter a very bad surprise when trying to predict out of sample because the model would overfit badly.</p>
+<p>An alternative to what I’m doing here would be to create folds based on seasons, instead of games. This is what I did for <code>nflfastR</code> since I hadn’t discovered how to easily split based on games (thanks to <a href="https://github.com/anpatton/basic-nba-tutorials/blob/main/win_probability/make_win_probability_model.md">Andrew Patton</a> for the tip), but it shouldn’t make much of a difference regardless. Finally, if you’re modeling something without interdependence across observations (e.g., an expected completion model where each observation is a one-off), you can skip manually creating folds and just let <code>xgb.cv</code> handle the folds by using the <code>nfold</code> parameter.</p>
+<h2 id="tuning">Tuning</h2>
+<p>Let’s use <code>dials</code> to create a grid of hyperparameters to search over. This is one thing from <code>tidymodels</code> that I have found very useful, though note that it has different names for the hyperparameters than <code>xgboost</code> so there’s some renaming things at the end.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/grid_max_entropy.html'>grid_latin_hypercube</a></span><span class='op'>(</span>
+  <span class='co'># this finalize thing is because mtry depends on # of columns in data</span>
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/finalize.html'>finalize</a></span><span class='op'>(</span><span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/mtry.html'>mtry</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>train_data</span><span class='op'>)</span>,
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>min_n</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>tree_depth</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='co'># to force learn_rate to not be crazy small like dials defaults to</span>
+  <span class='co'># because my computer is slow</span>
+  <span class='co'># if you're trying this for a different problem, expand the range here</span>
+  <span class='co'># by using more negative values</span>
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/learn_rate.html'>learn_rate</a></span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.5</span>, <span class='op'>-</span><span class='fl'>0.5</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/log_trans.html'>log10_trans</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>loss_reduction</a></span><span class='op'>(</span><span class='op'>)</span>,
+  sample_size <span class='op'>=</span> <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>sample_prop</a></span><span class='op'>(</span><span class='op'>)</span>,
+  size <span class='op'>=</span> <span class='va'>grid_size</span>
+<span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
+    <span class='co'># has to be between 0 and 1 for xgb</span>
+    <span class='co'># for some reason mtry gives the number of columns rather than proportion</span>
+    mtry <span class='op'>=</span> <span class='va'>mtry</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span>,
+    <span class='co'># see note below</span>
+    monotone_constraints <span class='op'>=</span> <span class='st'>"(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"</span>
+
+    <span class='co'># for the monotone constraints</span>
+    <span class='co'># these are notes to myself to make sure the constraints are in the right order</span>
+    <span class='co'># the order of the constraints needs to match up with the columns in the df</span>
+
+    <span class='co'># receive_2h_ko, 0</span>
+    <span class='co'># spread_time, 0</span>
+    <span class='co'># home, 0</span>
+
+    <span class='co'># half_seconds_remaining, 0</span>
+    <span class='co'># game_seconds_remaining, 0</span>
+    <span class='co'># Diff_Time_Ratio, 1</span>
+
+    <span class='co'># score_differential, 1</span>
+    <span class='co'># down, -1</span>
+    <span class='co'># ydstogo, -1</span>
+
+    <span class='co'># yardline_100, -1</span>
+    <span class='co'># posteam_timeouts_remaining, 1</span>
+    <span class='co'># defteam_timeouts_remaining, -1</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># make these the right names for xgb</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>
+    eta <span class='op'>=</span> <span class='va'>learn_rate</span>,
+    gamma <span class='op'>=</span> <span class='va'>loss_reduction</span>,
+    subsample <span class='op'>=</span> <span class='va'>sample_size</span>,
+    colsample_bytree <span class='op'>=</span> <span class='va'>mtry</span>,
+    max_depth <span class='op'>=</span> <span class='va'>tree_depth</span>,
+    min_child_weight <span class='op'>=</span> <span class='va'>min_n</span>
+  <span class='op'>)</span>
+
+<span class='va'>grid</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 40 x 7
+   colsample_bytree min_child_weight max_depth    eta    gamma
+              &lt;dbl&gt;            &lt;int&gt;     &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1           0.583                33         5 0.0600 1.91e+ 1
+ 2           0.167                26        12 0.237  5.98e- 7
+ 3           0.417                36        13 0.155  6.46e- 1
+ 4           0.5                  20        12 0.0925 7.95e- 8
+ 5           0.833                34         3 0.167  2.55e- 9
+ 6           0.333                31         4 0.254  7.40e+ 0
+ 7           0.0833                6         3 0.186  2.21e- 4
+ 8           0.25                 26         8 0.228  3.22e- 5
+ 9           0.0833               19         2 0.0383 2.23e-10
+10           0.667                38        11 0.0783 5.85e-10
+# ... with 30 more rows, and 2 more variables: subsample &lt;dbl&gt;,
+#   monotone_constraints &lt;chr&gt;</code></pre>
+</div>
+<p>A lot of notes here:</p>
+<ul>
+<li>See <a href="https://xgboost.readthedocs.io/en/latest/tutorials/monotonic.html">the docs</a> for what monotone constraints do. In short, we want to impose constraints on certain columns such that larger (or smaller) values for those columns can only increase (or decrease) the prediction. For example, all else equal, we want a team’s win probability to be higher if they are ahead by more points; or stated another way, we want it to be impossible for increasing the size of a team’s lead to result in a decrease in win probability</li>
+<li>The <code>size</code> parameter tells it how many rows you want to fill out to search over. We defined <code>grid_size</code> above (normally I would just put the size directly into here but I have it defined at the top to make testing the knitting of this file quicker)</li>
+<li>I do some renaming so that the things are called what <code>xgboost</code> expects</li>
+</ul>
+<p>And now we need a function to take a row from our <code>grid</code> and trains the model using those hyperparameters using <code>xgb.cv</code>. This is the sort of thing that <code>tidymodels</code> would handle but I find it easier to just write a function myself. For example, passing monotone constraints to <code>xgboost</code> using <code>tidymodels</code> <a href="https://github.com/tidymodels/parsnip/issues/260">requires writing a custom function anyway</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># function to perform xgb.cv for a given row in a hyperparameter grid</span>
+<span class='va'>get_row</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>row</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>params</span> <span class='op'>&lt;-</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+      booster <span class='op'>=</span> <span class='st'>"gbtree"</span>,
+      objective <span class='op'>=</span> <span class='st'>"binary:logistic"</span>,
+      eval_metric <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"logloss"</span><span class='op'>)</span>,
+      eta <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>eta</span>,
+      gamma <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>gamma</span>,
+      subsample <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>subsample</span>,
+      colsample_bytree <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>colsample_bytree</span>,
+      max_depth <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>max_depth</span>,
+      min_child_weight <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>min_child_weight</span>,
+      monotone_constraints <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>monotone_constraints</span>
+    <span class='op'>)</span>
+
+  <span class='co'># do the cross validation</span>
+  <span class='va'>wp_cv_model</span> <span class='op'>&lt;-</span> <span class='fu'>xgboost</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.cv.html'>xgb.cv</a></span><span class='op'>(</span>
+    data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span>,
+    label <span class='op'>=</span> <span class='va'>train_labels</span><span class='op'>$</span><span class='va'>label</span>,
+    params <span class='op'>=</span> <span class='va'>params</span>,
+    <span class='co'># this doesn't matter with early stopping in xgb.cv, just set a big number</span>
+    <span class='co'># the actual optimal rounds will be found in this tuning process</span>
+    nrounds <span class='op'>=</span> <span class='fl'>15000</span>,
+    <span class='co'># created above</span>
+    folds <span class='op'>=</span> <span class='va'>folds</span>,
+    metrics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"logloss"</span><span class='op'>)</span>,
+    early_stopping_rounds <span class='op'>=</span> <span class='fl'>50</span>,
+    print_every_n <span class='op'>=</span> <span class='fl'>50</span>
+  <span class='op'>)</span>
+
+  <span class='co'># bundle up the results together for returning</span>
+  <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='va'>params</span>
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>iter</span> <span class='op'>&lt;-</span> <span class='va'>wp_cv_model</span><span class='op'>$</span><span class='va'>best_iteration</span>
+  <span class='va'>output</span><span class='op'>$</span><span class='va'>logloss</span> <span class='op'>&lt;-</span> <span class='va'>wp_cv_model</span><span class='op'>$</span><span class='va'>evaluation_log</span><span class='op'>[</span><span class='va'>output</span><span class='op'>$</span><span class='va'>iter</span><span class='op'>]</span><span class='op'>$</span><span class='va'>test_logloss_mean</span>
+
+  <span class='va'>row_result</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>row_result</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>Now we’re ready to run the function above on each row of our hyperparameter grid.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># get results</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>get_row</span><span class='op'>(</span><span class='va'>grid</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Let’s take a look at what we’ve got with thanks to the code from <a href="https://juliasilge.com/blog/xgboost-tune-volleyball/">Julia Silge’s post mentioned above</a>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>results</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>logloss</span>, <span class='va'>eta</span>, <span class='va'>gamma</span>, <span class='va'>subsample</span>, <span class='va'>colsample_bytree</span>, <span class='va'>max_depth</span>, <span class='va'>min_child_weight</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>
+    <span class='va'>eta</span><span class='op'>:</span><span class='va'>min_child_weight</span>,
+    values_to <span class='op'>=</span> <span class='st'>"value"</span>,
+    names_to <span class='op'>=</span> <span class='st'>"parameter"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>value</span>, <span class='va'>logloss</span>, color <span class='op'>=</span> <span class='va'>parameter</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span>, show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>parameter</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='cn'>NULL</span>, y <span class='op'>=</span> <span class='st'>"logloss"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/plot1-1.png" width="1950" /></p>
+</div>
+<p>Looking at the results, it appears that we want <code>max_depth</code> somewhere in the 4-8 range, <code>colsample_bytree</code> definitely greater than 1/4, and <code>learn_rate</code> no greater than 0.10. So let’s hone in on that and re-tune. This is partially done to show an example of giving <code>dials</code> some ranges to work with rather than letting it pull numbers from anywhere:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/grid_max_entropy.html'>grid_latin_hypercube</a></span><span class='op'>(</span>
+  <span class='co'># don't need the finalize business since we're using length in here</span>
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/mtry.html'>mtry</a></span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>4</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>min_n</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='co'># force tree depth to be between 3 and 5</span>
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>tree_depth</a></span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4L</span>, <span class='fl'>8L</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='co'># to force learn_rate to not be crazy small like dials defaults to</span>
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/learn_rate.html'>learn_rate</a></span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.5</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>, trans <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/log_trans.html'>log10_trans</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>loss_reduction</a></span><span class='op'>(</span><span class='op'>)</span>,
+  sample_size <span class='op'>=</span> <span class='fu'>dials</span><span class='fu'>::</span><span class='fu'><a href='https://dials.tidymodels.org/reference/trees.html'>sample_prop</a></span><span class='op'>(</span><span class='op'>)</span>,
+  size <span class='op'>=</span> <span class='va'>grid_size</span>
+<span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
+    <span class='co'># has to be between 0 and 1 for xgb</span>
+    <span class='co'># for some reason mtry gives the number of columns rather than proportion</span>
+    mtry <span class='op'>=</span> <span class='va'>mtry</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span>,
+    monotone_constraints <span class='op'>=</span> <span class='st'>"(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># make these the right names for xgb</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>
+    eta <span class='op'>=</span> <span class='va'>learn_rate</span>,
+    gamma <span class='op'>=</span> <span class='va'>loss_reduction</span>,
+    subsample <span class='op'>=</span> <span class='va'>sample_size</span>,
+    colsample_bytree <span class='op'>=</span> <span class='va'>mtry</span>,
+    max_depth <span class='op'>=</span> <span class='va'>tree_depth</span>,
+    min_child_weight <span class='op'>=</span> <span class='va'>min_n</span>
+  <span class='op'>)</span>
+
+<span class='va'>grid</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 40 x 7
+   colsample_bytree min_child_weight max_depth    eta   gamma
+              &lt;dbl&gt;            &lt;int&gt;     &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1            0.917                8         8 0.0426 5.30e-3
+ 2            0.75                18         6 0.0897 8.48e-3
+ 3            0.417               27         6 0.0973 2.38e-4
+ 4            0.5                 38         5 0.0604 1.05e+1
+ 5            0.75                31         6 0.0337 1.79e-2
+ 6            0.75                39         7 0.0674 1.45e+0
+ 7            0.25                 8         8 0.0495 1.13e-5
+ 8            0.417                3         4 0.0459 1.36e-9
+ 9            0.417               10         7 0.0820 6.86e-5
+10            0.667               19         6 0.0562 2.72e-6
+# ... with 30 more rows, and 2 more variables: subsample &lt;dbl&gt;,
+#   monotone_constraints &lt;chr&gt;</code></pre>
+</div>
+<p>And now we can re-run our function with the new grid:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># get results</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>get_row</span><span class='op'>(</span><span class='va'>grid</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>And plot it again:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>results</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>logloss</span>, <span class='va'>eta</span>, <span class='va'>gamma</span>, <span class='va'>subsample</span>, <span class='va'>colsample_bytree</span>, <span class='va'>max_depth</span>, <span class='va'>min_child_weight</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>tidyr</span><span class='fu'>::</span><span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='va'>eta</span><span class='op'>:</span><span class='va'>min_child_weight</span>,
+    values_to <span class='op'>=</span> <span class='st'>"value"</span>,
+    names_to <span class='op'>=</span> <span class='st'>"parameter"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>value</span>, <span class='va'>logloss</span>, color <span class='op'>=</span> <span class='va'>parameter</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.8</span>, show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>parameter</span>, scales <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='cn'>NULL</span>, y <span class='op'>=</span> <span class='st'>"logloss"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/plot2-1.png" width="1950" /></p>
+</div>
+<p>One thing I’m curious is whether we can add a monotone constraint on <code>spread_time</code>, which is the time-decaying value for point spread from the perspective of the possession team. To do this, let’s modify the tuning grid with a different <code>monotone_constraints</code>, re-tune, and see how the best value compares. Again, this might be something that would be simpler to implement in <code>tidymodels</code> but I haven’t figured out how to use it well.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>grid2</span> <span class='op'>&lt;-</span> <span class='va'>grid</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>
+    <span class='co'># old</span>
+    <span class='co'># monotone_constraints = "(0, 0, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"</span>
+
+    <span class='co'># new</span>
+    monotone_constraints <span class='op'>=</span> <span class='st'>"(0, 1, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)"</span>
+  <span class='op'>)</span>
+
+<span class='va'>results2</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>grid2</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>get_row</span><span class='op'>(</span><span class='va'>grid2</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span>
+  <span class='st'>"--BEST LOGLOSS--
+
+No monotone constraint on spread_time:
+{round(results %&gt;% arrange(logloss) %&gt;% dplyr::slice(1) %&gt;% pull(logloss), 5)}
+
+Monotone constraint on spread_time:
+{round(results2 %&gt;% arrange(logloss) %&gt;% dplyr::slice(1) %&gt;% pull(logloss), 5)}"</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>--BEST LOGLOSS--
+
+No monotone constraint on spread_time:
+0.44787
+
+Monotone constraint on spread_time:
+0.44826</code></pre>
+</div>
+<p>It doesn’t seem to make much of a difference but since it should be monotonic (teams favored by more should have higher win prob, and the strength of point spread should decrease as the game goes on), let’s use that model. I find it a bit puzzling that adding the constraint doesn’t actually help the logloss, but oh well.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>results2</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>logloss</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>eta</span>, <span class='va'>subsample</span>, <span class='va'>colsample_bytree</span>, <span class='va'>max_depth</span>, <span class='va'>logloss</span>, <span class='va'>min_child_weight</span>, <span class='va'>iter</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 40 x 7
+      eta subsample colsample_bytree max_depth logloss
+    &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;     &lt;int&gt;   &lt;dbl&gt;
+ 1 0.0334     0.528            0.5           7   0.448
+ 2 0.0604     0.476            0.5           5   0.448
+ 3 0.0543     0.837            0.583         8   0.448
+ 4 0.0587     0.801            0.583         7   0.448
+ 5 0.0718     0.452            0.5           6   0.448
+ 6 0.0765     0.789            0.5           8   0.448
+ 7 0.0378     0.751            0.75          7   0.448
+ 8 0.0918     0.404            0.667         7   0.449
+ 9 0.0319     0.708            0.75          6   0.449
+10 0.0562     0.689            0.667         6   0.449
+# ... with 30 more rows, and 2 more variables:
+#   min_child_weight &lt;int&gt;, iter &lt;int&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>best_model</span> <span class='op'>&lt;-</span> <span class='va'>results2</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>logloss</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="collect-best-parameters">Collect best parameters</h2>
+<p>Now we’ve finally picked everything that we need to train the model with. We can set our <code>params</code> with the results from <code>best_model</code>, including how many rounds to train for.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    booster <span class='op'>=</span> <span class='st'>"gbtree"</span>,
+    objective <span class='op'>=</span> <span class='st'>"binary:logistic"</span>,
+    eval_metric <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"logloss"</span><span class='op'>)</span>,
+    eta <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>eta</span>,
+    gamma <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>gamma</span>,
+    subsample <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>subsample</span>,
+    colsample_bytree <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>colsample_bytree</span>,
+    max_depth <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>max_depth</span>,
+    min_child_weight <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>min_child_weight</span>,
+    monotone_constraints <span class='op'>=</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>monotone_constraints</span>
+  <span class='op'>)</span>
+
+<span class='va'>nrounds</span> <span class='op'>&lt;-</span> <span class='va'>best_model</span><span class='op'>$</span><span class='va'>iter</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span>
+</code></pre>
+</div>
+<pre><code>$booster
+[1] &quot;gbtree&quot;
+
+$objective
+[1] &quot;binary:logistic&quot;
+
+$eval_metric
+[1] &quot;logloss&quot;
+
+$eta
+[1] 0.03336242
+
+$gamma
+[1] 0.001755908
+
+$subsample
+[1] 0.5283268
+
+$colsample_bytree
+[1] 0.5
+
+$max_depth
+[1] 7
+
+$min_child_weight
+[1] 4
+
+$monotone_constraints
+[1] &quot;(0, 1, 0, 0, 0, 1, 1, -1, -1, -1, 1, -1)&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"nrounds: {nrounds}"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>nrounds: 588</code></pre>
+</div>
+<h2 id="train-the-model">Train the model</h2>
+<p>And finally train using <code>xgboost</code> and the best parameters saved above:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>wp_model</span> <span class='op'>&lt;-</span> <span class='fu'>xgboost</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.train.html'>xgboost</a></span><span class='op'>(</span>
+  params <span class='op'>=</span> <span class='va'>params</span>,
+  data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span>,
+  label <span class='op'>=</span> <span class='va'>train_labels</span><span class='op'>$</span><span class='va'>label</span>,
+  nrounds <span class='op'>=</span> <span class='va'>nrounds</span>,
+  verbose <span class='op'>=</span> <span class='fl'>2</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Let’s check the variable importance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>importance</span> <span class='op'>&lt;-</span> <span class='fu'>xgboost</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.importance.html'>xgb.importance</a></span><span class='op'>(</span>
+  feature_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>wp_model</span><span class='op'>)</span>,
+  model <span class='op'>=</span> <span class='va'>wp_model</span>
+<span class='op'>)</span>
+<span class='fu'>xgboost</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xgboost/man/xgb.plot.importance.html'>xgb.ggplot.importance</a></span><span class='op'>(</span>importance_matrix <span class='op'>=</span> <span class='va'>importance</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/importance-1.png" width="1950" data-distill-preview=1 /></p>
+</div>
+<p>Unsurprisingly, score differential and the ratio of score differential to time left are the most important features. In addition, pregame point spread matters a lot.</p>
+<p>A couple other notes:</p>
+<ul>
+<li>If you want to plot the trees, <a href="http://dmlc.github.io/rstats/2016/03/10/xgboost.html">see this post here for example</a></li>
+<li>If you want to get the actual trees as data, look up <code>xgb.dump</code></li>
+</ul>
+<h2 id="prediction">Prediction</h2>
+<p>Now that we have our model, we can predict with the hold out set, which in this case is the 2019 and 2020 seasons. There might be a better way to do this, but I just join the predictions to the test dataframe.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>preds</span> <span class='op'>&lt;-</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
+  <span class='va'>wp_model</span>,
+  <span class='co'># get rid of the things not needed for prediction here</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>test_data</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>label</span>, <span class='op'>-</span><span class='va'>game_id</span>, <span class='op'>-</span><span class='va'>season</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>wp <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_cols</a></span><span class='op'>(</span><span class='va'>test_data</span><span class='op'>)</span>
+
+<span class='va'>preds</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 79,054 x 16
+      wp label game_id         season receive_2h_ko spread_time  home
+   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;            &lt;int&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+ 1 0.328     0 2019_01_ATL_MIN   2019             0       -3.5      0
+ 2 0.260     0 2019_01_ATL_MIN   2019             0       -3.35     0
+ 3 0.260     0 2019_01_ATL_MIN   2019             0       -3.21     0
+ 4 0.323     0 2019_01_ATL_MIN   2019             0       -3.06     0
+ 5 0.793     1 2019_01_ATL_MIN   2019             1        3.04     1
+ 6 0.731     1 2019_01_ATL_MIN   2019             1        2.97     1
+ 7 0.756     1 2019_01_ATL_MIN   2019             1        2.86     1
+ 8 0.191     0 2019_01_ATL_MIN   2019             0       -2.82     0
+ 9 0.201     0 2019_01_ATL_MIN   2019             0       -2.69     0
+10 0.184     0 2019_01_ATL_MIN   2019             0       -2.57     0
+# ... with 79,044 more rows, and 9 more variables:
+#   half_seconds_remaining &lt;dbl&gt;, game_seconds_remaining &lt;dbl&gt;,
+#   Diff_Time_Ratio &lt;dbl&gt;, score_differential &lt;dbl&gt;, down &lt;dbl&gt;,
+#   ydstogo &lt;dbl&gt;, yardline_100 &lt;dbl&gt;,
+#   posteam_timeouts_remaining &lt;dbl&gt;,
+#   defteam_timeouts_remaining &lt;dbl&gt;</code></pre>
+</div>
+<p>For fun, let’s see what the model thinks Green Bay’s win probability was after they elected to kick a field goal at the end of the 2020 NFC Championship Game.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>preds</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span>
+    <span class='va'>game_id</span> <span class='op'>==</span> <span class='st'>"2020_20_TB_GB"</span>,
+    <span class='fu'>between</span><span class='op'>(</span><span class='va'>game_seconds_remaining</span>, <span class='fl'>120</span>, <span class='fl'>140</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>wp</span>, <span class='va'>label</span>, <span class='va'>game_seconds_remaining</span>, <span class='va'>score_differential</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 4 x 4
+     wp label game_seconds_remaining score_differential
+  &lt;dbl&gt; &lt;dbl&gt;                  &lt;dbl&gt;              &lt;dbl&gt;
+1 0.213     0                    139                 -8
+2 0.185     0                    135                 -8
+3 0.114     0                    129                 -8
+4 0.910     1                    122                  5</code></pre>
+</div>
+<p>So the Bucs had an estimated win probability of about 90% to start their next possession (final row).</p>
+<h2 id="model-evaluation">Model evaluation</h2>
+<p>Calculating logloss on the 2019 and 2020 test data:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>MLmetrics</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MLmetrics/man/LogLoss.html'>LogLoss</a></span><span class='op'>(</span><span class='va'>preds</span><span class='op'>$</span><span class='va'>wp</span>, <span class='va'>preds</span><span class='op'>$</span><span class='va'>label</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.4270486</code></pre>
+</div>
+<p>This is better than the logloss in tuning with <code>xgb.cv</code>. I don’t think this is normal but it’s possible there are some data errors in older seasons that make predictions easier in 2019 and 2020. This raises the question of whether the model would be better if I didn’t use some of the oldest seasons when training, but this thing already takes too long to run on my computer.</p>
+<p>If we wanted the test error instead of test logloss:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>MLmetrics</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MLmetrics/man/Accuracy.html'>Accuracy</a></span><span class='op'>(</span>
+  <span class='co'># say a team is predicted to win if they have win prob &gt; .5</span>
+  <span class='va'>preds</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>pred <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>wp</span> <span class='op'>&gt;</span> <span class='fl'>.5</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>pred</span><span class='op'>)</span>,
+  <span class='co'># compare to whether they actually won</span>
+  <span class='va'>preds</span><span class='op'>$</span><span class='va'>label</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.792724</code></pre>
+</div>
+<p>So about 80 percent of the time, the team expected to win on a given play ends up winning.</p>
+<p>Finally, let’s make sure a calibration plot looks okay, with this plot inspired by the <a href="https://arxiv.org/pdf/1802.00998.pdf">Yurko et al. paper</a>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>plot</span> <span class='op'>&lt;-</span> <span class='va'>preds</span> <span class='op'>%&gt;%</span>
+  <span class='co'># Create BINS for wp:</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>bin_pred_prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>wp</span> <span class='op'>/</span> <span class='fl'>0.05</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>.05</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>bin_pred_prob</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># Calculate the calibration results:</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>
+    n_plays <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+    n_wins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>label</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
+    bin_actual_prob <span class='op'>=</span> <span class='va'>n_wins</span> <span class='op'>/</span> <span class='va'>n_plays</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>ann_text</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.25</span>, <span class='fl'>0.75</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.75</span>, <span class='fl'>0.25</span><span class='op'>)</span>,
+  lab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"More times\nthan expected"</span>, <span class='st'>"Fewer times\nthan expected"</span><span class='op'>)</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>plot</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>bin_pred_prob</span>, y <span class='op'>=</span> <span class='va'>bin_actual_prob</span>, size <span class='op'>=</span> <span class='va'>n_plays</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>bin_pred_prob</span>, y <span class='op'>=</span> <span class='va'>bin_actual_prob</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"loess"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span><span class='op'>(</span>slope <span class='op'>=</span> <span class='fl'>1</span>, intercept <span class='op'>=</span> <span class='fl'>0</span>, color <span class='op'>=</span> <span class='st'>"black"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>coord_equal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_continuous</a></span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    size <span class='op'>=</span> <span class='st'>"Number of plays"</span>,
+    x <span class='op'>=</span> <span class='st'>"Estimated win probability"</span>,
+    y <span class='op'>=</span> <span class='st'>"Observed win probability"</span>,
+    title <span class='op'>=</span> <span class='st'>"Win prob calibration plot"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ann_text</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, y <span class='op'>=</span> <span class='va'>y</span>, label <span class='op'>=</span> <span class='va'>lab</span><span class='op'>)</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>
+    plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>hjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+    strip.background <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,
+    strip.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+    axis.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+    axis.text.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+    axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, angle <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span>,
+    legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+    legend.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+    legend.position <span class='op'>=</span> <span class='st'>"bottom"</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/calib_plot-1.png" width="1950" /></p>
+</div>
+<p>Looks pretty good, and remember that this is entirely out of sample!</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Hopefully this has given you the tools to apply <code>xgboost</code> to your own problems. I’ve found <code>xgboost</code> to be very powerful for a variety of applications, but not all (some examples of it failing are modeling overtime win probability and whether a team will go for it on 4th down).</p>
+<p>Thanks for reading! If you have questions or suggestions, the best place to discuss this post is in the <a href="https://discord.com/invite/5Er2FBnnQa">nflfastR discord</a>.</p>
+<!-- ####################################################################### -->
+<!-- Place at end of document 
+     Please keep this chunk as is at end of your document. 
+     It will create a hyperlink to the source file. -->
+<div class="layout-chunk" data-layout="l-body">
+<p><a href="https://github.com/nflverse/open-source-football/blob/master/_posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/creating-a-model-from-scratch-using-xgboost-in-r.Rmd"
+    style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+   >View source code on GitHub </a></p>
+</div>
+<!-- ####################################################################### -->
+<div class="sourceCode" id="cb12"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/nflverse/open-source-football/issues/new">create an issue</a> on the source repository.</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
