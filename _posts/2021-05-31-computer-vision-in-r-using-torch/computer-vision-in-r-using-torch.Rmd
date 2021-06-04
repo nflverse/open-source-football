@@ -1,5 +1,5 @@
 ---
-title: "Computer Vision in R using Torch"
+title: "Computer Vision with NFL player tracking data using Torch for R"
 description: |
   Coverage classification using CNNs.
 author:
@@ -11,8 +11,6 @@ output:
     self_contained: false
 ---
 
-## TODO: augment & test
-
 ```{r setup, include=FALSE}
 # knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
@@ -23,24 +21,24 @@ The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-st
 
 ## Computer vision
 
-If you don't know anything about computer vision and would like to learn, I personally found this [University of Michigan course taught by Justin Johnson incredibly helpful](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/). [Here is a link to the lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [here is the syllabus and PDFs of the lecture slides](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/schedule.html), and see the first link for the homework assignments (which are in PyTorch; i.e. Python). To understand what's happening, some familiarity with how to manipulate matrices is very useful, especially if you try to tackle the homework assignments.
+If you don't know anything about computer vision and would like to learn, I personally found this [University of Michigan course taught by Justin Johnson incredibly helpful](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/). [Here is a link to the lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [here is the syllabus and PDFs of the lecture slides](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/schedule.html), and see the first link for the homework assignments (which are in PyTorch; i.e. Python). To understand what's happening in the course, some familiarity with how to manipulate matrices is very useful, especially if you try to tackle the homework assignments.
 
-An aside: If you haven't done anything like this before, a lot of this post will not make sense to you. This is a lot different than [learning how to use, for example, xgboost](https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/), for a couple reasons. First, we're departing from the "rectangular" data structure where each row is an observation and each column is a feature. In computer vision problems, there are (at least) four dimensions: one for sample size, another for the number of features (e.g. 3 for a typical red-green-blue image), one for height, and one for width. And second, there's a lot more housekeeping that needs to be done with the code: keeping track of batches, telling it to update weights, and other stuff. If none of this makes sense, that's okay! If you watch the lectures linked above (and even more so, do the homeworks) and come back to this, everything will make a lot more sense.
+An aside: If you haven't done anything like this before, a lot of this post will not make a lot of sense. What we will do here is a lot different than [learning how to use, for example, xgboost](https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/), for a couple reasons. First, we're departing from the comfort of the "rectangular" data structure where each row is an observation and each column is a feature. In computer vision problems, there are typically (at least) four dimensions: one for each observation, another for each feature dimension (e.g. 3 for a typical red-green-blue image), one for the height of the image, and one for the width. And second, there's a lot more housekeeping that needs to be done in the code: keeping track of batches, telling it to compute gradients and update update weights, and some other stuff along these lines. If none of this makes sense, that's okay! If you watch the lectures linked above (and even more so, try the homeworks) and come back to this, everything will make a lot more sense.
 
-It's no accident that the course linked above uses PyTorch. Python is the dominant language for machine learning tasks. However, there is good news for R users: [Torch in R](https://torch.mlverse.org/) now exists and in my experience is very functional, which means that if you're already comfortable with R, you don't need to learn a whole new language just to do machine learning stuff (plus trying to clean and manipulate data in pandas is the worst).
+It's no accident that the course linked above uses PyTorch. Python is the dominant language for computer vision. However, there is recent good news for R users: [Torch in R](https://torch.mlverse.org/) has been developed and contains basically all of the same things as the Python version, which means that if you're already comfortable with R, you don't need to learn a whole new language just to do computer vision stuff (plus trying to clean and manipulate data in pandas is the worst).
 
 ## The goals for this post
 
 * Yes: demonstrate how to use Torch in R
-* No: create the most accurate model as possible
+* No: create the most accurate model possible
 
-Since this is Open Source Football, I'm only going to use things that others have access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from one week of data since that was provided to contestants. If one had access to a full season of coverage labels from PFF, hypothetically speaking one could make a much better model. In addition, since this is more of an introductory post, I'm only using one frame per play, which limits the accuracy.
+Since this is Open Source Football, I'm only going to use things that others can access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from week 1 of the 2018 season since that is what was provided to contestants. If you want to replicate this post, you'll need to get the [player tracking data here](https://www.kaggle.com/c/nfl-big-data-bowl-2021/data) and the [coverage labels here](https://www.kaggle.com/tombliss/additional-data-coverage-schemes-for-week-1). If one had access to a full season of coverage labels, hypothetically speaking, one could make a much better model (more on this at the end). In addition, since this designed to be an introductory post, I'm only going to use one frame per play, which limits the accuracy.
 
 Let's get to it!
 
 ## Load the data
 
-I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, and plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and get some information about each play (e.g. whether the player is on offense or defense and the line of scrimmage).
+I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. If you're interested, you can check out the code in the package, and maybe by the time you're reading this I'll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and gets some information about each play (e.g. whether the player is on offense or defense and the location of the line of scrimmage).
 
 ```{r get-data}
 df <- ngscleanR::prepare_bdb_week(
@@ -51,33 +49,21 @@ df <- ngscleanR::prepare_bdb_week(
     # all frames coming more than 1 second after pass released are thrown away
     frames_after_throw = 10,
     # let's keep this frame for fun (1.8 seconds after snap)
-    keep_frames = c(28),
+    keep_frames = c(31)
   )
 
 str(df)
 ```
 
-Now let's get the labels from Big Data Bowl with thanks to Telemetry.
+Now let's get the labels from 2018 week 1 with thanks to Telemetry.
 
 ```{r}
 labels <- readr::read_csv("../../../nfl-big-data-bowl-2021/input/coverages_week1.csv") %>%
   mutate(
-    play = paste0(gameId, "_", playId),
-    # correct some labels
-    coverage = case_when(
-      play == "2018090905_3709" ~ "Cover 2 Zone",
-      play == "2018090600_1061" ~ "Cover 3 Zone",
-      play == "2018090900_1713" ~ "Cover 6 Zone",
-      play == "2018090900_2223" ~ "Cover 3 Zone",
-      play == "2018090910_784" ~ "Cover 1 Man",
-      play == "2018090909_1772" ~ "Cover 1 Man",
-      TRUE ~ coverage
-    )
+    play = paste0(gameId, "_", playId)
     ) %>%
   filter(!is.na(coverage)) %>%
   select(play, coverage)
-
-str(labels)
 
 df <- df %>%
   inner_join(labels, by = "play")
@@ -88,15 +74,15 @@ labels %>% group_by(coverage) %>% summarize(n=n())
 
 ## Data wrangling / create tensors
 
-For reference, here's what some of the columns in Big Data Bowl mean:
+For reference, here's what the location and orientation columns in Big Data Bowl mean:
 
 ![Big Data Bowl](https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F3258%2F820e86013d48faacf33b7a32a15e814c%2FIncreasing%20Dir%20and%20O.png?generation=1572285857588233&alt=media)
 
-And now we want to create something along the lines of The Zoo's solution:
+And we want to create something along the lines of The Zoo's solution but modified to predict coverages rather than the result of a rushing play. In particular, this section is creating the blue part of this on the left:
 
 ![The Zoo's winning 2020 Big Data Bowl Entry ](https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F85156%2F2b5c9ce8e54f58ba78dcf120ef49c278%2FNN%20structure.png?generation=1574945484839246&alt=media)
 
-In The Zoo's entry, they had 10 feature dimensions ((a) defender position, (b) defender position relative to the rusher, (c) defender speed relative to the rusher, (d) defender position relative to offensive player, and (e) defender speed relative to offensive player, all in both the X and Y directions). But their problem was different because they were trying to predict the results of a run play. For coverage classification, things like speed relative to the rusher don't make sense. There is no rusher! So let's create 13 features from the perpsective of each defender:
+In The Zoo's entry, they had 10 feature dimensions ((a) defender position, (b) defender position relative to the rusher, (c) defender speed relative to the rusher, (d) defender position relative to offensive player, and (e) defender speed relative to offensive player, all in both the X and Y directions). But their problem was different because they were trying to predict the results of a run play. For coverage classification, things like speed relative to the rusher don't make sense. There is no rusher! For this post, I've settled on 13 features, but haven't done a lot of playing around with other features so there might be better ways to do this. Here are the features we'll create:
 
 * 1: Distance from line of scrimmage (this serves as X location)
 * 2: Y location
@@ -107,9 +93,9 @@ In The Zoo's entry, they had 10 feature dimensions ((a) defender position, (b) d
 * 10 and 11: X and Y speed relative to each offensive player
 * 12 and 13: X and Y acceleration relative to each offensive player
 
-Because the maximum number of non-QB offensive players provided in Big Data Bowl is 5 and defensive players 11, we will be creating a tensor -- basically a higher-dimensional matrix used by `torch` -- of size (number of plays) x (13) x (11) x (5), with 13 being the number of features (listed above), 11 the number of defenders, and 5 offensive players. And each of the 13 features will have a 11 x 5 matrix that gives a value for each defensive player relative to each offensive player. For example, the entry (1, 13, 1, 1) would pull out the difference in acceleration in the Y direction (i.e., the 13th feature) between the 1st defensive player and 1st offensive player on the 1st play, and the entry (1, 13, ..) would give an 11 by 5 matrix of the relative speed of each possible combination of defensive player and offensive player.
+Because the maximum number of non-QB offensive players provided in Big Data Bowl is 5 and defensive players 11, we will be creating a tensor -- basically a higher-dimensional matrix used by `torch` -- of size (number of plays) x (13) x (11) x (5), with 13 being the number of features (listed above), 11 the number of defenders, and 5 offensive players. Each of the 13 features will have a 11 x 5 matrix that gives a value for each defensive player relative to each offensive player. For example, the entry (1, 13, 1, 1) would pull out the difference in acceleration in the Y direction (i.e., the 13th feature) between the 1st defensive player and 1st offensive player on the 1st play, and the entry (1, 13, ..) would give an 11 by 5 matrix of the relative speed of each possible combination of defensive player and offensive player. If you're wondering how to choose who the "1st defensive player" is, the beauty of The Zoo's solution is that you can put the players in any order and the model will treat them the same; i.e., the order doesn't matter.
 
-Since we need to get a dataframe of defenders relative to offensive players, let's do that using the pre-cleaned data:
+Since we need to get a data frame of defenders relative to offensive players, let's do that using the pre-cleaned data by joining an offense dataframe to a defense dataframe by play, which joins each offensive player to each possible defensive player:
 
 ```{r}
 offense_df <- df %>%
@@ -126,10 +112,11 @@ rel_df <- defense_df %>%
   mutate(diff_x = o_x - x, diff_y = o_y - y, diff_s_x = o_s_x - s_x, diff_s_y = o_s_y - s_y, diff_a_x = o_a_x - a_x, diff_a_y = o_a_y - a_y) %>%
   select(play, frame_id, nfl_id, dist_from_los, y, s_x, s_y, a_x, a_y, o_to_qb, starts_with("diff_"))
 
-rel_df
+rel_df %>%
+  select(nfl_id, dist_from_los, y, diff_x, diff_y)
 ```
 
-Note that a lot of these are constant because while each row represents a defense-offense match, many entries do not depend on the offense player. The first 5 entries here represent the same defensive player matched to each of the 5 offensive players, but the defender's distance from the line of scrimmage is the same for each of these (in The Zoo's entry, this is what they mean by some features being "constant across 'off' dimension of the tensor").
+The first 5 entries here represent the first defensive player matched to each of the 5 offensive players. Note that a lot of the columns are constant for the first 5 rows because each row represents a defense-offense match and many entries do not depend on the offensive player. For example, the defender's distance from the line of scrimmage is the same for each matched offensive player (in The Zoo's entry, this is what they mean by some features being "constant across 'off' dimension of the tensor").
 
 For some housekeeping, let's save a master list of plays to refer to later.
 
@@ -162,21 +149,21 @@ n_frames
 n_features
 ```
 
-Now we're ready to start making our tensor, which is what `torch` knows how to deal with. Note that I'm throwing in an extra dimension for number of frames, which is useless in this case (1 frame) but makes it easier to extend to using multiple frames in a given play (the real reason I'm doing this is that my existing code uses more frames and it's easier to not re-write this part of it).
+Now we're ready to start making our tensor, which is what `torch` knows how to deal with. Note that I'm throwing in an extra dimension for number of frames on each play, which is useless in this case (1 frame per play) but makes it easier to extend to using multiple frames in a given play (the real reason I'm doing this is that my existing code uses more frames and it's easier to not re-write this part of it).
 
 ```{r}
 train_x = torch_empty(n_plays, n_frames, n_features, 11, 5)
 dim(train_x)
 ```
 
-Here is a function that will be explained below.
+Here is the function that will help us populate our tensor, explained below.
 
 ```{r}
 fill_row <- function(row) {
 
   # indices for putting in tensor
-  i = row$i
-  f = row$f
+  i = row$i # row
+  f = row$f # frame
 
   # play info for extracting from df
   playid = row$play
@@ -186,11 +173,14 @@ fill_row <- function(row) {
     filter(play == playid, frame_id == frameid) %>%
     select(-play, -frame_id)
 
+  # how many defense and offense players are there on this play?
   defenders <- n_distinct(play_df$nfl_id)
   n_offense <- nrow(play_df) / defenders
 
+  # get rid of player ID since it's not in the model
   play_df <- play_df %>% select(-nfl_id)
 
+  # where the magic happens
   # explanation of this part below!
   train_x[i, f, , 1:defenders, 1:n_offense] <-
     torch_tensor(t(play_df))$view(c(-1, defenders, n_offense))
@@ -199,15 +189,9 @@ fill_row <- function(row) {
 
 ```
 
-Here is what the function is doing:
-
-1. Take the play in question
-2. Get it into the right shape (13 x defenders x offense)
-3. Stick it into the tensor
-
 ## Digression into wrangling this data
 
-If you haven't worked with higher-dimensional data before, it can be kind of hard to wrap your head around. Let's illustrate what is happening in the function above using the first play as an example. Here is what the raw data look like when running this functio on the first play:
+If you haven't worked with higher-dimensional data before, it can be kind of hard to wrap your head around. Let's illustrate what is happening in the function above using the first play as an example. Here is what the raw data look like when running this function on the first play:
 
 ```{r}
 row <- play_indices %>% dplyr::slice(1)
@@ -237,23 +221,27 @@ We need to have this thing be 13 x 7 x 5 (7 defenders and 5 offensive players on
 The first step is to transpose:
 
 ```{r}
-t(play_df)
+# showing first 10 columns so this isn't huge
+t(play_df)[, 1:8]
+dim(t(play_df))
 ```
 
-Now we're closer, with the data shaped 13 x (5 X 7). That is, there are now 13 rows with each row a feature like we want, but columns 1-5 represent the first defender, 6-10 the second, etc. We need to take each of these and split up the defenders into different dimensions so that we end up with 13 sets of 7 x 5 matrices.
+Now we're closer, with the data shaped 13 x (5 X 7). That is, there are now 13 rows with each row a feature like we want, but columns 1-5 represent the first defender, 6-10 the second, etc (I've only shown the first 10 columns above so the output isn't huge on the page). We need to take each of these and split up the defenders into different dimensions so that we end up with 13 sets of 7 x 5 matrices.
 
 The below is the complete line for getting to the right shape (if you find this part hard to follow, don't feel like it's supposed to be easy; this took me a lot of trial and error while working with little toy examples). 
 
 ```{r}
 torch_tensor(t(play_df))$view(c(-1, defenders, n_offense))
 ```
-Hooray! It looks like it should. Note that we're starting to use `torch` stuff for the first time, where `view` is something that reshapes tensors that will be familiar to anyone who has used `PyTorch.`
+Hooray! It looks like it should. We have a 13x7x5 tensor with each of the 13 feature dimensions carrying a 7x5 matrix that matches each of the 7 defensive players to each of the 5 offensive players. Note that we're starting to use `torch` stuff for the first time, where `view` is a function that reshapes tensors that will be familiar to anyone who has used `PyTorch.`
 
-None of that was necessary but hopefully explains what was going on. Now let's fill in our tensors.
+* [Very helpful reference page for tensor operations](https://torch.mlverse.org/technical/tensors/)
+
+Hopefully this sheds some light on the above function. Now let's use it.
 
 ## Fill in the tensors
 
-Digression over and back to work.
+Digression over and back to work. This iterates over every play to fill in the tensor for each play.
 
 ```{r build-tensors}
 # build the tensor for train and test data
@@ -265,25 +253,27 @@ walk(1 : nrow(play_indices), ~{
 })
 ```
 
-And make sure it worked:
+Let's make sure it worked:
 
 ```{r}
 train_x[1, ..]
 ```
 
-So this shows that the first play has been filled in. The extra zeroes in the final rows are because we initialized a tensor of zeroes for all 11 defenders, but not all defenders are provided on every play, so a lot of plays will have zeroes like this. I think about it like a bunch of players standing on the side of the field together not impacting the play since that's basically what the computer sees.
+This shows that the first play has been filled in. The extra zeroes in the final rows are because we initialized a tensor of zeroes for 11 defenders, but not all defenders are provided on every play, so a lot of plays will have zeroes like this. I think about it like a bunch of players standing in the corner of the field together not impacting the play since that's basically what the computer sees (I tried sticking all the "missing" players on the line of scrimmage standing there looking at each other, but it didn't seem to make much of a difference).
 
-Now let's fill in the labels. Note that the `torch_long()` part is required for labels or `torch` will complain later (I have no idea what this means).
+Now let's fill in the coverage labels. Note that the `torch_long()` part is required for labels and the labels have to be integers starting from 1.
 
-```{r}
+```{r, echo = FALSE}
 train_y <- torch_zeros(n_plays, dtype = torch_long())
 
 train_y[1:n_plays] <- play_indices %>%
   mutate(coverage = as.factor(coverage) %>% as.integer()) %>%
   pull(coverage)
 
-dim(train_x)
-dim(train_y)
+# clean up memory, who knows if this does anything
+rm(rel_df)
+rm(df)
+gc()
 ```
 
 Finally, I need to get rid of the time dimension since I'm not using it here (`torch_squeeze` gets rid of any singleton dimensions).
@@ -291,62 +281,62 @@ Finally, I need to get rid of the time dimension since I'm not using it here (`t
 ```{r}
 train_x <- torch_squeeze(train_x)
 dim(train_x)
-
+dim(train_y)
 ```
+
+Now we have about 1,000 plays from week 1 shaped in the way we want.
 
 ## Split the data
 
-Let's hold out 100 plays for testing and split the remaining sample into an 80% training and 20% validation split. First we generate the indices of the plays for each split:
+Let's hold out 200 plays for testing and split the remaining sample into 5 sets of 80% training and 20% validation splits.
 
 ```{r}
+test_size <- 200
 set.seed(2013) # gohawks
-test_size <- 100
 
 # hold out 
 test_id <- sample(1:n_plays, size = test_size)
-
-# full training set including validation
-train_id <- setdiff(1:n_plays, test_id)
-
-# sample 20% of train set for validation
-valid_id <- sample(train_id, size = ceiling(0.20 * length(train_id)))
-
-# take the remaining for train
-train_id <- setdiff(train_id, valid_id)
-
-length(test_id)
-length(valid_id)
-length(train_id)
-```
-
-And then parcel out the data:
-
-```{r}
-# get all the data read
 test_data <- train_x[test_id, ..]
 test_label <- train_y[test_id]
 
-valid_data <- train_x[valid_id, ..]
-valid_label <- train_y[valid_id]
-
+# full training set
+train_id <- setdiff(1:n_plays, test_id)
 train_data <- train_x[train_id, ..]
 train_label <- train_y[train_id]
 
+# helper thing that is just 1, ..., length train data
+all_train_idx <- 1:dim(train_data)[1]
 
+# create folds from the train indices
+# stratified by label
+folds <- splitTools::create_folds(
+  y = as.integer(train_label),
+  k = 5,
+  type = "stratified",
+  invert = TRUE
+)
 
 dim(train_data)
-dim(valid_data)
+dim(train_label)
+str(folds)
 ```
+
 ## Data augmentation
 
-From [The Zoo's entry](XX): 
+From [The Zoo's entry](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400): 
 
-> What worked really well for us is to add augmentation and TTA for Y coordinates. We assume that in a mirrored world the runs would have had the same outcomes. For training, we apply 50% augmentation to flip the Y coordinates (and all respective relative features emerging from it)
+> *What worked really well for us is to add augmentation and TTA for Y coordinates. We assume that in a mirrored world the runs would have had the same outcomes. For training, we apply 50% augmentation to flip the Y coordinates (and all respective relative features emerging from it)*
 
-So we need to make a function that flips any features related to Y and flip each play vertically. That is below.
+So we need a function that flips any features related to Y vertically. That is below.
 
 ```{r}
-augment_data <- function(df, flip_indices, subtract_indices) {
+augment_data <- function(df, 
+                         # stuff that will be multiplied by -1 (eg Sy)
+                         flip_indices = c(4, 6, 9, 11, 13), 
+                         # raw y location
+                         subtract_indices = c(2)
+                         ) {
+  
 
   # indices of the elements that need to be flipped
   t <- torch_ones_like(df)
@@ -359,7 +349,7 @@ augment_data <- function(df, flip_indices, subtract_indices) {
   t <- torch_zeros_like(df)
   t[, subtract_indices, , ] <- 160/3
 
-  # flip around y
+  # second fix: flip around y
   flipped[, subtract_indices, , ] <- t[, subtract_indices, , ] - flipped[, subtract_indices, , ]
 
   return(flipped)
@@ -367,23 +357,13 @@ augment_data <- function(df, flip_indices, subtract_indices) {
 
 ```
 
-And now we need to augment the training data:
-
-```{r}
-train_data_augmented <- augment_data(train_data, c(4, 6, 9, 11, 13), c(2))
-
-# smoosh together original and augmented data
-train_data <- torch_cat(list(train_data, train_data_augmented))
-# double the label list
-train_label <- torch_cat(list(train_label, train_label))
-
-dim(train_data)
-dim(train_label)
-```
+This will be used below during training (when augmenting the data by adding flipped data) and testing (when getting the prediction as an average of the flipped and non-flipped data).
 
 ## Datasets and dataloaders
 
-Okay, so we have tensors, but we aren't quite ready yet. We need to work with a `dataset()`, which is way to facilitate feeding batches of observations to model training at a time.
+Okay, so we have tensors, and now we need to turn them into something that can be used in training. For this, we need `torch`'s `dataset()`, which is way to easily fetch of observations at once. This is mostly copy and pasting from the below link and not that interesting.
+
+* [Useful reference page on datasets and dataloaders](https://cran.r-project.org/web/packages/torch/vignettes/loading-data.html).
 
 ```{r}
 # define dataset
@@ -407,31 +387,27 @@ tracking_dataset <- dataset(
 )
 ```
 
-This is basically boilerplate that can be copy and pasted for whatever you're working on (the docs have [a good writeup on datasets](https://cran.r-project.org/web/packages/torch/vignettes/loading-data.html)). If one preferred, one could put all the data cleaning and preparation we've done above into the `dataset()` function above and modify it to work like that (see linked docs), but I haven't done this yet.
+Another possible workflow is to put all the data cleaning and preparation work done above into the `dataset()` function, which would probably make for a simpler predict stage when putting something like this into production, but I haven't done this yet.
 
 Now let's stick our data in the dataset:
 
 ```{r}
 train_ds <- tracking_dataset(train_data, train_label)
-valid_ds <- tracking_dataset(valid_data, valid_label)
 ```
 
-Alright, so what did that actually do? Now we can access the `.getitem()` and `.length()` things we created. The below shows the number of rows in the training dataset, and then grabs the first item.
+Alright, so what did that actually do? Now we can access the `.getitem()` and `.length()` things created in the `dataset()` definition above. The below shows the number of rows in the training dataset, and then grabs the first item.
 
 ```{r}
 train_ds$.length()
 train_ds$.getitem(1)
 ```
 
-You might have thought we're done now, but not quite. Now we need to send our dataset to a dataloader. 
+You might have thought we're done now, but not quite. Now we need to send our `dataset` to a `dataloader` .
 
 ```{r}
 # Dataloaders
 train_dl <- train_ds %>%
   dataloader(batch_size = 64, shuffle = TRUE)
-
-valid_dl <- valid_ds %>%
-  dataloader(batch_size = 64, shuffle = FALSE)
 ```
 
 The dataloaders allow for `torch` to access the data in batches, which as we'll see below, is how the model is trained. 
@@ -441,17 +417,19 @@ This shows how many batches we have:
 ```{r}
 train_dl$.length()
 ```
-And this shows one of the batches:
+And this shows one of the batches, and we can refer to the data and labels as `x` and `y` because of how we constructed the `dataset` above:
 
 ```{r}
-train_dl$.iter()$.next()
+batch <- train_dl$.iter()$.next()
+dim(batch$x)
+dim(batch$y)
 ```
 
 Both the data and labels have 64 rows as expected (the batch size).
 
 ## The model
 
-This is a straight copy of The Zoo's model so there's not much to say here.
+This is a straight copy of [The Zoo's model](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) so there's not much to say here, but I will leave some comments to explain what is happening.
 
 ```{r model-define}
 net <- nn_module(
@@ -461,6 +439,9 @@ net <- nn_module(
 
     self$conv_block_1 <- nn_sequential(
       nn_conv2d(
+        # 1x1 convolution taking in 13 (n_features) channels and outputting 128
+        # before: batch * 13 * 11 * 5
+        # after: batch * 128 * 11 * 5
         in_channels = n_features,
         out_channels = 128,
         kernel_size = 1
@@ -513,12 +494,13 @@ net <- nn_module(
       nn_linear(96, 256),
       nn_relu(inplace = TRUE),
 
-      # breaks on current kaggle version
+      # note: breaks on current kaggle version
       nn_batch_norm1d(256),
 
       nn_layer_norm(256),
       nn_dropout(p = 0.3),
 
+      # n_class is how many distinct labels there are
       nn_linear(256, n_class)
 
     )
@@ -528,15 +510,19 @@ net <- nn_module(
   forward = function(x) {
 
     # first conv layer
+    # outputs batch * 128 * 11 * 5
     x <- self$conv_block_1(x)
 
-    # first pool layer
+    # first pool layer: average of mean and max pooling
+    # the 5 is number of offensive players
     avg <- nn_avg_pool2d(kernel_size = c(1, 5))(x) %>%
       torch_squeeze(-1)
     max <- nn_max_pool2d(kernel_size = c(1, 5))(x) %>%
       torch_squeeze(-1)
 
     x <- 0.7 * avg + 0.3 * max
+    
+    # x is now batch * 128 * 11
 
     # second conv layer
     x <- self$conv_block_2(x)
@@ -548,8 +534,12 @@ net <- nn_module(
       torch_squeeze(-1)
 
     x <- 0.7 * avg + 0.3 * max
+    
+    # x is now batch * 96
 
     x <- self$linear_block(x)
+    
+    # x is now batch * # labels
 
     x
 
@@ -557,73 +547,112 @@ net <- nn_module(
 )
 ```
 
-## Training
+## Training with cross validation
 
-To train the model, we need to define an optimizer (using Adam following The Zoo). We're also implementing some learn rate decay.
+We've done a lot of setup to get to this point, and now we can actually train a model!
+
+[I'm going to use what is known as k-fold validation](https://sebastianraschka.com/blog/2016/model-evaluation-selection-part3.html) (with k = 5 in this case). For each of the 5 folds, we estimate a separate model using 80% of the data as the training set and the remaining 20% as the validation set. This helps give a more realistic expectation of what to expect from final testing than using one fold, especially here since our data are so limited. Looking at the below, the accuracy among the 5 folds ranges from 72% - 80%, with an average of 76%.
+
+At the predict stage to follow, we could either average over these 5 models (this is what I do) or re-train on the entire train set. Reading through the link above, it seems like the choice of which to do is not super obvious (and might not matter that much).
+
+* [Torch reference page explaining `optimizer`, `loss$backward()`, and `optimizer$step()`](https://torch.mlverse.org/technical/optimizers/):
+
+Here's the big loop:
 
 ```{r}
 set.seed(2013)
 torch_manual_seed(2013)
 
-model <- net()
+accuracies <- torch_zeros(length(folds))
+best_epochs <- torch_zeros(length(folds))
 
-optimizer <- optim_adam(model$parameters, lr = 0.001)
+epochs <- 50
 
-# decay 
-scheduler <- lr_step(optimizer, step_size = 1, 0.95)
-
-```
-
-And now we can do the thing.
-
-```{r}
-epochs <- 35
-for (epoch in 1:epochs) {
+# start iteration over folds
+for (fold in 1:length(folds)) {
+  cat(sprintf("\n------------- FOLD %d ---------", fold))
   
-  train_losses <- c()
-  valid_losses <- c()
-  valid_accuracies <- c()
+  model <- net()
+  optimizer <- optim_adam(model$parameters, lr = 0.001)
+  scheduler <- lr_step(optimizer, step_size = 1, 0.975)
   
-  # train step
-  model$train()
-  for (b in enumerate(train_dl)) {
-
-    optimizer$zero_grad()
-    loss <- nnf_cross_entropy(model(b$x), b$y)
-    loss$backward()
-    optimizer$step()
-    train_losses <- c(train_losses, loss$item())
-  }
+  # extract train and validation sets
+  val_i <- folds[[fold]]
+  train_i <- all_train_idx[-val_i]
   
-  # validation step
-  model$eval()
-  for (b in enumerate(valid_dl)) {
+  .ds_train <- dataset_subset(train_ds, train_i)
+  .ds_val <- dataset_subset(train_ds, val_i)
+  
+  .train_dl <- .ds_train %>%
+    dataloader(batch_size = 64, shuffle = TRUE)
+  .valid_dl <- .ds_val %>%
+    dataloader(batch_size = 64, shuffle = TRUE)
+  
+  for (epoch in 1:epochs) {
     
-    output <- model(b$x)
+    train_losses <- c()
+    valid_losses <- c()
+    valid_accuracies <- c()
     
-    # augment
-    valid_data_augmented <- augment_data(b$x, c(4, 6, 9, 11, 13), c(2))
-    output_augmented <- model(valid_data_augmented)
-    output <- (output + output_augmented) / 2
-
-    valid_losses <- c(valid_losses, nnf_cross_entropy(output, b$y)$item())
+    # train step: loop over batches
+    model$train()
+    for (b in enumerate(.train_dl)) {
+      
+      # augment first
+      b_augmented <- augment_data(b$x, c(4, 6, 9, 11, 13), c(2))
+      x <- torch_cat(list(b$x, b_augmented))
+      # double the label list
+      y <- torch_cat(list(b$y, b$y))
+  
+      optimizer$zero_grad()
+      loss <- nnf_cross_entropy(model(x), y)
+      loss$backward()
+      optimizer$step()
+      train_losses <- c(train_losses, loss$item())
+    }
     
-    pred <- torch_max(output, dim = 2)[[2]]
-    correct <- (pred == b$y)$sum()$item()
-    valid_accuracies <- c(valid_accuracies, correct/length(b$y))
-  }
+    # validation step: loop over batches
+    model$eval()
+    for (b in enumerate(.valid_dl)) {
+      
+      output <- model(b$x)
+      
+      # augment
+      valid_data_augmented <- augment_data(b$x, c(4, 6, 9, 11, 13), c(2))
+      output_augmented <- model(valid_data_augmented)
+      output <- (output + output_augmented) / 2
   
-  scheduler$step()
-  cat(sprintf("\nLoss at epoch %d: training: %1.4f, validation: %1.4f // validation accuracy %1.4f", epoch, mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
-  
-  # if we get past 74%, stop the training
-  if (mean(valid_accuracies) > .74) {
-    break
-  }
-  
+      valid_losses <- c(valid_losses, nnf_cross_entropy(output, b$y)$item())
+      
+      pred <- torch_max(output, dim = 2)[[2]]
+      correct <- (pred == b$y)$sum()$item()
+      valid_accuracies <- c(valid_accuracies, correct/length(b$y))
+    }
+    
+    scheduler$step()
+    
+    if(epoch %% 10 == 0) {
+      cat(sprintf("\nLoss at epoch %d: training: %1.4f, validation: %1.4f // validation accuracy %1.4f", epoch, mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
+    }
 
+    if (mean(valid_accuracies) > as.numeric(accuracies[fold])) {
+      message(glue::glue("Fold {fold}: New best at epoch {epoch} ({round(mean(valid_accuracies), 3)}). Saving model"))
+  
+      torch_save(model, glue::glue("best_model_{fold}.pt"))
+      
+      # save new best loss
+      accuracies[fold] <- mean(valid_accuracies)
+      best_epochs[fold] <- epoch
+        
+    }
+    
+  }
 }
 
+accuracies
+best_epochs
+
+mean(accuracies)
 ```
 
 Some notes on the above: 
@@ -635,23 +664,27 @@ Some notes on the above:
 ## Testing
 
 ```{r, warning=FALSE}
-# evaluate on test set
-
-model$eval()
-
 labels <- test_label %>%
   as.matrix() %>%
   as_tibble() %>%
   set_names("label")
 
-output <- model(test_data)
-
-# augmented preds
+# load all the models
+models <- map(1:length(folds), ~{
+  torch_load(glue::glue("best_model_{.x}.pt"))
+})
 test_data_augmented <- augment_data(test_data, c(4, 6, 9, 11, 13), c(2))
-output_augmented <- model(test_data_augmented)
-output <- (output + output_augmented) / 2
 
-predictions <- as.matrix(output) 
+output <- torch_zeros(length(folds), dim(test_data)[1], n_class)
+
+# get augmented prediction for each fold
+walk(1:length(folds), ~{
+  output[.x, ..] <- (models[[.x]](test_data) + models[[.x]](test_data_augmented)) / 2
+})
+
+# average predictions over folds
+predictions <- (1 / length(folds)) * torch_sum(output, 1) %>%
+  as.matrix()
 
 predictions <- predictions %>% 
   as_tibble() %>%
@@ -665,17 +698,36 @@ predictions <- predictions %>%
     prediction = as.factor(prediction)
   )
 
+
 cat(sprintf("\nWeek 1 test: %1.0f percent correct", round(100*mean(predictions$correct), 1), mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
 
+```
 
-#          1 Cover 0 Man     13
-#          2 Cover 1 Man    296
-#          3 Cover 2 Man     32
-#          4 Cover 2 Zone   113
-#          5 Cover 3 Zone   352
-#          6 Cover 4 Zone   150
-#          7 Cover 6 Zone    69
-#          8 Prevent Zone     1
+So we hit 78% accuracy, which was about the mean of the cross validation accuracies. Good! This 78% is probably even an under-estimate of the true accuracy because some plays [are mislabeled](https://twitter.com/benbbaldwin/status/1363870854019506177) (this also puts an upper limit on how good the model can be, although only having 1 week of data is the bigger hurdle for this post).
+
+```{r, warning=FALSE}
+# confusion matrix
+tab <- predictions %>%
+  mutate(
+    label = as.factor(as.integer(label)),
+    prediction = as.factor(as.integer(prediction))
+  )
+
+levels(tab$label) <-
+  c("C0m", "C1m", "C2m", "C2z", "C3z", "C4z", "C6z")
+levels(tab$prediction) <-
+  c("C0m", "C1m", "C2m", "C2z", "C3z", "C4z", "C6z")
+
+conf_mat <- caret::confusionMatrix(tab$prediction, tab$label)
+conf_mat$table %>%
+  broom::tidy() %>%
+  dplyr::rename(
+    Target = Reference,
+    N = n
+  ) %>%
+  cvms::plot_confusion_matrix(
+    add_sums = TRUE, place_x_axis_above = FALSE,
+    add_normalized = FALSE)
 
 ```
 
