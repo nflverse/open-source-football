@@ -5,7 +5,7 @@ description: |
 author:
   - name: Ben Baldwin
     url: https://twitter.com/benbbaldwin
-date: 05-31-2021
+date: 06-07-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -22,9 +22,9 @@ library(torch)
 library(patchwork)
 ```
 
-The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used some sort of Convolutional Neural Network (CNN) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques.
+The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used Convolutional Neural Networks (CNNs) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques. In this post, we'll dive into what that actually entails.
 
-## Computer vision
+## Computer vision background
 
 If you don't know anything about computer vision and would like to learn, I personally found this [University of Michigan course taught by Justin Johnson incredibly helpful](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/). [Here is a link to the lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [here is the syllabus and PDFs of the lecture slides](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/schedule.html), and see the first link for the homework assignments (which are in PyTorch; i.e. Python). To understand what's happening in the course, some familiarity with how to manipulate matrices is very useful, especially if you try to tackle the homework assignments.
 
@@ -34,16 +34,16 @@ It's no accident that the course linked above uses PyTorch. Python is the domina
 
 ## The goals for this post
 
-* Yes: demonstrate how to use Torch in R
-* No: create the most accurate model possible
+* **Yes**: demonstrate how to use Torch in R and what this looks like when using NFL player tracking data
+* **No**: create the most accurate model possible
 
-Since this is Open Source Football, I'm only going to use things that others can access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from week 1 of the 2018 season since that is what was provided to contestants. If you want to replicate this post, you'll need to get the [player tracking data here](https://www.kaggle.com/c/nfl-big-data-bowl-2021/data) and the [coverage labels here](https://www.kaggle.com/tombliss/additional-data-coverage-schemes-for-week-1). If one had access to a full season of coverage labels, hypothetically speaking, one could make a much better model (more on this at the end). In addition, since this designed to be an introductory post, I'm only going to use one frame per play, which limits the accuracy.
+Since this is Open Source Football, I'm only going to use things that others can access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from week 1 of the 2018 season since that is what was provided to contestants. If you want to replicate this post, you'll need to get the [player tracking data here](https://www.kaggle.com/c/nfl-big-data-bowl-2021/data) and the [coverage labels here](https://www.kaggle.com/tombliss/additional-data-coverage-schemes-for-week-1). If one had access to a full season of coverage labels, hypothetically speaking, one could train a much better model. In addition, since this designed to be an introductory post, I'm only going to use one frame per play, which limits the accuracy a bit.
 
 Let's get to it!
 
 ## Load the data
 
-I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. If you're interested, you can check out the code in the package, and maybe by the time you're reading this I'll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and gets some information about each play (e.g. whether the player is on offense or defense and the location of the line of scrimmage).
+I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. If you're interested, you can check out the code in the package, and maybe by the time you're reading this I'll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and gets some information about each play (e.g. whether each player is on offense or defense and the location of the line of scrimmage).
 
 ```{r get-data}
 df <- ngscleanR::prepare_bdb_week(
@@ -56,8 +56,6 @@ df <- ngscleanR::prepare_bdb_week(
     # let's keep this frame for fun (1.8 seconds after snap)
     keep_frames = c(31)
   )
-
-str(df)
 ```
 
 Now let's get the labels from 2018 week 1 with thanks to Telemetry.
@@ -149,9 +147,6 @@ off_def_features <- 6
 n_features <- def_only_features + off_def_features
 
 play_indices
-n_plays
-n_frames
-n_features
 ```
 
 Now we're ready to start making our tensor, which is what `torch` knows how to deal with. Note that I'm throwing in an extra dimension for number of frames on each play, which is useless in this case (1 frame per play) but makes it easier to extend to using multiple frames in a given play (the real reason I'm doing this is that my existing code uses more frames and it's easier to not re-write this part of it).
@@ -268,7 +263,7 @@ This shows that the first play has been filled in. The extra zeroes in the final
 
 Now let's fill in the coverage labels. Note that the `torch_long()` part is required for labels and the labels have to be integers starting from 1.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "hide"}
 train_y <- torch_zeros(n_plays, dtype = torch_long())
 
 train_y[1:n_plays] <- play_indices %>%
@@ -324,6 +319,8 @@ dim(train_data)
 dim(train_label)
 str(folds)
 ```
+
+The `folds` object created above is a list of 5 where each item in the list is the set of validation incides for a given fold.
 
 ## Data augmentation
 
@@ -555,7 +552,7 @@ net <- nn_module(
 
 We've done a lot of setup to get to this point, and now we can actually train a model!
 
-[I'm going to use what is known as k-fold validation](https://sebastianraschka.com/blog/2016/model-evaluation-selection-part3.html) (with k = 5 in this case). For each of the 5 folds, we estimate a separate model using 80% of the data as the training set and the remaining 20% as the validation set. This helps give a more realistic expectation of what to expect from final testing than using one fold, especially here since our data are so limited. Looking at the below, the accuracy among the 5 folds ranges from 72% - 80%, with an average of 76%.
+[I'm going to use what is known as k-fold validation](https://sebastianraschka.com/blog/2016/model-evaluation-selection-part3.html) (with k = 5 in this case). For each of the 5 folds, we estimate a separate model using 80% of the data as the training set and the remaining 20% as the validation set. This helps give a more realistic expectation of what to expect from final testing than using one fold, especially here since our data are so limited. Looking at the below, the accuracy among the 5 folds ranges from 73% - 82%, with an average of 78%.
 
 At the predict stage to follow, we could either average over these 5 models (this is what I do) or re-train on the entire train set. Reading through the link above, it seems like the choice of which to do is not super obvious (and might not matter that much).
 
@@ -654,7 +651,6 @@ for (fold in 1:length(folds)) {
 }
 
 accuracies
-best_epochs
 
 mean(accuracies)
 ```
@@ -710,7 +706,7 @@ predictions <- predictions %>%
   )
 
 # the magic correct number
-cat(sprintf("\nWeek 1 test: %1.0f percent correct", round(100*mean(predictions$correct), 1), mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
+cat(sprintf("Week 1 test: %1.0f percent correct", round(100*mean(predictions$correct), 1), mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
 ```
 
 So we hit 78% accuracy, which was about the mean of the cross validation accuracies. Good! This 78% is an under-estimate of the true accuracy because some plays [are mislabeled](https://twitter.com/benbbaldwin/status/1363870854019506177) (this also puts an upper limit on how good the model can be, although only having 1 week of data is the bigger hurdle for this post).
@@ -742,7 +738,7 @@ conf_mat$table %>%
     add_normalized = FALSE)
 ```
 
-Unsurprisingly, there biggest source of confusion is distinguishing cover 1 man from cover 3 zone. Let's take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone.
+Unsurprisingly, there biggest source of confusion is distinguishing Cover 1 Man from Cover 3 Zone. Let's take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone.
 
 ```{r}
 tracking <- readr::read_csv("../../../nfl-big-data-bowl-2021/input/week1.csv") %>%
@@ -796,7 +792,7 @@ It's kind of hard to tell from a still image exactly what these plays are suppos
 
 Hopefully this has been at least somewhat helpful to someone. We've covered how to get data into tensors, deal with datasets and dataloaders, augmentation, and how to train a model with k-fold cross-validation.
 
-One thing I didn't cover is how to deal with multiple frames per play. One option would be to feed the CNN predictions in each frame [into a LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory). Another would be to send every frame in a given play into the CNN and then perform some sort of pooling by play afterwards. I didn't explore this in the post because (a) it's already long enough already and (b) my laptop can barely handle knitting this post at its given size and more frames would kill it.
+One thing I didn't cover is how to deal with multiple frames per play. One option would be to feed the CNN predictions in each frame [into a LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory). Another would be to send every frame in a given play into the CNN and then perform some sort of pooling by play afterwards. I didn't explore this in the post because (a) it's already long enough and (b) my laptop can barely handle knitting this post at its given size and more frames would kill it.
 
 Some things that I learned:
 
@@ -804,5 +800,6 @@ Some things that I learned:
 * Be very careful with using `torch_squeeze()` without any arguments (i.e., the index to squeeze) because if you happen to have a batch size of 1 at the end of an epoch, the batch size dimension will get squeezed out and break things
 * Kaggle supports R and comes with `torch` pre-installed, BUT it's a very old version of `torch` so upgrade to the latest version in your kaggle notebook to get access to all the new things
 * If you have limited memory or don't have access to a GPU on your own computer, use Kaggle to train models!
+* [The documentation](https://torch.mlverse.org/docs/reference/index.html) is very helpful!
 
 This post wouldn't have been possible without a lot of help from a lot of people. Thank you in particular to [Daniel Falbel](https://twitter.com/dfalbel), both for all of his work on `torch` and for answering a million of my questions, and to Sean Clement and Lau Sze Yui for allowing me to pester them with a million questions about neural nets. Additional thanks to helpful discussions with Timo Riske, Suvansh Sanjeev, Udit Ranasaria, Rishav Dutta, and Zach Feldman.
