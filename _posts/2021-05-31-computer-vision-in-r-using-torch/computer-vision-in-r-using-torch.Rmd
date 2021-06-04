@@ -12,9 +12,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-# knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=9, fig.height=5
+)
 library(tidyverse)
 library(torch)
+library(patchwork)
 ```
 
 The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used some sort of Convolutional Neural Network (CNN) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques.
@@ -272,7 +277,6 @@ train_y[1:n_plays] <- play_indices %>%
 
 # clean up memory, who knows if this does anything
 rm(rel_df)
-rm(df)
 gc()
 ```
 
@@ -599,7 +603,7 @@ for (fold in 1:length(folds)) {
     for (b in enumerate(.train_dl)) {
       
       # augment first
-      b_augmented <- augment_data(b$x, c(4, 6, 9, 11, 13), c(2))
+      b_augmented <- augment_data(b$x)
       x <- torch_cat(list(b$x, b_augmented))
       # double the label list
       y <- torch_cat(list(b$y, b$y))
@@ -618,7 +622,7 @@ for (fold in 1:length(folds)) {
       output <- model(b$x)
       
       # augment
-      valid_data_augmented <- augment_data(b$x, c(4, 6, 9, 11, 13), c(2))
+      valid_data_augmented <- augment_data(b$x)
       output_augmented <- model(valid_data_augmented)
       output <- (output + output_augmented) / 2
   
@@ -663,7 +667,10 @@ Some notes on the above:
 
 ## Testing
 
+Now we can test the model on the 200 plays that we held out earlier. We'll take the average of the 5 models generated above (one for each cross-validation fold) and in addition, for each model, have the prediction be the average of the actual and flipped (across Y direction) prediction, as in The Zoo's entry.
+
 ```{r, warning=FALSE}
+# get the labels
 labels <- test_label %>%
   as.matrix() %>%
   as_tibble() %>%
@@ -673,8 +680,11 @@ labels <- test_label %>%
 models <- map(1:length(folds), ~{
   torch_load(glue::glue("best_model_{.x}.pt"))
 })
-test_data_augmented <- augment_data(test_data, c(4, 6, 9, 11, 13), c(2))
 
+# augment test data
+test_data_augmented <- augment_data(test_data)
+
+# initialize empty output
 output <- torch_zeros(length(folds), dim(test_data)[1], n_class)
 
 # get augmented prediction for each fold
@@ -682,10 +692,11 @@ walk(1:length(folds), ~{
   output[.x, ..] <- (models[[.x]](test_data) + models[[.x]](test_data_augmented)) / 2
 })
 
-# average predictions over folds
+# average prediction over folds
 predictions <- (1 / length(folds)) * torch_sum(output, 1) %>%
   as.matrix()
 
+# join prediction to label
 predictions <- predictions %>% 
   as_tibble() %>%
   mutate(row = 1 : n()) %>%
@@ -698,12 +709,13 @@ predictions <- predictions %>%
     prediction = as.factor(prediction)
   )
 
-
+# the magic correct number
 cat(sprintf("\nWeek 1 test: %1.0f percent correct", round(100*mean(predictions$correct), 1), mean(train_losses), mean(valid_losses), mean(valid_accuracies)))
-
 ```
 
-So we hit 78% accuracy, which was about the mean of the cross validation accuracies. Good! This 78% is probably even an under-estimate of the true accuracy because some plays [are mislabeled](https://twitter.com/benbbaldwin/status/1363870854019506177) (this also puts an upper limit on how good the model can be, although only having 1 week of data is the bigger hurdle for this post).
+So we hit 78% accuracy, which was about the mean of the cross validation accuracies. Good! This 78% is an under-estimate of the true accuracy because some plays [are mislabeled](https://twitter.com/benbbaldwin/status/1363870854019506177) (this also puts an upper limit on how good the model can be, although only having 1 week of data is the bigger hurdle for this post).
+
+Let's take a look at which types of plays the model is having problems with:
 
 ```{r, warning=FALSE}
 # confusion matrix
@@ -728,6 +740,69 @@ conf_mat$table %>%
   cvms::plot_confusion_matrix(
     add_sums = TRUE, place_x_axis_above = FALSE,
     add_normalized = FALSE)
-
 ```
 
+Unsurprisingly, there biggest source of confusion is distinguishing cover 1 man from cover 3 zone. Let's take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone.
+
+```{r}
+tracking <- readr::read_csv("../../../nfl-big-data-bowl-2021/input/week1.csv") %>%
+  ngscleanR::clean_and_rotate() %>%
+  filter(frame_id == 31)
+```
+
+```{r, message = FALSE, warning=FALSE}
+plot_plays <- play_indices[test_id,] %>%
+  bind_cols(predictions) %>%
+  filter(prediction == 2, label == 5) %>%
+  select(play) %>%
+  dplyr::slice(1:4) %>%
+  pull(play)
+```
+
+```{r, message = FALSE, warning=FALSE, dpi = 400}
+# for testing
+# plot_plays <- c("2018090902_1326", "2018090909_2319", "2018090906_3808", "2018090901_2324")
+# end test 
+
+plots <- map(plot_plays, ~{
+  plot <- tracking %>%
+    filter(play == .x) %>%
+    ngscleanR::plot_play(
+      animated = FALSE,
+      segment_length = 6,
+      segment_size = 3,
+      dot_size = 4
+      
+    )
+  
+  plot + 
+    theme(plot.title = element_blank(),
+          plot.caption = element_blank(),
+          plot.margin = unit(c(0, 0, 0, 0), "cm")
+  )
+})
+
+combined <- (plots[[1]] + plots[[2]]) / (plots[[3]] + plots[[4]])
+
+combined + plot_annotation(
+  title = 'Sample Cover 3 plays that model thinks are Cover 1',
+  theme = theme(plot.title = element_text(size = 16, hjust = 0.5))
+)
+```
+
+It's kind of hard to tell from a still image exactly what these plays are supposed to be or why the model got them wrong. Looking at it this way, I find it even more impressive that the model can get nearly 80% of plays right with only 1 week of data and 1 frame per play.
+
+## Wrapping up
+
+Hopefully this has been at least somewhat helpful to someone. We've covered how to get data into tensors, deal with datasets and dataloaders, augmentation, and how to train a model with k-fold cross-validation.
+
+One thing I didn't cover is how to deal with multiple frames per play. One option would be to feed the CNN predictions in each frame [into a LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory). Another would be to send every frame in a given play into the CNN and then perform some sort of pooling by play afterwards. I didn't explore this in the post because (a) it's already long enough already and (b) my laptop can barely handle knitting this post at its given size and more frames would kill it.
+
+Some things that I learned:
+
+* If you get inexplicable error messages, make very sure that you don't have any missing data anywhere (including in the labels)
+* Be very careful with using `torch_squeeze()` without any arguments (i.e., the index to squeeze) because if you happen to have a batch size of 1 at the end of an epoch, the batch size dimension will get squeezed out and break things
+* Kaggle supports R and comes with `torch` pre-installed, BUT it's a very old version of `torch` so upgrade to the latest version in your kaggle notebook to get access to all the new things
+* If you have limited memory or don't have access to a GPU on your own computer, use Kaggle to train models!
+
+This post wouldn't have been possible without a lot of help from a lot of people. Thank you in particular to [Daniel Falbel](https://twitter.com/dfalbel), both for all of his work on `torch` and for answering a million of my questions, and to Sean Clement and Lau Sze Yui for allowing me to pester them with a million questions about neural nets. Additional thanks to helpful discussions with Timo Riske, Suvansh Sanjeev, Udit Ranasaria, Rishav Dutta, and Zach Feldman.

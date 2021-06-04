@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Computer Vision with NFL player tracking data using Torch for R</title>
+
+  <meta property="description" itemprop="description" content="Coverage classification using CNNs."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-05-31"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-05-31"/>
+  <meta name="article:author" content="Ben Baldwin"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Computer Vision with NFL player tracking data using Torch for R"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Coverage classification using CNNs."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Computer Vision with NFL player tracking data using Torch for R"/>
+  <meta property="twitter:description" content="Coverage classification using CNNs."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Computer Vision with NFL player tracking data using Torch for R"]},{"type":"character","attributes":{},"value":["Coverage classification using CNNs.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Ben Baldwin"]},{"type":"character","attributes":{},"value":["https://twitter.com/benbbaldwin"]}]}]},{"type":"character","attributes":{},"value":["05-31-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["best_model.pt","best_model_1.pt","best_model_2.pt","best_model_3.pt","best_model_4.pt","best_model_5.pt","computer-vision-in-r-using-torch_files/anchor-4.2.2/anchor.min.js","computer-vision-in-r-using-torch_files/bowser-1.9.3/bowser.min.js","computer-vision-in-r-using-torch_files/distill-2.2.21/template.v2.js","computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-22-1.png","computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-25-1.png","computer-vision-in-r-using-torch_files/header-attrs-2.7/header-attrs.js","computer-vision-in-r-using-torch_files/jquery-1.11.3/jquery.min.js","computer-vision-in-r-using-torch_files/popper-2.6.0/popper.min.js","computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy-bundle.umd.min.js","computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy-light-border.css","computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy.css","computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy.umd.min.js","computer-vision-in-r-using-torch_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="computer-vision-in-r-using-torch_files/header-attrs-2.7/header-attrs.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/popper-2.6.0/popper.min.js"></script>
+  <link href="computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="computer-vision-in-r-using-torch_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="computer-vision-in-r-using-torch_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Computer Vision with NFL player tracking data using Torch for R","description":"Coverage classification using CNNs.","authors":[{"author":"Ben Baldwin","authorURL":"https://twitter.com/benbbaldwin","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-05-31T00:00:00.000-04:00","citationText":"Baldwin, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Computer Vision with NFL player tracking data using Torch for R</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Coverage classification using CNNs.</p></p>
+</div>
+
+<div class="d-byline">
+  Ben Baldwin <a href="https://twitter.com/benbbaldwin" class="uri">https://twitter.com/benbbaldwin</a> 
+  
+<br/>05-31-2021
+</div>
+
+<div class="d-article">
+<p>The winners of the <a href="https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf">2019</a> and <a href="https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400">2020</a> Big Data Bowls each used some sort of Convolutional Neural Network (CNN) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques.</p>
+<h2 id="computer-vision">Computer vision</h2>
+<p>If you don’t know anything about computer vision and would like to learn, I personally found this <a href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/">University of Michigan course taught by Justin Johnson incredibly helpful</a>. <a href="https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r">Here is a link to the lecture videos</a>, <a href="https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/schedule.html">here is the syllabus and PDFs of the lecture slides</a>, and see the first link for the homework assignments (which are in PyTorch; i.e. Python). To understand what’s happening in the course, some familiarity with how to manipulate matrices is very useful, especially if you try to tackle the homework assignments.</p>
+<p>An aside: If you haven’t done anything like this before, a lot of this post will not make a lot of sense. What we will do here is a lot different than <a href="https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/">learning how to use, for example, xgboost</a>, for a couple reasons. First, we’re departing from the comfort of the “rectangular” data structure where each row is an observation and each column is a feature. In computer vision problems, there are typically (at least) four dimensions: one for each observation, another for each feature dimension (e.g. 3 for a typical red-green-blue image), one for the height of the image, and one for the width. And second, there’s a lot more housekeeping that needs to be done in the code: keeping track of batches, telling it to compute gradients and update update weights, and some other stuff along these lines. If none of this makes sense, that’s okay! If you watch the lectures linked above (and even more so, try the homeworks) and come back to this, everything will make a lot more sense.</p>
+<p>It’s no accident that the course linked above uses PyTorch. Python is the dominant language for computer vision. However, there is recent good news for R users: <a href="https://torch.mlverse.org/">Torch in R</a> has been developed and contains basically all of the same things as the Python version, which means that if you’re already comfortable with R, you don’t need to learn a whole new language just to do computer vision stuff (plus trying to clean and manipulate data in pandas is the worst).</p>
+<h2 id="the-goals-for-this-post">The goals for this post</h2>
+<ul>
+<li>Yes: demonstrate how to use Torch in R</li>
+<li>No: create the most accurate model possible</li>
+</ul>
+<p>Since this is Open Source Football, I’m only going to use things that others can access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from week 1 of the 2018 season since that is what was provided to contestants. If you want to replicate this post, you’ll need to get the <a href="https://www.kaggle.com/c/nfl-big-data-bowl-2021/data">player tracking data here</a> and the <a href="https://www.kaggle.com/tombliss/additional-data-coverage-schemes-for-week-1">coverage labels here</a>. If one had access to a full season of coverage labels, hypothetically speaking, one could make a much better model (more on this at the end). In addition, since this designed to be an introductory post, I’m only going to use one frame per play, which limits the accuracy.</p>
+<p>Let’s get to it!</p>
+<h2 id="load-the-data">Load the data</h2>
+<p>I’m going to mostly skip over the data cleaning stuff this since it isn’t the focus of the post, plus I wrote <a href="https://github.com/guga31bb/ngscleanR">a package</a> that gets all of the annoying data prep out of the way. If you’re interested, you can check out the code in the package, and maybe by the time you’re reading this I’ll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender’s orientation points him at the quarterback, and gets some information about each play (e.g. whether the player is on offense or defense and the location of the line of scrimmage).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>ngscleanR</span><span class='fu'>::</span><span class='fu'>prepare_bdb_week</span><span class='op'>(</span>
+    week <span class='op'>=</span> <span class='fl'>1</span>,
+    dir <span class='op'>=</span> <span class='st'>"../../../nfl-big-data-bowl-2021/input"</span>,
+    <span class='co'># any throw that happens before 1.5 seconds after snap is thrown away</span>
+    trim_frame <span class='op'>=</span> <span class='fl'>25</span>,
+    <span class='co'># all frames coming more than 1 second after pass released are thrown away</span>
+    frames_after_throw <span class='op'>=</span> <span class='fl'>10</span>,
+    <span class='co'># let's keep this frame for fun (1.8 seconds after snap)</span>
+    keep_frames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>31</span><span class='op'>)</span>
+  <span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; tibble [13,019 x 14] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ week         : int [1:13019] 1 1 1 1 1 1 1 1 1 1 ...
+#&gt;  $ frame_id     : num [1:13019] 31 31 31 31 31 31 31 31 31 31 ...
+#&gt;  $ nfl_id       : num [1:13019] 2507763 2540158 2552582 2552600 2553502 ...
+#&gt;  $ play         : chr [1:13019] &quot;2018090600_1037&quot; &quot;2018090600_1037&quot; &quot;2018090600_1037&quot; &quot;2018090600_1037&quot; ...
+#&gt;  $ defense      : num [1:13019] 0 0 0 0 0 1 1 1 1 1 ...
+#&gt;  $ x            : num [1:13019] 56.7 56.1 48.3 58 50.8 ...
+#&gt;  $ y            : num [1:13019] 14 31.9 31.3 37.6 22 ...
+#&gt;  $ s_x          : num [1:13019] 5.926 4.848 -0.525 5.504 0.66 ...
+#&gt;  $ s_y          : num [1:13019] -3.67 -3.8 -0.839 -1.921 -5.077 ...
+#&gt;  $ a_x          : num [1:13019] 2.721 1.92 -1.31 1.766 0.504 ...
+#&gt;  $ a_y          : num [1:13019] -1.685 -1.505 -2.094 -0.616 -3.877 ...
+#&gt;  $ o_to_qb      : num [1:13019] 0.861 0.873 0.62 0.91 0.69 ...
+#&gt;  $ los_x        : num [1:13019] 53 53 53 53 53 53 53 53 53 53 ...
+#&gt;  $ dist_from_los: num [1:13019] 3.66 3.15 -4.67 4.96 -2.15 ...</code></pre>
+</div>
+<p>Now let’s get the labels from 2018 week 1 with thanks to Telemetry.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>labels</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"../../../nfl-big-data-bowl-2021/input/coverages_week1.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    play <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>gameId</span>, <span class='st'>"_"</span>, <span class='va'>playId</span><span class='op'>)</span>
+    <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>coverage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span>, <span class='va'>coverage</span><span class='op'>)</span>
+
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>labels</span>, by <span class='op'>=</span> <span class='st'>"play"</span><span class='op'>)</span>
+
+<span class='co'># check labels</span>
+<span class='va'>labels</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>coverage</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>summarize</span><span class='op'>(</span>n<span class='op'>=</span><span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; # A tibble: 8 x 2
+#&gt;   coverage         n
+#&gt;   &lt;chr&gt;        &lt;int&gt;
+#&gt; 1 Cover 0 Man     13
+#&gt; 2 Cover 1 Man    296
+#&gt; 3 Cover 2 Man     32
+#&gt; 4 Cover 2 Zone   113
+#&gt; 5 Cover 3 Zone   352
+#&gt; 6 Cover 4 Zone   152
+#&gt; 7 Cover 6 Zone    69
+#&gt; 8 Prevent Zone     1</code></pre>
+</div>
+<h2 id="data-wrangling-create-tensors">Data wrangling / create tensors</h2>
+<p>For reference, here’s what the location and orientation columns in Big Data Bowl mean:</p>
+<figure>
+<img src="https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F3258%2F820e86013d48faacf33b7a32a15e814c%2FIncreasing%20Dir%20and%20O.png?generation=1572285857588233&amp;alt=media" alt="Big Data Bowl" /><figcaption aria-hidden="true">Big Data Bowl</figcaption>
+</figure>
+<p>And we want to create something along the lines of The Zoo’s solution but modified to predict coverages rather than the result of a rushing play. In particular, this section is creating the blue part of this on the left:</p>
+<figure>
+<img src="https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F85156%2F2b5c9ce8e54f58ba78dcf120ef49c278%2FNN%20structure.png?generation=1574945484839246&amp;alt=media" alt="The Zoo’s winning 2020 Big Data Bowl Entry" /><figcaption aria-hidden="true">The Zoo’s winning 2020 Big Data Bowl Entry</figcaption>
+</figure>
+<p>In The Zoo’s entry, they had 10 feature dimensions ((a) defender position, (b) defender position relative to the rusher, (c) defender speed relative to the rusher, (d) defender position relative to offensive player, and (e) defender speed relative to offensive player, all in both the X and Y directions). But their problem was different because they were trying to predict the results of a run play. For coverage classification, things like speed relative to the rusher don’t make sense. There is no rusher! For this post, I’ve settled on 13 features, but haven’t done a lot of playing around with other features so there might be better ways to do this. Here are the features we’ll create:</p>
+<ul>
+<li>1: Distance from line of scrimmage (this serves as X location)</li>
+<li>2: Y location</li>
+<li>3 and 4: Speed in X and Y directions</li>
+<li>5 and 6: Acceleration in X and Y directions</li>
+<li>7: Orientation towards quarterback (measured 0 to 1, with 0 meaning facing directly at QB, 1 directly away)</li>
+<li>8 and 9: X and Y distance from each offensive player</li>
+<li>10 and 11: X and Y speed relative to each offensive player</li>
+<li>12 and 13: X and Y acceleration relative to each offensive player</li>
+</ul>
+<p>Because the maximum number of non-QB offensive players provided in Big Data Bowl is 5 and defensive players 11, we will be creating a tensor – basically a higher-dimensional matrix used by <code>torch</code> – of size (number of plays) x (13) x (11) x (5), with 13 being the number of features (listed above), 11 the number of defenders, and 5 offensive players. Each of the 13 features will have a 11 x 5 matrix that gives a value for each defensive player relative to each offensive player. For example, the entry (1, 13, 1, 1) would pull out the difference in acceleration in the Y direction (i.e., the 13th feature) between the 1st defensive player and 1st offensive player on the 1st play, and the entry (1, 13, ..) would give an 11 by 5 matrix of the relative speed of each possible combination of defensive player and offensive player. If you’re wondering how to choose who the “1st defensive player” is, the beauty of The Zoo’s solution is that you can put the players in any order and the model will treat them the same; i.e., the order doesn’t matter.</p>
+<p>Since we need to get a data frame of defenders relative to offensive players, let’s do that using the pre-cleaned data by joining an offense dataframe to a defense dataframe by play, which joins each offensive player to each possible defensive player:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>offense_df</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>defense</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span>, <span class='va'>frame_id</span>, o_x <span class='op'>=</span> <span class='va'>x</span>, o_y <span class='op'>=</span> <span class='va'>y</span>, o_s_x <span class='op'>=</span> <span class='va'>s_x</span>, o_s_y <span class='op'>=</span> <span class='va'>s_y</span>, o_a_x <span class='op'>=</span> <span class='va'>a_x</span>, o_a_y <span class='op'>=</span> <span class='va'>a_y</span><span class='op'>)</span>
+
+<span class='va'>defense_df</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>defense</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span>, <span class='va'>frame_id</span>, <span class='va'>nfl_id</span>, <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>s_x</span>, <span class='va'>s_y</span>, <span class='va'>a_x</span>, <span class='va'>a_y</span>, <span class='va'>o_to_qb</span>, <span class='va'>dist_from_los</span><span class='op'>)</span>
+
+<span class='va'>rel_df</span> <span class='op'>&lt;-</span> <span class='va'>defense_df</span> <span class='op'>%&gt;%</span>
+  <span class='co'># since there are duplicates at each play &amp; frame this creates 1 entry per offense-defense player combination</span>
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>offense_df</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"play"</span>, <span class='st'>"frame_id"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>diff_x <span class='op'>=</span> <span class='va'>o_x</span> <span class='op'>-</span> <span class='va'>x</span>, diff_y <span class='op'>=</span> <span class='va'>o_y</span> <span class='op'>-</span> <span class='va'>y</span>, diff_s_x <span class='op'>=</span> <span class='va'>o_s_x</span> <span class='op'>-</span> <span class='va'>s_x</span>, diff_s_y <span class='op'>=</span> <span class='va'>o_s_y</span> <span class='op'>-</span> <span class='va'>s_y</span>, diff_a_x <span class='op'>=</span> <span class='va'>o_a_x</span> <span class='op'>-</span> <span class='va'>a_x</span>, diff_a_y <span class='op'>=</span> <span class='va'>o_a_y</span> <span class='op'>-</span> <span class='va'>a_y</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span>, <span class='va'>frame_id</span>, <span class='va'>nfl_id</span>, <span class='va'>dist_from_los</span>, <span class='va'>y</span>, <span class='va'>s_x</span>, <span class='va'>s_y</span>, <span class='va'>a_x</span>, <span class='va'>a_y</span>, <span class='va'>o_to_qb</span>, <span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"diff_"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>rel_df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>nfl_id</span>, <span class='va'>dist_from_los</span>, <span class='va'>y</span>, <span class='va'>diff_x</span>, <span class='va'>diff_y</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; # A tibble: 39,368 x 5
+#&gt;     nfl_id dist_from_los     y diff_x  diff_y
+#&gt;      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+#&gt;  1 2539334          4.03  15.5 -0.37   -1.47 
+#&gt;  2 2539334          4.03  15.5 -0.88   16.4  
+#&gt;  3 2539334          4.03  15.5 -8.7    15.8  
+#&gt;  4 2539334          4.03  15.5  0.930  22.1  
+#&gt;  5 2539334          4.03  15.5 -6.18    6.53 
+#&gt;  6 2539653          5.28  38.1 -1.62  -24.1  
+#&gt;  7 2539653          5.28  38.1 -2.13   -6.17 
+#&gt;  8 2539653          5.28  38.1 -9.95   -6.79 
+#&gt;  9 2539653          5.28  38.1 -0.32   -0.460
+#&gt; 10 2539653          5.28  38.1 -7.43  -16.1  
+#&gt; # ... with 39,358 more rows</code></pre>
+</div>
+<p>The first 5 entries here represent the first defensive player matched to each of the 5 offensive players. Note that a lot of the columns are constant for the first 5 rows because each row represents a defense-offense match and many entries do not depend on the offensive player. For example, the defender’s distance from the line of scrimmage is the same for each matched offensive player (in The Zoo’s entry, this is what they mean by some features being “constant across ‘off’ dimension of the tensor”).</p>
+<p>For some housekeeping, let’s save a master list of plays to refer to later.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>play_indices</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span>, <span class='va'>frame_id</span>, <span class='va'>play</span>, <span class='va'>week</span>, <span class='va'>coverage</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># get play index for 1 : n_plays</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    i <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>play</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># get time step indices</span>
+  <span class='co'># this is useless for this post bc we're only using one frame</span>
+  <span class='co'># but useful when extending to more frames</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>play</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>f <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>:</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>n_frames</span> <span class='op'>&lt;-</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>play_indices</span><span class='op'>$</span><span class='va'>f</span><span class='op'>)</span>
+<span class='va'>n_plays</span> <span class='op'>&lt;-</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>play_indices</span><span class='op'>$</span><span class='va'>i</span><span class='op'>)</span>
+<span class='va'>n_class</span> <span class='op'>&lt;-</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>play_indices</span><span class='op'>$</span><span class='va'>coverage</span><span class='op'>)</span>
+
+<span class='va'>def_only_features</span> <span class='op'>&lt;-</span> <span class='fl'>7</span>
+<span class='va'>off_def_features</span> <span class='op'>&lt;-</span> <span class='fl'>6</span>
+<span class='va'>n_features</span> <span class='op'>&lt;-</span> <span class='va'>def_only_features</span> <span class='op'>+</span> <span class='va'>off_def_features</span>
+
+<span class='va'>play_indices</span>
+</code></pre>
+</div>
+<pre><code>#&gt; # A tibble: 1,018 x 6
+#&gt;    play            frame_id  week coverage         i     f
+#&gt;    &lt;chr&gt;              &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;int&gt;
+#&gt;  1 2018090600_1037       31     1 Cover 2 Man      1     1
+#&gt;  2 2018090600_1061       31     1 Cover 1 Man      2     1
+#&gt;  3 2018090600_1085       31     1 Cover 3 Zone     3     1
+#&gt;  4 2018090600_1202       31     1 Cover 3 Zone     4     1
+#&gt;  5 2018090600_1226       31     1 Cover 1 Man      5     1
+#&gt;  6 2018090600_1295       31     1 Cover 1 Man      6     1
+#&gt;  7 2018090600_1344       31     1 Cover 4 Zone     7     1
+#&gt;  8 2018090600_1423       31     1 Cover 3 Zone     8     1
+#&gt;  9 2018090600_146        31     1 Cover 3 Zone     9     1
+#&gt; 10 2018090600_1473       31     1 Cover 3 Zone    10     1
+#&gt; # ... with 1,008 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>n_plays</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 1018</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>n_frames</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 1</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>n_features</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 13</code></pre>
+</div>
+<p>Now we’re ready to start making our tensor, which is what <code>torch</code> knows how to deal with. Note that I’m throwing in an extra dimension for number of frames on each play, which is useless in this case (1 frame per play) but makes it easier to extend to using multiple frames in a given play (the real reason I’m doing this is that my existing code uses more frames and it’s easier to not re-write this part of it).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_x</span> <span class='op'>=</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_empty.html'>torch_empty</a></span><span class='op'>(</span><span class='va'>n_plays</span>, <span class='va'>n_frames</span>, <span class='va'>n_features</span>, <span class='fl'>11</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_x</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 1018    1   13   11    5</code></pre>
+</div>
+<p>Here is the function that will help us populate our tensor, explained below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fill_row</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>row</span><span class='op'>)</span> <span class='op'>{</span>
+
+  <span class='co'># indices for putting in tensor</span>
+  <span class='va'>i</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>i</span> <span class='co'># row</span>
+  <span class='va'>f</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>f</span> <span class='co'># frame</span>
+
+  <span class='co'># play info for extracting from df</span>
+  <span class='va'>playid</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>play</span>
+  <span class='va'>frameid</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>frame_id</span>
+
+  <span class='va'>play_df</span> <span class='op'>&lt;-</span> <span class='va'>rel_df</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>play</span> <span class='op'>==</span> <span class='va'>playid</span>, <span class='va'>frame_id</span> <span class='op'>==</span> <span class='va'>frameid</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>play</span>, <span class='op'>-</span><span class='va'>frame_id</span><span class='op'>)</span>
+
+  <span class='co'># how many defense and offense players are there on this play?</span>
+  <span class='va'>defenders</span> <span class='op'>&lt;-</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>$</span><span class='va'>nfl_id</span><span class='op'>)</span>
+  <span class='va'>n_offense</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>defenders</span>
+
+  <span class='co'># get rid of player ID since it's not in the model</span>
+  <span class='va'>play_df</span> <span class='op'>&lt;-</span> <span class='va'>play_df</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>nfl_id</span><span class='op'>)</span>
+
+  <span class='co'># where the magic happens</span>
+  <span class='co'># explanation of this part below!</span>
+  <span class='va'>train_x</span><span class='op'>[</span><span class='va'>i</span>, <span class='va'>f</span>, , <span class='fl'>1</span><span class='op'>:</span><span class='va'>defenders</span>, <span class='fl'>1</span><span class='op'>:</span><span class='va'>n_offense</span><span class='op'>]</span> <span class='op'>&lt;-</span>
+    <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_tensor.html'>torch_tensor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>view</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='va'>defenders</span>, <span class='va'>n_offense</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<h2 id="digression-into-wrangling-this-data">Digression into wrangling this data</h2>
+<p>If you haven’t worked with higher-dimensional data before, it can be kind of hard to wrap your head around. Let’s illustrate what is happening in the function above using the first play as an example. Here is what the raw data look like when running this function on the first play:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>row</span> <span class='op'>&lt;-</span> <span class='va'>play_indices</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+
+<span class='va'>i</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>i</span>
+<span class='va'>f</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>f</span>
+
+<span class='va'>playid</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>play</span>
+<span class='va'>frameid</span> <span class='op'>=</span> <span class='va'>row</span><span class='op'>$</span><span class='va'>frame_id</span>
+
+<span class='va'>play_df</span> <span class='op'>&lt;-</span> <span class='va'>rel_df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>play</span> <span class='op'>==</span> <span class='va'>playid</span>, <span class='va'>frame_id</span> <span class='op'>==</span> <span class='va'>frameid</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>play</span>, <span class='op'>-</span><span class='va'>frame_id</span><span class='op'>)</span>
+
+<span class='va'>defenders</span> <span class='op'>&lt;-</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>$</span><span class='va'>nfl_id</span><span class='op'>)</span>
+<span class='va'>n_offense</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>defenders</span>
+
+<span class='va'>play_df</span> <span class='op'>&lt;-</span> <span class='va'>play_df</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>nfl_id</span><span class='op'>)</span>
+
+<span class='va'>defenders</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 7</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>play_df</span>
+</code></pre>
+</div>
+<pre><code>#&gt; # A tibble: 35 x 13
+#&gt;    dist_from_los     y   s_x   s_y   a_x    a_y o_to_qb diff_x  diff_y
+#&gt;            &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+#&gt;  1          4.03  15.5  5.27 -3.65  2.44 -1.69    0.987 -0.37   -1.47 
+#&gt;  2          4.03  15.5  5.27 -3.65  2.44 -1.69    0.987 -0.88   16.4  
+#&gt;  3          4.03  15.5  5.27 -3.65  2.44 -1.69    0.987 -8.7    15.8  
+#&gt;  4          4.03  15.5  5.27 -3.65  2.44 -1.69    0.987  0.930  22.1  
+#&gt;  5          4.03  15.5  5.27 -3.65  2.44 -1.69    0.987 -6.18    6.53 
+#&gt;  6          5.28  38.1  4.60 -1.61  2.04 -0.712   0.205 -1.62  -24.1  
+#&gt;  7          5.28  38.1  4.60 -1.61  2.04 -0.712   0.205 -2.13   -6.17 
+#&gt;  8          5.28  38.1  4.60 -1.61  2.04 -0.712   0.205 -9.95   -6.79 
+#&gt;  9          5.28  38.1  4.60 -1.61  2.04 -0.712   0.205 -0.32   -0.460
+#&gt; 10          5.28  38.1  4.60 -1.61  2.04 -0.712   0.205 -7.43  -16.1  
+#&gt; # ... with 25 more rows, and 4 more variables: diff_s_x &lt;dbl&gt;,
+#&gt; #   diff_s_y &lt;dbl&gt;, diff_a_x &lt;dbl&gt;, diff_a_y &lt;dbl&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 35 13</code></pre>
+</div>
+<p>We need to have this thing be 13 x 7 x 5 (7 defenders and 5 offensive players on this play), but right now it is (5 x 7) x 13 with each group of 5 rows a set of rows for each defensive player, and the features going across as columns rather than as rows like we need for the tensor shape.</p>
+<p>The first step is to transpose:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># showing first 10 columns so this isn't huge</span>
+<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>#&gt;                       [,1]       [,2]       [,3]       [,4]
+#&gt; dist_from_los  4.030000000  4.0300000  4.0300000  4.0300000
+#&gt; y             15.463333333 15.4633333 15.4633333 15.4633333
+#&gt; s_x            5.270580108  5.2705801  5.2705801  5.2705801
+#&gt; s_y           -3.648161911 -3.6481619 -3.6481619 -3.6481619
+#&gt; a_x            2.442062858  2.4420629  2.4420629  2.4420629
+#&gt; a_y           -1.690333990 -1.6903340 -1.6903340 -1.6903340
+#&gt; o_to_qb        0.986941709  0.9869417  0.9869417  0.9869417
+#&gt; diff_x        -0.370000000 -0.8800000 -8.7000000  0.9300000
+#&gt; diff_y        -1.470000000 16.4300000 15.8100000 22.1400000
+#&gt; diff_s_x       0.655094267 -0.4223971 -5.7954932  0.2337943
+#&gt; diff_s_y      -0.021617811 -0.1519330  2.8087775  1.7270261
+#&gt; diff_a_x       0.278476310 -0.5216787 -3.7516945 -0.6765088
+#&gt; diff_a_y       0.005499684  0.1851016 -0.4038878  1.0741206
+#&gt;                     [,5]        [,6]       [,7]       [,8]
+#&gt; dist_from_los  4.0300000   5.2800000  5.2800000  5.2800000
+#&gt; y             15.4633333  38.0633333 38.0633333 38.0633333
+#&gt; s_x            5.2705801   4.5977135  4.5977135  4.5977135
+#&gt; s_y           -3.6481619  -1.6055934 -1.6055934 -1.6055934
+#&gt; a_x            2.4420629   2.0392323  2.0392323  2.0392323
+#&gt; a_y           -1.6903340  -0.7121318 -0.7121318 -0.7121318
+#&gt; o_to_qb        0.9869417   0.2054857  0.2054857  0.2054857
+#&gt; diff_x        -6.1800000  -1.6200000 -2.1300000 -9.9500000
+#&gt; diff_y         6.5300000 -24.0700000 -6.1700000 -6.7900000
+#&gt; diff_s_x      -4.6102605   1.3279608  0.2504695 -5.1226266
+#&gt; diff_s_y      -1.4290793  -2.0641863 -2.1945014  0.7662090
+#&gt; diff_a_x      -1.9377953   0.6813069 -0.1188481 -3.3488640
+#&gt; diff_a_y      -2.1870123  -0.9727025 -0.7931006 -1.3820900</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 13 35</code></pre>
+</div>
+<p>Now we’re closer, with the data shaped 13 x (5 X 7). That is, there are now 13 rows with each row a feature like we want, but columns 1-5 represent the first defender, 6-10 the second, etc (I’ve only shown the first 10 columns above so the output isn’t huge on the page). We need to take each of these and split up the defenders into different dimensions so that we end up with 13 sets of 7 x 5 matrices.</p>
+<p>The below is the complete line for getting to the right shape (if you find this part hard to follow, don’t feel like it’s supposed to be easy; this took me a lot of trial and error while working with little toy examples).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_tensor.html'>torch_tensor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>play_df</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>view</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='va'>defenders</span>, <span class='va'>n_offense</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; torch_tensor
+#&gt; (1,.,.) = 
+#&gt;    4.0300   4.0300   4.0300   4.0300   4.0300
+#&gt;    5.2800   5.2800   5.2800   5.2800   5.2800
+#&gt;   19.3800  19.3800  19.3800  19.3800  19.3800
+#&gt;   -4.5100  -4.5100  -4.5100  -4.5100  -4.5100
+#&gt;    3.3900   3.3900   3.3900   3.3900   3.3900
+#&gt;   14.2700  14.2700  14.2700  14.2700  14.2700
+#&gt;    1.7400   1.7400   1.7400   1.7400   1.7400
+#&gt; 
+#&gt; (2,.,.) = 
+#&gt;   15.4633  15.4633  15.4633  15.4633  15.4633
+#&gt;   38.0633  38.0633  38.0633  38.0633  38.0633
+#&gt;   25.5533  25.5533  25.5533  25.5533  25.5533
+#&gt;   30.8233  30.8233  30.8233  30.8233  30.8233
+#&gt;   32.8033  32.8033  32.8033  32.8033  32.8033
+#&gt;   31.6433  31.6433  31.6433  31.6433  31.6433
+#&gt;   23.6133  23.6133  23.6133  23.6133  23.6133
+#&gt; 
+#&gt; (3,.,.) = 
+#&gt;   5.2706  5.2706  5.2706  5.2706  5.2706
+#&gt;   4.5977  4.5977  4.5977  4.5977  4.5977
+#&gt;   2.5835  2.5835  2.5835  2.5835  2.5835
+#&gt;  -3.1190 -3.1190 -3.1190 -3.1190 -3.1190
+#&gt;   4.2293  4.2293  4.2293  4.2293  4.2293
+#&gt;   5.3371  5.3371  5.3371  5.3371  5.3371
+#&gt;   0.1803  0.1803  0.1803  0.1803  0.1803
+#&gt; 
+#&gt; (4,.,.) = 
+#&gt;  -3.6482 -3.6482 -3.6482 -3.6482 -3.6482
+#&gt;  -1.6056 -1.6056 -1.6056 -1.6056 -1.6056
+#&gt; ... [the output was truncated (use n=-1 to disable)]
+#&gt; [ CPUFloatType{13,7,5} ]</code></pre>
+</div>
+<p>Hooray! It looks like it should. We have a 13x7x5 tensor with each of the 13 feature dimensions carrying a 7x5 matrix that matches each of the 7 defensive players to each of the 5 offensive players. Note that we’re starting to use <code>torch</code> stuff for the first time, where <code>view</code> is a function that reshapes tensors that will be familiar to anyone who has used <code>PyTorch.</code></p>
+<ul>
+<li><a href="https://torch.mlverse.org/technical/tensors/">Very helpful reference page for tensor operations</a></li>
+</ul>
+<p>Hopefully this sheds some light on the above function. Now let’s use it.</p>
+<h2 id="fill-in-the-tensors">Fill in the tensors</h2>
+<p>Digression over and back to work. This iterates over every play to fill in the tensor for each play.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># build the tensor for train and test data</span>
+<span class='fu'>walk</span><span class='op'>(</span><span class='fl'>1</span> <span class='op'>:</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>play_indices</span><span class='op'>)</span>, <span class='op'>~</span><span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='va'>.x</span> <span class='op'>%%</span> <span class='fl'>250</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"{.x} of {nrow(play_indices)}"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='fu'>fill_row</span><span class='op'>(</span><span class='va'>play_indices</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Let’s make sure it worked:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_x</span><span class='op'>[</span><span class='fl'>1</span>, <span class='va'>..</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>#&gt; torch_tensor
+#&gt; (1,1,.,.) = 
+#&gt;    4.0300   4.0300   4.0300   4.0300   4.0300
+#&gt;    5.2800   5.2800   5.2800   5.2800   5.2800
+#&gt;   19.3800  19.3800  19.3800  19.3800  19.3800
+#&gt;   -4.5100  -4.5100  -4.5100  -4.5100  -4.5100
+#&gt;    3.3900   3.3900   3.3900   3.3900   3.3900
+#&gt;   14.2700  14.2700  14.2700  14.2700  14.2700
+#&gt;    1.7400   1.7400   1.7400   1.7400   1.7400
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt; 
+#&gt; (1,2,.,.) = 
+#&gt;   15.4633  15.4633  15.4633  15.4633  15.4633
+#&gt;   38.0633  38.0633  38.0633  38.0633  38.0633
+#&gt;   25.5533  25.5533  25.5533  25.5533  25.5533
+#&gt;   30.8233  30.8233  30.8233  30.8233  30.8233
+#&gt;   32.8033  32.8033  32.8033  32.8033  32.8033
+#&gt;   31.6433  31.6433  31.6433  31.6433  31.6433
+#&gt;   23.6133  23.6133  23.6133  23.6133  23.6133
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt; 
+#&gt; (1,3,.,.) = 
+#&gt;   5.2706  5.2706  5.2706  5.2706  5.2706
+#&gt;   4.5977  4.5977  4.5977  4.5977  4.5977
+#&gt;   2.5835  2.5835  2.5835  2.5835  2.5835
+#&gt; ... [the output was truncated (use n=-1 to disable)]
+#&gt; [ CPUFloatType{1,13,11,5} ]</code></pre>
+</div>
+<p>This shows that the first play has been filled in. The extra zeroes in the final rows are because we initialized a tensor of zeroes for 11 defenders, but not all defenders are provided on every play, so a lot of plays will have zeroes like this. I think about it like a bunch of players standing in the corner of the field together not impacting the play since that’s basically what the computer sees (I tried sticking all the “missing” players on the line of scrimmage standing there looking at each other, but it didn’t seem to make much of a difference).</p>
+<p>Now let’s fill in the coverage labels. Note that the <code>torch_long()</code> part is required for labels and the labels have to be integers starting from 1.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>#&gt;           used (Mb) gc trigger   (Mb)  max used   (Mb)
+#&gt; Ncells 1494618 79.9    4989680  266.5   6237100  333.1
+#&gt; Vcells 8629070 65.9  136928093 1044.7 196492553 1499.2</code></pre>
+</div>
+<p>Finally, I need to get rid of the time dimension since I’m not using it here (<code>torch_squeeze</code> gets rid of any singleton dimensions).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_squeeze.html'>torch_squeeze</a></span><span class='op'>(</span><span class='va'>train_x</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_x</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 1018   13   11    5</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_y</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 1018</code></pre>
+</div>
+<p>Now we have about 1,000 plays from week 1 shaped in the way we want.</p>
+<h2 id="split-the-data">Split the data</h2>
+<p>Let’s hold out 200 plays for testing and split the remaining sample into 5 sets of 80% training and 20% validation splits.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>test_size</span> <span class='op'>&lt;-</span> <span class='fl'>200</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2013</span><span class='op'>)</span> <span class='co'># gohawks</span>
+
+<span class='co'># hold out </span>
+<span class='va'>test_id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>n_plays</span>, size <span class='op'>=</span> <span class='va'>test_size</span><span class='op'>)</span>
+<span class='va'>test_data</span> <span class='op'>&lt;-</span> <span class='va'>train_x</span><span class='op'>[</span><span class='va'>test_id</span>, <span class='va'>..</span><span class='op'>]</span>
+<span class='va'>test_label</span> <span class='op'>&lt;-</span> <span class='va'>train_y</span><span class='op'>[</span><span class='va'>test_id</span><span class='op'>]</span>
+
+<span class='co'># full training set</span>
+<span class='va'>train_id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>n_plays</span>, <span class='va'>test_id</span><span class='op'>)</span>
+<span class='va'>train_data</span> <span class='op'>&lt;-</span> <span class='va'>train_x</span><span class='op'>[</span><span class='va'>train_id</span>, <span class='va'>..</span><span class='op'>]</span>
+<span class='va'>train_label</span> <span class='op'>&lt;-</span> <span class='va'>train_y</span><span class='op'>[</span><span class='va'>train_id</span><span class='op'>]</span>
+
+<span class='co'># helper thing that is just 1, ..., length train data</span>
+<span class='va'>all_train_idx</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+
+<span class='co'># create folds from the train indices</span>
+<span class='co'># stratified by label</span>
+<span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'>splitTools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/splitTools/man/create_folds.html'>create_folds</a></span><span class='op'>(</span>
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>train_label</span><span class='op'>)</span>,
+  k <span class='op'>=</span> <span class='fl'>5</span>,
+  type <span class='op'>=</span> <span class='st'>"stratified"</span>,
+  invert <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 818  13  11   5</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>train_label</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 818</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; List of 5
+#&gt;  $ Fold1: int [1:164] 2 6 10 14 17 24 29 43 53 66 ...
+#&gt;  $ Fold2: int [1:163] 5 11 15 18 21 23 34 35 44 48 ...
+#&gt;  $ Fold3: int [1:162] 1 7 8 12 13 16 20 31 40 41 ...
+#&gt;  $ Fold4: int [1:164] 4 9 19 26 28 32 33 37 42 52 ...
+#&gt;  $ Fold5: int [1:165] 3 22 25 27 30 36 38 39 45 46 ...</code></pre>
+</div>
+<h2 id="data-augmentation">Data augmentation</h2>
+<p>From <a href="https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400">The Zoo’s entry</a>:</p>
+<blockquote>
+<p><em>What worked really well for us is to add augmentation and TTA for Y coordinates. We assume that in a mirrored world the runs would have had the same outcomes. For training, we apply 50% augmentation to flip the Y coordinates (and all respective relative features emerging from it)</em></p>
+</blockquote>
+<p>So we need a function that flips any features related to Y vertically. That is below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>augment_data</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, 
+                         <span class='co'># stuff that will be multiplied by -1 (eg Sy)</span>
+                         <span class='va'>flip_indices</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>13</span><span class='op'>)</span>, 
+                         <span class='co'># raw y location</span>
+                         <span class='va'>subtract_indices</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+                         <span class='op'>)</span> <span class='op'>{</span>
+  
+
+  <span class='co'># indices of the elements that need to be flipped</span>
+  <span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_ones_like.html'>torch_ones_like</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+  <span class='va'>t</span><span class='op'>[</span>, <span class='va'>flip_indices</span>, , <span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>1</span>
+
+  <span class='co'># first fix: multiply by -1 where needed (stuff like speed in Y direction)</span>
+  <span class='va'>flipped</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>*</span> <span class='va'>t</span>
+
+  <span class='co'># for flipping Y itself, need to do 160/3 - y</span>
+  <span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_zeros_like.html'>torch_zeros_like</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+  <span class='va'>t</span><span class='op'>[</span>, <span class='va'>subtract_indices</span>, , <span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>160</span><span class='op'>/</span><span class='fl'>3</span>
+
+  <span class='co'># second fix: flip around y</span>
+  <span class='va'>flipped</span><span class='op'>[</span>, <span class='va'>subtract_indices</span>, , <span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>t</span><span class='op'>[</span>, <span class='va'>subtract_indices</span>, , <span class='op'>]</span> <span class='op'>-</span> <span class='va'>flipped</span><span class='op'>[</span>, <span class='va'>subtract_indices</span>, , <span class='op'>]</span>
+
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>flipped</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>This will be used below during training (when augmenting the data by adding flipped data) and testing (when getting the prediction as an average of the flipped and non-flipped data).</p>
+<h2 id="datasets-and-dataloaders">Datasets and dataloaders</h2>
+<p>Okay, so we have tensors, and now we need to turn them into something that can be used in training. For this, we need <code>torch</code>’s <code>dataset()</code>, which is way to easily fetch of observations at once. This is mostly copy and pasting from the below link and not that interesting.</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/torch/vignettes/loading-data.html">Useful reference page on datasets and dataloaders</a>.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># define dataset</span>
+<span class='va'>tracking_dataset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataset.html'>dataset</a></span><span class='op'>(</span>
+  name <span class='op'>=</span> <span class='st'>"tracking_dataset"</span>,
+
+  initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x_tensor</span>, <span class='va'>y_tensor</span><span class='op'>)</span> <span class='op'>{</span>
+
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>data_x</span> <span class='op'>&lt;-</span> <span class='va'>x_tensor</span>
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>data_y</span> <span class='op'>&lt;-</span> <span class='va'>y_tensor</span>
+
+  <span class='op'>}</span>,
+
+  .getitem <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"x"</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>data_x</span><span class='op'>[</span><span class='va'>i</span>,<span class='op'>]</span>, <span class='st'>"y"</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>data_y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='op'>}</span>,
+
+  .length <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>data_y</span><span class='op'>$</span><span class='fu'>size</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='op'>}</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Another possible workflow is to put all the data cleaning and preparation work done above into the <code>dataset()</code> function, which would probably make for a simpler predict stage when putting something like this into production, but I haven’t done this yet.</p>
+<p>Now let’s stick our data in the dataset:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_ds</span> <span class='op'>&lt;-</span> <span class='fu'>tracking_dataset</span><span class='op'>(</span><span class='va'>train_data</span>, <span class='va'>train_label</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Alright, so what did that actually do? Now we can access the <code>.getitem()</code> and <code>.length()</code> things created in the <code>dataset()</code> definition above. The below shows the number of rows in the training dataset, and then grabs the first item.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_ds</span><span class='op'>$</span><span class='fu'>.length</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 818</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_ds</span><span class='op'>$</span><span class='fu'>.getitem</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; $x
+#&gt; torch_tensor
+#&gt; (1,.,.) = 
+#&gt;   10.4900  10.4900  10.4900  10.4900  10.4900
+#&gt;    7.0700   7.0700   7.0700   7.0700   7.0700
+#&gt;   15.7500  15.7500  15.7500  15.7500  15.7500
+#&gt;   -2.4500  -2.4500  -2.4500  -2.4500  -2.4500
+#&gt;    4.3800   4.3800   4.3800   4.3800   4.3800
+#&gt;   -3.9500  -3.9500  -3.9500  -3.9500  -3.9500
+#&gt;    0.3900   0.3900   0.3900   0.3900   0.3900
+#&gt;    6.6300   6.6300   6.6300   6.6300   6.6300
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt; 
+#&gt; (2,.,.) = 
+#&gt;    9.5133   9.5133   9.5133   9.5133   9.5133
+#&gt;   44.3333  44.3333  44.3333  44.3333  44.3333
+#&gt;   25.7833  25.7833  25.7833  25.7833  25.7833
+#&gt;   38.8033  38.8033  38.8033  38.8033  38.8033
+#&gt;   32.9633  32.9633  32.9633  32.9633  32.9633
+#&gt;   30.9333  30.9333  30.9333  30.9333  30.9333
+#&gt;   40.1133  40.1133  40.1133  40.1133  40.1133
+#&gt;   19.8533  19.8533  19.8533  19.8533  19.8533
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt;    0.0000   0.0000   0.0000   0.0000   0.0000
+#&gt; 
+#&gt; (3,.,.) = 
+#&gt;   5.3354  5.3354  5.3354  5.3354  5.3354
+#&gt;   5.4200  5.4200  5.4200  5.4200  5.4200
+#&gt;  -0.9591 -0.9591 -0.9591 -0.9591 -0.9591
+#&gt; ... [the output was truncated (use n=-1 to disable)]
+#&gt; [ CPUFloatType{13,11,5} ]
+#&gt; 
+#&gt; $y
+#&gt; torch_tensor
+#&gt; 5
+#&gt; [ CPULongType{} ]</code></pre>
+</div>
+<p>You might have thought we’re done now, but not quite. Now we need to send our <code>dataset</code> to a <code>dataloader</code> .</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Dataloaders</span>
+<span class='va'>train_dl</span> <span class='op'>&lt;-</span> <span class='va'>train_ds</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataloader.html'>dataloader</a></span><span class='op'>(</span>batch_size <span class='op'>=</span> <span class='fl'>64</span>, shuffle <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The dataloaders allow for <code>torch</code> to access the data in batches, which as we’ll see below, is how the model is trained.</p>
+<p>This shows how many batches we have:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>train_dl</span><span class='op'>$</span><span class='fu'>.length</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 13</code></pre>
+</div>
+<p>And this shows one of the batches, and we can refer to the data and labels as <code>x</code> and <code>y</code> because of how we constructed the <code>dataset</code> above:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>batch</span> <span class='op'>&lt;-</span> <span class='va'>train_dl</span><span class='op'>$</span><span class='fu'>.iter</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>.next</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>batch</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 64 13 11  5</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>batch</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; [1] 64</code></pre>
+</div>
+<p>Both the data and labels have 64 rows as expected (the batch size).</p>
+<h2 id="the-model">The model</h2>
+<p>This is a straight copy of <a href="https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400">The Zoo’s model</a> so there’s not much to say here, but I will leave some comments to explain what is happening.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>net</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_module.html'>nn_module</a></span><span class='op'>(</span>
+  <span class='st'>"Net"</span>,
+
+  initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>conv_block_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_sequential.html'>nn_sequential</a></span><span class='op'>(</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv2d.html'>nn_conv2d</a></span><span class='op'>(</span>
+        <span class='co'># 1x1 convolution taking in 13 (n_features) channels and outputting 128</span>
+        <span class='co'># before: batch * 13 * 11 * 5</span>
+        <span class='co'># after: batch * 128 * 11 * 5</span>
+        in_channels <span class='op'>=</span> <span class='va'>n_features</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>128</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv2d.html'>nn_conv2d</a></span><span class='op'>(</span>
+        in_channels <span class='op'>=</span> <span class='fl'>128</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>160</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv2d.html'>nn_conv2d</a></span><span class='op'>(</span>
+        in_channels <span class='op'>=</span> <span class='fl'>160</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>128</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+    <span class='op'>)</span>
+
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>conv_block_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_sequential.html'>nn_sequential</a></span><span class='op'>(</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>128</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv1d.html'>nn_conv1d</a></span><span class='op'>(</span>
+        in_channels <span class='op'>=</span> <span class='fl'>128</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>160</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>160</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv1d.html'>nn_conv1d</a></span><span class='op'>(</span>
+        in_channels <span class='op'>=</span> <span class='fl'>160</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>96</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>96</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_conv1d.html'>nn_conv1d</a></span><span class='op'>(</span>
+        in_channels <span class='op'>=</span> <span class='fl'>96</span>,
+        out_channels <span class='op'>=</span> <span class='fl'>96</span>,
+        kernel_size <span class='op'>=</span> <span class='fl'>1</span>
+      <span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>96</span><span class='op'>)</span>
+    <span class='op'>)</span>
+
+    <span class='va'>self</span><span class='op'>$</span><span class='va'>linear_block</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_sequential.html'>nn_sequential</a></span><span class='op'>(</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_linear.html'>nn_linear</a></span><span class='op'>(</span><span class='fl'>96</span>, <span class='fl'>96</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>96</span><span class='op'>)</span>,
+
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_linear.html'>nn_linear</a></span><span class='op'>(</span><span class='fl'>96</span>, <span class='fl'>256</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_relu.html'>nn_relu</a></span><span class='op'>(</span>inplace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+
+      <span class='co'># note: breaks on current kaggle version</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_batch_norm1d.html'>nn_batch_norm1d</a></span><span class='op'>(</span><span class='fl'>256</span><span class='op'>)</span>,
+
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_layer_norm.html'>nn_layer_norm</a></span><span class='op'>(</span><span class='fl'>256</span><span class='op'>)</span>,
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_dropout.html'>nn_dropout</a></span><span class='op'>(</span>p <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>,
+
+      <span class='co'># n_class is how many distinct labels there are</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_linear.html'>nn_linear</a></span><span class='op'>(</span><span class='fl'>256</span>, <span class='va'>n_class</span><span class='op'>)</span>
+
+    <span class='op'>)</span>
+
+  <span class='op'>}</span>,
+
+  forward <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+
+    <span class='co'># first conv layer</span>
+    <span class='co'># outputs batch * 128 * 11 * 5</span>
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>self</span><span class='op'>$</span><span class='fu'>conv_block_1</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+    <span class='co'># first pool layer: average of mean and max pooling</span>
+    <span class='co'># the 5 is number of offensive players</span>
+    <span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_avg_pool2d.html'>nn_avg_pool2d</a></span><span class='op'>(</span>kernel_size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_squeeze.html'>torch_squeeze</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+    <span class='va'>max</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_max_pool2d.html'>nn_max_pool2d</a></span><span class='op'>(</span>kernel_size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_squeeze.html'>torch_squeeze</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>0.7</span> <span class='op'>*</span> <span class='va'>avg</span> <span class='op'>+</span> <span class='fl'>0.3</span> <span class='op'>*</span> <span class='va'>max</span>
+    
+    <span class='co'># x is now batch * 128 * 11</span>
+
+    <span class='co'># second conv layer</span>
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>self</span><span class='op'>$</span><span class='fu'>conv_block_2</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+    <span class='co'># second pool layer</span>
+    <span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_avg_pool1d.html'>nn_avg_pool1d</a></span><span class='op'>(</span>kernel_size <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_squeeze.html'>torch_squeeze</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+    <span class='va'>max</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nn_max_pool1d.html'>nn_max_pool1d</a></span><span class='op'>(</span>kernel_size <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_squeeze.html'>torch_squeeze</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>0.7</span> <span class='op'>*</span> <span class='va'>avg</span> <span class='op'>+</span> <span class='fl'>0.3</span> <span class='op'>*</span> <span class='va'>max</span>
+    
+    <span class='co'># x is now batch * 96</span>
+
+    <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>self</span><span class='op'>$</span><span class='fu'>linear_block</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    
+    <span class='co'># x is now batch * # labels</span>
+
+    <span class='va'>x</span>
+
+  <span class='op'>}</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="training-with-cross-validation">Training with cross validation</h2>
+<p>We’ve done a lot of setup to get to this point, and now we can actually train a model!</p>
+<p><a href="https://sebastianraschka.com/blog/2016/model-evaluation-selection-part3.html">I’m going to use what is known as k-fold validation</a> (with k = 5 in this case). For each of the 5 folds, we estimate a separate model using 80% of the data as the training set and the remaining 20% as the validation set. This helps give a more realistic expectation of what to expect from final testing than using one fold, especially here since our data are so limited. Looking at the below, the accuracy among the 5 folds ranges from 72% - 80%, with an average of 76%.</p>
+<p>At the predict stage to follow, we could either average over these 5 models (this is what I do) or re-train on the entire train set. Reading through the link above, it seems like the choice of which to do is not super obvious (and might not matter that much).</p>
+<ul>
+<li><a href="https://torch.mlverse.org/technical/optimizers/">Torch reference page explaining <code>optimizer</code>, <code>loss$backward()</code>, and <code>optimizer$step()</code></a>:</li>
+</ul>
+<p>Here’s the big loop:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2013</span><span class='op'>)</span>
+<span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_manual_seed.html'>torch_manual_seed</a></span><span class='op'>(</span><span class='fl'>2013</span><span class='op'>)</span>
+
+<span class='va'>accuracies</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_zeros.html'>torch_zeros</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>best_epochs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_zeros.html'>torch_zeros</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>epochs</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
+
+<span class='co'># start iteration over folds</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>fold</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"\n------------- FOLD %d ---------"</span>, <span class='va'>fold</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>net</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='va'>optimizer</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/optim_adam.html'>optim_adam</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>$</span><span class='va'>parameters</span>, lr <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span>
+  <span class='va'>scheduler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/lr_step.html'>lr_step</a></span><span class='op'>(</span><span class='va'>optimizer</span>, step_size <span class='op'>=</span> <span class='fl'>1</span>, <span class='fl'>0.975</span><span class='op'>)</span>
+  
+  <span class='co'># extract train and validation sets</span>
+  <span class='va'>val_i</span> <span class='op'>&lt;-</span> <span class='va'>folds</span><span class='op'>[[</span><span class='va'>fold</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='va'>train_i</span> <span class='op'>&lt;-</span> <span class='va'>all_train_idx</span><span class='op'>[</span><span class='op'>-</span><span class='va'>val_i</span><span class='op'>]</span>
+  
+  <span class='va'>.ds_train</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataset_subset.html'>dataset_subset</a></span><span class='op'>(</span><span class='va'>train_ds</span>, <span class='va'>train_i</span><span class='op'>)</span>
+  <span class='va'>.ds_val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataset_subset.html'>dataset_subset</a></span><span class='op'>(</span><span class='va'>train_ds</span>, <span class='va'>val_i</span><span class='op'>)</span>
+  
+  <span class='va'>.train_dl</span> <span class='op'>&lt;-</span> <span class='va'>.ds_train</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataloader.html'>dataloader</a></span><span class='op'>(</span>batch_size <span class='op'>=</span> <span class='fl'>64</span>, shuffle <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='va'>.valid_dl</span> <span class='op'>&lt;-</span> <span class='va'>.ds_val</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://torch.mlverse.org/docs/reference/dataloader.html'>dataloader</a></span><span class='op'>(</span>batch_size <span class='op'>=</span> <span class='fl'>64</span>, shuffle <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>epoch</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>epochs</span><span class='op'>)</span> <span class='op'>{</span>
+    
+    <span class='va'>train_losses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>
+    <span class='va'>valid_losses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>
+    <span class='va'>valid_accuracies</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>
+    
+    <span class='co'># train step: loop over batches</span>
+    <span class='va'>model</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='op'>)</span>
+    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>b</span> <span class='kw'>in</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/enumerate.html'>enumerate</a></span><span class='op'>(</span><span class='va'>.train_dl</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+      
+      <span class='co'># augment first</span>
+      <span class='va'>b_augmented</span> <span class='op'>&lt;-</span> <span class='fu'>augment_data</span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+      <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_cat.html'>torch_cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>x</span>, <span class='va'>b_augmented</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='co'># double the label list</span>
+      <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_cat.html'>torch_cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>y</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
+  
+      <span class='va'>optimizer</span><span class='op'>$</span><span class='fu'>zero_grad</span><span class='op'>(</span><span class='op'>)</span>
+      <span class='va'>loss</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nnf_cross_entropy.html'>nnf_cross_entropy</a></span><span class='op'>(</span><span class='fu'>model</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='va'>y</span><span class='op'>)</span>
+      <span class='va'>loss</span><span class='op'>$</span><span class='fu'>backward</span><span class='op'>(</span><span class='op'>)</span>
+      <span class='va'>optimizer</span><span class='op'>$</span><span class='fu'>step</span><span class='op'>(</span><span class='op'>)</span>
+      <span class='va'>train_losses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>train_losses</span>, <span class='va'>loss</span><span class='op'>$</span><span class='fu'>item</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>}</span>
+    
+    <span class='co'># validation step: loop over batches</span>
+    <span class='va'>model</span><span class='op'>$</span><span class='fu'>eval</span><span class='op'>(</span><span class='op'>)</span>
+    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>b</span> <span class='kw'>in</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/enumerate.html'>enumerate</a></span><span class='op'>(</span><span class='va'>.valid_dl</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+      
+      <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>model</span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+      
+      <span class='co'># augment</span>
+      <span class='va'>valid_data_augmented</span> <span class='op'>&lt;-</span> <span class='fu'>augment_data</span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+      <span class='va'>output_augmented</span> <span class='op'>&lt;-</span> <span class='fu'>model</span><span class='op'>(</span><span class='va'>valid_data_augmented</span><span class='op'>)</span>
+      <span class='va'>output</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>output</span> <span class='op'>+</span> <span class='va'>output_augmented</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>2</span>
+  
+      <span class='va'>valid_losses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>valid_losses</span>, <span class='fu'><a href='https://torch.mlverse.org/docs/reference/nnf_cross_entropy.html'>nnf_cross_entropy</a></span><span class='op'>(</span><span class='va'>output</span>, <span class='va'>b</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>item</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+      
+      <span class='va'>pred</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_max.html'>torch_max</a></span><span class='op'>(</span><span class='va'>output</span>, dim <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
+      <span class='va'>correct</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>pred</span> <span class='op'>==</span> <span class='va'>b</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>sum</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>item</span><span class='op'>(</span><span class='op'>)</span>
+      <span class='va'>valid_accuracies</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>valid_accuracies</span>, <span class='va'>correct</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>$</span><span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>}</span>
+    
+    <span class='va'>scheduler</span><span class='op'>$</span><span class='fu'>step</span><span class='op'>(</span><span class='op'>)</span>
+    
+    <span class='kw'>if</span><span class='op'>(</span><span class='va'>epoch</span> <span class='op'>%%</span> <span class='fl'>10</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"\nLoss at epoch %d: training: %1.4f, validation: %1.4f // validation accuracy %1.4f"</span>, <span class='va'>epoch</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>train_losses</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_losses</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_accuracies</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>}</span>
+
+    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_accuracies</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>accuracies</span><span class='op'>[</span><span class='va'>fold</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"Fold {fold}: New best at epoch {epoch} ({round(mean(valid_accuracies), 3)}). Saving model"</span><span class='op'>)</span><span class='op'>)</span>
+  
+      <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_save.html'>torch_save</a></span><span class='op'>(</span><span class='va'>model</span>, <span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"best_model_{fold}.pt"</span><span class='op'>)</span><span class='op'>)</span>
+      
+      <span class='co'># save new best loss</span>
+      <span class='va'>accuracies</span><span class='op'>[</span><span class='va'>fold</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_accuracies</span><span class='op'>)</span>
+      <span class='va'>best_epochs</span><span class='op'>[</span><span class='va'>fold</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>epoch</span>
+        
+    <span class='op'>}</span>
+    
+  <span class='op'>}</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+<pre><code>#&gt; 
+#&gt; ------------- FOLD 1 ---------
+#&gt; Loss at epoch 10: training: 0.5016, validation: 0.8785 // validation accuracy 0.6956
+#&gt; Loss at epoch 20: training: 0.3003, validation: 0.8284 // validation accuracy 0.7425
+#&gt; Loss at epoch 30: training: 0.2528, validation: 1.0263 // validation accuracy 0.7367
+#&gt; Loss at epoch 40: training: 0.0898, validation: 1.0639 // validation accuracy 0.7436
+#&gt; Loss at epoch 50: training: 0.0738, validation: 1.1549 // validation accuracy 0.7407
+#&gt; ------------- FOLD 2 ---------
+#&gt; Loss at epoch 10: training: 0.6065, validation: 0.7676 // validation accuracy 0.7216
+#&gt; Loss at epoch 20: training: 0.2548, validation: 0.8657 // validation accuracy 0.7112
+#&gt; Loss at epoch 30: training: 0.1632, validation: 1.0050 // validation accuracy 0.6896
+#&gt; Loss at epoch 40: training: 0.1457, validation: 1.0056 // validation accuracy 0.6966
+#&gt; Loss at epoch 50: training: 0.0670, validation: 1.0053 // validation accuracy 0.7372
+#&gt; ------------- FOLD 3 ---------
+#&gt; Loss at epoch 10: training: 0.5593, validation: 1.2702 // validation accuracy 0.6238
+#&gt; Loss at epoch 20: training: 0.2961, validation: 0.7408 // validation accuracy 0.7381
+#&gt; Loss at epoch 30: training: 0.1939, validation: 0.9673 // validation accuracy 0.7086
+#&gt; Loss at epoch 40: training: 0.1380, validation: 0.7870 // validation accuracy 0.7307
+#&gt; Loss at epoch 50: training: 0.0719, validation: 1.0105 // validation accuracy 0.7439
+#&gt; ------------- FOLD 4 ---------
+#&gt; Loss at epoch 10: training: 0.5566, validation: 0.8309 // validation accuracy 0.6939
+#&gt; Loss at epoch 20: training: 0.3361, validation: 1.0483 // validation accuracy 0.6487
+#&gt; Loss at epoch 30: training: 0.2409, validation: 1.0290 // validation accuracy 0.6667
+#&gt; Loss at epoch 40: training: 0.1300, validation: 1.1014 // validation accuracy 0.6817
+#&gt; Loss at epoch 50: training: 0.1303, validation: 1.0972 // validation accuracy 0.7043
+#&gt; ------------- FOLD 5 ---------
+#&gt; Loss at epoch 10: training: 0.5872, validation: 0.7824 // validation accuracy 0.7494
+#&gt; Loss at epoch 20: training: 0.3780, validation: 0.7256 // validation accuracy 0.7603
+#&gt; Loss at epoch 30: training: 0.1491, validation: 0.7148 // validation accuracy 0.7807
+#&gt; Loss at epoch 40: training: 0.1557, validation: 0.8051 // validation accuracy 0.7845
+#&gt; Loss at epoch 50: training: 0.0439, validation: 0.8338 // validation accuracy 0.8001</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class='va'>accuracies</span>
+</code></pre>
+</div>
+<pre><code>#&gt; torch_tensor
+#&gt;  0.7807
+#&gt;  0.7632
+#&gt;  0.7947
+#&gt;  0.7303
+#&gt;  0.8167
+#&gt; [ CPUFloatType{5} ]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>best_epochs</span>
+</code></pre>
+</div>
+<pre><code>#&gt; torch_tensor
+#&gt;  13
+#&gt;  15
+#&gt;  28
+#&gt;  42
+#&gt;  47
+#&gt; [ CPUFloatType{5} ]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>accuracies</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; torch_tensor
+#&gt; 0.777139
+#&gt; [ CPUFloatType{} ]</code></pre>
+</div>
+<p>Some notes on the above:</p>
+<ul>
+<li>An epoch is one full time through the training data. For each batch that makes up the full data, the model takes the batch and uses it to update the model</li>
+<li><code>model$train()</code> is for training the model, where using the model updates the weights</li>
+<li><code>model$eval()</code> is for evaluating the model</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Now we can test the model on the 200 plays that we held out earlier. We’ll take the average of the 5 models generated above (one for each cross-validation fold) and in addition, for each model, have the prediction be the average of the actual and flipped (across Y direction) prediction, as in The Zoo’s entry.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># get the labels</span>
+<span class='va'>labels</span> <span class='op'>&lt;-</span> <span class='va'>test_label</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>set_names</span><span class='op'>(</span><span class='st'>"label"</span><span class='op'>)</span>
+
+<span class='co'># load all the models</span>
+<span class='va'>models</span> <span class='op'>&lt;-</span> <span class='fu'>map</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>, <span class='op'>~</span><span class='op'>{</span>
+  <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_load.html'>torch_load</a></span><span class='op'>(</span><span class='fu'>glue</span><span class='fu'>::</span><span class='fu'><a href='https://glue.tidyverse.org/reference/glue.html'>glue</a></span><span class='op'>(</span><span class='st'>"best_model_{.x}.pt"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+
+<span class='co'># augment test data</span>
+<span class='va'>test_data_augmented</span> <span class='op'>&lt;-</span> <span class='fu'>augment_data</span><span class='op'>(</span><span class='va'>test_data</span><span class='op'>)</span>
+
+<span class='co'># initialize empty output</span>
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_zeros.html'>torch_zeros</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>test_data</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, <span class='va'>n_class</span><span class='op'>)</span>
+
+<span class='co'># get augmented prediction for each fold</span>
+<span class='fu'>walk</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span>, <span class='op'>~</span><span class='op'>{</span>
+  <span class='va'>output</span><span class='op'>[</span><span class='va'>.x</span>, <span class='va'>..</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>models</span><span class='op'>[[</span><span class='va'>.x</span><span class='op'>]</span><span class='op'>]</span><span class='op'>(</span><span class='va'>test_data</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>models</span><span class='op'>[[</span><span class='va'>.x</span><span class='op'>]</span><span class='op'>]</span><span class='op'>(</span><span class='va'>test_data_augmented</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>2</span>
+<span class='op'>}</span><span class='op'>)</span>
+
+<span class='co'># average prediction over folds</span>
+<span class='va'>predictions</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>folds</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://torch.mlverse.org/docs/reference/torch_sum.html'>torch_sum</a></span><span class='op'>(</span><span class='va'>output</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># join prediction to label</span>
+<span class='va'>predictions</span> <span class='op'>&lt;-</span> <span class='va'>predictions</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>row <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>:</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span><span class='op'>(</span>prediction <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/maxCol.html'>max.col</a></span><span class='op'>(</span><span class='va'>predictions</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='va'>labels</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>correct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>prediction</span> <span class='op'>==</span> <span class='va'>label</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>label</span><span class='op'>)</span>,
+    prediction <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>prediction</span><span class='op'>)</span>
+  <span class='op'>)</span>
+
+<span class='co'># the magic correct number</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"\nWeek 1 test: %1.0f percent correct"</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>predictions</span><span class='op'>$</span><span class='va'>correct</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>train_losses</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_losses</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>valid_accuracies</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>#&gt; 
+#&gt; Week 1 test: 78 percent correct</code></pre>
+</div>
+<p>So we hit 78% accuracy, which was about the mean of the cross validation accuracies. Good! This 78% is an under-estimate of the true accuracy because some plays <a href="https://twitter.com/benbbaldwin/status/1363870854019506177">are mislabeled</a> (this also puts an upper limit on how good the model can be, although only having 1 week of data is the bigger hurdle for this post).</p>
+<p>Let’s take a look at which types of plays the model is having problems with:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># confusion matrix</span>
+<span class='va'>tab</span> <span class='op'>&lt;-</span> <span class='va'>predictions</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>
+    label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>label</span><span class='op'>)</span><span class='op'>)</span>,
+    prediction <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>prediction</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>label</span><span class='op'>)</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C0m"</span>, <span class='st'>"C1m"</span>, <span class='st'>"C2m"</span>, <span class='st'>"C2z"</span>, <span class='st'>"C3z"</span>, <span class='st'>"C4z"</span>, <span class='st'>"C6z"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>prediction</span><span class='op'>)</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C0m"</span>, <span class='st'>"C1m"</span>, <span class='st'>"C2m"</span>, <span class='st'>"C2z"</span>, <span class='st'>"C3z"</span>, <span class='st'>"C4z"</span>, <span class='st'>"C6z"</span><span class='op'>)</span>
+
+<span class='va'>conf_mat</span> <span class='op'>&lt;-</span> <span class='fu'>caret</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/caret/man/confusionMatrix.html'>confusionMatrix</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>prediction</span>, <span class='va'>tab</span><span class='op'>$</span><span class='va'>label</span><span class='op'>)</span>
+<span class='va'>conf_mat</span><span class='op'>$</span><span class='va'>table</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>
+    Target <span class='op'>=</span> <span class='va'>Reference</span>,
+    N <span class='op'>=</span> <span class='va'>n</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>cvms</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cvms/man/plot_confusion_matrix.html'>plot_confusion_matrix</a></span><span class='op'>(</span>
+    add_sums <span class='op'>=</span> <span class='cn'>TRUE</span>, place_x_axis_above <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    add_normalized <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-22-1.png" width="864" /></p>
+</div>
+<p>Unsurprisingly, there biggest source of confusion is distinguishing cover 1 man from cover 3 zone. Let’s take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tracking</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"../../../nfl-big-data-bowl-2021/input/week1.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ngscleanR</span><span class='fu'>::</span><span class='fu'>clean_and_rotate</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>frame_id</span> <span class='op'>==</span> <span class='fl'>31</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>plot_plays</span> <span class='op'>&lt;-</span> <span class='va'>play_indices</span><span class='op'>[</span><span class='va'>test_id</span>,<span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='va'>predictions</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>prediction</span> <span class='op'>==</span> <span class='fl'>2</span>, <span class='va'>label</span> <span class='op'>==</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>play</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>play</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># for testing</span>
+<span class='co'># plot_plays &lt;- c("2018090902_1326", "2018090909_2319", "2018090906_3808", "2018090901_2324")</span>
+<span class='co'># end test </span>
+
+<span class='va'>plots</span> <span class='op'>&lt;-</span> <span class='fu'>map</span><span class='op'>(</span><span class='va'>plot_plays</span>, <span class='op'>~</span><span class='op'>{</span>
+  <span class='va'>plot</span> <span class='op'>&lt;-</span> <span class='va'>tracking</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>play</span> <span class='op'>==</span> <span class='va'>.x</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ngscleanR</span><span class='fu'>::</span><span class='fu'>plot_play</span><span class='op'>(</span>
+      animated <span class='op'>=</span> <span class='cn'>FALSE</span>,
+      segment_length <span class='op'>=</span> <span class='fl'>6</span>,
+      segment_size <span class='op'>=</span> <span class='fl'>3</span>,
+      dot_size <span class='op'>=</span> <span class='fl'>4</span>
+      
+    <span class='op'>)</span>
+  
+  <span class='va'>plot</span> <span class='op'>+</span> 
+    <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+          plot.caption <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+          plot.margin <span class='op'>=</span> <span class='fu'>unit</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>, <span class='st'>"cm"</span><span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+
+<span class='va'>combined</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>plots</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>plots</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>plots</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>plots</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+
+<span class='va'>combined</span> <span class='op'>+</span> <span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>
+  title <span class='op'>=</span> <span class='st'>'Sample Cover 3 plays that model thinks are Cover 1'</span>,
+  theme <span class='op'>=</span> <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>16</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-25-1.png" width="3600" /></p>
+</div>
+<p>It’s kind of hard to tell from a still image exactly what these plays are supposed to be or why the model got them wrong. Looking at it this way, I find it even more impressive that the model can get nearly 80% of plays right with only 1 week of data and 1 frame per play.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Hopefully this has been at least somewhat helpful to someone. We’ve covered how to get data into tensors, deal with datasets and dataloaders, augmentation, and how to train a model with k-fold cross-validation.</p>
+<p>One thing I didn’t cover is how to deal with multiple frames per play. One option would be to feed the CNN predictions in each frame <a href="https://en.wikipedia.org/wiki/Long_short-term_memory">into a LSTM</a>. Another would be to send every frame in a given play into the CNN and then perform some sort of pooling by play afterwards. I didn’t explore this in the post because (a) it’s already long enough already and (b) my laptop can barely handle knitting this post at its given size and more frames would kill it.</p>
+<p>Some things that I learned:</p>
+<ul>
+<li>If you get inexplicable error messages, make very sure that you don’t have any missing data anywhere (including in the labels)</li>
+<li>Be very careful with using <code>torch_squeeze()</code> without any arguments (i.e., the index to squeeze) because if you happen to have a batch size of 1 at the end of an epoch, the batch size dimension will get squeezed out and break things</li>
+<li>Kaggle supports R and comes with <code>torch</code> pre-installed, BUT it’s a very old version of <code>torch</code> so upgrade to the latest version in your kaggle notebook to get access to all the new things</li>
+<li>If you have limited memory or don’t have access to a GPU on your own computer, use Kaggle to train models!</li>
+</ul>
+<p>This post wouldn’t have been possible without a lot of help from a lot of people. Thank you in particular to <a href="https://twitter.com/dfalbel">Daniel Falbel</a>, both for all of his work on <code>torch</code> and for answering a million of my questions, and to Sean Clement and Lau Sze Yui for allowing me to pester them with a million questions about neural nets. Additional thanks to helpful discussions with Timo Riske, Suvansh Sanjeev, Udit Ranasaria, Rishav Dutta, and Zach Feldman.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
