@@ -12,7 +12,19 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 17 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Computer Vision with NFL Player Tracking Data using torch for R</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch</link>
+      <description>Coverage classification Using CNNs.</description>
+      <category>Torch</category>
+      <category>Machine learning</category>
+      <category>Computer vision</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch</guid>
+      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch/computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-23-1.png" medium="image" type="image/png" width="7200" height="4000"/>
+    </item>
     <item>
       <title>NFL win probability from scratch using xgboost in R</title>
       <dc:creator>Ben Baldwin</dc:creator>
