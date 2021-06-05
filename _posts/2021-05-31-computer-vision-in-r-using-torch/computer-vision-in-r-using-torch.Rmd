@@ -1,7 +1,7 @@
 ---
-title: "Computer vision with NFL player tracking data using torch for R"
+title: "Computer Vision with NFL Player Tracking Data using torch for R"
 description: |
-  Coverage classification using CNNs.
+  Coverage classification Using CNNs.
 author:
   - name: Ben Baldwin
     url: https://twitter.com/benbbaldwin
@@ -26,19 +26,50 @@ knitr::opts_chunk$set(
   fig.height=5,
   tidy = 'styler'
 )
+
+# helper function to not make every table have so many lines of code
+make_table <- function(df) {
+  df %>%
+  gt::gt() %>%
+  gt::tab_style(
+    style = gt::cell_text(color = "black", weight = "bold"),
+    locations = list(
+      gt::cells_column_labels(dplyr::everything())
+    )
+  ) %>% 
+    tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "black",
+    table.border.top.width = px(1),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(1),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2),
+    row.striping.background_color = '#FFFFFF',
+    row.striping.include_table_body = TRUE,
+    table.background.color = '#F2F2F2',
+    data_row.padding = gt::px(2),
+    table.font.size = gt::px(16L)
+  ) %>%
+  return()
+}
+
 ```
 
 The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used Convolutional Neural Networks (CNNs) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques. In this post, we'll dive into what that actually entails.
 
-## Computer vision background
+## Computer Vision Background
 
 If you don't know anything about computer vision and would like to learn, I personally found this [University of Michigan course taught by Justin Johnson incredibly helpful](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/). [Here is a link to the lecture videos](https://www.youtube.com/playlist?list=PL5-TkQAfAZFbzxjBHtzdVCWE0Zbhomg7r), [here is the syllabus and PDFs of the lecture slides](https://web.eecs.umich.edu/~justincj/teaching/eecs498/FA2020/schedule.html), and see the first link for the homework assignments (which are in PyTorch; i.e. Python). To understand what's happening in the course, some familiarity with how to manipulate matrices is very useful, especially if you try to tackle the homework assignments.
 
-An aside: If you haven't done anything like this before, a lot of this post will not make a lot of sense. What we will do here is a lot different than [learning how to use, for example, xgboost](https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/), for a couple reasons. First, we're departing from the comfort of the "rectangular" data structure where each row is an observation and each column is a feature. In computer vision problems, there are typically (at least) four dimensions: one for each observation, another for each feature dimension (e.g. 3 for a typical red-green-blue image), one for the height of the image, and one for the width. And second, there's a lot more housekeeping that needs to be done in the code: keeping track of batches, telling it to compute gradients and update update weights, and some other stuff along these lines. If none of this makes sense, that's okay! If you watch the lectures linked above (and even more so, try the homeworks) and come back to this, everything will make a lot more sense.
+An aside: If you haven't done anything like this before, a lot of this post will not make a lot of sense. What we will do here is a lot different than [learning how to use, for example, xgboost](https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/), for a couple reasons. First, we're departing from the comfort of the "rectangular" data structure where each row is an observation and each column is a feature. In computer vision problems, there are typically (at least) four dimensions: one for each observation, another for each feature dimension (e.g. 3 for a typical red-green-blue image), one for the height of the image, and one for the width. And second, there's a lot more housekeeping that needs to be done in the code: keeping track of batches, telling it to compute gradients and update weights, and some other stuff along these lines. If none of this makes sense, that's okay! If you watch the lectures linked above (and even more so, try the homeworks) and come back to this, everything will make a lot more sense.
 
 It's no accident that the course linked above uses PyTorch. Python is the dominant language for computer vision. However, there is recent good news for R users: [torch in R](https://torch.mlverse.org/) has been developed and contains basically all of the same things as the Python version, which means that if you're already comfortable with R, you don't need to learn a whole new language just to do computer vision stuff (plus trying to clean and manipulate data in pandas is the worst).
 
-## The goals for this post
+## The Goals for this Post
 
 * **Yes**: demonstrate how to use torch in R and what this looks like when using NFL player tracking data
 * **No**: create the most accurate model possible
@@ -47,7 +78,7 @@ Since this is Open Source Football, I'm only going to use things that others can
 
 Let's get to it!
 
-## Load the data
+## Load the Data
 
 I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. If you're interested, you can check out the code in the package, and maybe by the time you're reading this I'll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and gets some information about each play (e.g. whether each player is on offense or defense and the location of the line of scrimmage).
 
@@ -55,6 +86,7 @@ I'm going to mostly skip over the data cleaning stuff this since it isn't the fo
 library(tidyverse)
 library(torch)
 library(patchwork)
+library(gt)
 
 df <- ngscleanR::prepare_bdb_week(
     week = 1,
@@ -70,7 +102,7 @@ df <- ngscleanR::prepare_bdb_week(
 
 Now let's get the labels from 2018 week 1 with thanks to Telemetry.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 labels <- readr::read_csv("../../../nfl-big-data-bowl-2021/input/coverages_week1.csv") %>%
   mutate(
     play = paste0(gameId, "_", playId)
@@ -82,10 +114,11 @@ df <- df %>%
   inner_join(labels, by = "play")
 
 # check labels
-labels %>% group_by(coverage) %>% summarize(n=n())
+labels %>% group_by(coverage) %>% summarize(n=n()) %>%
+  make_table()
 ```
 
-## Data wrangling / create tensors
+## Data Wrangling / Create Tensors
 
 For reference, here's what the location and orientation columns in Big Data Bowl mean:
 
@@ -126,7 +159,9 @@ rel_df <- defense_df %>%
   select(play, frame_id, nfl_id, dist_from_los, y, s_x, s_y, a_x, a_y, o_to_qb, starts_with("diff_"))
 
 rel_df %>%
-  select(nfl_id, dist_from_los, y, diff_x, diff_y)
+  select(nfl_id, dist_from_los, y, diff_x, diff_y) %>%
+  head(10) %>%
+  make_table()
 ```
 
 The first 5 entries here represent the first defensive player matched to each of the 5 offensive players. Note that a lot of the columns are constant for the first 5 rows because each row represents a defense-offense match and many entries do not depend on the offensive player. For example, the defender's distance from the line of scrimmage is the same for each matched offensive player (in The Zoo's entry, this is what they mean by some features being "constant across 'off' dimension of the tensor").
@@ -156,14 +191,16 @@ def_only_features <- 7
 off_def_features <- 6
 n_features <- def_only_features + off_def_features
 
-play_indices
+play_indices %>%
+  head(10) %>%
+  make_table()
 ```
 
 Now we're ready to start making our tensor, which is what `torch` knows how to deal with. Note that I'm throwing in an extra dimension for number of frames on each play, which is useless in this case (1 frame per play) but makes it easier to extend to using multiple frames in a given play (the real reason I'm doing this is that my existing code uses more frames and it's easier to not re-write this part of it).
 
 ```{r}
-train_x = torch_empty(n_plays, n_frames, n_features, 11, 5)
-dim(train_x)
+data_tensor = torch_empty(n_plays, n_frames, n_features, 11, 5)
+dim(data_tensor)
 ```
 
 Here is the function that will help us populate our tensor, explained below.
@@ -192,16 +229,16 @@ fill_row <- function(row) {
 
   # where the magic happens
   # explanation of this part below!
-  train_x[i, f, , 1:defenders, 1:n_offense] <-
+  data_tensor[i, f, , 1:defenders, 1:n_offense] <-
     torch_tensor(t(play_df))$view(c(-1, defenders, n_offense))
 
 }
 
 ```
 
-## Digression into wrangling this data
+## Digression into Wrangling This Data
 
-If you haven't worked with higher-dimensional data before, it can be kind of hard to wrap your head around. Let's illustrate what is happening in the function above using the first play as an example. Here is what the raw data look like when running this function on the first play:
+If you haven't worked with higher-dimensional data before, it can be kind of hard to wrap your head around. Let's illustrate what is happening in the function above using the first play as an example. Here is what the raw data look like when running this function on the first play (showing the first 10 rows):
 
 ```{r}
 row <- play_indices %>% dplyr::slice(1)
@@ -222,16 +259,19 @@ n_offense <- nrow(play_df) / defenders
 play_df <- play_df %>% select(-nfl_id)
 
 defenders
-play_df
 dim(play_df)
+
+play_df %>%
+  head(10) %>%
+  make_table()
 ```
 
 We need to have this thing be 13 x 7 x 5 (7 defenders and 5 offensive players on this play), but right now it is (5 x 7) x 13 with each group of 5 rows a set of rows for each defensive player, and the features going across as columns rather than as rows like we need for the tensor shape.
 
-The first step is to transpose:
+The first step is to transpose (showing first 8 columns so it's not huge):
 
 ```{r}
-# showing first 10 columns so this isn't huge
+# showing first 8 columns so this isn't huge
 t(play_df)[, 1:8]
 dim(t(play_df))
 ```
@@ -249,7 +289,7 @@ Hooray! It looks like it should. We have a 13x7x5 tensor with each of the 13 fea
 
 Hopefully this sheds some light on the above function. Now let's use it.
 
-## Fill in the tensors
+## Fill in the Tensors
 
 Digression over and back to work. This iterates over every play to fill in the tensor for each play.
 
@@ -266,7 +306,7 @@ walk(1 : nrow(play_indices), ~{
 Let's make sure it worked:
 
 ```{r}
-train_x[1, ..]
+data_tensor[1, ..]
 ```
 
 This shows that the first play has been filled in. The extra zeroes in the final rows are because we initialized a tensor of zeroes for 11 defenders, but not all defenders are provided on every play, so a lot of plays will have zeroes like this. I think about it like a bunch of players standing in the corner of the field together not impacting the play since that's basically what the computer sees (I tried sticking all the "missing" players on the line of scrimmage standing there looking at each other, but it didn't seem to make much of a difference).
@@ -274,9 +314,9 @@ This shows that the first play has been filled in. The extra zeroes in the final
 Now let's fill in the coverage labels. Note that the `torch_long()` part is required for labels and the labels have to be integers starting from 1.
 
 ```{r, echo = FALSE, results = "hide"}
-train_y <- torch_zeros(n_plays, dtype = torch_long())
+label_tensor <- torch_zeros(n_plays, dtype = torch_long())
 
-train_y[1:n_plays] <- play_indices %>%
+label_tensor[1:n_plays] <- play_indices %>%
   mutate(coverage = as.factor(coverage) %>% as.integer()) %>%
   pull(coverage)
 
@@ -288,9 +328,9 @@ gc()
 Finally, I need to get rid of the time dimension since I'm not using it here (`torch_squeeze` gets rid of any singleton dimensions).
 
 ```{r}
-train_x <- torch_squeeze(train_x)
-dim(train_x)
-dim(train_y)
+data_tensor <- torch_squeeze(data_tensor)
+dim(data_tensor)
+dim(label_tensor)
 ```
 
 Now we have about 1,000 plays from week 1 shaped in the way we want.
@@ -305,13 +345,13 @@ set.seed(2013) # gohawks
 
 # hold out 
 test_id <- sample(1:n_plays, size = test_size)
-test_data <- train_x[test_id, ..]
-test_label <- train_y[test_id]
+test_data <- data_tensor[test_id, ..]
+test_label <- label_tensor[test_id]
 
 # full training set
 train_id <- setdiff(1:n_plays, test_id)
-train_data <- train_x[train_id, ..]
-train_label <- train_y[train_id]
+train_data <- data_tensor[train_id, ..]
+train_label <- label_tensor[train_id]
 
 # helper thing that is just 1, ..., length train data
 all_train_idx <- 1:dim(train_data)[1]
@@ -330,9 +370,9 @@ dim(train_label)
 str(folds)
 ```
 
-The `folds` object created above is a list of 5 where each item in the list is the set of validation incides for a given fold.
+The `folds` object created above is a list of 5 where each item in the list is the set of validation indices for a given fold.
 
-## Data augmentation
+## Data Augmentation
 
 From [The Zoo's entry](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400): 
 
@@ -370,7 +410,7 @@ augment_data <- function(df,
 
 This will be used below during training (when augmenting the data by adding flipped data) and testing (when getting the prediction as an average of the flipped and non-flipped data).
 
-## Datasets and dataloaders
+## Datasets and Dataloaders
 
 Okay, so we have tensors, and now we need to turn them into something that can be used in training. For this, we need `torch`'s `dataset()`, which is way to easily fetch of observations at once. This is mostly copy and pasting from the below link and not that interesting.
 
@@ -406,12 +446,7 @@ Now let's stick our data in the dataset:
 train_ds <- tracking_dataset(train_data, train_label)
 ```
 
-Alright, so what did that actually do? Now we can access the `.getitem()` and `.length()` things created in the `dataset()` definition above. The below shows the number of rows in the training dataset, and then grabs the first item.
-
-```{r}
-train_ds$.length()
-train_ds$.getitem(1)
-```
+Alright, so what did that actually do? Now we can access the `.getitem()` and `.length()` things created in the `dataset()` definition above, which would show the first item in the training dataset (if we ran `train_ds$.getitem(1)`), or the total length of the dataset (`train_ds$.length()`).
 
 You might have thought we're done now, but not quite. Now we need to send our `dataset` to a `dataloader` .
 
@@ -438,7 +473,7 @@ dim(batch$y)
 
 Both the data and labels have 64 rows as expected (the batch size).
 
-## The model
+## The Model
 
 This is a straight copy of [The Zoo's model](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) so there's not much to say here, but I will leave some comments to explain what is happening.
 
@@ -558,7 +593,7 @@ net <- nn_module(
 )
 ```
 
-## Training with cross validation
+## Training with Cross Validation
 
 We've done a lot of setup to get to this point, and now we can actually train a model!
 
@@ -566,7 +601,7 @@ We've done a lot of setup to get to this point, and now we can actually train a 
 
 At the predict stage to follow, we could either average over these 5 models (this is what I do) or re-train on the entire train set. Reading through the link above, it seems like the choice of which to do is not super obvious (and might not matter that much).
 
-* [Torch reference page explaining `optimizer`, `loss$backward()`, and `optimizer$step()`](https://torch.mlverse.org/technical/optimizers/):
+* [Torch reference page explaining `optimizer`, `loss$backward()`, `model$train()`, `model$eval()`, `optimizer$step()`, etc](https://torch.mlverse.org/technical/optimizers/):
 
 Here's the big loop:
 
@@ -665,15 +700,11 @@ accuracies
 mean(accuracies)
 ```
 
-Some notes on the above: 
-
-* An epoch is one full time through the training data. For each batch that makes up the full data, the model takes the batch and uses it to update the model
-* `model$train()` is for training the model, where using the model updates the weights
-* `model$eval()` is for evaluating the model
+An epoch is one full time through the training data. For each batch that makes up the full data, the model takes the batch and uses it to update the model. I have chosen 50 epochs because the best model seems to have emerged by then, and the best model of the 50 epochs is saved. This process happens 5 times: once for each cross-validation fold.
 
 ## Testing
 
-Now we can test the model on the 200 plays that we held out earlier. We'll take the average of the 5 models generated above (one for each cross-validation fold) and in addition, for each model, have the prediction be the average of the actual and flipped (across Y direction) prediction, as in The Zoo's entry.
+Now we can test the model on the 200 plays that we held out earlier. We'll take the average of the 5 models generated above (one for each cross-validation fold) and in addition, for each model, have the prediction be the average of the actual and flipped (across Y direction) prediction, as in The Zoo's entry (this is what they refer to as TTA, or Test Time Augmentation).
 
 ```{r, warning=FALSE}
 # get the labels
@@ -772,7 +803,6 @@ plots <- map(plot_plays, ~{
       segment_length = 6,
       segment_size = 3,
       dot_size = 4
-      
     )
   
   plot + 
@@ -792,7 +822,7 @@ combined + plot_annotation(
 
 It's kind of hard to tell from a still image exactly why the model got them wrong. The bottom right one, in particular, should be easy for a model to tell that it's Cover 3, since so many defenders are watching the quarterback. However, the glass half full view is that it's impressive that the model can get nearly 80% of plays right with only 1 week of data and 1 frame per play.
 
-## Wrapping up
+## Wrapping Up
 
 Hopefully this has been at least somewhat helpful to someone. We've covered how to get data into tensors, deal with datasets and dataloaders, augmentation, and how to train a model with k-fold cross-validation.
 
@@ -807,6 +837,14 @@ Some things that I learned:
 * [The documentation](https://torch.mlverse.org/docs/reference/index.html) is very helpful!
 
 This post wouldn't have been possible without a lot of help from a lot of people. Thank you in particular to [Daniel Falbel](https://twitter.com/dfalbel), both for all of his work on `torch` and for answering a million of my questions, and to Sean Clement and Lau Sze Yui for allowing me to pester them with a million questions about neural nets. Additional thanks to helpful discussions with Timo Riske, Suvansh Sanjeev, Udit Ranasaria, Rishav Dutta, and Zach Feldman.
+
+```{r, results='hide', echo=FALSE, message=FALSE}
+file.remove("best_model_1.pt")
+file.remove("best_model_2.pt")
+file.remove("best_model_3.pt")
+file.remove("best_model_4.pt")
+file.remove("best_model_5.pt")
+```
 
 ```{r gh-source, results='asis', echo=FALSE}
 '%>%' <- magrittr::`%>%`
