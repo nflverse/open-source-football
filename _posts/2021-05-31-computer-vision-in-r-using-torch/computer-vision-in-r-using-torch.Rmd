@@ -1,5 +1,5 @@
 ---
-title: "Computer Vision with NFL player tracking data using Torch for R"
+title: "Computer vision with NFL player tracking data using torch for R"
 description: |
   Coverage classification using CNNs.
 author:
@@ -9,17 +9,23 @@ date: 06-07-2021
 output:
   distill::distill_article:
     self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/nflverse/open-source-football"
+categories:
+  - Torch
+  - Machine learning
+  - Computer vision
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width=9, fig.height=5
+  fig.width=9, 
+  fig.height=5,
+  tidy = 'styler'
 )
-library(tidyverse)
-library(torch)
-library(patchwork)
 ```
 
 The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used Convolutional Neural Networks (CNNs) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques. In this post, we'll dive into what that actually entails.
@@ -30,11 +36,11 @@ If you don't know anything about computer vision and would like to learn, I pers
 
 An aside: If you haven't done anything like this before, a lot of this post will not make a lot of sense. What we will do here is a lot different than [learning how to use, for example, xgboost](https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/), for a couple reasons. First, we're departing from the comfort of the "rectangular" data structure where each row is an observation and each column is a feature. In computer vision problems, there are typically (at least) four dimensions: one for each observation, another for each feature dimension (e.g. 3 for a typical red-green-blue image), one for the height of the image, and one for the width. And second, there's a lot more housekeeping that needs to be done in the code: keeping track of batches, telling it to compute gradients and update update weights, and some other stuff along these lines. If none of this makes sense, that's okay! If you watch the lectures linked above (and even more so, try the homeworks) and come back to this, everything will make a lot more sense.
 
-It's no accident that the course linked above uses PyTorch. Python is the dominant language for computer vision. However, there is recent good news for R users: [Torch in R](https://torch.mlverse.org/) has been developed and contains basically all of the same things as the Python version, which means that if you're already comfortable with R, you don't need to learn a whole new language just to do computer vision stuff (plus trying to clean and manipulate data in pandas is the worst).
+It's no accident that the course linked above uses PyTorch. Python is the dominant language for computer vision. However, there is recent good news for R users: [torch in R](https://torch.mlverse.org/) has been developed and contains basically all of the same things as the Python version, which means that if you're already comfortable with R, you don't need to learn a whole new language just to do computer vision stuff (plus trying to clean and manipulate data in pandas is the worst).
 
 ## The goals for this post
 
-* **Yes**: demonstrate how to use Torch in R and what this looks like when using NFL player tracking data
+* **Yes**: demonstrate how to use torch in R and what this looks like when using NFL player tracking data
 * **No**: create the most accurate model possible
 
 Since this is Open Source Football, I'm only going to use things that others can access to: i.e., the tracking data and coverage labels provided through Big Data Bowl 2021. In particular, this means that this post will only be working with coverage labels from week 1 of the 2018 season since that is what was provided to contestants. If you want to replicate this post, you'll need to get the [player tracking data here](https://www.kaggle.com/c/nfl-big-data-bowl-2021/data) and the [coverage labels here](https://www.kaggle.com/tombliss/additional-data-coverage-schemes-for-week-1). If one had access to a full season of coverage labels, hypothetically speaking, one could train a much better model. In addition, since this designed to be an introductory post, I'm only going to use one frame per play, which limits the accuracy a bit.
@@ -46,6 +52,10 @@ Let's get to it!
 I'm going to mostly skip over the data cleaning stuff this since it isn't the focus of the post, plus I wrote [a package](https://github.com/guga31bb/ngscleanR) that gets all of the annoying data prep out of the way. If you're interested, you can check out the code in the package, and maybe by the time you're reading this I'll have even documented the functions (ha ha). The function below takes week 1 of the 2021 Big Data Bowl, makes all plays go from left to right, adds some columns like the extent to which each defender's orientation points him at the quarterback, and gets some information about each play (e.g. whether each player is on offense or defense and the location of the line of scrimmage).
 
 ```{r get-data}
+library(tidyverse)
+library(torch)
+library(patchwork)
+
 df <- ngscleanR::prepare_bdb_week(
     week = 1,
     dir = "../../../nfl-big-data-bowl-2021/input",
@@ -738,15 +748,13 @@ conf_mat$table %>%
     add_normalized = FALSE)
 ```
 
-Unsurprisingly, there biggest source of confusion is distinguishing Cover 1 Man from Cover 3 Zone. Let's take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone.
+Unsurprisingly, there biggest source of confusion is distinguishing Cover 1 Man from Cover 3 Zone. Let's take a look at some play that are labeled as Cover 1 Man but are really Cover 3 Zone (with thanks to the great package [sportyR](https://github.com/rossdrucker/sportyR) for making it easy to plot a field).
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 tracking <- readr::read_csv("../../../nfl-big-data-bowl-2021/input/week1.csv") %>%
   ngscleanR::clean_and_rotate() %>%
   filter(frame_id == 31)
-```
 
-```{r, message = FALSE, warning=FALSE}
 plot_plays <- play_indices[test_id,] %>%
   bind_cols(predictions) %>%
   filter(prediction == 2, label == 5) %>%
@@ -755,11 +763,7 @@ plot_plays <- play_indices[test_id,] %>%
   pull(play)
 ```
 
-```{r, message = FALSE, warning=FALSE, dpi = 400}
-# for testing
-# plot_plays <- c("2018090902_1326", "2018090909_2319", "2018090906_3808", "2018090901_2324")
-# end test 
-
+```{r, message = FALSE, warning=FALSE, dpi = 400, preview=TRUE, layout="l-body-outset"}
 plots <- map(plot_plays, ~{
   plot <- tracking %>%
     filter(play == .x) %>%
@@ -786,7 +790,7 @@ combined + plot_annotation(
 )
 ```
 
-It's kind of hard to tell from a still image exactly what these plays are supposed to be or why the model got them wrong. Looking at it this way, I find it even more impressive that the model can get nearly 80% of plays right with only 1 week of data and 1 frame per play.
+It's kind of hard to tell from a still image exactly why the model got them wrong. The bottom right one, in particular, should be easy for a model to tell that it's Cover 3, since so many defenders are watching the quarterback. However, the glass half full view is that it's impressive that the model can get nearly 80% of plays right with only 1 week of data and 1 frame per play.
 
 ## Wrapping up
 
@@ -803,3 +807,14 @@ Some things that I learned:
 * [The documentation](https://torch.mlverse.org/docs/reference/index.html) is very helpful!
 
 This post wouldn't have been possible without a lot of help from a lot of people. Thank you in particular to [Daniel Falbel](https://twitter.com/dfalbel), both for all of his work on `torch` and for answering a million of my questions, and to Sean Clement and Lau Sze Yui for allowing me to pester them with a million questions about neural nets. Additional thanks to helpful discussions with Timo Riske, Suvansh Sanjeev, Udit Ranasaria, Rishav Dutta, and Zach Feldman.
+
+```{r gh-source, results='asis', echo=FALSE}
+'%>%' <- magrittr::`%>%`
+fld <- fs::path_wd() %>% fs::path_split() %>% purrr::pluck(1) %>% tibble::as_tibble() %>% dplyr::slice_tail(n = 1)
+fn <- fs::path_wd() %>% fs::dir_ls() %>% fs::path_filter("*.Rmd") %>% fs::path_rel()
+glue::glue('<a href="https://github.com/mrcaseb/open-source-football/blob/master/_posts/{fld}/{fn}"
+               style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+              >View source code on GitHub
+           </a>'
+           )
+```
