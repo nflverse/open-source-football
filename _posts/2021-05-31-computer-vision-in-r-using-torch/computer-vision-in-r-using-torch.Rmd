@@ -26,37 +26,6 @@ knitr::opts_chunk$set(
   fig.height=5,
   tidy = 'styler'
 )
-
-# helper function to not make every table have so many lines of code
-make_table <- function(df) {
-  df %>%
-  gt::gt() %>%
-  gt::tab_style(
-    style = gt::cell_text(color = "black", weight = "bold"),
-    locations = list(
-      gt::cells_column_labels(dplyr::everything())
-    )
-  ) %>% 
-    tab_options(
-    row_group.border.top.width = px(3),
-    row_group.border.top.color = "black",
-    row_group.border.bottom.color = "black",
-    table_body.hlines.color = "white",
-    table.border.top.color = "black",
-    table.border.top.width = px(1),
-    table.border.bottom.color = "white",
-    table.border.bottom.width = px(1),
-    column_labels.border.bottom.color = "black",
-    column_labels.border.bottom.width = px(2),
-    row.striping.background_color = '#FFFFFF',
-    row.striping.include_table_body = TRUE,
-    table.background.color = '#F2F2F2',
-    data_row.padding = gt::px(2),
-    table.font.size = gt::px(16L)
-  ) %>%
-  return()
-}
-
 ```
 
 The winners of the [2019](https://operations.nfl.com/media/3671/big-data-bowl-sterken.pdf) and [2020](https://www.kaggle.com/c/nfl-big-data-bowl-2020/discussion/119400) Big Data Bowls each used Convolutional Neural Networks (CNNs) in their winning entries. This approach essentially treats player tracking data as an image recognition problem and then applies well established computer vision techniques. In this post, we'll dive into what that actually entails.
@@ -115,7 +84,7 @@ df <- df %>%
 
 # check labels
 labels %>% group_by(coverage) %>% summarize(n=n()) %>%
-  make_table()
+  ngscleanR:::make_table()
 ```
 
 ## Data Wrangling / Create Tensors
@@ -161,7 +130,7 @@ rel_df <- defense_df %>%
 rel_df %>%
   select(nfl_id, dist_from_los, y, diff_x, diff_y) %>%
   head(10) %>%
-  make_table()
+  ngscleanR:::make_table()
 ```
 
 The first 5 entries here represent the first defensive player matched to each of the 5 offensive players. Note that a lot of the columns are constant for the first 5 rows because each row represents a defense-offense match and many entries do not depend on the offensive player. For example, the defender's distance from the line of scrimmage is the same for each matched offensive player (in The Zoo's entry, this is what they mean by some features being "constant across 'off' dimension of the tensor").
@@ -193,7 +162,7 @@ n_features <- def_only_features + off_def_features
 
 play_indices %>%
   head(10) %>%
-  make_table()
+  ngscleanR:::make_table()
 ```
 
 Now we're ready to start making our tensor, which is what `torch` knows how to deal with. Note that I'm throwing in an extra dimension for number of frames on each play, which is useless in this case (1 frame per play) but makes it easier to extend to using multiple frames in a given play (the real reason I'm doing this is that my existing code uses more frames and it's easier to not re-write this part of it).
@@ -263,7 +232,7 @@ dim(play_df)
 
 play_df %>%
   head(10) %>%
-  make_table()
+  ngscleanR:::make_table()
 ```
 
 We need to have this thing be 13 x 7 x 5 (7 defenders and 5 offensive players on this play), but right now it is (5 x 7) x 13 with each group of 5 rows a set of rows for each defensive player, and the features going across as columns rather than as rows like we need for the tensor shape.
