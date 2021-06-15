@@ -282,13 +282,15 @@ This shows that the first play has been filled in. The extra zeroes in the final
 
 Now let's fill in the coverage labels. Note that the `torch_long()` part is required for labels and the labels have to be integers starting from 1.
 
-```{r, echo = FALSE, results = "hide"}
+```{r}
 label_tensor <- torch_zeros(n_plays, dtype = torch_long())
 
 label_tensor[1:n_plays] <- play_indices %>%
   mutate(coverage = as.factor(coverage) %>% as.integer()) %>%
   pull(coverage)
+```
 
+```{r, echo = FALSE, results = "hide"}
 # clean up memory, who knows if this does anything
 rm(rel_df)
 gc()
