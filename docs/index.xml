@@ -12,7 +12,18 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 07 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 27 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Estimating Team Ability From EPA</title>
+      <dc:creator>Richard Anderson</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa</link>
+      <description>We build a series of models to estimate team ability from EPA data</description>
+      <category>nflfastR</category>
+      <category>stan</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa</guid>
+      <pubDate>Sun, 27 Jun 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa/estimating-team-ability-from-epa_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Computer Vision with NFL Player Tracking Data using torch for R</title>
       <dc:creator>Ben Baldwin</dc:creator>
