@@ -12,7 +12,19 @@
       <link>https://mrcaseb.github.io/open-source-football/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 27 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Jul 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Evauluating defenses by how well they play the offense's WR 1</title>
+      <dc:creator>Jonas Trostle</dc:creator>
+      <link>https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</link>
+      <description>Cornerback performance is hard to measure, but we can try.</description>
+      <category>Figures</category>
+      <category>nflfastR</category>
+      <category>Defense</category>
+      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</guid>
+      <pubDate>Fri, 30 Jul 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/evauluating-defenses-by-how-well-they-play-the-offenses-wr-1_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="3900" height="3600"/>
+    </item>
     <item>
       <title>Estimating Team Ability From EPA</title>
       <dc:creator>Richard Anderson</dc:creator>
