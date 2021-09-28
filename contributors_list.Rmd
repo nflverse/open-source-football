@@ -7,8 +7,8 @@ author:
     url: https://twitter.com/mrcaseb
   - name: Ben Baldwin
     url: https://twitter.com/benbbaldwin
-date: 08-21-2020
-repository_url: "https://github.com/mrcaseb/open-source-football"
+date: 09-28-2021
+repository_url: "https://github.com/nflverse/open-source-football"
 output:
   distill::distill_article:
     toc: true
@@ -24,13 +24,13 @@ knitr::opts_chunk$set(
 
 library(magrittr)
 data <- jsonlite::fromJSON(
-  "https://raw.githubusercontent.com/mrcaseb/open-source-football/master/docs/posts/posts.json",
+  "https://raw.githubusercontent.com/nflverse/open-source-football/master/docs/posts/posts.json",
   flatten = TRUE
 ) %>%
   tidyr::unnest_wider(author) %>%
   dplyr::mutate(
     name = glue::glue('<a href = "{url}">{name}</a>'),
-    title = glue::glue('<a href = "https://mrcaseb.github.io/open-source-football/{path}">{title}</a>')
+    title = glue::glue('<a href = "https://www.opensourcefootball.com/{path}">{title}</a>')
   ) %>%
   dplyr::select(name, date, title)
 
