@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
   # schedule:
     # run every Friday at 9:00 AM UTC = 5AM ET
