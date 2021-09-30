@@ -28,7 +28,8 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Install necessary packages
         run: |
-          install.packages(c("rmarkdown", "distill", "dplyr", "tidyr", "jsonlite", "DT", "stringi"), dependencies = TRUE)
+          install.packages(c("distill", "dplyr", "tidyr", "jsonlite", "DT", "stringi"), dependencies = TRUE)
+          install.packages("https://cran.r-project.org/src/contrib/Archive/rmarkdown/rmarkdown_2.10.tar.gz", repos = NULL, type = "source")
         shell: Rscript {0}
       - name: Render Site
         run: Rscript -e 'rmarkdown::render_site(encoding = "UTF-8")'
