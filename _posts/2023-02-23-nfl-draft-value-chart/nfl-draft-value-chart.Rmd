@@ -1,0 +1,324 @@
+---
+title: "NFL Draft Value Chart"
+description: |
+  A short description of the post.
+author:
+  - name: Ben Baldwin
+    url: https://twitter.com/benbbaldwin/
+date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+repository_url: "https://github.com/nflverse/open-source-football"
+categories:
+  - NFL Draft
+  - nflreadr
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  dpi = 500, 
+  fig.width=9, 
+  fig.height=5,
+  tidy = 'styler'
+  )
+
+library(tidyverse)
+library(rvest)
+```
+
+There are a million draft charts out there:
+
+* [OTC](https://overthecap.com/draft-trade-value-chart)
+* [PFF](https://www.pff.com/news/nfl-revisiting-the-losers-curse-the-surplus-value-of-draft-picks)
+
+So what's the point of this? Basically the only reason is for anyone curious to see how this might be constructed. Like the Fitzgerald-Spielberger (OTC) NFL Draft Trade Value Chart, we're going to use second contracts of a measure of how valuable each player was. There are some obvious limitations to this:
+
+* We assume that a player's value on the first 4 years of his rookie contract is well represented by what he gets on his 2nd deal. For players who improved a lot at the end of their rookie deals (or suffered serious injury), the measure is far from perfect
+* We aren't capturing the value provided by 5th year option for 1st round picks (somewhat underestimates 1st round pick value)
+* We aren't capturing the value of being able to re-sign a player before he hits the open market
+
+We're only going to do this for non-QBs. The value of QBs is so different than every other position that they should be considered separately in any draft analysis.
+
+# Step 1: Make a surplus value curve
+
+## How expensive is each draft pick's rookie deal?
+
+The first thing we need is how expensive each draft pick is. Some googling led me to [this page](https://www.spotrac.com/nfl/draft/).
+
+```{r}
+  page <- read_html("https://www.spotrac.com/nfl/draft/") %>%
+    html_table()
+  
+  t <- map_df(1:6, ~{
+    page[[.x]] %>%
+      janitor::clean_names() %>%
+      dplyr::slice(-1) %>%
+      dplyr::select(c(1, 7)) %>%
+      set_names(c("pick", "value")) %>%
+      # lol dolphins forfeited their pick
+      filter(value != "-") %>%
+      mutate(
+        pick = as.integer(pick),
+        # for some reason as.numeric doesn't work so have to do this insane thing
+        value = stringr::str_remove(value, "\\$"),
+        v1 = stringr::str_extract(value, "[:digit:]*(?=\\,)") %>% as.integer(),
+        v2 = stringr::str_extract(value, "(?<=\\,)[:digit:]*(?=\\,)") %>% as.integer(),
+        v3 = stringr::str_extract(value, "(?<=\\,)[:digit:]*$") %>% as.integer(),
+        # thousands per year avg
+        val = (1000000 * v1 + 1000 * v2 + v3) / 4000
+      ) %>%
+      select(pick, value, val)
+    
+  })
+  
+  # average cap over next 4 seasons (in thousands of $)
+    cap_2023 <- 224800000
+    cap_tot <- (cap_2023 + cap_2023 * 1.07 + cap_2023 * (1.07^2) + cap_2023 * (1.07^3)) / 4000
+    
+  # get APY % of cap by draft position
+    contracts <- t %>%
+      mutate(
+        # fill in the random missing picks
+        row = (1 : n()) + 1,
+        pick = ifelse(is.na(pick), row, pick),
+        # calculate % of cap by dividing by average cap over next 4 seasons
+        contract_cap_pct = val / cap_tot
+      ) %>%
+      select(draft_overall = pick, contract_cap_pct)
+    
+    glimpse(contracts)
+```
+
+A couple notes on the above. First, we're assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears' No. 1 pick for example, we have total value of about $41 million spread, which is about $10.2 million per season, or 10.2/250 or 4.1 percent of the cap. If we did not assume cap growth rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we'd be counting the high draft picks as too expensive.
+
+## How productive has each pick been?
+
+Here we're going to get the average APY in terms of percent of the cap for each drafted player's second deal (i.e., first deal after rookie contract). For players that did not receive a second contract, we'll assign them a value of zero.
+
+```{r}
+
+    players <- nflreadr::load_contracts() %>%
+      filter(between(draft_year, 2011, 2017)) %>%
+      arrange(otc_id, year_signed) %>%
+      group_by(otc_id) %>% 
+      dplyr::slice(1:2) %>%
+      mutate(
+        contracts = n(), row = 1 : n()
+        ) %>%
+      select(player, otc_id, position, team, draft_year, year_signed, years, value, apy, apy_cap_pct, draft_overall, contracts, row) %>%
+      filter(
+        !is.na(draft_overall),        # was drafted
+        position != "QB",             # is not a QB
+        contracts == 1 | row == 2     # either only got drafted (no 2nd contract) or 2nd contract
+      ) %>%
+      ungroup() %>%
+      arrange(draft_year, draft_overall) %>%
+      mutate(
+        # fill in 0 for guys who didn't get 2nd contract
+        apy_cap_pct = ifelse(contracts == 1, 0, apy_cap_pct)
+      )
+    
+  # smooth contract value
+    mod <- loess(players$apy_cap_pct ~ players$draft_overall)
+    players$fit <- mod$fitted
+```
+
+## Combine all of our data
+
+Some final cleaning.
+
+```{r}
+  picks <- players %>%
+    group_by(draft_overall) %>%
+    slice_head(n = 1)
+  
+  data <- picks %>%
+    left_join(contracts, by = "draft_overall") %>%
+    ungroup() %>%
+    mutate(
+      contract_cap_pct = ifelse(
+        draft_overall == 21 & is.na(contract_cap_pct), (lead(contract_cap_pct) + lag(contract_cap_pct))/2, contract_cap_pct
+      ),
+      surplus = fit - contract_cap_pct
+    ) %>%
+    select(draft_overall, fit, surplus, contract_cap_pct) %>%
+    pivot_longer(2:4) %>%
+    # convert to % of cap
+    mutate(value = value * 100)
+```
+
+## Plot the result
+
+```{r, layout="l-page", dpi = 400, preview=TRUE, echo = FALSE}
+
+  data %>%
+    filter(draft_overall <= 100) %>%
+    ggplot(aes(draft_overall, value, color = name)) +
+    geom_hline(yintercept = 0) +
+    geom_line(linewidth = 1) +
+    geom_point(size = 3) +
+    labs(
+      title = "The value of (non-QB) draft picks",
+      x = "Draft Pick",
+      y = "Value in % of salary cap",
+      color = ""
+    ) +
+    scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5), expand = c(0, 0.05)) +
+    ggthemes::theme_fivethirtyeight() +
+    theme(
+      plot.title = element_text(size = 20, hjust = 0.5),
+      plot.subtitle = element_text(size = 12, hjust = 0.5),
+      axis.text.x=element_text(hjust=0.5),
+      axis.title.x = element_text(size=12, face="bold"),
+      axis.title.y = element_text(size=12, face="bold"),
+      legend.position=c(.8,.8),
+      legend.direction = "vertical",
+      legend.text = element_text(size = 20),
+      legend.background = element_rect(fill = alpha("white", 0))
+    ) +
+    scale_color_manual(
+      values=c("#d95f02", "#7570b3", "#1b9e77"), 
+      labels = c("Contract cost", "On-field value", "Surplus value")
+      )
+  
+```
+
+We have uncovered the now-familiar result that if you are not drafting a quarterback, the surplus value of the very top picks is lower than later in the first round and even most of the second round. This was originally referred to as the loser's curse in the [seminal paper by Cade Massey and Richard Thaler](https://www.semanticscholar.org/paper/The-Loser%27s-Curse%3A-Decision-Making-and-Market-in-Massey-Thaler/61bbf4dd4aeb2e915f631832dc890f92a9a0c12c?p2df) during the old CBA, but still holds up now. It was earlier found by [PFF's Timo Riske](https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft) using a similar approach using second contracts and [also found by Riske](https://www.pff.com/news/nfl-revisiting-the-losers-curse-the-surplus-value-of-draft-picks) when using PFF Wins Above Replacement (WAR).
+
+This looks remarkably similar to Timo's work:
+
+![Timo Riske's draft curve](moo.png)
+
+## Compare to other draft curves
+
+Let's start with OTC since it's easiest to scrape. Here's getting the chart:
+
+```{r}
+ raw_otc <- read_html("https://overthecap.com/draft-trade-value-chart") %>%
+    html_table() %>%
+    pluck(1) %>%
+    janitor::clean_names() 
+
+  # what peak coding performance looks like
+  otc <- bind_rows(
+    raw_otc %>% select(pick, value),
+    raw_otc %>% select(pick = pick_2, value = value_2),
+    raw_otc %>% select(pick = pick_3, value = value_3),
+    raw_otc %>% select(pick = pick_4, value = value_4)
+  ) %>%
+    select(draft_overall = pick, otc_value = value) %>%
+    mutate(otc_value = otc_value / dplyr::first(otc_value))
+
+  glimpse(otc)
+  
+```
+
+Next the Rich Hill chart:
+
+```{r}
+  raw_rh <- read_html("https://www.drafttek.com/NFL-Trade-Value-Chart-Rich-Hill.asp") %>%
+    html_table() %>%
+    pluck(2) %>%
+    janitor::clean_names() %>%
+    select(x2, x4, x6) %>%
+    filter(!is.na(x6))
+
+  rh <- bind_rows(
+    raw_rh %>% select(value = x2) %>% filter(!is.na(value)),
+    raw_rh %>% select(value = x4) %>% filter(!is.na(value)),
+    raw_rh %>% select(value = x6) %>% filter(!is.na(value))
+  ) %>%
+    mutate(draft_overall = 1 : n()) %>%
+    mutate(rh_value = value / dplyr::first(value)) %>%
+    select(-value)
+```
+
+And the original Jimmy Johnson chart:
+
+```{r}
+  raw_jj <- read_html("https://www.drafttek.com/NFL-Trade-Value-Chart.asp") %>%
+    html_table() %>%
+    pluck(2) %>%
+    janitor::clean_names() %>%
+    select(x2, x4, x6) %>%
+    filter(!is.na(x6))
+
+  jj <- bind_rows(
+    raw_jj %>% select(value = x2) %>% filter(!is.na(value)),
+    raw_jj %>% select(value = x4) %>% filter(!is.na(value)),
+    raw_jj %>% select(value = x6) %>% filter(!is.na(value))
+  ) %>%
+    mutate(draft_overall = 1 : n()) %>%
+    mutate(jj_value = value / dplyr::first(value)) %>%
+    select(-value)
+```
+
+
+Combine:
+
+```{r}
+
+  df <- data %>%
+    filter(name == "surplus") %>%
+    select(draft_overall, value) %>%
+    mutate(value = value / dplyr::first(value)) %>%
+    left_join(otc, by = "draft_overall") %>%
+    left_join(rh, by = "draft_overall") %>%
+    left_join(jj, by = "draft_overall") %>%
+    pivot_longer(2:5)
+```
+
+
+And the plot:
+
+```{r, layout="l-page", dpi = 400, echo = FALSE}
+
+  df %>%
+    mutate(value = value * 100) %>%
+    filter(draft_overall <= 100) %>%
+    ggplot(aes(draft_overall, value, color = name)) +
+    geom_hline(yintercept = 0) +
+    geom_line(linewidth = 1) +
+    geom_point(size = 3) +
+    labs(
+      title = "Draft chart comparison",
+      x = "Draft Pick",
+      y = "Percentage difference in value relative to No. 1 pick",
+      color = ""
+    ) +
+    scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5), expand = c(.05, 0.55)) +
+    ggthemes::theme_fivethirtyeight() +
+    theme(
+      plot.title = element_text(size = 20, hjust = 0.5),
+      plot.subtitle = element_text(size = 12, hjust = 0.5),
+      axis.text.x=element_text(hjust=0.5),
+      axis.title.x = element_text(size=12, face="bold"),
+      axis.title.y = element_text(size=12, face="bold"),
+      legend.position=c(.8,.8),
+      legend.direction = "vertical",
+      legend.text = element_text(size = 20),
+      legend.background = element_rect(fill = alpha("white", 0))
+    ) +
+    scale_color_manual(
+      values=c("#1b9e77", "#d95f02", "#7570b3", "#e7298a"), 
+      labels = c("RH", "OTC", "JJ", "OSF")
+      )
+```
+
+## Assess trades
+
+
+
+## Full table
+
+
+
