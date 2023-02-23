@@ -31,6 +31,7 @@ knitr::opts_chunk$set(
 
 library(tidyverse)
 library(rvest)
+library(gt)
 ```
 
 There are a million draft charts out there:
@@ -261,7 +262,6 @@ And the original Jimmy Johnson chart:
     select(-value)
 ```
 
-
 Combine:
 
 ```{r}
@@ -275,7 +275,6 @@ Combine:
     left_join(jj, by = "draft_overall") %>%
     pivot_longer(2:5)
 ```
-
 
 And the plot:
 
@@ -314,11 +313,26 @@ And the plot:
       )
 ```
 
-## Assess trades
-
-
+Unsurpisingly, the message is that public draft charts out there seem to dramatically overvalue the top picks in the case when these picks are not used on a quarterback. To be fair to the charts, some are intended to capture how teams themselves value picks, rather than how valuable the picks actually are. But we now have a mountain of evidence that NFL teams largely do not understand the relative values of NFL draft picks and are dramatically overconfident in their ability to pick the right players at the top of the draft.
 
 ## Full table
 
+Below is a table of estimated surplus value by pick. Remember that this is for non-QBs. We can now use this to evaluate trades in which neither team took a quarterback. For example, last year's controversial Lions-Vikings trade, in which the Vikings were panned for the lack of return they got for moving back 20 picks in the first round.
 
+Here's the trade with the estimated values obtained from this post (full table is below):
+
+* Detroit Lions receive: No. 12 (169), No. 46 (124). Total: 293
+* Minnesota Vikings receive: No. 32 (139), No. 34 (146), No. 66 (96). Total: 381
+* Difference: 88, which is the value of pick No. 71
+
+So the surplus value the Vikings obtained in this trade was the equivalent of an early third-round pick. Not bad for a trade that popular commentary thought that they lost!
+
+Here's the full table:
+
+```{r}
+df %>%
+  filter(name == "value", !is.na(value)) %>%
+  mutate(value = (100 * value) %>% round(0)) %>%
+  gt()
+```
 
