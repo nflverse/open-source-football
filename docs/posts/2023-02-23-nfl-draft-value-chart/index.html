@@ -2219,70 +2219,71 @@ d-title {
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#step-1-make-a-surplus-value-curve" id="toc-step-1-make-a-surplus-value-curve">Step 1: Make a surplus value curve</a>
+<li><a href="#part-1-make-a-surplus-value-curve" id="toc-part-1-make-a-surplus-value-curve">Part 1: Make a surplus value curve</a>
 <ul>
 <li><a href="#how-expensive-is-each-draft-picks-rookie-deal" id="toc-how-expensive-is-each-draft-picks-rookie-deal">How expensive is each draft pick’s rookie deal?</a></li>
 <li><a href="#how-productive-has-each-pick-been" id="toc-how-productive-has-each-pick-been">How productive has each pick been?</a></li>
 </ul></li>
-<li><a href="#show-the-draft-curves" id="toc-show-the-draft-curves">Show the draft curves</a>
+<li><a href="#part-2-show-the-draft-curves" id="toc-part-2-show-the-draft-curves">Part 2: Show the draft curves</a>
 <ul>
 <li><a href="#on-field-value-versus-surplus-value" id="toc-on-field-value-versus-surplus-value">On-field value versus surplus value</a></li>
 <li><a href="#comparison-with-other-draft-curves" id="toc-comparison-with-other-draft-curves">Comparison with other draft curves</a></li>
 </ul></li>
-<li><a href="#some-example-calculations" id="toc-some-example-calculations">Some example calculations</a>
+<li><a href="#part-3-some-example-calculations" id="toc-part-3-some-example-calculations">Part 3: Some example calculations</a>
 <ul>
-<li><a href="#draft-day-trade" id="toc-draft-day-trade">Draft day trade</a></li>
+<li><a href="#draft-day-trade-example-1" id="toc-draft-day-trade-example-1">Draft day trade: example 1</a></li>
+<li><a href="#draft-day-trade-example-2" id="toc-draft-day-trade-example-2">Draft day trade: example 2</a></li>
 <li><a href="#player-for-picks-trade" id="toc-player-for-picks-trade">Player for picks trade</a></li>
 </ul></li>
-<li><a href="#the-full-table" id="toc-the-full-table">The full table</a></li>
+<li><a href="#part-4-the-full-table" id="toc-part-4-the-full-table">Part 4: The full table</a></li>
 </ul>
 </nav>
 </div>
 <p>Do we really need another draft values chart out there? No, not really.</p>
 <p>So why does this exist? I haven’t seen a draft value chart that satisfies the following two conditions:</p>
-<ul>
+<ol type="1">
 <li>Is made with publicly available code and data</li>
 <li>Shows a draft value curve when excluding quarterbacks</li>
-</ul>
+</ol>
 <p>The latter point is especially important. If one combines quarterbacks and non-quarterbacks when constructing a draft value chart, one ends up much too rosy on the value of the top picks in the draft when these picks are not used on a quarterback. <a href="https://www.pff.com/news/nfl-why-sprinting-to-the-podium-at-no-2-overall-with-chase-young-on-the-card-might-be-a-bad-idea">This is due to quarterbacks being very valuable, and quarterbacks selected high in the draft tending to have higher hit rates</a>.</p>
-<p>So what’s the point of this? Basically the only reason is for anyone curious to see how this might be constructed. Like the <a href="https://overthecap.com/draft-trade-value-chart">Fitzgerald-Spielberger (OTC) NFL Draft Trade Value Chart</a>, we’re going to use second contracts of a measure of how valuable each player was. There are some obvious limitations to this:</p>
+<p>The goal here is to construct a transparent (i.e., the code and methodology are public) and useful draft chart. Like the <a href="https://overthecap.com/draft-trade-value-chart">Fitzgerald-Spielberger (OTC) NFL Draft Trade Value Chart</a>, we’re going to use second contracts as a measure of player value. There are some obvious limitations to this:</p>
 <ul>
 <li>We assume that a player’s value on the first 4 years of his rookie contract is well represented by what he is able to earn on his 2nd deal. For players who improved a lot at the end of their rookie deals (or suffered serious injury), the measure is far from perfect</li>
-<li>We aren’t capturing the value provided by 5th year option for 1st round picks (somewhat underestimates 1st round pick value)</li>
+<li>We aren’t capturing the value provided by 5th year option for 1st round picks. This somewhat underestimates 1st round pick value, but with the <a href="https://overthecap.com/fifth-year-option-projections">new fifth-round option values introduced in the 2020 CBA</a>, this option isn’t as valuable as it used to be. For example, CeeDee Lamb would make about $18 million in his option year due to making one Pro Bowl and Justin Jefferson $20 million due to making multiple Pro Bowls. This isn’t typically what we think of when thinking about rookie deal prices</li>
 <li>We aren’t capturing the value of being able to re-sign a player before he hits the open market</li>
 </ul>
 <p>As mentioned above, we’re only going to do this for non-QBs. The value of QBs is so different than every other position that they should be considered separately in any draft analysis.</p>
 <p>Before moving forward, a thank you to the invaluable resource that <a href="https://overthecap.com/">Over The Cap</a> represents. All of the contract data used in this post is taken from their website and this analysis wouldn’t be possible without their hard work.</p>
-<h1 id="step-1-make-a-surplus-value-curve">Step 1: Make a surplus value curve</h1>
+<h1 id="part-1-make-a-surplus-value-curve">Part 1: Make a surplus value curve</h1>
+<p>In order to calculate the surplus value of each pick. We need two pieces of information. First, how much each pick costs (the contract); and second, how much benefit each pick provides (on-field performance).</p>
 <h2 id="how-expensive-is-each-draft-picks-rookie-deal">How expensive is each draft pick’s rookie deal?</h2>
-<p>The first thing we need is the actual cost of each draft pick’s contract is. Some googling led me to <a href="https://www.spotrac.com/nfl/draft/">this page</a>.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>Rows: 219
-Columns: 2
-$ draft_overall    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, …
-$ contract_cap_pct &lt;dbl&gt; 0.04104752, 0.03920661, 0.03803514, 0.03669…</code></pre>
-</div>
-<p>A couple notes on what we’re doing (if you want to see the code, scroll down to the bottom of this post and click the “View source code on GitHub” button). First, we’re assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears’ No. 1 pick for example, we have total value of about $41 million spread, which is about $10.2 million per season, or 10.2/250 or 4.1 percent of the cap. If we did not assume cap growth rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we’d be counting the high draft picks as too expensive.</p>
-<h2 id="how-productive-has-each-pick-been">How productive has each pick been?</h2>
-<p>Here we’re going to get the average APY in terms of percent of the cap for each drafted player’s second deal (i.e., first deal after rookie contract). For players that did not receive a second contract, we’ll assign them a value of zero.</p>
+<p>The first thing we need is the actual cost of each draft pick’s contract. Some googling led me to <a href="https://www.spotrac.com/nfl/draft/">this page</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h1 id="show-the-draft-curves">Show the draft curves</h1>
-<p>We will first plot our own draft curves and then afterwards compare to others.</p>
+<p>A couple notes on the calculations we’re be using (if you want to see the code, scroll down to the bottom of this post and click the “View source code on GitHub” button). First, we’re assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears’ No. 1 pick for example, we have total value of about $41 million, which is about $10.2 million per season, or 10.2/250 = 4.1 percent of the cap. If we assumed no growth in the salary cap rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we’d be counting the high draft picks as too expensive.</p>
+<h2 id="how-productive-has-each-pick-been">How productive has each pick been?</h2>
+<p>This is pretty simple: take the APY in terms of percent of the cap for each drafted player’s second deal (i.e., first deal after rookie contract). For players that did not receive a second contract, we’ll assign them a value of zero. We then smooth these values to get a smooth relationship between pick number and on-field performance.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h1 id="part-2-show-the-draft-curves">Part 2: Show the draft curves</h1>
+<p>We first plot our own draft curves and then afterwards compare to others.</p>
 <h2 id="on-field-value-versus-surplus-value">On-field value versus surplus value</h2>
+<p>Using cost and on-field performance, we can now construct a surplus value curve:</p>
 <div class="layout-chunk" data-layout="l-page">
 <p><img src="nfl-draft-value-chart_files/figure-html5/unnamed-chunk-3-1.png" width="3600" data-distill-preview=1 /></p>
 </div>
-<p>We have uncovered the now-familiar result that if you are not drafting a quarterback, the surplus value of the very top picks is lower than later in the first round and even most of the second round. This is because the dropoff in salary that teams have to pay to draft picks (orange line) is steeper than the dropoff in on-field value (purple line). This reflects the fact that teams are not very good at identifying the best players in the draft. We have <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">a lot of evidence that this is the case</a>.</p>
-<p>This was originally referred to as the loser’s curse in the <a href="https://www.semanticscholar.org/paper/The-Loser%27s-Curse%3A-Decision-Making-and-Market-in-Massey-Thaler/61bbf4dd4aeb2e915f631832dc890f92a9a0c12c?p2df">seminal paper by Cade Massey and Richard Thaler</a> during the old CBA when rookie contracts were a lot more expensive, but the pattern still holds up now. In addition, we have replicated earlier findings by <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">PFF’s Timo Riske</a> using a similar approach that took advantage of player contract data and yet another study <a href="https://www.pff.com/news/nfl-revisiting-the-losers-curse-the-surplus-value-of-draft-picks">by Riske</a> that used PFF Wins Above Replacement (WAR).</p>
-<p>In particular, this looks remarkably similar to <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">Timo’s work</a>, which is always a good sign that we’re on the right track:</p>
+<p>How to read the chart: the first pick in the draft costs 4.1% of the salary cap (orange line). The on-field production is expected to be 6.2% of the salary cap (purple line). Thus, the surplus value associated with the first pick in the draft is 2.1% of the salary cap (green line).</p>
+<p>We have re-produced the now-familiar result that for teams not drafting a quarterback, the surplus value of the very top picks is lower than later in the first round and even throughout most of the second round. This is because the dropoff in salary that teams have to pay to draft picks (orange line) is steeper than the dropoff in on-field value (purple line). This reflects the fact that teams are not very good at identifying the best players in the draft. We have <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">a lot of evidence that this is the case</a>.</p>
+<p>This pattern of later first round picks having higher surplus value than early first round picks was originally referred to as the loser’s curse in the <a href="https://www.semanticscholar.org/paper/The-Loser%27s-Curse%3A-Decision-Making-and-Market-in-Massey-Thaler/61bbf4dd4aeb2e915f631832dc890f92a9a0c12c?p2df">seminal paper by Cade Massey and Richard Thaler</a>. Massey and Thaler wrote their paper during the pre-2011 CBA when rookie contracts were a lot more expensive; however, the pattern still holds up now. In addition, we have replicated earlier findings by <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">PFF’s Timo Riske</a> using a similar approach that took advantage of player contract data and yet another study <a href="https://www.pff.com/news/nfl-revisiting-the-losers-curse-the-surplus-value-of-draft-picks">by Riske</a> that used PFF Wins Above Replacement (WAR).</p>
+<p>In particular, our chart above looks remarkably similar to this picture below from <a href="https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft">Timo’s work</a>, which is always a good sign that we’re on the right track:</p>
 <figure>
 <img src="moo.png" alt="Timo Riske’s draft curve" />
 <figcaption aria-hidden="true">Timo Riske’s draft curve</figcaption>
 </figure>
 <h2 id="comparison-with-other-draft-curves">Comparison with other draft curves</h2>
-<p>The three draft charts that I tend to see the most often are the OTC chart, PFR chart made by Chase Stuart based on AV, and the original Jimmy Johnson chart. Here’s how they compare with the surplus and on-field values shown above.</p>
+<p>The three draft charts that I tend to see the most often are the <a href="https://overthecap.com/draft-trade-value-chart">OTC chart</a>, the <a href="https://www.footballperspective.com/draft-value-chart/">PFR chart</a> made by Chase Stuart based on AV, and the original Jimmy Johnson chart. Here’s how they compare with the surplus and on-field values shown above.</p>
 <p>In the figure below, we scale each draft curve so that the value of the first overall pick represents 100 draft points.</p>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2291,10 +2292,10 @@ $ contract_cap_pct &lt;dbl&gt; 0.04104752, 0.03920661, 0.03803514, 0.03669…</c
 <p><img src="nfl-draft-value-chart_files/figure-html5/unnamed-chunk-5-1.png" width="3600" /></p>
 </div>
 <p>Because our surplus value chart doesn’t have the first pick as the most valueable pick, unsurprisingly, it looks very different than the other charts. Interestingly, the player value curve (i.e., on-field value of player without accounting for cost of rookie contract) is still flatter than the other three curves. This shouldn’t come as a surprise given that we have excluded quarterbacks and the other charts do not.</p>
-<p>Unsurprisingly, the message is that public draft charts out there overvalue the top picks in the case when these picks are not used on a quarterback. This adds to the mountain of evidence discussed above that NFL teams largely do not understand the relative values of NFL draft picks and are dramatically overconfident in their ability to pick the right players at the top of the draft. The original Jimmy Johnson chart, for example, comes nowhere close to reflecting the true value of picks.</p>
-<h1 id="some-example-calculations">Some example calculations</h1>
+<p>Unsurprisingly, draft charts tend to overvalue the top picks in the case when these picks are not used on a quarterback. This adds to the mountain of evidence discussed above that NFL teams largely do not understand the relative values of draft picks and are dramatically overconfident in their ability to pick the right players at the top of the draft. The original Jimmy Johnson chart, for example, comes nowhere close to reflecting the true value of picks.</p>
+<h1 id="part-3-some-example-calculations">Part 3: Some example calculations</h1>
 <p>At the bottom of this post, I will leave a table that contains the same information presented in two ways. First, an estimated value of each pick on a familiar scale that is primarily useful for calculating trades involving draft picks only. In addition, the table contains the actual estimate of APY per year (over 4 years) in order to facilitate evaluations of pick-for-player trades. In this section, I will provide an example of both. Remember that this is for non-QBs: if a quarterback is involved, don’t use this table.</p>
-<h2 id="draft-day-trade">Draft day trade</h2>
+<h2 id="draft-day-trade-example-1">Draft day trade: example 1</h2>
 <p>Let’s start with last year’s controversial Lions-Vikings trade, in which the Vikings <a href="https://www.sbnation.com/2022/4/29/23048475/vikings-lions-trade-nfl-draft-jameson-williams-lewis-cine">were panned</a> for the lack of return they got for moving back 20 picks in the first round.</p>
 <p>Here’s the trade with the estimated values obtained from this post (again, the full table is displayed below):</p>
 <ul>
@@ -2303,6 +2304,14 @@ $ contract_cap_pct &lt;dbl&gt; 0.04104752, 0.03920661, 0.03803514, 0.03669…</c
 <li>Difference: 88, which is the value of <strong>pick No. 71</strong></li>
 </ul>
 <p>So the surplus value the Vikings obtained in this trade was the equivalent of an early third-round pick. Not bad for a trade that popular commentary thought that they lost!</p>
+<h2 id="draft-day-trade-example-2">Draft day trade: example 2</h2>
+<p>One of the worst draft-day trades I can remember that didn’t involve players or future picks was the Jets trading up for Alijah Vera-Tucker in 2021. Let’s see how bad it looks using the chart below:</p>
+<ul>
+<li>Jets receive: No. 14th (168), No. 143 (35). Total: 203</li>
+<li>Vikings receive: No. 23 (154), No. 66 (96), No. 86 (71). Total: 321</li>
+<li>Difference: 118, or the value of <strong>pick No. 5</strong> (which is the same as the surpluse value of pick 51)</li>
+</ul>
+<p>Being extremely generous to the Jets, we could say they gave up the surplus value of a 2nd round pick to move up for a guard. Alternatively, we could say they gave up the surplus value of the No. 5 pick!</p>
 <h2 id="player-for-picks-trade">Player for picks trade</h2>
 <p>This is somewhat complicated since some of the picks were in the future. Let’s be generous to the Seahawks and discount the 2022 picks by 10 percent. We will now use the APY version of the table in order to calculate the total cost of the Adams trade and extension:</p>
 <ul>
@@ -2310,23 +2319,23 @@ $ contract_cap_pct &lt;dbl&gt; 0.04104752, 0.03920661, 0.03803514, 0.03669…</c
 <li>Jets receive: 2021 pick 23 (3.15), 2021 pick 86 (1.46), 2022 pick 10 (3.26 * .9)</li>
 <li>Difference: 3.15 + 1.46 + (3.26 * .9) - (1.09 * .9) = <strong>6.6 percent of the salary cap</strong> per year over 4 years</li>
 </ul>
-<p>So we have arrived at 6.6% of the salary cap in APY per year over 4 years as the value of picks given up for the Seahawks. Adams’ 4-year deal extension with the Seahawks was $17.5 APY, or 9.6% of the salary cap at the time. Dividing 6.6% (draft surplus given up) by 9.6% (contract APY), we need to inflate Adams’ APY by 69%, arriving at a true contract cost of, <strong>29.5 million dollars per year over 4 years</strong>.</p>
+<p>So we have arrived at 6.6% of the salary cap in APY per year over 4 years as the value of picks given up for the Seahawks. Adams’ 4-year deal extension with the Seahawks was $17.5 APY, or 9.6% of the salary cap at the time, per OTC. Dividing 6.6% (draft surplus given up) by 9.6% (contract APY), we need to inflate Adams’ APY by 69%, arriving at a true contract cost of, <strong>29.5 million dollars per year over 4 years</strong>.</p>
 <p>This is the same ballpark that Bill Barnwell landed on in his <a href="https://www.espn.com/nfl/story/_/id/29538280/jamal-adams-trade-grades-seahawks-jets-safety-really-worth-much">review of the trade</a>, which was written before the extension was signed. Barnwell assumed an extension of $16 million APY:</p>
 <blockquote>
 <p>“Factor in the cost of acquiring Adams and that four-year, $64 million extension suddenly becomes a four-year, $108.5 million contract. Instead of paying Adams $16 million per year, now he has cost the Seahawks more than $27 million per season, which is more than anybody in the league who isn’t a quarterback. If their picks end up being juicier than they were expecting, that price goes up. Adams has to be the best non-quarterback in the league to make the math work.”</p>
 </blockquote>
-<p>Combine the Seahawks being worse than expected over this time period with Adams getting a somewhat larger deal than expected, and the estimates of the true cost of the trade and extension for Adams are remarkably consistent.</p>
+<p>Combine the Seahawks being worse than expected over this time period with Adams getting a somewhat larger deal than expected, and the estimates of the true cost of the trade and extension for Adams are remarkably consistent between Barnwell’s piece and this methodology.</p>
 <p>And hopefully now one can understand how surplus value calculations are formed.</p>
-<h1 id="the-full-table">The full table</h1>
+<h1 id="part-4-the-full-table">Part 4: The full table</h1>
 <p>Here’s the full table:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="urltjohkqn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="usasxggmys" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 html {
   font-family: Lato, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#urltjohkqn .gt_table {
+#usasxggmys .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2351,7 +2360,7 @@ html {
   border-left-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_heading {
+#usasxggmys .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2363,12 +2372,12 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_caption {
+#usasxggmys .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#urltjohkqn .gt_title {
+#usasxggmys .gt_title {
   color: #333333;
   font-size: 24px;
   font-weight: initial;
@@ -2380,7 +2389,7 @@ html {
   border-bottom-width: 0;
 }
 
-#urltjohkqn .gt_subtitle {
+#usasxggmys .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2392,13 +2401,13 @@ html {
   border-top-width: 0;
 }
 
-#urltjohkqn .gt_bottom_border {
+#usasxggmys .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_col_headings {
+#usasxggmys .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2413,7 +2422,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_col_heading {
+#usasxggmys .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -2433,7 +2442,7 @@ html {
   overflow-x: hidden;
 }
 
-#urltjohkqn .gt_column_spanner_outer {
+#usasxggmys .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -2445,15 +2454,15 @@ html {
   padding-right: 4px;
 }
 
-#urltjohkqn .gt_column_spanner_outer:first-child {
+#usasxggmys .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#urltjohkqn .gt_column_spanner_outer:last-child {
+#usasxggmys .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#urltjohkqn .gt_column_spanner {
+#usasxggmys .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2465,7 +2474,7 @@ html {
   width: 100%;
 }
 
-#urltjohkqn .gt_group_heading {
+#usasxggmys .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2491,7 +2500,7 @@ html {
   text-align: left;
 }
 
-#urltjohkqn .gt_empty_group_heading {
+#usasxggmys .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2506,15 +2515,15 @@ html {
   vertical-align: middle;
 }
 
-#urltjohkqn .gt_from_md > :first-child {
+#usasxggmys .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#urltjohkqn .gt_from_md > :last-child {
+#usasxggmys .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#urltjohkqn .gt_row {
+#usasxggmys .gt_row {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
@@ -2533,7 +2542,7 @@ html {
   overflow-x: hidden;
 }
 
-#urltjohkqn .gt_stub {
+#usasxggmys .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -2546,7 +2555,7 @@ html {
   padding-right: 5px;
 }
 
-#urltjohkqn .gt_stub_row_group {
+#usasxggmys .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2560,11 +2569,11 @@ html {
   vertical-align: top;
 }
 
-#urltjohkqn .gt_row_group_first td {
+#usasxggmys .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#urltjohkqn .gt_summary_row {
+#usasxggmys .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2574,16 +2583,16 @@ html {
   padding-right: 5px;
 }
 
-#urltjohkqn .gt_first_summary_row {
+#usasxggmys .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_first_summary_row.thick {
+#usasxggmys .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#urltjohkqn .gt_last_summary_row {
+#usasxggmys .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2593,7 +2602,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_grand_summary_row {
+#usasxggmys .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2603,7 +2612,7 @@ html {
   padding-right: 5px;
 }
 
-#urltjohkqn .gt_first_grand_summary_row {
+#usasxggmys .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2613,11 +2622,11 @@ html {
   border-top-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_striped {
+#usasxggmys .gt_striped {
   background-color: #FAFAFA;
 }
 
-#urltjohkqn .gt_table_body {
+#usasxggmys .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2626,7 +2635,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_footnotes {
+#usasxggmys .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2640,7 +2649,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_footnote {
+#usasxggmys .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2649,7 +2658,7 @@ html {
   padding-right: 5px;
 }
 
-#urltjohkqn .gt_sourcenotes {
+#usasxggmys .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2663,7 +2672,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#urltjohkqn .gt_sourcenote {
+#usasxggmys .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2671,64 +2680,64 @@ html {
   padding-right: 5px;
 }
 
-#urltjohkqn .gt_left {
+#usasxggmys .gt_left {
   text-align: left;
 }
 
-#urltjohkqn .gt_center {
+#usasxggmys .gt_center {
   text-align: center;
 }
 
-#urltjohkqn .gt_right {
+#usasxggmys .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#urltjohkqn .gt_font_normal {
+#usasxggmys .gt_font_normal {
   font-weight: normal;
 }
 
-#urltjohkqn .gt_font_bold {
+#usasxggmys .gt_font_bold {
   font-weight: bold;
 }
 
-#urltjohkqn .gt_font_italic {
+#usasxggmys .gt_font_italic {
   font-style: italic;
 }
 
-#urltjohkqn .gt_super {
+#usasxggmys .gt_super {
   font-size: 65%;
 }
 
-#urltjohkqn .gt_footnote_marks {
+#usasxggmys .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#urltjohkqn .gt_asterisk {
+#usasxggmys .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#urltjohkqn .gt_indent_1 {
+#usasxggmys .gt_indent_1 {
   text-indent: 5px;
 }
 
-#urltjohkqn .gt_indent_2 {
+#usasxggmys .gt_indent_2 {
   text-indent: 10px;
 }
 
-#urltjohkqn .gt_indent_3 {
+#usasxggmys .gt_indent_3 {
   text-indent: 15px;
 }
 
-#urltjohkqn .gt_indent_4 {
+#usasxggmys .gt_indent_4 {
   text-indent: 20px;
 }
 
-#urltjohkqn .gt_indent_5 {
+#usasxggmys .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3430,7 +3439,18 @@ html {
 </table>
 </div>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!-- ####################################################################### -->
+<!-- Place at end of document 
+Please keep this chunk as is at end of your document. 
+It will create a hyperlink to the source file. -->
+<div class="layout-chunk" data-layout="l-body">
+<p><a href="https://github.com/nflverse/open-source-football/blob/master/_posts/2023-02-23-nfl-draft-value-chart/nfl-draft-value-chart.Rmd"
+    style="font-family:Consolas;color:blue;background-color:#f8f8f8;align:right;font-size:75%;"
+   >View source code on GitHub
+</a></p>
+</div>
+<!-- ####################################################################### -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
