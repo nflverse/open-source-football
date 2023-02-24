@@ -1,7 +1,7 @@
 ---
 title: "NFL Draft Value Chart"
 description: |
-  A short description of the post.
+  Constructing surplus value from scratch.
 author:
   - name: Ben Baldwin
     url: https://twitter.com/benbbaldwin/
