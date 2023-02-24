@@ -306,7 +306,7 @@ In the figure below, we scale each draft curve so that the value of the first ov
       )
 ```
 
-Because our surplus value chart doesn't have the first pick as the most valueable pick, unsurprisingly, it looks very different than the other charts. Interestingly, the player value curve (i.e., on-field value of player without accounting for cost of rookie contract) is still flatter than the other three curves. This shouldn't come as a surprise given that we have excluded quarterbacks and the other charts do not.
+Because our surplus value chart doesn't have the first pick as the most valuable pick, unsurprisingly, it looks very different than the other charts. Interestingly, the player value curve (i.e., on-field value of player without accounting for cost of rookie contract) is still flatter than the other three curves. This shouldn't come as a surprise given that we have excluded quarterbacks and the other charts do not.
 
 Unsurprisingly, draft charts tend to overvalue the top picks in the case when these picks are not used on a quarterback. This adds to the mountain of evidence discussed above that NFL teams largely do not understand the relative values of draft picks and are dramatically overconfident in their ability to pick the right players at the top of the draft. The original Jimmy Johnson chart, for example, comes nowhere close to reflecting the true value of picks.
 
@@ -332,7 +332,7 @@ One of the worst draft-day trades I can remember that didn't involve players or 
 
 * Jets receive: No. 14th (168), No. 143 (35). Total: 203
 * Vikings receive: No. 23 (154), No. 66 (96), No. 86 (71). Total: 321
-* Difference: 118, or the value of **pick No. 5** (which is the same as the surpluse value of pick 51)
+* Difference: 118, or the value of **pick No. 5** (which is the same as the surplus value of pick 51)
 
 Being extremely generous to the Jets, we could say they gave up the surplus value of a 2nd round pick to move up for a guard. Alternatively, we could say they gave up the surplus value of the No. 5 pick!
 
