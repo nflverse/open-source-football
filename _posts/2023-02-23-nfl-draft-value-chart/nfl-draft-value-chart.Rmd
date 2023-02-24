@@ -374,7 +374,6 @@ t2 <- table_data[56:110,]
 t3 <- table_data[111:165,]
 t4 <- table_data[166:220,]
 
-
 table <- bind_cols(t1, t2, t3, t4) %>%
   gt::gt()  %>% 
   cols_label(
@@ -423,6 +422,14 @@ table <- bind_cols(t1, t2, t3, t4) %>%
 
 table  
 ```
+
+Here is [a link to a .csv of the table](https://github.com/nflverse/open-source-football/tree/master/_posts/2023-02-23-nfl-draft-value-chart/osf_draft_chart.csv).
+
+```{r, echo = FALSE}
+table_data %>%
+  write_csv("osf_draft_chart.csv")
+```
+
 
 <!-- ####################################################################### -->
 <!-- Place at end of document 
