@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span. { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,9 +74,9 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
 code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
@@ -794,6 +795,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
   
   .html-widget {
@@ -1035,10 +1037,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
-  }
-  
-  .figure img {
-    width: 100%;
   }
   
   .figure .caption {
@@ -1870,9 +1868,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   
       // hoverable references
       $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+  
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1884,6 +1894,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+  
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+  
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
   
       // clear polling timer
       clearInterval(tid);
@@ -1983,6 +2018,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -2005,7 +2042,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
   
@@ -2171,46 +2208,68 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </nav>
 </div>
 <h2 id="preface">Preface</h2>
-<p>The primary goal of Open Source Football is to make football-related analysis and corresponding code publicly available. To achieve this, we need volunteers who are willing to make a contribution.</p>
-<p>Articles posted on Open Source Football are authored using <a href="https://rstudio.github.io/distill">Distill for R Markdown</a>. If you would like to contribute, you’ll need to have installed R and R Markdown. However, this <strong>does not mean that are limited exclusively to R code</strong> because R Markdown <a href="https://bookdown.org/yihui/rmarkdown-cookbook/other-languages.html">supports many other languages as well</a>! You’ll need R and R Markdown to create the post and the formal structure but the most important thing - your code and its output - can be anything compatible with R (please see <a href="https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example/">Ben’s python contributing example</a>).</p>
-<p>This guide is intended to help all contributors prepare articles for publishing. If you have questions or think something is unclear or wrong please <a href="https://github.com/nflverse/open-source-football/issues/new">create an issue</a> and we will look into it.</p>
+<p>The primary goal of Open Source Football is to make football-related analysis and
+corresponding code publicly available. To achieve this, we need volunteers
+who are willing to make a contribution.</p>
+<p>Articles posted on Open Source Football are authored using <a href="https://rstudio.github.io/distill">Distill for R
+Markdown</a>. If you would like to contribute,
+you’ll need to have installed R and R Markdown. However, this <strong>does not
+mean that are limited exclusively to R code</strong> because R Markdown
+<a href="https://bookdown.org/yihui/rmarkdown-cookbook/other-languages.html">supports many other languages as well</a>!
+You’ll need R and R Markdown to create the post and the formal structure but the
+most important thing - your code and its output - can be anything compatible with R
+(please see <a href="https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example/">Ben’s python contributing example</a>).</p>
+<p>This guide is intended to help all contributors prepare articles for
+publishing. If you have questions or think something is unclear or wrong please <a href="https://github.com/nflverse/open-source-football/issues/new">create an
+issue</a> and we will
+look into it.</p>
 <h2 id="brief-overview">Brief Overview</h2>
-<p>Here is a very brief overview of what is needed. The next section will have much more detail on each of these steps.</p>
-<p>The steps below assume that you have <a href="https://rstudio.com/">RStudio</a> and git (I highly recommend <a href="http://r-pkgs.had.co.nz/git.html">Hadley’s git section</a> in “R packages”) installed.</p>
+<p>Here is a very brief overview of what is needed. The next section will have much
+more detail on each of these steps.</p>
+<p>The steps below assume that
+you have <a href="https://rstudio.com/">RStudio</a> and git (I highly recommend <a href="http://r-pkgs.had.co.nz/git.html">Hadley’s
+git section</a> in “R packages”) installed.</p>
 <p>Contributing to someone else’s package or project became much more convenient with the <a href="https://usethis.r-lib.org/articles/pr-functions.html">usethis pull request helpers</a>. We will use these in the following sections, so please read the linked article.</p>
 <ol type="1">
 <li>Install the R packages you will need to contribute (<strong>Note the minimum version requirement of distill</strong>)</li>
 <li><a href="https://usethis.r-lib.org/articles/pr-functions.html#fork-and-clone">Fork the website repository to your GitHub (you’ll need a free account) and clone it to your local computer</a></li>
 <li><a href="https://usethis.r-lib.org/articles/pr-functions.html#branch-then-make-your-change">Create a new branch</a></li>
-<li>Create the new article (see <a href="https://github.com/nflverse/open-source-football/tree/master/_posts">the repo</a> for some examples and check the <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> website) and please don’t forget to add <a href="#start-working-on-the-post">metadata and chunk options</a> as discussed in the next section</li>
+<li>Create the new article (see <a href="https://github.com/nflverse/open-source-football/tree/master/_posts">the
+repo</a> for
+some examples and check the <a href="https://rstudio.github.io/distill">Distill for R
+Markdown</a> website) and please don’t forget
+to add <a href="#start-working-on-the-post">metadata and chunk options</a> as discussed
+in the next section</li>
 <li>Commit all to your post related files</li>
-<li>Submit the pull request and let us review your code <a href="https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request" class="uri">https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request</a> (please see <a href="#push-your-work-into-your-repo">Push your work into your repo</a> for details what you should do to <strong>avoid merge conflicts</strong>)</li>
+<li>Submit the pull request and let us review your code <a href="https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request" class="uri">https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request</a>
+(please see <a href="#push-your-work-into-your-repo">Push your work into your repo</a>
+for details what you should do to <strong>avoid merge conflicts</strong>)</li>
 </ol>
-<p>With the last step we will be notified and will take a look at your article, suggest changes as necessary, then publish it when it’s ready by merging it into the main repository.</p>
+<p>With the last step we will be notified and will take a look at your article,
+suggest changes as necessary, then publish it when it’s ready by merging it into
+the main repository.</p>
 <h2 id="more-detailed-instructions">More Detailed Instructions</h2>
 <p>Before you start, don’t forget to read the article on <a href="https://usethis.r-lib.org/articles/pr-functions.html">usethis pull request helpers</a>.</p>
 <h3 id="install-the-packages">Install the packages</h3>
 <p>Install the packages <code>distill</code>, <code>usethis</code> and <code>rmarkdown</code> with</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"distill"</span>, <span class='st'>"usethis"</span>, <span class='st'>"rmarkdown"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"distill"</span>, <span class='st'>"usethis"</span>, <span class='st'>"rmarkdown"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p><strong>Important!</strong> Rendering of the site will fail or be incomplete if an outdated version of <code>distill</code> is installed, so please check if you have installed <code>distill &gt;= 1.0</code> by running</p>
+<p><strong>Important!</strong>
+Rendering of the site will fail or be incomplete if an outdated version of <code>distill</code> is installed, so please check if you have installed <code>distill &gt;= 1.0</code> by running</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"You are running distill v"</span>, <span class='fu'>utils</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span><span class='op'>(</span><span class='st'>"distill"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"You are running distill v"</span>, <span class='fu'>utils</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span><span class='op'>(</span><span class='st'>"distill"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code>[1] &quot;You are running distill v1.3&quot;</code></pre>
+<pre><code>[1] &quot;You are running distill v1.5&quot;</code></pre>
 </div>
 <h3 id="fork-and-clone-the-repository">Fork and Clone the Repository</h3>
 <p>The “Fork” is your own copy of the Open Source Football Github Repository. You can clone it to get your own local copy. There are many ways to accomplish these two steps, but I highly recommend</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"nflverse/open-source-football"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"nflverse/open-source-football"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>This will fork the repo, clone it to your computer and open the project in a new RStudio session. <a href="https://usethis.r-lib.org/articles/pr-functions.html#fork-and-clone">Click here for more details</a>.</p>
@@ -2218,8 +2277,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The process of contributing starts now by creating a new branch (please try to choose a descriptive name). It is good practice to make your changes in a new branch instead of the main branch, so please make sure not to skip this step.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>pr_init</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='st'>"bens-apa-tiers"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>pr_init</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='st'>"bens-apa-tiers"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p><a href="https://usethis.r-lib.org/articles/pr-functions.html#branch-then-make-your-change">Click here for more details</a>.</p>
@@ -2227,42 +2285,57 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>Create the new article by running</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>distill</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/distill/reference/create_post.html'>create_post</a></span><span class='op'>(</span><span class='st'>"Title of your post"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>distill</span><span class='fu'>::</span><span class='fu'><a href='https://pkgs.rstudio.com/distill/reference/create_post.html'>create_post</a></span><span class='op'>(</span><span class='st'>"Title of your post"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>This will create a new folder in <code>_posts</code> and name it with the current date and your chosen title. Additionally the RMarkdown file in which you will write your post will be opened automatically. It will look something like this</p>
+<p>This will create a new folder in <code>_posts</code> and name it with the current date and
+your chosen title. Additionally the RMarkdown file in which you will write your
+post will be opened automatically. It will look something like this</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90627998-1dcb1980-e21d-11ea-8ea9-e307f81087c4.png" style="display: block; margin: auto;" /></p>
 </div>
-<p>We need to tweak the metadata as well as the chunk setup a little bit in order for the post to meet our expectations. Please have a look at <a href="https://github.com/nflverse/open-source-football/blob/master/_sample_meta_and_options.Rmd">example file</a> for a little template.</p>
+<p>We need to tweak the metadata as well as the chunk setup a little bit in order
+for the post to meet our expectations. Please have a look at <a href="https://github.com/nflverse/open-source-football/blob/master/_sample_meta_and_options.Rmd">example
+file</a>
+for a little template.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="https://user-images.githubusercontent.com/38586519/90628632-3e47a380-e21e-11ea-9bae-a01ac6720026.png" style="display: block; margin: auto;" /></p>
 </div>
-<p>Now you are ready to write your post. Please see <a href="https://rstudio.github.io/distill">Distill for R Markdown</a> as well as some of <a href="https://github.com/nflverse/open-source-football/tree/master/_posts">the already published posts</a>. And if you feel like you need more information about R Markdown please feel free to check the <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a>.</p>
+<p>Now you are ready to write your post. Please see <a href="https://rstudio.github.io/distill">Distill for R
+Markdown</a> as well as some of <a href="https://github.com/nflverse/open-source-football/tree/master/_posts">the
+already published posts</a>.
+And if you feel like you need more information about R Markdown please feel free
+to check the <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a>.</p>
 <h3 id="commit-your-changes-in-your-branch">Commit your Changes in your Branch</h3>
-<p>Using git within RStudio is easy because you can do it graphically. However, it doesn’t make sense to provide a ton of screenshots and text here. Instead I recommend two sources:</p>
+<p>Using git within RStudio is easy because you can do it graphically. However, it
+doesn’t make sense to provide a ton of screenshots and text here. Instead I
+recommend two sources:</p>
 <ul>
 <li>The short one is <a href="https://happygitwithr.com/rstudio-git-github.html">happygitwithr.com</a></li>
 <li>The detailed one is <a href="http://r-pkgs.had.co.nz/git.html">Hadley’s section</a></li>
 </ul>
-<p>Commit all files <strong>which are related to your post</strong> and go on with the last step. There are 4 files not related to your post which may cause merge conflicts when you push them without updating them before your pull request. To avoid this, <strong>please run the following code right before you commit all your files:</strong></p>
+<p>Commit all files <strong>which are related to your post</strong> and go on with the last step.
+There are 4 files not related to your post which may cause merge conflicts when you push
+them without updating them before your pull request. To avoid this, <strong>please run the
+following code right before you commit all your files:</strong></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/source.html'>source</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/nflverse/open-source-football/master/_update_con_files.R"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/source.html'>source</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/nflverse/open-source-football/master/_update_con_files.R"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>If you forget this step, you can still create the pull request and GitHub will inform you of the conflicts. If there are conflicts, run the above line, then commit and push the updated files: <code>docs/index.html</code>, <code>docs/index.xml</code>, <code>docs/posts/posts.json</code>, and <code>docs/sitemap.xml</code>.</p>
+<p>If you forget this step, you can still create the pull request and GitHub
+will inform you of the conflicts. If there are conflicts, run the above line, then commit and
+push the updated files: <code>docs/index.html</code>, <code>docs/index.xml</code>, <code>docs/posts/posts.json</code>, and
+<code>docs/sitemap.xml</code>.</p>
 <h3 id="submit-the-pull-request">Submit the Pull Request</h3>
 <p>The following code pushes any local changes of your code to GitHub and puts you in position to make your pull request:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>pr_push</span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>usethis</span><span class='fu'>::</span><span class='fu'>pr_push</span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>This launches a browser window with the prepared pull request on Github. <strong>You will have to click “Create pull request”</strong>, add some description, and finally submit it. <a href="https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request">Click here for more details</a>.</p>
+<p>This launches a browser window with the prepared pull request on Github. <strong>You will have to click “Create pull request”</strong>, add some description, and finally submit it.
+<a href="https://usethis.r-lib.org/articles/pr-functions.html#submit-pull-request">Click here for more details</a>.</p>
 <p>Now you are done. We will start reviewing your pull request and make sure to publish it. Thanks for your contribution!</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
