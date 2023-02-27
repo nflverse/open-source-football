@@ -38,7 +38,7 @@ Do we really need another draft values chart out there? No, not really.
 
 So why does this exist? I haven't seen a draft value chart that satisfies the following two conditions:
 
-1. Is made with publicly available code and data
+1. Is made with publicly available [code and data](https://github.com/nflverse/open-source-football/blob/master/_posts/2023-02-23-nfl-draft-value-chart/nfl-draft-value-chart.Rmd)
 2. Shows a draft value curve when excluding quarterbacks
 
 The latter point is especially important. If one combines quarterbacks and non-quarterbacks when constructing a draft value chart, one ends up much too rosy on the value of the top picks in the draft when these picks are not used on a quarterback. [This is due to quarterbacks being very valuable, and quarterbacks selected high in the draft tending to have higher hit rates](https://www.pff.com/news/nfl-why-sprinting-to-the-podium-at-no-2-overall-with-chase-young-on-the-card-might-be-a-bad-idea).
@@ -53,6 +53,8 @@ As mentioned above, we're only going to do this for non-QBs. The value of QBs is
 
 Before moving forward, a thank you to the invaluable resource that [Over The Cap](https://overthecap.com/) represents. All of the contract data used in this post is taken from their website and this analysis wouldn't be possible without their hard work.
 
+**Updated on February 27, 2023**: (a) added more picks to the table at the bottom so it now displays picks 1-256, (b) added on-field value to table at the bottom, and (c) re-scaled surplus value so it's 0-to-100 (thank you to Luckym4n_ [for the suggestion](https://twitter.com/Luckym4n_/status/1629595953261838336))/
+
 # Part 1: Make a surplus value curve
 
 In order to calculate the surplus value of each pick. We need two pieces of information. First, how much each pick costs (the contract); and second, how much benefit each pick provides (on-field performance).
@@ -65,7 +67,7 @@ The first thing we need is the actual cost of each draft pick's contract. Some g
   page <- read_html("https://www.spotrac.com/nfl/draft/") %>%
     html_table()
   
-  t <- map_df(1:6, ~{
+  t <- map_df(1:7, ~{
     page[[.x]] %>%
       janitor::clean_names() %>%
       dplyr::slice(-1) %>%
@@ -100,7 +102,8 @@ The first thing we need is the actual cost of each draft pick's contract. Some g
         # calculate % of cap by dividing by average cap over next 4 seasons
         contract_cap_pct = val / cap_tot
       ) %>%
-      select(draft_overall = pick, contract_cap_pct)
+      select(draft_overall = pick, contract_cap_pct) 
+
 ```
 
 A couple notes on the calculations we're be using (if you want to see the code, scroll down to the bottom of this post and click the "View source code on GitHub" button). First, we're assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears' No. 1 pick for example, we have total value of about $41 million, which is about $10.2 million per season, or 10.2/250 = 4.1 percent of the cap. If we assumed no growth in the salary cap rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we'd be counting the high draft picks as too expensive.
@@ -142,18 +145,19 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
     slice_head(n = 1)
   
   data <- picks %>%
-    left_join(contracts, by = "draft_overall") %>%
+    full_join(contracts, by = "draft_overall") %>%
     ungroup() %>%
     mutate(
       contract_cap_pct = ifelse(
-        draft_overall == 21 & is.na(contract_cap_pct), (lead(contract_cap_pct) + lag(contract_cap_pct))/2, contract_cap_pct
+        draft_overall %in% c(21, 221) & is.na(contract_cap_pct), (lead(contract_cap_pct) + lag(contract_cap_pct))/2, contract_cap_pct
       ),
       surplus = fit - contract_cap_pct
     ) %>%
     select(draft_overall, fit, surplus, contract_cap_pct) %>%
     pivot_longer(2:4) %>%
     # convert to % of cap
-    mutate(value = value * 100)
+    mutate(value = value * 100) %>%
+    filter(draft_overall <= 256)
 ```
 
 # Part 2: Show the draft curves
@@ -254,11 +258,14 @@ In the figure below, we scale each draft curve so that the value of the first ov
     mutate(jj_value = value / dplyr::first(value)) %>%
     select(-value)
   
-    df <- data %>%
+  df <- data %>%
     filter(name %in% c("surplus", "fit")) %>%
+    group_by(draft_overall, name) %>%
+    slice_head(n = 1) %>%
+    ungroup() %>%
     pivot_wider(names_from = "name", values_from = "value") %>%
     mutate(
-      osf_surplus = surplus / dplyr::first(surplus),
+      osf_surplus = surplus / max(surplus),
       osf_fit = fit / dplyr::first(fit)
       ) %>%
     left_join(otc, by = "draft_overall") %>%
@@ -314,25 +321,35 @@ Unsurprisingly, draft charts tend to overvalue the top picks in the case when th
 
 At the bottom of this post, I will leave a table that contains the same information presented in two ways. First, an estimated value of each pick on a familiar scale that is primarily useful for calculating trades involving draft picks only. In addition, the table contains the actual estimate of APY per year (over 4 years) in order to facilitate evaluations of pick-for-player trades. In this section, I will provide an example of both. Remember that this is for non-QBs: if a quarterback is involved, don't use this table.
 
+Finally, the table also presents draft values using on-field value only (i.e., the purple curve above) for comparison.
+
 ## Draft day trade: example 1
 
 Let's start with last year's controversial Lions-Vikings trade, in which the Vikings [were panned](https://www.sbnation.com/2022/4/29/23048475/vikings-lions-trade-nfl-draft-jameson-williams-lewis-cine) for the lack of return they got for moving back 20 picks in the first round.
 
 Here's the trade with the estimated values obtained from this post (again, the full table is displayed below):
 
-* Lions receive: No. 12 (169), No. 46 (124). Total: 293
-* Vikings receive: No. 32 (139), No. 34 (146), No. 66 (96). Total: 381
-* Difference: 88, which is the value of **pick No. 71**
+* Lions receive: No. 12 (100), No. 46 (74). Total: 174
+* Vikings receive: No. 32 (83), No. 34 (87), No. 66 (57). Total: 227
+* Difference: 53, which is the value of **pick No. 70**
 
 So the surplus value the Vikings obtained in this trade was the equivalent of an early third-round pick. Not bad for a trade that popular commentary thought that they lost!
+
+What if we ignored surplus value and just looked at on-field value (i.e., player production ignoring cost)?
+
+* Lions receive: No. 12 (87), No. 46 (55). Total: 142
+* Vikings receive: No. 32 (66), No. 34 (65), No. 66 (41). Total: 161
+* Difference: 19, which is the value of **pick No. 137**, or a pick at the end of the 4th round.
+
+So even if you ignore the cost of players entirely (which is not a good idea in a league with a salary cap), there is no argument against the Vikings winning this trade in terms of the expected value of the picks.
 
 ## Draft day trade: example 2
 
 One of the worst draft-day trades I can remember that didn't involve players or future picks was the Jets trading up for Alijah Vera-Tucker in 2021. Let's see how bad it looks using the chart below:
 
-* Jets receive: No. 14th (168), No. 143 (35). Total: 203
-* Vikings receive: No. 23 (154), No. 66 (96), No. 86 (71). Total: 321
-* Difference: 118, or the value of **pick No. 5** (which is the same as the surplus value of pick 51)
+* Jets receive: No. 14th (100), No. 143 (21). Total: 121
+* Vikings receive: No. 23 (91), No. 66 (57), No. 86 (42). Total: 190
+* Difference: 69, or the value of **pick No. 5** (which is the same as the surplus value of pick 52)
 
 Being extremely generous to the Jets, we could say they gave up the surplus value of a 2nd round pick to move up for a guard. Alternatively, we could say they gave up the surplus value of the No. 5 pick!
 
@@ -361,30 +378,32 @@ Here's the full table:
 ```{r, echo = FALSE}
 
 table_data <- df %>%
-  filter(name %in% c("osf_surplus", "surplus"), !is.na(value)) %>%
+  filter(name %in% c("osf_surplus", "surplus", "osf_fit"), !is.na(value)) %>%
   pivot_wider(names_from = "name", values_from = "value") %>%
   mutate(
     osf_surplus = (100 * osf_surplus) %>% round(0),
-    surplus = round(surplus, 2),
-    
-    )
+    osf_fit = (100 * osf_fit) %>% round(0),
+    surplus = round(surplus, 2)
+    ) %>%
+  select(draft_overall, osf_surplus, surplus, osf_fit)
 
-t1 <- table_data[1:55,]
-t2 <- table_data[56:110,]
-t3 <- table_data[111:165,]
-t4 <- table_data[166:220,]
+t1 <- table_data[1:64,]
+t2 <- table_data[65:128,]
+t3 <- table_data[129:192,]
+t4 <- table_data[193:256,]
 
 table <- bind_cols(t1, t2, t3, t4) %>%
   gt::gt()  %>% 
   cols_label(
-    draft_overall...1 = "Pick", draft_overall...4 = "Pick", draft_overall...7 = "Pick", draft_overall...10 = "Pick",
-    osf_surplus...2 = "Points", osf_surplus...5 = "Points", osf_surplus...8 = "Points", osf_surplus...11 = "Points",
-    surplus...3 = "APY", surplus...6 = "APY", surplus...9 = "APY", surplus...12 = "APY"
+    draft_overall...1 = "Pick", draft_overall...5 = "Pick", draft_overall...9 = "Pick", draft_overall...13 = "Pick",
+    osf_surplus...2 = "Points", osf_surplus...6 = "Points", osf_surplus...10 = "Points", osf_surplus...14 = "Points",
+    surplus...3 = "APY", surplus...7 = "APY", surplus...11 = "APY", surplus...15 = "APY",
+    osf_fit...4 = "OFV", osf_fit...8 = "OFV", osf_fit...12 = "OFV", osf_fit...16 = "OFV"
   ) %>% 
   gtExtras::gt_theme_espn() %>%
   gtExtras::gt_color_rows(
-    columns = c(2, 5, 8, 11),
-    domain = c(7, 169),
+    columns = c(2, 6, 10, 14),
+    domain = c(1, 100),
     palette = "ggsci::red_material"
     ) %>%
   gt::tab_header(title = "BB Draft Value Chart") %>%
@@ -398,7 +417,7 @@ table <- bind_cols(t1, t2, t3, t4) %>%
       cell_text(weight = "bold")
     ),
     locations = cells_body(
-      columns = c(1, 4, 7, 10)
+      columns = c(1, 5, 9, 13)
     )
   ) %>%
   tab_style(
@@ -410,13 +429,25 @@ table <- bind_cols(t1, t2, t3, t4) %>%
       )
     ),
     locations = cells_body(
-      columns = c(4, 7)
+      columns = c(5, 9, 13)
     )
   ) %>%
     tab_footnote(
-    footnote = "APY as percent of salary cap",
+    footnote = "Surplus value: draft value points",
     locations = cells_column_labels(
-      columns = c(3, 6, 9, 12)
+      columns = c(2, 6, 10, 14)
+    )
+  ) %>%
+    tab_footnote(
+    footnote = "Surplus value: APY as percent of salary cap",
+    locations = cells_column_labels(
+      columns = c(3, 7, 11, 15)
+    )
+  ) %>%
+    tab_footnote(
+    footnote = "On-Field Value: draft value points IGNORING SALARY COST",
+    locations = cells_column_labels(
+      columns = c(4, 8, 12, 16)
     )
   )
 
