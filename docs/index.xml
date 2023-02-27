@@ -2,484 +2,495 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
     <title>Open Source Football</title>
-    <link>https://mrcaseb.github.io/open-source-football/</link>
-    <atom:link href="https://mrcaseb.github.io/open-source-football/index.xml" rel="self" type="application/rss+xml"/>
+    <link>https://www.opensourcefootball.com/</link>
+    <atom:link href="https://www.opensourcefootball.com/index.xml" rel="self" type="application/rss+xml"/>
     <description>A place where anybody can share their work with others
 </description>
     <image>
       <title>Open Source Football</title>
-      <url>https://mrcaseb.github.io/open-source-football/logo.png</url>
-      <link>https://mrcaseb.github.io/open-source-football/</link>
+      <url>https://www.opensourcefootball.com/logo.png</url>
+      <link>https://www.opensourcefootball.com/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 15 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>NFL Draft Value Chart</title>
+      <dc:creator>Ben Baldwin</dc:creator>
+      <link>https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart</link>
+      <description>Constructing surplus value from scratch.</description>
+      <category>NFL Draft</category>
+      <category>nflreadr</category>
+      <guid>https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart</guid>
+      <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/nfl-draft-value-chart_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="7200" height="4000"/>
+    </item>
     <item>
       <title>Exploring Quarterback Volatility with Gini Coefficients</title>
       <dc:creator>Joseph Chernak</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-08-15-QB-volatilty-gini-coefficients</link>
+      <link>https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients</link>
       <description>Analyzing how volatile individual QB seasons are with gini coefficients and a volatility over expected (VOLoe) GAM model.</description>
       <category>Volatility</category>
       <category>nflfastR</category>
       <category>GAM</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-08-15-QB-volatilty-gini-coefficients</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients</guid>
       <pubDate>Sun, 15 Aug 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-08-15-QB-volatilty-gini-coefficients/QB_Volatility_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="2100"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients/QB_Volatility_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="2100"/>
     </item>
     <item>
       <title>Evauluating defenses by how well they play the offense's WR 1</title>
       <dc:creator>Jonas Trostle</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</link>
+      <link>https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</link>
       <description>Cornerback performance is hard to measure, but we can try.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>Defense</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</guid>
       <pubDate>Fri, 30 Jul 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/evauluating-defenses-by-how-well-they-play-the-offenses-wr-1_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="3900" height="3600"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/evauluating-defenses-by-how-well-they-play-the-offenses-wr-1_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="3900" height="3600"/>
     </item>
     <item>
       <title>Estimating Team Ability From EPA</title>
       <dc:creator>Richard Anderson</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa</link>
+      <link>https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa</link>
       <description>We build a series of models to estimate team ability from EPA data</description>
       <category>nflfastR</category>
       <category>stan</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa</guid>
       <pubDate>Sun, 27 Jun 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa/estimating-team-ability-from-epa_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa/estimating-team-ability-from-epa_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Computer Vision with NFL Player Tracking Data using torch for R</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch</link>
+      <link>https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch</link>
       <description>Coverage classification Using CNNs.</description>
       <category>Torch</category>
       <category>Machine learning</category>
       <category>Computer vision</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch</guid>
       <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch/computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-24-1.png" medium="image" type="image/png" width="7200" height="4000"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch/computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-24-1.png" medium="image" type="image/png" width="7200" height="4000"/>
     </item>
     <item>
       <title>NFL win probability from scratch using xgboost in R</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r</link>
+      <link>https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r</link>
       <description>xgboost and R</description>
       <category>xgboost</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r</guid>
       <pubDate>Sat, 17 Apr 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/importance-1.png" medium="image" type="image/png" width="3900" height="2100"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/importance-1.png" medium="image" type="image/png" width="3900" height="2100"/>
     </item>
     <item>
       <title>nflfastR EP, WP, CP xYAC, and xPass models</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</link>
+      <link>https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</link>
       <description>A description of the nflfastR Expected Points (EP), Win Probability (WP), Completion Probability (CP) Expected Yards after Catch (xYAC), and Expected Pass (xPass) models.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>Decision Trees</category>
       <category>xgboost</category>
       <category>Model Calibration</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
       <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
     </item>
     <item>
       <title>Gunslingers and Game Managers</title>
       <dc:creator>David Anderson</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</link>
+      <link>https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers</link>
       <description>Quantifying Quarterbacks' performance along the "game manager" and "gunslinger" dimensions.</description>
       <category>Quarterback Analysis</category>
       <category>nflfastR</category>
       <category>Stupid Internet Arguments</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers</guid>
       <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
       <title>Modeling NFL game outcomes using Python and scikit-learn</title>
       <dc:creator>Ben Dominguez</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</link>
+      <link>https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</link>
       <description>Use Python and scikit-learn to model NFL game outcomes and build a pre-game win probability model.</description>
       <category>python</category>
       <category>scikit-learn</category>
       <category>Game Prediction</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</guid>
       <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png" medium="image" type="image/png" width="10800" height="7200"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png" medium="image" type="image/png" width="10800" height="7200"/>
     </item>
     <item>
       <title>Exploring Stability and Predictive Power of Penalties in the NFL</title>
       <dc:creator>Jack Lichtenstein</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</link>
+      <link>https://www.opensourcefootball.com/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</link>
       <description>Use nflfastR to calculate penalty EPA and understand the randomness of penalties to improve prediction accuracy of game outcomes</description>
       <category>nflfastR</category>
       <category>EPA</category>
       <category>Penalty EPA</category>
       <category>Prediction</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</guid>
       <pubDate>Thu, 21 Jan 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Analyzing Home Field Advantage in the NFL</title>
       <dc:creator>Adrian Cadena</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</link>
+      <link>https://www.opensourcefootball.com/posts/2021-01-11-hfa-analysis</link>
       <description>Multi-season analysis of league and team-specific home-field advantage in the NFL.</description>
       <category>nflfastR</category>
       <category>Articles</category>
       <category>Home Field Advantage</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis</guid>
+      <guid>https://www.opensourcefootball.com/posts/2021-01-11-hfa-analysis</guid>
       <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Exploring Rolling Averages of EPA</title>
       <dc:creator>Jack Lichtenstein</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</link>
+      <link>https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa</link>
       <description>Use nflfastR to develop lagged rolling averages of EPA to best predict a game's outcome</description>
       <category>nflfastR</category>
       <category>EPA</category>
       <category>Adjusting EPA</category>
       <category>Rolling EPA</category>
       <category>Prediction</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa</guid>
       <pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Still elite: What the numbers tell us about Aaron Rodgers</title>
       <dc:creator>Peter Owen</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</link>
+      <link>https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</link>
       <description>The more you look into the numbers, the better it looks for Aaron Rodgers</description>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</guid>
       <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Receiving by Position</title>
       <dc:creator>Arthur Gymer</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</link>
+      <link>https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position</link>
       <description>Breaking down the receiving game by position using nflfastR data.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>Positional breakdown</category>
       <category>Receiving</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position</guid>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png" medium="image" type="image/png" width="3900" height="3600"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png" medium="image" type="image/png" width="3900" height="3600"/>
     </item>
     <item>
       <title>Creating an Expected Field Goal Metric</title>
       <dc:creator>Mike Irene</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric</link>
+      <link>https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric</link>
       <description>Using nflfastR play-by-play data to measure kicker performance.</description>
       <category>field goal</category>
       <category>nflfastR</category>
       <category>placekicker</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric</guid>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Estimating Run/Pass Tendencies with tidyModels and  nflfastR</title>
       <dc:creator>Richard Anderson</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</link>
+      <link>https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</link>
       <description>This article shows how to use tidyModels to predict QB dropbacks and uses a multilevel model to show which teams are run/pass heavy after accounting for game script</description>
       <category>tidyModels</category>
       <category>nflfastR</category>
       <category>stan</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</guid>
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>RERUN</title>
       <dc:creator>Dennis Brookner</dc:creator>
       <dc:creator>Raphael Laden-Guindon</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</link>
       <description>Exonerating punters for long returns</description>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</guid>
       <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Defense and rest time re-visited</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited</link>
       <description>Does incorporating actual rest time help us predict how a defense will do?</description>
       <category>nflfastR</category>
       <category>Articles</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited</guid>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Calculating Expected Fantasy Points for Receivers</title>
       <dc:creator>Anthony Reinhard</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers</link>
       <description>Use the nflfastR xYAC &amp; CP models to calculate how many fantasy points an average receiver would expect to earn on each target.</description>
       <category>Fantasy Football</category>
       <category>nflfastR</category>
       <category>nflfastR xYAC Model</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers</guid>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Adding ESPN and 538 Game Predictions to nflfastR Data</title>
       <dc:creator>Jonathan Goldberg</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</link>
       <description>Here, we'll look at how to scrape ESPN's and 538's pregame predictions and merge them into nflfastR data</description>
       <category>Scraping</category>
       <category>Game Predicitions</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</guid>
       <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Faceted and Animated Heatmaps</title>
       <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps</link>
       <description>Combining lessons from multiple posts to create faceted or animated heatmaps.</description>
       <category>Figures</category>
       <category>Animation</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps</guid>
       <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Player Density and Completion Surface Estimates</title>
       <dc:creator>Ethan Douglas</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates</link>
       <description>Methods for modeling density estimates and expected completion percentages across the football field for individual players.</description>
       <category>nflfastR</category>
       <category>python</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates</guid>
       <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
     </item>
     <item>
       <title>Fast Data Loading</title>
       <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading</link>
       <description>Loading your nfl data at 10x speed!</description>
       <category>Efficiency</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading</guid>
       <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Individual Expected Completion using Logistic Generalized Additive Mixed Models</title>
       <dc:creator>Adrian Cadena</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</link>
       <description>Case study how to leverage Generalized Additive Mixed Models (GAMM) to estimate the individual probability of completion per Quarterback as a random effect.</description>
       <category>Logistic Generalized Additive Mixed Models</category>
       <category>Mixed Effects</category>
       <category>Completion Probability Intercept</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</guid>
       <pubDate>Thu, 27 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png" medium="image" type="image/png" width="3900" height="2700"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png" medium="image" type="image/png" width="3900" height="2700"/>
     </item>
     <item>
       <title>Open Source (Fantasy) Football: Visualizing TRAP Backs</title>
       <dc:creator>Sam Hoppen</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</link>
       <description>Using nflfastR data to visualize where on the field running backs get their carries and how that translates to the Trivial Rush Attempt Percentage (TRAP) model.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>Fantasy Football</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</guid>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="5700" height="3900"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="5700" height="3900"/>
     </item>
     <item>
       <title>Expected Turnovers for Quarterbacks</title>
       <dc:creator>Anthony Gadaleta</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers</link>
       <description>Building expected interceptions and expected fumbles models to find QBs likely to increase or decrease their 
 interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>turnovers</category>
       <category>quarterbacks</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers</guid>
       <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
       <title>Getting into sports analytics</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-24-getting-into-sports-analytics</link>
       <description>Collection of short answers to common questions.</description>
       <category>Getting started</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-24-getting-into-sports-analytics</guid>
       <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
       <dc:creator>Sebastian Carl</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</link>
       <description>How to get ESPN data and create interactive plots using the plotly ggplot2 library.</description>
       <category>Scraping</category>
       <category>espnscrapeR</category>
       <category>Interactive plots</category>
       <category>Total QBR</category>
       <category>Figures</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
       <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
       <title>Exploring Wins with nflfastR</title>
       <dc:creator>Austin Ryan</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr</link>
       <description>Looking at what metrics are important for predicting wins. Creating expected season win totals and comparing to reality.</description>
       <category>Tidymodels</category>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
       <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Ranking QBs Using Era Adjusted Elo</title>
       <dc:creator>Robby Greer</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</link>
       <description>Use 538's QB Elo value, a highly predictive measurement of QB impact, to compare QB careers across era</description>
       <category>Elo</category>
       <category>python</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
       <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
     </item>
     <item>
       <title>Game Excitement and Win Probability in the NFL</title>
       <dc:creator>Max Bolger</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</link>
       <description>Game excitement calculation and a win probability figure.</description>
       <category>nflfastR</category>
       <category>python</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
       <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
     </item>
     <item>
       <title>NFL Pass Location Visualization</title>
       <dc:creator>Ethan Douglas</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization</link>
       <description>Methods for visualizing NFL passing location data.</description>
       <category>nflfastR</category>
       <category>python</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization</guid>
       <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
     </item>
     <item>
       <title>Rodgers Efficiency Decline</title>
       <dc:creator>Austin Ryan</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline</link>
       <description>A look into Rodgers Efficiency Decline. Also some functions for plotting EPA/CPOE moving averages.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <category>CPOE / EPA functions</category>
       <category>Packers</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline</guid>
       <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>Visualizing the Run/Pass Efficiency Gap</title>
       <dc:creator>Anthony Reinhard</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</link>
       <description>Using nflfastR data to show how much more efficient passing is than rushing at the team level</description>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</guid>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
       <title>Adjusting EPA for Strength of Opponent</title>
       <dc:creator>Jonathan Goldberg</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</link>
       <description>This article shows how to adjust a team's EPA per play for the strength of their opponent. The benefits of adjusted EPA will be demonstrated as well!</description>
       <category>Opponent adjusted EPA</category>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</guid>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
       <title>Python contributing example</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example</link>
       <description>Showing how to contribute using Python code</description>
       <category>nflfastR</category>
       <category>python</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example</guid>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Matching players without ID keys</title>
       <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys</link>
       <description>Rebuilding player graphs when ID keys go missing or are corrupted.</description>
       <category>Figures</category>
       <category>Roster</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3900" height="4800"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3900" height="4800"/>
     </item>
     <item>
       <title>Neural Nets using R</title>
       <dc:creator>Analytics Darkweb</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r</link>
       <description>Using Keras in R to build neural networks.</description>
       <category>Keras</category>
       <category>Tensorflow</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
       <title>The accumulation of QB hits vs passing efficiency</title>
       <dc:creator>Ben Baldwin</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</link>
       <description>Do quarterbacks who get hit see their performance decline throughout the game?</description>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
       <title>Wins Above Expectation</title>
       <dc:creator>Sebastian Carl</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation</link>
       <description>This article looks at the percentage of snaps with win probability over an 
 arbitralily chosen critical value and compares it with the true win percentage.</description>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation</guid>
       <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
       <title>PFR's Bad Throw Percentage for Quarterbacks</title>
       <dc:creator>Sebastian Carl</dc:creator>
-      <link>https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</link>
+      <link>https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</link>
       <description>This article shows how to scrape football data from Pro Football Reference and
 how to plot the bad throw percentage data for quarterbacks.</description>
       <category>Scraping</category>
       <category>PFR</category>
       <category>Figures</category>
       <category>nflfastR</category>
-      <guid>https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</guid>
+      <guid>https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</guid>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="3300"/>
+      <media:content url="https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
   </channel>
 </rss>

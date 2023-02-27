@@ -1,179 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/about.html</loc>
-    <lastmod>2022-01-21T17:45:19+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/about.html</loc>
+    <lastmod>2023-02-24T21:34:53+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/contributing.html</loc>
-    <lastmod>2022-01-21T17:45:19+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/contributing.html</loc>
+    <lastmod>2023-02-24T21:34:53+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/contributors_list.html</loc>
-    <lastmod>2022-01-21T17:45:19+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/contributors_list.html</loc>
+    <lastmod>2023-02-24T21:34:53+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/</loc>
-    <lastmod>2022-01-21T17:45:23+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/</loc>
+    <lastmod>2023-02-24T21:34:56+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-08-15-QB-volatilty-gini-coefficients/</loc>
-    <lastmod>2022-01-21T17:45:19+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/</loc>
+    <lastmod>2023-02-24T21:34:53+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients/</loc>
+    <lastmod>2023-02-24T21:34:53+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-06-27-estimating-team-ability-from-epa/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-05-31-computer-vision-in-r-using-torch/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-02-05-gunslingers-and-game-managers/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2021-01-11-hfa-analysis/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-12-29-exploring-rolling-averages-of-epa/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2021-01-11-hfa-analysis/</loc>
+    <lastmod>2023-02-24T21:34:50+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-09-26-receiving-by-position/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-09-09-creating-an-expected-field-goal-metric/</loc>
-    <lastmod>2022-01-21T17:45:17+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-defense-and-rest-time-re-visited/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-faceted-and-animated-heatmaps/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-29-player-density-and-completion-surface-estimates/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-fast-data-loading/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-25-expected-turnovers/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-getting-into-sports-analytics/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-24-getting-into-sports-analytics/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-23-exploring-wins-with-nflfastr/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-nfl-pass-location-visualization/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-22-rodgers-efficiency-decline/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-20-python-contributing-example/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-matching-players-without-id-keys/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-neural-nets-using-r/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-19-wins-above-expectation/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
   </url>
   <url>
-    <loc>https://mrcaseb.github.io/open-source-football/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/</loc>
-    <lastmod>2022-01-21T17:45:16+00:00</lastmod>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation/</loc>
+    <lastmod>2023-02-24T21:34:49+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/</loc>
+    <lastmod>2023-02-24T21:34:48+00:00</lastmod>
   </url>
 </urlset>

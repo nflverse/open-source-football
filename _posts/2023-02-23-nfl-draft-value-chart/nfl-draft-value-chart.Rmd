@@ -12,6 +12,7 @@ output:
     toc: true
     toc_depth: 3
 repository_url: "https://github.com/nflverse/open-source-football"
+base_url: https://www.opensourcefootball.com
 categories:
   - NFL Draft
   - nflreadr
