@@ -56,6 +56,8 @@ Before moving forward, a thank you to the invaluable resource that [Over The Cap
 
 **Updated on February 27, 2023**: (a) added more picks to the table at the bottom so it now displays picks 1-256, (b) added on-field value to table at the bottom, and (c) re-scaled surplus value so it's 0-to-100 (thank you to Luckym4n_ [for the suggestion](https://twitter.com/Luckym4n_/status/1629595953261838336))/
 
+**Updated on April 11, 2023**: Add 2018 draft class to on-field value calculations. Now covers 2011 through 2018. For Calvin Ridley, assume he'll get an extension equivalent to tag value. In addition, use archieved version of Sportrac rookie contract value to avoid site updates breaking the scrape.
+
 # Part 1: Make a surplus value curve
 
 In order to calculate the surplus value of each pick. We need two pieces of information. First, how much each pick costs (the contract); and second, how much benefit each pick provides (on-field performance).
@@ -65,18 +67,32 @@ In order to calculate the surplus value of each pick. We need two pieces of info
 The first thing we need is the actual cost of each draft pick's contract. Some googling led me to [this page](https://www.spotrac.com/nfl/draft/). 
 
 ```{r, echo = FALSE}
-  page <- read_html("https://www.spotrac.com/nfl/draft/") %>%
+  url <- "https://web.archive.org/web/20230324102438/https://www.spotrac.com/nfl/draft/"
+  page <- read_html(url) %>%
     html_table()
+
+  # count rounts
+  r <- 0
   
-  t <- map_df(1:7, ~{
-    page[[.x]] %>%
+  t <- map_df(1:length(page), ~{
+    
+    item <- page[[.x]]
+    
+    if (nrow(item) > 5) {
+      
+      r <<- r + 1
+      
+    item %>%
       janitor::clean_names() %>%
       dplyr::slice(-1) %>%
-      dplyr::select(c(1, 7)) %>%
-      set_names(c("pick", "value")) %>%
+      # hack for getting 2nd to last column when needed
+      dplyr::select(c(1, 7, (ncol(item) - 2))) %>%
+      set_names(c("pick", "value", "value2")) %>%
+      mutate(value = ifelse(value == "", value2, value)) %>%
       # lol dolphins forfeited their pick
       filter(value != "-") %>%
       mutate(
+        pick = stringr::str_remove(pick, "\\s\\(Comp\\)"),
         pick = as.integer(pick),
         # for some reason as.numeric doesn't work so have to do this insane thing
         value = stringr::str_remove(value, "\\$"),
@@ -86,9 +102,15 @@ The first thing we need is the actual cost of each draft pick's contract. Some g
         # thousands per year avg
         val = (1000000 * v1 + 1000 * v2 + v3) / 4000
       ) %>%
-      select(pick, value, val)
+      select(pick, value, val) %>%
+        mutate(round = r)
+    }
     
-  })
+  }) %>%
+    # fix dolphins missing pick
+    mutate(
+      pick = ifelse(pick > 20, pick + 1, pick)
+    )
   
   # average cap over next 4 seasons (in thousands of $)
     cap_2023 <- 224800000
@@ -104,10 +126,14 @@ The first thing we need is the actual cost of each draft pick's contract. Some g
         contract_cap_pct = val / cap_tot
       ) %>%
       select(draft_overall = pick, contract_cap_pct) 
+    
+  # save so don't have to re-scrape if things break later
+    # write_csv(contracts, "contracts.csv")
+    # contracts <- read_csv("contracts.csv")
 
 ```
 
-A couple notes on the calculations we're be using (if you want to see the code, scroll down to the bottom of this post and click the "View source code on GitHub" button). First, we're assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears' No. 1 pick for example, we have total value of about $41 million, which is about $10.2 million per season, or 10.2/250 = 4.1 percent of the cap. If we assumed no growth in the salary cap rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we'd be counting the high draft picks as too expensive.
+A couple notes on the calculations we're be using (if you want to see the code, scroll down to the bottom of this post and click the "View source code on GitHub" button, or just [click here](https://github.com/nflverse/open-source-football/blob/master/_posts/2023-02-23-nfl-draft-value-chart/nfl-draft-value-chart.Rmd)). First, we're assuming cap growth rate of 7% over the next 3 seasons (i.e., 2024, 2025, and 2026) before converting the total amount of the rookie deal into a percentage of the cap. For example, the 2023 cap is about $225 million, while the average of the 2023 through 2026 caps is about $250 million using this procedure. Taking the Bears' No. 1 pick for example, we have total value of about $41 million, which is about $10.2 million per season, or 10.2/250 = 4.1 percent of the cap. If we assumed no growth in the salary cap rates, then we would divide 10.2 by 225 which is about 4.5 percent of the cap. In other words, we'd be counting the high draft picks as too expensive.
 
 ## How productive has each pick been?
 
@@ -116,7 +142,7 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
 ```{r, echo = FALSE}
 
     players <- nflreadr::load_contracts() %>%
-      filter(between(draft_year, 2011, 2017)) %>%
+      filter(between(draft_year, 2011, 2018)) %>%
       arrange(otc_id, year_signed) %>%
       group_by(otc_id) %>% 
       dplyr::slice(1:2) %>%
@@ -133,7 +159,10 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
       arrange(draft_year, draft_overall) %>%
       mutate(
         # fill in 0 for guys who didn't get 2nd contract
-        apy_cap_pct = ifelse(contracts == 1, 0, apy_cap_pct)
+        apy_cap_pct = ifelse(contracts == 1, 0, apy_cap_pct),
+        # Calvin Ridley got a year added to his rookie deal for...reasons
+        # Let's assume he'll get something like the tag value
+        apy_cap_pct = ifelse(player == "Calvin Ridley", (19.7/224.8), apy_cap_pct)
       )
     
   # smooth contract value
@@ -150,7 +179,7 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
     ungroup() %>%
     mutate(
       contract_cap_pct = ifelse(
-        draft_overall %in% c(21, 221) & is.na(contract_cap_pct), (lead(contract_cap_pct) + lag(contract_cap_pct))/2, contract_cap_pct
+        draft_overall %in% c(21) & is.na(contract_cap_pct), (lead(contract_cap_pct) + lag(contract_cap_pct))/2, contract_cap_pct
       ),
       surplus = fit - contract_cap_pct
     ) %>%
@@ -204,7 +233,7 @@ Using cost and on-field performance, we can now construct a surplus value curve:
   
 ```
 
-How to read the chart: the first pick in the draft costs 4.1% of the salary cap (orange line). The on-field production is expected to be 6.2% of the salary cap (purple line). Thus, the surplus value associated with the first pick in the draft is 2.1% of the salary cap (green line).
+How to read the chart: the first pick in the draft costs 4.1% of the salary cap (orange line). The on-field production is expected to be 6.4% of the salary cap (purple line). Thus, the surplus value associated with the first pick in the draft is 2.3% of the salary cap (green line).
 
 We have re-produced the now-familiar result that for teams not drafting a quarterback, the surplus value of the very top picks is lower than later in the first round and even throughout most of the second round. This is because the dropoff in salary that teams have to pay to draft picks (orange line) is steeper than the dropoff in on-field value (purple line). This reflects the fact that teams are not very good at identifying the best players in the draft. We have [a lot of evidence that this is the case](https://www.pff.com/news/draft-surplus-value-of-each-position-in-the-nfl-draft). 
 
@@ -330,17 +359,17 @@ Let's start with last year's controversial Lions-Vikings trade, in which the Vik
 
 Here's the trade with the estimated values obtained from this post (again, the full table is displayed below):
 
-* Lions receive: No. 12 (100), No. 46 (74). Total: 174
-* Vikings receive: No. 32 (83), No. 34 (87), No. 66 (57). Total: 227
-* Difference: 53, which is the value of **pick No. 70**
+* Lions receive: No. 12 (100), No. 46 (73). Total: 173
+* Vikings receive: No. 32 (82), No. 34 (86), No. 66 (55). Total: 223
+* Difference: 50, which is the value of **pick No. 72**
 
 So the surplus value the Vikings obtained in this trade was the equivalent of an early third-round pick. Not bad for a trade that popular commentary thought that they lost!
 
 What if we ignored surplus value and just looked at on-field value (i.e., player production ignoring cost)?
 
-* Lions receive: No. 12 (87), No. 46 (55). Total: 142
-* Vikings receive: No. 32 (66), No. 34 (65), No. 66 (41). Total: 161
-* Difference: 19, which is the value of **pick No. 137**, or a pick at the end of the 4th round.
+* Lions receive: No. 12 (87), No. 46 (54). Total: 141
+* Vikings receive: No. 32 (66), No. 34 (64), No. 66 (41). Total: 171
+* Difference: 30, which is the value of **pick No. 91**, or a pick towards the end of the 3rd round.
 
 So even if you ignore the cost of players entirely (which is not a good idea in a league with a salary cap), there is no argument against the Vikings winning this trade in terms of the expected value of the picks.
 
@@ -348,21 +377,21 @@ So even if you ignore the cost of players entirely (which is not a good idea in 
 
 One of the worst draft-day trades I can remember that didn't involve players or future picks was the Jets trading up for Alijah Vera-Tucker in 2021. Let's see how bad it looks using the chart below:
 
-* Jets receive: No. 14th (100), No. 143 (21). Total: 121
-* Vikings receive: No. 23 (91), No. 66 (57), No. 86 (42). Total: 190
-* Difference: 69, or the value of **pick No. 5** (which is the same as the surplus value of pick 52)
+* Jets receive: No. 14 (100), No. 143 (20). Total: 120
+* Vikings receive: No. 23 (91), No. 66 (55), No. 86 (41). Total: 187
+* Difference: 67, which is more than the value of **pick No. 3** (which is the same as the surplus value of pick 53)
 
-Being extremely generous to the Jets, we could say they gave up the surplus value of a 2nd round pick to move up for a guard. Alternatively, we could say they gave up the surplus value of the No. 5 pick!
+Being extremely generous to the Jets, we could say they gave up the surplus value of a 2nd round pick to move up for a guard. Alternatively, we could say they gave up the surplus value of the No. 3 pick!
 
 ## Player for picks trade
 
 This is somewhat complicated since some of the picks were in the future. Let's be generous to the Seahawks and discount the 2022 picks by 10 percent. We will now use the APY version of the table in order to calculate the total cost of the Adams trade and extension:
 
-* Seahawks receive: 2022 pick 109 (1.09 * .9)
-* Jets receive: 2021 pick 23 (3.15), 2021 pick 86 (1.46), 2022 pick 10 (3.26 * .9)
-* Difference: 3.15 + 1.46 + (3.26 * .9) - (1.09 * .9) = **6.6 percent of the salary cap** per year over 4 years
+* Seahawks receive: 2022 pick 109 (1.11 * .9)
+* Jets receive: 2021 pick 23 (3.28), 2021 pick 86 (1.50), 2022 pick 10 (3.42 * .9)
+* Difference: 3.28 + 1.50 + (3.42 * .9) - (1.11 * .9) = **6.9 percent of the salary cap** per year over 4 years
 
-So we have arrived at 6.6% of the salary cap in APY per year over 4 years as the value of picks given up for the Seahawks. Adams' 4-year deal extension with the Seahawks was $17.5 APY, or 9.6% of the salary cap at the time, per OTC. Dividing 6.6% (draft surplus given up) by 9.6% (contract APY), we need to inflate Adams' APY by 69%, arriving at a true contract cost of, **29.5 million dollars per year over 4 years**.
+So we have arrived at 6.9% of the salary cap in APY per year over 4 years as the value of picks given up for the Seahawks. Adams' 4-year deal extension with the Seahawks was $17.5 APY, or 9.6% of the salary cap at the time, per OTC. Dividing 6.9% (draft surplus given up) by 9.6% (contract APY), we need to inflate Adams' APY by 72%, arriving at a true contract cost of, **30.1 million dollars per year over 4 years**.
 
 This is the same ballpark that Bill Barnwell landed on in his [review of the trade](https://www.espn.com/nfl/story/_/id/29538280/jamal-adams-trade-grades-seahawks-jets-safety-really-worth-much), which was written before the extension was signed. Barnwell assumed an extension of $16 million APY:
 
