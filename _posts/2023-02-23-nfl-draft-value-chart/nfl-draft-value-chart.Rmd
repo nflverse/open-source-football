@@ -33,6 +33,8 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(rvest)
 library(gt)
+library(patchwork)
+
 ```
 
 Do we really need another draft values chart out there? No, not really. 
@@ -57,6 +59,8 @@ Before moving forward, a thank you to the invaluable resource that [Over The Cap
 **Updated on February 27, 2023**: (a) added more picks to the table at the bottom so it now displays picks 1-256, (b) added on-field value to table at the bottom, and (c) re-scaled surplus value so it's 0-to-100 (thank you to Luckym4n_ [for the suggestion](https://twitter.com/Luckym4n_/status/1629595953261838336))/
 
 **Updated on April 11, 2023**: Add 2018 draft class to on-field value calculations. Now covers 2011 through 2018. For Calvin Ridley, assume he'll get an extension equivalent to tag value. In addition, use archieved version of Sportrac rookie contract value to avoid site updates breaking the scrape.
+
+**Updated on April 17, 2023**: Added position-specific draft curves.
 
 # Part 1: Make a surplus value curve
 
@@ -162,17 +166,29 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
         apy_cap_pct = ifelse(contracts == 1, 0, apy_cap_pct),
         # Calvin Ridley got a year added to his rookie deal for...reasons
         # Let's assume he'll get something like the tag value
-        apy_cap_pct = ifelse(player == "Calvin Ridley", (19.7/224.8), apy_cap_pct)
-      )
+        apy_cap_pct = ifelse(player == "Calvin Ridley", (19.7/224.8), apy_cap_pct),
+        # make some buckets for positions
+        pos = case_when(
+          position %in% c("C", "RG", "LG") ~ "IOL",
+          position %in% c("RB", "FB") ~ "RB/FB",
+          position %in% c("LT", "RT") ~ "OT",
+          TRUE ~ position
+        ),
+        side = ifelse(
+          pos %in% c("IOL", "RB/FB", "OT", "TE", "WR"), "Offense", "Defense"
+        ),
+        # overall fit
+        fit = loess(apy_cap_pct ~ draft_overall)$fitted
+      ) %>%
+    group_by(pos) %>%
+    # positional fit
+    mutate(pos_fit = 100 * loess(apy_cap_pct ~ draft_overall)$fitted) %>%
+    ungroup()
     
-  # smooth contract value
-    mod <- loess(players$apy_cap_pct ~ players$draft_overall)
-    players$fit <- mod$fitted
-    
-  # combine the data
+  # combine the data: all positions
     picks <- players %>%
-    group_by(draft_overall) %>%
-    slice_head(n = 1)
+      group_by(draft_overall) %>%
+      slice_head(n = 1)
   
   data <- picks %>%
     full_join(contracts, by = "draft_overall") %>%
@@ -188,6 +204,21 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
     # convert to % of cap
     mutate(value = value * 100) %>%
     filter(draft_overall <= 256)
+  
+  # contract for picks 1-256
+    cleaned_contract <- data %>% 
+      filter(name == "contract_cap_pct") %>%
+      select(draft_overall, contract_cap_pct = value)
+  
+  # combine the data: by position
+    picks_pos <- players %>%
+      group_by(draft_overall, pos) %>%
+      slice_head(n = 1) %>%
+      left_join(cleaned_contract, by = "draft_overall") %>%
+      ungroup() %>%
+      # mutate(pos_surplus = pos_fit - contract_cap_pct) %>%
+      mutate(pos_surplus = pos_fit) %>%
+      select(draft_overall, pos, side, pos_surplus)
 ```
 
 # Part 2: Show the draft curves
@@ -346,6 +377,108 @@ In the figure below, we scale each draft curve so that the value of the first ov
 Because our surplus value chart doesn't have the first pick as the most valuable pick, unsurprisingly, it looks very different than the other charts. Interestingly, the player value curve (i.e., on-field value of player without accounting for cost of rookie contract) is still flatter than the other three curves. This shouldn't come as a surprise given that we have excluded quarterbacks and the other charts do not.
 
 Unsurprisingly, draft charts tend to overvalue the top picks in the case when these picks are not used on a quarterback. This adds to the mountain of evidence discussed above that NFL teams largely do not understand the relative values of draft picks and are dramatically overconfident in their ability to pick the right players at the top of the draft. The original Jimmy Johnson chart, for example, comes nowhere close to reflecting the true value of picks.
+
+## Draft Value by Position
+
+Inspired by [Kevin Cole's post here](https://unexpectedpoints.substack.com/p/what-analytical-draft-value-curves), we can also compute position-specific curves. Let's show on-field value rather than surplus value because surplus value is computed using costs that are invariant to position. That is, to go from one to the other, we would subtract the pick-specific cost from each curve.
+
+```{r, layout="l-page", dpi = 400, echo = FALSE}
+
+def <- picks_pos %>%
+  filter(side == "Defense") %>%
+  filter(draft_overall <= 120, !pos %in% c("K", "P", "LS")) %>%
+  ggplot(aes(draft_overall, pos_surplus, color = pos)) +
+  geom_hline(yintercept = 0) +
+  geom_smooth(size = 2, se = FALSE) + 
+  labs(
+    title = "Defense",
+    x = "Draft Pick",
+    y = "Value in % of salary cap",
+    color = ""
+  ) +
+  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01), limits = c(0, 96)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0.05)) +
+  ggthemes::theme_fivethirtyeight() +
+  theme(
+    plot.title = element_text(size = 18, hjust = 0.5),
+    axis.text.x=element_text(hjust=0.5),
+    axis.title.x = element_text(size=12, face="bold"),
+    axis.title.y = element_text(size=12, face="bold"),
+    legend.position=c(.8,.8),
+    legend.direction = "vertical",
+    legend.text = element_text(size = 24),
+    legend.background = element_rect(fill = alpha("white", 0))
+  ) +
+  scale_color_manual(values=c(
+    "#e41a1c", 
+    "#377eb8", 
+    "#4daf4a",
+    "#984ea3",
+    "#ff7f00"
+  )
+  )
+
+off <- picks_pos %>%
+  filter(side == "Offense") %>%
+  filter(draft_overall <= 120, !pos %in% c("K", "P", "LS")) %>%
+  ggplot(aes(draft_overall, pos_surplus, color = pos)) +
+  geom_hline(yintercept = 0) +
+  geom_smooth(size = 2, se = FALSE) + 
+  labs(
+    title = "Offense",
+    x = "Draft Pick",
+    y = "Value in % of salary cap",
+    color = ""
+  ) +
+  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01), limits = c(0, 96)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0.05)) +
+  ggthemes::theme_fivethirtyeight() +
+  theme(
+    plot.title = element_text(size = 18, hjust = 0.5),
+    axis.text.x=element_text(hjust=0.5),
+    axis.title.x = element_text(size=12, face="bold"),
+    axis.title.y = element_text(size=12, face="bold"),
+    legend.position=c(.8,.8),
+    legend.direction = "vertical",
+    legend.text = element_text(size = 24),
+    legend.background = element_rect(fill = alpha("white", 0))
+  ) +
+  scale_color_manual(values=c(
+    "#e41a1c", 
+    "#377eb8", 
+    "#4daf4a",
+    "#984ea3",
+    "#ff7f00"
+  )
+  )
+
+
+off + def &
+  ggthemes::theme_fivethirtyeight() & 
+  theme(
+    plot.title = element_text(size = 18, hjust = 0.5),
+    axis.text.x=element_text(hjust=0.5),
+    axis.title.x = element_text(size=12, face="bold"),
+    axis.title.y = element_text(size=12, face="bold"),
+    legend.position=c(.8,.8),
+    legend.direction = "vertical",
+    legend.text = element_text(size = 12),
+    legend.background = element_rect(fill = alpha("white", 0))
+  ) &
+  scale_y_continuous(limits = c(0, 8), expand = c(0, 0.05), breaks = scales::pretty_breaks(n = 10)) &
+  plot_annotation(
+    title = 'The Value of (non-QB) Draft Picks',
+    subtitle = 'Draft Curves from 2011-2018 Draft Classes',
+    caption = '@benbbaldwin',
+    theme = theme(
+      plot.title = element_text(size = 18, hjust = 0.5, face="bold"),
+      plot.subtitle = element_text(size = 14, hjust = 0.5)
+      )
+  )
+  
+```
+
+Looking at the results, we see that RB (offense) and Safety (defense) are the low positions on the totem pole. At the top, the highest returns have been for pass rushers (both edge and inside) and offensive tackles.
 
 # Part 3: Some example calculations
 
