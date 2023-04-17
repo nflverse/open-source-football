@@ -386,7 +386,7 @@ Inspired by [Kevin Cole's post here](https://unexpectedpoints.substack.com/p/wha
 
 def <- picks_pos %>%
   filter(side == "Defense") %>%
-  filter(draft_overall <= 120, !pos %in% c("K", "P", "LS")) %>%
+  filter(draft_overall <= 100, !pos %in% c("K", "P", "LS")) %>%
   ggplot(aes(draft_overall, pos_surplus, color = pos)) +
   geom_hline(yintercept = 0) +
   geom_smooth(size = 2, se = FALSE) + 
@@ -396,7 +396,7 @@ def <- picks_pos %>%
     y = "Value in % of salary cap",
     color = ""
   ) +
-  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01), limits = c(0, 96)) +
+  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0.05)) +
   ggthemes::theme_fivethirtyeight() +
   theme(
@@ -420,7 +420,7 @@ def <- picks_pos %>%
 
 off <- picks_pos %>%
   filter(side == "Offense") %>%
-  filter(draft_overall <= 120, !pos %in% c("K", "P", "LS")) %>%
+  filter(draft_overall <= 100, !pos %in% c("K", "P", "LS")) %>%
   ggplot(aes(draft_overall, pos_surplus, color = pos)) +
   geom_hline(yintercept = 0) +
   geom_smooth(size = 2, se = FALSE) + 
@@ -430,7 +430,7 @@ off <- picks_pos %>%
     y = "Value in % of salary cap",
     color = ""
   ) +
-  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01), limits = c(0, 96)) +
+  scale_x_continuous(breaks = c(1, 10, 32, 64, 100), expand = c(.01, .01)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10), expand = c(0, 0.05)) +
   ggthemes::theme_fivethirtyeight() +
   theme(
