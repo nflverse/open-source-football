@@ -2,23 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://www.opensourcefootball.com/about.html</loc>
-    <lastmod>2023-04-17T16:10:48+00:00</lastmod>
+    <lastmod>2023-07-13T08:03:24-05:00</lastmod>
   </url>
   <url>
     <loc>https://www.opensourcefootball.com/contributing.html</loc>
-    <lastmod>2023-04-17T16:10:48+00:00</lastmod>
+    <lastmod>2023-07-13T08:03:24-05:00</lastmod>
   </url>
   <url>
     <loc>https://www.opensourcefootball.com/contributors_list.html</loc>
-    <lastmod>2023-04-17T16:10:48+00:00</lastmod>
+    <lastmod>2023-07-13T08:03:24-05:00</lastmod>
   </url>
   <url>
     <loc>https://www.opensourcefootball.com/</loc>
-    <lastmod>2023-04-17T16:10:52+00:00</lastmod>
+    <lastmod>2023-07-13T08:03:28-05:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.opensourcefootball.com/posts/2023-07-13-linguistic-analysis-of-nfl-prospect-reports/</loc>
+    <lastmod>2023-07-14T10:57:13-05:00</lastmod>
   </url>
   <url>
     <loc>https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/</loc>
-    <lastmod>2023-04-17T16:10:48+00:00</lastmod>
+    <lastmod>2023-07-14T10:33:53-05:00</lastmod>
   </url>
   <url>
     <loc>https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients/</loc>
