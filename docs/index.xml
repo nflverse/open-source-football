@@ -12,7 +12,18 @@
       <link>https://www.opensourcefootball.com/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 17 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>2023-07-14</lastBuildDate>
+    <item>
+      <title>Linguistic Analysis of NFL Prospect Reports</title>
+      <dc:creator>Tim Bryan</dc:creator>
+      <link>https://www.opensourcefootball.com/posts/2023-07-14-linguistic-analysis-of-nfl-prospect-reports</link>
+      <description>Analyzing the language of NFL.com draft prospect reports (2014-2023).</description>
+      <category>NFL Draft</category>
+      <category>Natural Language Processing</category>
+      <guid>https://www.opensourcefootball.com/posts/2023-07-14-linguistic-analysis-of-nfl-prospect-reports</guid>
+      <pubDate>2023-07-14</pubDate>
+      <media:content url="https://www.opensourcefootball.com/posts/2023-07-14-linguistic-analysis-of-nfl-prospect-reports/linguistic-analysis-of-nfl-prospect-reports_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="6000" height="3600"/>
+    </item>
     <item>
       <title>NFL Draft Value Chart</title>
       <dc:creator>Ben Baldwin</dc:creator>
@@ -21,7 +32,7 @@
       <category>NFL Draft</category>
       <category>nflreadr</category>
       <guid>https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart</guid>
-      <pubDate>Mon, 17 Apr 2023 00:00:00 +0000</pubDate>
+      <pubDate>2023-04-17</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/nfl-draft-value-chart_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="7200" height="4000"/>
     </item>
     <item>
@@ -33,7 +44,7 @@
       <category>nflfastR</category>
       <category>GAM</category>
       <guid>https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients</guid>
-      <pubDate>Sun, 15 Aug 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-08-15</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-08-15-QB-volatilty-gini-coefficients/QB_Volatility_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="2100"/>
     </item>
     <item>
@@ -45,7 +56,7 @@
       <category>nflfastR</category>
       <category>Defense</category>
       <guid>https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1</guid>
-      <pubDate>Fri, 30 Jul 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-07-30</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-07-30-evauluating-defenses-by-how-well-they-play-the-offenses-wr-1/evauluating-defenses-by-how-well-they-play-the-offenses-wr-1_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="3900" height="3600"/>
     </item>
     <item>
@@ -56,7 +67,7 @@
       <category>nflfastR</category>
       <category>stan</category>
       <guid>https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa</guid>
-      <pubDate>Sun, 27 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-06-27</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-06-27-estimating-team-ability-from-epa/estimating-team-ability-from-epa_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -68,7 +79,7 @@
       <category>Machine learning</category>
       <category>Computer vision</category>
       <guid>https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch</guid>
-      <pubDate>Mon, 07 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-06-07</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-05-31-computer-vision-in-r-using-torch/computer-vision-in-r-using-torch_files/figure-html5/unnamed-chunk-24-1.png" medium="image" type="image/png" width="7200" height="4000"/>
     </item>
     <item>
@@ -79,7 +90,7 @@
       <category>xgboost</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r</guid>
-      <pubDate>Sat, 17 Apr 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-04-17</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-04-13-creating-a-model-from-scratch-using-xgboost-in-r/creating-a-model-from-scratch-using-xgboost-in-r_files/figure-html5/importance-1.png" medium="image" type="image/png" width="3900" height="2100"/>
     </item>
     <item>
@@ -93,7 +104,7 @@
       <category>xgboost</category>
       <category>Model Calibration</category>
       <guid>https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models</guid>
-      <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-05</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/nflfastr-ep-wp-and-cp-models_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9100" height="5600"/>
     </item>
     <item>
@@ -105,7 +116,7 @@
       <category>nflfastR</category>
       <category>Stupid Internet Arguments</category>
       <guid>https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers</guid>
-      <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-05</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-02-05-gunslingers-and-game-managers/gunslingers-and-game-managers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -117,7 +128,7 @@
       <category>scikit-learn</category>
       <category>Game Prediction</category>
       <guid>https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression</guid>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-02-04</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2021-01-21-nfl-game-prediction-using-logistic-regression/nfl-game-prediction-using-logistic-regression_files/figure-html5/epa_plot-1.png" medium="image" type="image/png" width="10800" height="7200"/>
     </item>
     <item>
@@ -130,7 +141,7 @@
       <category>Penalty EPA</category>
       <category>Prediction</category>
       <guid>https://www.opensourcefootball.com/posts/2021-01-21-exploring-stability-and-predictive-power-of-penalties-in-the-nfl</guid>
-      <pubDate>Thu, 21 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-21</pubDate>
     </item>
     <item>
       <title>Analyzing Home Field Advantage in the NFL</title>
@@ -141,7 +152,7 @@
       <category>Articles</category>
       <category>Home Field Advantage</category>
       <guid>https://www.opensourcefootball.com/posts/2021-01-11-hfa-analysis</guid>
-      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>2021-01-11</pubDate>
     </item>
     <item>
       <title>Exploring Rolling Averages of EPA</title>
@@ -154,7 +165,7 @@
       <category>Rolling EPA</category>
       <category>Prediction</category>
       <guid>https://www.opensourcefootball.com/posts/2020-12-29-exploring-rolling-averages-of-epa</guid>
-      <pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-12-29</pubDate>
     </item>
     <item>
       <title>Still elite: What the numbers tell us about Aaron Rodgers</title>
@@ -162,7 +173,7 @@
       <link>https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</link>
       <description>The more you look into the numbers, the better it looks for Aaron Rodgers</description>
       <guid>https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers</guid>
-      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-10-03</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-10-03-still-elite-what-the-numbers-tell-us-about-aaron-rodgers/still-elite-what-the-numbers-tell-us-about-aaron-rodgers_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -175,7 +186,7 @@
       <category>Positional breakdown</category>
       <category>Receiving</category>
       <guid>https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position</guid>
-      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-09-26</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-09-26-receiving-by-position/receiving-by-position_files/figure-html5/epa-plot-1.png" medium="image" type="image/png" width="3900" height="3600"/>
     </item>
     <item>
@@ -187,7 +198,7 @@
       <category>nflfastR</category>
       <category>placekicker</category>
       <guid>https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric</guid>
-      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-09-09</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-09-09-creating-an-expected-field-goal-metric/distill-preview.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -199,7 +210,7 @@
       <category>nflfastR</category>
       <category>stan</category>
       <guid>https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr</guid>
-      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-09-08</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-09-07-estimating-runpass-tendencies-with-tidymodels-and-nflfastr/estimating-runpass-tendencies-with-tidymodels-and-nflfastr_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -209,7 +220,7 @@
       <link>https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</link>
       <description>Exonerating punters for long returns</description>
       <guid>https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns</guid>
-      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-09-06</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-21-rerun-exonerating-punters-for-large-returns/rerun-exonerating-punters-for-large-returns_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -220,7 +231,7 @@
       <category>nflfastR</category>
       <category>Articles</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited</guid>
-      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-31</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-defense-and-rest-time-re-visited/defense-and-rest-time-re-visited_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -232,7 +243,7 @@
       <category>nflfastR</category>
       <category>nflfastR xYAC Model</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers</guid>
-      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-31</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-30-calculating-expected-fantasy-points-for-receivers/calculating-expected-fantasy-points-for-receivers_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -244,7 +255,7 @@
       <category>Game Predicitions</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-29-adding-espn-and-538-game-predictions-to-nflfastr-data</guid>
-      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-29</pubDate>
     </item>
     <item>
       <title>Faceted and Animated Heatmaps</title>
@@ -255,7 +266,7 @@
       <category>Animation</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps</guid>
-      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-29</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-29-faceted-and-animated-heatmaps/faceted-and-animated-heatmaps_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -266,7 +277,7 @@
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates</guid>
-      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-29</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-29-player-density-and-completion-surface-estimates/player-density-and-completion-surface-estimates_files/figure-html5/plotting-1.png" medium="image" type="image/png" width="6240" height="4290"/>
     </item>
     <item>
@@ -276,7 +287,7 @@
       <description>Loading your nfl data at 10x speed!</description>
       <category>Efficiency</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading</guid>
-      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-28</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-28-fast-data-loading/fast-data-loading_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
@@ -288,7 +299,7 @@
       <category>Mixed Effects</category>
       <category>Completion Probability Intercept</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models</guid>
-      <pubDate>Thu, 27 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-27</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-28-expected-completion-using-logistic-generalized-additive-mixed-models/expected-completion-using-logistic-generalized-additive-mixed-models_files/figure-html5/Plot-1.png" medium="image" type="image/png" width="3900" height="2700"/>
     </item>
     <item>
@@ -300,7 +311,7 @@
       <category>nflfastR</category>
       <category>Fantasy Football</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs</guid>
-      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-26</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-open-source-fantasy-football-visualizing-trap-backs/open-source-fantasy-football-visualizing-trap-backs_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="5700" height="3900"/>
     </item>
     <item>
@@ -314,7 +325,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>turnovers</category>
       <category>quarterbacks</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers</guid>
-      <pubDate>Tue, 25 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-25</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-25-expected-turnovers/expected-turnovers_files/figure-html5/unnamed-chunk-15-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -324,7 +335,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <description>Collection of short answers to common questions.</description>
       <category>Getting started</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-24-getting-into-sports-analytics</guid>
-      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-24</pubDate>
     </item>
     <item>
       <title>Visualizing EPSN's Total QBR Using Interactive Plots</title>
@@ -337,7 +348,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Total QBR</category>
       <category>Figures</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots</guid>
-      <pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-24</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-24-visualizing-epsns-total-qbr-using-interactive-plots/visualizing-epsns-total-qbr-using-interactive-plots_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -349,7 +360,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr</guid>
-      <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-23</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-23-exploring-wins-with-nflfastr/exploring-wins-with-nflfastr_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -360,7 +371,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Elo</category>
       <category>python</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo</guid>
-      <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-22</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-ranking-qbs-using-era-adjusted-elo/ranking-qbs-using-era-adjusted-elo_files/figure-html5/all_time_greats-1.png" medium="image" type="image/png" width="3900" height="2700"/>
     </item>
     <item>
@@ -371,7 +382,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-21</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-21-game-excitement-and-win-probability-in-the-nfl/game-excitement-and-win-probability-in-the-nfl_files/figure-html5/plot-1.png" medium="image" type="image/png" width="9600" height="4800"/>
     </item>
     <item>
@@ -382,7 +393,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-21</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-nfl-pass-location-visualization/nfl-pass-location-visualization_files/figure-html5/subplots2-1.png" medium="image" type="image/png" width="7680" height="5280"/>
     </item>
     <item>
@@ -395,7 +406,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>CPOE / EPA functions</category>
       <category>Packers</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline</guid>
-      <pubDate>Fri, 21 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-21</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-22-rodgers-efficiency-decline/rodgers-efficiency-decline_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -406,7 +417,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-20</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-visualizing-the-runpass-efficiency-gap/visualizing-the-runpass-efficiency-gap_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -418,7 +429,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-20</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-20-adjusting-epa-for-strenght-of-opponent/adjusting-epa-for-strength-of-opponent_files/figure-html5/unnamed-chunk-6-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -429,7 +440,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>nflfastR</category>
       <category>python</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-20-python-contributing-example</guid>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-20</pubDate>
     </item>
     <item>
       <title>Matching players without ID keys</title>
@@ -440,7 +451,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Roster</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-19</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-matching-players-without-id-keys/matching-players-without-id-keys_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="3900" height="4800"/>
     </item>
     <item>
@@ -452,7 +463,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Tensorflow</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-19</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-neural-nets-using-r/neural-nets-using-r_files/figure-html5/unnamed-chunk-9-1.png" medium="image" type="image/png" width="3900" height="2400"/>
     </item>
     <item>
@@ -463,7 +474,7 @@ interceptions and/or turnovers per dropback from 2019 to 2020.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-19</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-the-accumulation-of-qb-hits-vs-passing-efficiency/the-accumulation-of-qb-hits-vs-passing-efficiency_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
     <item>
@@ -475,7 +486,7 @@ arbitralily chosen critical value and compares it with the true win percentage.<
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation</guid>
-      <pubDate>Wed, 19 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-19</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-19-wins-above-expectation/wins-above-expectation_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="3900" height="3000"/>
     </item>
     <item>
@@ -489,7 +500,7 @@ how to plot the bad throw percentage data for quarterbacks.</description>
       <category>Figures</category>
       <category>nflfastR</category>
       <guid>https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks</guid>
-      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>2020-08-18</pubDate>
       <media:content url="https://www.opensourcefootball.com/posts/2020-08-18-pfrs-bad-throw-percentage-for-quarterbacks/pfrs-bad-throw-percentage-for-quarterbacks_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="3900" height="3300"/>
     </item>
   </channel>
