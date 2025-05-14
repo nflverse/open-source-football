@@ -64,6 +64,8 @@ Before moving forward, a thank you to the invaluable resource that [Over The Cap
 
 **Updated on April, 2024**: Added 2019 draft class to on-field value calculations.
 
+**Updated on May 2, 2025**: Added 2020 draft class to on-field value calculations.
+
 # Part 1: Make a surplus value curve
 
 In order to calculate the surplus value of each pick. We need two pieces of information. First, how much each pick costs (the contract); and second, how much benefit each pick provides (on-field performance).
@@ -148,7 +150,7 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
 ```{r, echo = FALSE}
 
     players <- nflreadr::load_contracts() %>%
-      filter(between(draft_year, 2011, 2019)) %>%
+      filter(between(draft_year, 2011, 2020)) %>%
       arrange(otc_id, year_signed) %>%
       group_by(otc_id) %>% 
       dplyr::slice(1:2) %>%
