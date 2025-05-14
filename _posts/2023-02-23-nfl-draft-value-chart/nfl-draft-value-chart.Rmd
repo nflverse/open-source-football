@@ -35,6 +35,8 @@ library(rvest)
 library(gt)
 library(patchwork)
 
+final_year <- lubridate::year(lubridate::today()) - 5
+
 ```
 
 Do we really need another draft values chart out there? No, not really. 
@@ -150,7 +152,7 @@ This is pretty simple: take the APY in terms of percent of the cap for each draf
 ```{r, echo = FALSE}
 
     players <- nflreadr::load_contracts() %>%
-      filter(between(draft_year, 2011, 2020)) %>%
+      filter(between(draft_year, 2011, final_year)) %>%
       arrange(otc_id, year_signed) %>%
       group_by(otc_id) %>% 
       dplyr::slice(1:2) %>%
@@ -469,7 +471,7 @@ off + def &
   scale_y_continuous(limits = c(0, 8), expand = c(0, 0.05), breaks = scales::pretty_breaks(n = 10)) &
   plot_annotation(
     title = 'The Value of (non-QB) Draft Picks',
-    subtitle = 'Draft Curves from 2011-2019 Draft Classes',
+    subtitle = glue::glue('Draft Curves from 2011-{final_year} Draft Classes'),
     caption = '@benbbaldwin',
     theme = theme(
       plot.title = element_text(size = 18, hjust = 0.5, face="bold"),
