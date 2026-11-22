@@ -1,0 +1,58 @@
+---
+title: "Contributors and their content"
+description: |
+  A list of all contributors and the content they have provided.
+page-layout: full
+toc: false
+execute:
+  echo: false
+  message: false
+  warning: false
+  # Rebuild on every render so new posts show up automatically.
+  freeze: false
+---
+
+```{r}
+read_posts <- function() {
+  archive <- yaml::read_yaml("posts/archive.yml")
+  new_files <- Sys.glob("posts/*/index.qmd")
+  new <- lapply(new_files, function(f) {
+    meta <- rmarkdown::yaml_front_matter(f)
+    meta$path <- sub("\\.qmd$", ".html", f)
+    meta
+  })
+  posts <- c(archive, new)
+  rows <- lapply(posts, function(p) {
+    authors <- vapply(p$author, function(a) if (is.list(a)) a$name else a, character(1))
+    data.frame(
+      author = authors,
+      date = as.Date(p$date),
+      title = sprintf('<a href="%s">%s</a>', sub("index\\.html$", "", p$path), htmltools::htmlEscape(p$title)),
+      stringsAsFactors = FALSE
+    )
+  })
+  out <- do.call(rbind, rows)
+  out[order(out$date, decreasing = TRUE), ]
+}
+data <- read_posts()
+```
+
+We have `r length(unique(data$title))` posts from `r length(unique(data$author))` authors!
+Our hope is that as many volunteers as possible publish their code on this website.
+This page lists every post and its authors.
+
+```{r}
+DT::datatable(
+  data,
+  extensions = "FixedHeader",
+  options = list(
+    columnDefs = list(list(className = "dt-center", targets = "_all")),
+    orderClasses = TRUE,
+    fixedHeader = TRUE,
+    pageLength = 25
+  ),
+  colnames = c("Author", "Published", "Title"),
+  rownames = FALSE,
+  escape = FALSE
+)
+```

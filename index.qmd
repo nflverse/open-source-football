@@ -1,0 +1,20 @@
+---
+title: "Open Source Football"
+subtitle: "Football analytics research, with the code to reproduce it."
+listing:
+  id: posts
+  contents:
+    - "posts/*/index.qmd"
+    - "posts/archive.yml"
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  feed:
+    items: 500
+  fields: [image, date, title, description, author, categories]
+page-layout: full
+title-block-banner: true
+toc: false
+---

@@ -1,0 +1,125 @@
+---
+title: "Contributing to Open Source Football"
+description: |
+  A brief guide on how to contribute content.
+author:
+  - name: Sebastian Carl
+  - name: Ben Baldwin
+---
+
+## Preface
+
+The primary goal of Open Source Football is to make football analysis and the
+code behind it publicly available. To achieve this, we need volunteers who are
+willing to contribute.
+
+Posts are written with [Quarto](https://quarto.org). You can write in **R, Python,
+or both**. Any language Quarto supports works, as long as your post can be rendered
+locally.
+
+If you have questions or think something is unclear or wrong, please
+[open an issue](https://github.com/nflverse/open-source-football/issues/new).
+
+## Overview
+
+1. Install [Quarto](https://quarto.org/docs/get-started/) and git.
+2. Fork the repository and clone it.
+3. Create a new branch.
+4. Copy the post template to `posts/YYYY-MM-DD-short-title/` and write your post.
+5. Render your post locally. This executes your code once and stores the
+   results in `_freeze/`.
+6. Commit your post folder **and** its `_freeze/` folder, then open a pull request.
+
+We will review the post, suggest changes if necessary, and publish it by merging
+the pull request.
+
+## Detailed instructions
+
+### Set up
+
+You need [Quarto](https://quarto.org/docs/get-started/) (≥ 1.5), git, and
+whatever language you write in. For R posts, install `rmarkdown` and `knitr`.
+For Python posts, install `jupyter`.
+
+The [usethis pull request helpers](https://usethis.r-lib.org/articles/pr-functions.html)
+make forking and branching easy from R:
+
+```r
+usethis::create_from_github("nflverse/open-source-football")
+usethis::pr_init(branch = "my-post-title")
+```
+
+Using plain git or the GitHub CLI works just as well:
+
+```sh
+gh repo fork nflverse/open-source-football --clone
+cd open-source-football
+git switch -c my-post-title
+```
+
+### Create the post
+
+Copy the template folder and give it a date-prefixed, descriptive name:
+
+```sh
+cp -r _post_template posts/2026-01-15-my-post-title
+```
+
+Open `posts/2026-01-15-my-post-title/index.qmd` and fill in the metadata (title,
+description, author, date, categories). Then write your post.
+
+A few conventions:
+
+- **Load data so readers can rerun your code.** Use
+  [nflreadr](https://nflreadr.nflverse.com) or
+  [nflreadpy](https://github.com/nflverse/nflreadpy) rather than local files.
+  Please don't commit large data files. If you must ship data, keep it small.
+- Use `#| column: page` on chunks with wide figures or tables.
+- Set `image:` in the metadata to choose the preview picture on the home page.
+- For Python-only posts, add `jupyter: python3` to the metadata.
+
+### Render and preview
+
+```sh
+quarto preview posts/2026-01-15-my-post-title/index.qmd
+```
+
+This runs your code and opens a live preview. When you're happy, render once more:
+
+```sh
+quarto render posts/2026-01-15-my-post-title/index.qmd
+```
+
+The site is configured with `freeze: true`, which means **your code is only ever
+executed on your machine**. Rendering writes the results to
+`_freeze/posts/2026-01-15-my-post-title/`. The website build reuses these frozen
+results and never re-runs your code, so your post keeps working even if the data
+or packages change later.
+
+### Commit and open a pull request
+
+Commit everything in your post folder **and** the matching `_freeze/` folder:
+
+```sh
+git add posts/2026-01-15-my-post-title _freeze/posts/2026-01-15-my-post-title
+git commit -m "Add post: My post title"
+```
+
+Then push and open a pull request:
+
+```r
+usethis::pr_push()
+```
+
+or
+
+```sh
+git push -u origin my-post-title
+gh pr create
+```
+
+Don't commit the `_site/` folder; the website is built automatically after
+merging. A check on your pull request renders the whole site to make sure
+everything works.
+
+That's it. Thanks for your contribution!

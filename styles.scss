@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+$primary: #24292e;
+$navbar-fg: #ffffff;
+$navbar-hl: #DECF40;
+$link-color: #1f6feb;
+$code-block-bg: #f6f8fa;
+
+/*-- scss:rules --*/
+.navbar {
+  border-bottom: 2px solid #DECF40;
+  box-shadow: 1px 1px 18px #4d4d4d;
+}
+
+.nav-footer {
+  border-top: 2px solid #DECF40;
+}
+
+div.sourceCode pre {
+  font-size: 85%;
+  line-height: 1.45;
+}
+
+.quarto-title-banner {
+  background: #575757;
+  color: white;
+}

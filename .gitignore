@@ -3,3 +3,5 @@
 .Rproj.user
 .DS_Store
 .RDataTmp
+/.quarto/
+/_site/
