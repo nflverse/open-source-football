@@ -4,7 +4,7 @@
 import { parse } from "https://deno.land/std@0.224.0/yaml/mod.ts";
 
 const out = Deno.env.get("QUARTO_PROJECT_OUTPUT_DIR") ?? "_site";
-const siteUrl = "https://www.opensourcefootball.com/";
+const siteUrl = "https://opensourcefootball.com/";
 
 type Item = { path: string; title: string; description?: string; date: string };
 const items = parse(await Deno.readTextFile("posts/archive.yml")) as Item[];
