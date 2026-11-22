@@ -12,7 +12,7 @@ project:
 website:
   title: "Open Source Football"
   description: "A place where anybody can share their football analytics work and code with others."
-  site-url: https://www.opensourcefootball.com
+  site-url: https://opensourcefootball.com
   repo-url: https://github.com/nflverse/open-source-football
   repo-actions: [edit, issue]
   favicon: logo.png
