@@ -7,3 +7,4 @@
 /_site/
 
 _posts/*/nflfastr/
+**/*.quarto_ipynb

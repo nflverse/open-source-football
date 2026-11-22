@@ -39,3 +39,18 @@ Wide figures can use the full page width:
 
 To use a figure as the preview image on the home page, set `image:` above to a
 file in this folder (for example one you save with `ggplot2::ggsave()`).
+
+<!-- Keep this section so readers can reproduce your results. In a Python post,
+replace the cell below as described in the contributing guide. -->
+
+::: {.callout-note collapse="true"}
+## Session info
+
+Package versions used to render this post.
+
+```{r}
+#| label: session-info
+#| echo: false
+sessionInfo()
+```
+:::
