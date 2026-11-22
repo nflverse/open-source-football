@@ -33,3 +33,34 @@ $form-select-bg: #0d1117;
 .listing-item-img-placeholder {
   background-color: #ffffff;
 }
+
+// DT (DataTables) htmlwidgets: DT hardcodes `div.datatables { color: #333 }`
+// and tints rows with black overlays, both of which assume a light page.
+// This stylesheet is only active in dark mode, so the overrides are unscoped.
+:root {
+  --dt-row-stripe: 255, 255, 255;
+  --dt-row-hover: 255, 255, 255;
+  --dt-column-ordering: 255, 255, 255;
+  --dt-html-background: #{$body-bg};
+}
+
+body div.datatables {
+  color: $body-color;
+
+  .dataTables_wrapper .dataTables_length select,
+  .dataTables_wrapper .dataTables_filter input {
+    border-color: $border-color;
+    color: $body-color;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #21262d;
+    border-color: $border-color;
+  }
+
+  table.dataTable thead > tr > th,
+  table.dataTable > tbody > tr > td {
+    border-color: $border-color;
+  }
+}
