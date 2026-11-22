@@ -28,7 +28,7 @@ If you have questions or think something is unclear or wrong, please
 4. Copy the post template to `posts/YYYY-MM-DD-short-title/` and write your post.
 5. Render your post locally. This executes your code once and stores the
    results in `_freeze/`.
-6. Commit your post folder **and** its `_freeze/` folder, then open a pull request.
+6. Commit your post folder **and** the changes in `_freeze/`, then open a pull request.
 
 We will review the post, suggest changes if necessary, and publish it by merging
 the pull request.
@@ -119,10 +119,13 @@ or packages change later.
 
 ### Commit and open a pull request
 
-Commit everything in your post folder **and** the matching `_freeze/` folder:
+Commit everything in your post folder **and** the changes in `_freeze/`. Besides
+`_freeze/posts/2026-01-15-my-post-title/`, that includes any new files in
+`_freeze/site_libs/`: they hold the JavaScript and CSS of htmlwidgets such as
+plotly or DT, which your frozen post needs.
 
 ```sh
-git add posts/2026-01-15-my-post-title _freeze/posts/2026-01-15-my-post-title
+git add posts/2026-01-15-my-post-title _freeze
 git commit -m "Add post: My post title"
 ```
 

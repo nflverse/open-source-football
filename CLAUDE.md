@@ -11,7 +11,8 @@ listings, themes, or render/publish setup**, and follow its guidance over genera
 ## Layout
 
 - `posts/<YYYY-MM-DD-slug>/index.qmd` — new posts. `freeze: true` is set project-wide:
-  authors render their post locally and commit `_freeze/posts/<slug>/`. CI never executes post code.
+  authors render their post locally and commit `_freeze/posts/<slug>/` plus new `_freeze/site_libs/`
+  files (htmlwidget JS/CSS). CI never executes post code.
 - `posts/<slug>/index.html` (no `.qmd`) — distill-era posts kept as pre-rendered static HTML.
   Do not re-render them or change their article content (page chrome such as navbar/footer
   was cleaned up by script in Phase 3 of #101). Their metadata lives in `posts/archive.yml`; their shared

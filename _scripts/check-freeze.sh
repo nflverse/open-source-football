@@ -28,7 +28,7 @@ for qmd in "${files[@]}"; do
   json="_freeze/$dir/$name/execute-results/html.json"
 
   if [ ! -f "$json" ]; then
-    echo "::error file=$qmd::No frozen results. Run 'quarto render $qmd' locally and commit _freeze/$dir/."
+    echo "::error file=$qmd::No frozen results. Run 'quarto render $qmd' locally and commit the changes in _freeze/."
     status=1
     continue
   fi
@@ -36,7 +36,7 @@ for qmd in "${files[@]}"; do
   expected=$(sed 's/\r$//' "$qmd" | md5sum | cut -d' ' -f1)
   frozen=$(sed -n 's/^ *"hash": *"\([0-9a-f]*\)".*/\1/p' "$json" | head -n1)
   if [ "$expected" != "$frozen" ]; then
-    echo "::error file=$qmd::Source changed after rendering. Run 'quarto render $qmd' locally and commit _freeze/$dir/."
+    echo "::error file=$qmd::Source changed after rendering. Run 'quarto render $qmd' locally and commit the changes in _freeze/."
     status=1
   else
     echo "ok: $qmd"
