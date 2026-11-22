@@ -20,7 +20,6 @@ website:
   search: true
   navbar:
     logo: logo.png
-    background: "#24292e"
     right:
       - text: "Home"
         href: index.qmd
@@ -44,6 +43,9 @@ format:
   html:
     theme:
       light: [cosmo, styles.scss]
+      dark: [cosmo, styles.scss, styles-dark.scss]
+    # Follow the visitor's OS colour scheme until they use the navbar toggle.
+    respect-user-color-scheme: true
     toc: true
     toc-depth: 3
     code-copy: true

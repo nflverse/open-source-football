@@ -1,0 +1,35 @@
+/*-- scss:defaults --*/
+// Dark-mode overrides, layered after styles.scss (GitHub dark palette).
+$primary: #58a6ff;
+$body-bg: #0d1117;
+$body-color: #e6edf3;
+$body-secondary-color: #9198a1;
+$link-color: #58a6ff;
+$code-block-bg: #161b22;
+$code-color: #ff7b72;
+$border-color: #30363d;
+$navbar-bg: #161b22;
+$light: #161b22;
+$card-bg: #161b22;
+$input-bg: #0d1117;
+$input-color: #e6edf3;
+$input-border-color: #30363d;
+$input-group-addon-bg: #161b22;
+$input-group-addon-color: #9198a1;
+$form-select-bg: #0d1117;
+
+/*-- scss:rules --*/
+.quarto-title-banner {
+  background: #161b22;
+}
+
+.quarto-listing-container-grid .card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+// Figures with transparent backgrounds would show dark-on-dark; give
+// listing thumbnails a light backdrop since most post plots assume white.
+.quarto-listing-container-grid .card-img-top,
+.listing-item-img-placeholder {
+  background-color: #ffffff;
+}

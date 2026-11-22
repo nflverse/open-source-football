@@ -10,6 +10,9 @@ categories:
   - nflreadr
   - Figures
 # image: preview.png      # optional: an image in this folder to show on the home page
+# The site has a light/dark toggle. Figures with a white background are fine in
+# both; for plots that adapt, see the `renderings: [light, dark]` cell option
+# (https://quarto.org/docs/output-formats/html-themes.html).
 # For a Python post, uncomment the next two lines:
 # engine: jupyter
 # jupyter: python3
