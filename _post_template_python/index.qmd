@@ -1,0 +1,54 @@
+---
+title: "Title of your post"
+description: |
+  A one or two sentence summary shown on the home page.
+author:
+  - name: First Last
+    url: https://github.com/your-handle
+date: 2026-01-01
+categories:
+  - nflreadpy
+  - Figures
+---
+
+Start writing here. Code is shown and messages/warnings are hidden by default;
+override per cell with `#|` options, e.g. `#| echo: false`.
+
+Load data with [nflreadpy](https://github.com/nflverse/nflreadpy) so that
+readers can rerun your code:
+
+```{python}
+import nflreadpy as nfl
+
+pbp = nfl.load_pbp(2025)
+```
+
+Wide figures can use the full page width. The first figure of your post is
+also its preview image on the home page.
+
+```{python}
+#| label: fig-example
+#| column: page
+#| fig-cap: "Describe what the figure shows."
+
+# plot code
+```
+
+<!-- Keep this section so readers can reproduce your results. -->
+
+::: {.callout-note collapse="true"}
+## Session info
+
+Package versions used to render this post.
+
+```{python}
+#| label: session-info
+#| echo: false
+import sys
+import importlib.metadata as md
+
+print(sys.version)
+for pkg in ["nflreadpy", "polars", "matplotlib"]:  # the packages your post uses
+    print(pkg, md.version(pkg))
+```
+:::
