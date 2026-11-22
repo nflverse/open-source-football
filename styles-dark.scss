@@ -1,0 +1,66 @@
+/*-- scss:defaults --*/
+// Dark-mode overrides, layered after styles.scss (GitHub dark palette).
+$primary: #58a6ff;
+$body-bg: #0d1117;
+$body-color: #e6edf3;
+$body-secondary-color: #9198a1;
+$link-color: #58a6ff;
+$code-block-bg: #161b22;
+$code-color: #ff7b72;
+$border-color: #30363d;
+$navbar-bg: #161b22;
+$light: #161b22;
+$card-bg: #161b22;
+$input-bg: #0d1117;
+$input-color: #e6edf3;
+$input-border-color: #30363d;
+$input-group-addon-bg: #161b22;
+$input-group-addon-color: #9198a1;
+$form-select-bg: #0d1117;
+
+/*-- scss:rules --*/
+.quarto-title-banner {
+  background: #161b22;
+}
+
+.quarto-listing-container-grid .card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+// Figures with transparent backgrounds would show dark-on-dark; give
+// listing thumbnails a light backdrop since most post plots assume white.
+.quarto-listing-container-grid .card-img-top,
+.listing-item-img-placeholder {
+  background-color: #ffffff;
+}
+
+// DT (DataTables) htmlwidgets: DT hardcodes `div.datatables { color: #333 }`
+// and tints rows with black overlays, both of which assume a light page.
+// This stylesheet is only active in dark mode, so the overrides are unscoped.
+:root {
+  --dt-row-stripe: 255, 255, 255;
+  --dt-row-hover: 255, 255, 255;
+  --dt-column-ordering: 255, 255, 255;
+  --dt-html-background: #{$body-bg};
+}
+
+body div.datatables {
+  color: $body-color;
+
+  .dataTables_wrapper .dataTables_length select,
+  .dataTables_wrapper .dataTables_filter input {
+    border-color: $border-color;
+    color: $body-color;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #21262d;
+    border-color: $border-color;
+  }
+
+  table.dataTable thead > tr > th,
+  table.dataTable > tbody > tr > td {
+    border-color: $border-color;
+  }
+}

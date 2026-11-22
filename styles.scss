@@ -1,18 +1,34 @@
 /*-- scss:defaults --*/
-$primary: #24292e;
-$navbar-fg: #ffffff;
-$navbar-hl: #DECF40;
-$link-color: #1f6feb;
-$code-block-bg: #f6f8fa;
+// Shared by the light and dark themes. Colours that differ in dark mode are
+// overridden in styles-dark.scss.
+
+// System font stack: matches the archived distill posts and avoids loading
+// web fonts. Setting $web-font-path to false stops cosmo importing Source Sans Pro.
+$web-font-path: false;
+$font-family-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+$font-family-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  "Liberation Mono", monospace;
+$headings-font-weight: 600;
+
+$osf-dark: #24292e;
+$osf-accent: #DECF40;
+
+$primary: $osf-dark !default;
+$navbar-bg: $osf-dark !default;
+$navbar-fg: #ffffff !default;
+$navbar-hl: $osf-accent !default;
+$footer-bg: transparent !default;
+$link-color: #0969da !default;
+$code-block-bg: #f6f8fa !default;
 
 /*-- scss:rules --*/
 .navbar {
-  border-bottom: 2px solid #DECF40;
-  box-shadow: 1px 1px 18px #4d4d4d;
+  border-bottom: 2px solid $osf-accent;
 }
 
 .nav-footer {
-  border-top: 2px solid #DECF40;
+  border-top: 2px solid $osf-accent;
 }
 
 div.sourceCode pre {
@@ -20,7 +36,34 @@ div.sourceCode pre {
   line-height: 1.45;
 }
 
+// Title banner continues the navbar so the header reads as one block.
 .quarto-title-banner {
-  background: #575757;
-  color: white;
+  background: $osf-dark;
+  color: #ffffff;
+
+  .quarto-title .title {
+    font-weight: 700;
+  }
+}
+
+// Grid listing: cards with a subtle border and lift on hover.
+.quarto-listing-container-grid .card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  // Post figures are plots of varying aspect ratio; crop to the top of the figure.
+  .card-img-top {
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .card-title {
+    font-weight: 600;
+  }
 }
