@@ -2,7 +2,7 @@ name: Check site rendering
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   render:
