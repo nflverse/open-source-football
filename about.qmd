@@ -10,7 +10,7 @@ toc: false
 At the beginning of 2020 I decided to dive into NFL Analytics and started to follow
 the big accounts (within the community) on Twitter.
 
-I learned there was this R package [nflscrapR](https://twitter.com/nflscrapR) and
+I learned there was this R package [nflscrapR](https://github.com/maksimhorowitz/nflscrapR) and
 started to learn R and the NFL play-by-play data. Very quickly I got the urge
 to make some plots with R and post them on Twitter, because I wanted to hear
 what the people who know about it have to say. The plots were well received and
@@ -29,7 +29,7 @@ And this is the place where I want to centralize all these things.
 
 ## What Ben says
 
-The existence of open-source packages like [nflscrapR](https://twitter.com/nflscrapR)
+The existence of open-source packages like [nflscrapR](https://github.com/maksimhorowitz/nflscrapR)
 and [nflfastR](https://www.nflfastr.com/) along with people's willingness
 to share code has made NFL analytics Twitter a great place to learn from each other.
 However, the nature of Twitter makes it hard to find old posts, and I often have
