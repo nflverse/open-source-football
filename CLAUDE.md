@@ -13,7 +13,8 @@ listings, themes, or render/publish setup**, and follow its guidance over genera
 - `posts/<YYYY-MM-DD-slug>/index.qmd` — new posts. `freeze: true` is set project-wide:
   authors render their post locally and commit `_freeze/posts/<slug>/`. CI never executes post code.
 - `posts/<slug>/index.html` (no `.qmd`) — distill-era posts kept as pre-rendered static HTML.
-  Do not edit or re-render them. Their metadata lives in `posts/archive.yml`; their shared
+  Do not re-render them or change their article content (page chrome such as navbar/footer
+  was cleaned up by script in Phase 3 of #101). Their metadata lives in `posts/archive.yml`; their shared
   JS/CSS lives in `legacy_libs/`.
 - `_posts/` — original distill sources (`.Rmd`) of the archived posts (ignored by Quarto). Rendered
   output and bulky data were removed; large data/model files are assets of the `post-data` GitHub release.

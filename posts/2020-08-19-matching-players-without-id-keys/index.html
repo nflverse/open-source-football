@@ -2063,13 +2063,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="../../legacy_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="../../legacy_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-<script type="text/javascript" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-176408251-2"></script>
-<script type="text/javascript" cookie-consent="tracking">
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-176408251-2');
-</script>
 <style type="text/css">
 d-article div.sourceCode pre {
   overflow-x: scroll !important;
@@ -2123,7 +2116,7 @@ d-title {
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a class="logo" href="https://twitter.com/Open_Source_FB">
+<a class="logo" href="../../index.html">
 <img src="../../logo.png" alt="Logo"/>
 </a>
 <a href="../../index.html" class="title">Open Source Football</a>
@@ -2160,6 +2153,9 @@ d-title {
 </div>
 
 <div class="d-article">
+<div class="osf-archive-note" style="border-left: 4px solid #e0a800; background: #fff8e1; padding: 0.75em 1em; margin: 1em 0 1.5em; font-size: 0.9em;">
+<strong>Data source moved:</strong> this post loads data from the <code>guga31bb/nflfastR-data</code> repository, which no longer exists, so the code below won't run as written. The same data is published by the <a href="https://nflverse.com">nflverse</a>: use <a href="https://nflreadr.nflverse.com">nflreadr</a> in R (e.g. <code>nflreadr::load_pbp(2019)</code>) or <a href="https://github.com/nflverse/nflreadpy">nflreadpy</a> in Python.
+</div>
 <p>Sometimes when we go to remake graphs from other people resources that used to work no longer do. This example shows how to work through that problem.</p>
 <p>First let’s load the data and define which season we care about.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2309,19 +2305,6 @@ plot</code></pre>
 ggsave(glue::glue(&quot;cpoe_vs_dot_{season}.png&quot;), dpi = 600, width = 24, height = 21, units = &quot;cm&quot;)</code></pre>
 </div>
 <!--radix_placeholder_article_footer-->
-<div class="article-footer">
-  <p class="social_footer">
-    <span class="article-sharing">
-      Share: &nbsp;
-      <a href="https://twitter.com/share?text=Matching%20players%20without%20ID%20keys&amp;url=https%3A%2F%2Fwww.opensourcefootball.com%2Fposts%2F2020-08-19-matching-players-without-id-keys%2F" aria-label="share on twitter">
-        <i class="fab fa-twitter" aria-hidden="true"></i>
-      </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fwww.opensourcefootball.com%2Fposts%2F2020-08-19-matching-players-without-id-keys%2F" aria-label="share on facebook">
-        <i class="fab fa-facebook" aria-hidden="true"></i>
-      </a>
-    </span>
-  </p>
-</div>
 <!--/radix_placeholder_article_footer-->
 </div>
 
@@ -2352,7 +2335,7 @@ ggsave(glue::glue(&quot;cpoe_vs_dot_{season}.png&quot;), dpi = 600, width = 24, 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <!--radix_placeholder_navigation_after_body--><html><body>
 <div class="distill-site-nav distill-site-footer">
-<p>©2020 - Website creator Sebastian Carl (Twitter: <a href="https://twitter.com/mrcaseb">@mrcaseb</a>)</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> · Created by Sebastian Carl &amp; Ben Baldwin · part of <a href="https://nflverse.com">nflverse</a></p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 </body></html>
