@@ -9,27 +9,20 @@ date: 2026-01-01
 categories:
   - nflreadr
   - Figures
-# image: preview.png      # optional: an image in this folder to show on the home page
-# The site has a light/dark toggle. Figures with a white background are fine in
-# both; for plots that adapt, see the `renderings: [light, dark]` cell option
-# (https://quarto.org/docs/output-formats/html-themes.html).
-# For a Python post, uncomment the next two lines:
-# engine: jupyter
-# jupyter: python3
 ---
 
-Start writing here. Code is shown and messages/warnings are hidden by default
-(see `posts/_metadata.yml`); override per cell with `#|` options.
+Start writing here. Code is shown and messages/warnings are hidden by default;
+override per cell with `#|` options, e.g. `#| echo: false`.
 
-Load data with [nflreadr](https://nflreadr.nflverse.com) (or
-[nflreadpy](https://github.com/nflverse/nflreadpy) in Python) so that readers
-can rerun your code:
+Load data with [nflreadr](https://nflreadr.nflverse.com) so that readers can
+rerun your code:
 
 ```{r}
 pbp <- nflreadr::load_pbp(2025)
 ```
 
-Wide figures can use the full page width:
+Wide figures can use the full page width. The first figure of your post is
+also its preview image on the home page.
 
 ```{r}
 #| label: fig-example
@@ -40,11 +33,7 @@ Wide figures can use the full page width:
 # plot code
 ```
 
-To use a figure as the preview image on the home page, set `image:` above to a
-file in this folder (for example one you save with `ggplot2::ggsave()`).
-
-<!-- Keep this section so readers can reproduce your results. In a Python post,
-replace the cell below as described in the contributing guide. -->
+<!-- Keep this section so readers can reproduce your results. -->
 
 ::: {.callout-note collapse="true"}
 ## Session info

@@ -13,143 +13,118 @@ The primary goal of Open Source Football is to make football analysis and the
 code behind it publicly available. To achieve this, we need volunteers who are
 willing to contribute.
 
-Posts are written with [Quarto](https://quarto.org). You can write in **R, Python,
-or both**. Any language Quarto supports works, as long as your post can be rendered
-locally.
-
-If you have questions or think something is unclear or wrong, please
-[open an issue](https://github.com/nflverse/open-source-football/issues/new).
+Posts are written with [Quarto](https://quarto.org) in **R or Python** (or any
+other language Quarto supports). If something in this guide is unclear or wrong,
+please [open an issue](https://github.com/nflverse/open-source-football/issues/new).
 
 ## Overview
 
-1. Install [Quarto](https://quarto.org/docs/get-started/) and git.
-2. Fork the repository and clone it.
-3. Create a new branch.
-4. Copy the post template to `posts/YYYY-MM-DD-short-title/` and write your post.
-5. Render your post locally. This executes your code once and stores the
-   results in `_freeze/`.
-6. Commit your post folder **and** the changes in `_freeze/`, then open a pull request.
+1. Fork and clone the repository, and create a branch.
+2. Copy a post template to `posts/YYYY-MM-DD-short-title/`.
+3. Write your post.
+4. Render it locally. This runs your code once and stores the results in `_freeze/`.
+5. Commit your post folder **and** `_freeze/`, then open a pull request.
 
-We will review the post, suggest changes if necessary, and publish it by merging
-the pull request.
+We will review the post, suggest changes if necessary, and publish it by
+merging the pull request.
 
-## Detailed instructions
+## 1. Fork, clone, and branch
 
-### Set up
+You need [Quarto](https://quarto.org/docs/get-started/) (≥ 1.7), git, and
+the language you write in: for R, the `rmarkdown` and `knitr` packages; for
+Python, `jupyter`.
 
-You need [Quarto](https://quarto.org/docs/get-started/) (≥ 1.5), git, and
-whatever language you write in. For R posts, install `rmarkdown` and `knitr`.
-For Python posts, install `jupyter`.
-
-The [usethis pull request helpers](https://usethis.r-lib.org/articles/pr-functions.html)
-make forking and branching easy from R:
+::: {.panel-tabset}
+## R (usethis)
 
 ```r
 usethis::create_from_github("nflverse/open-source-football")
 usethis::pr_init(branch = "my-post-title")
 ```
 
-Using plain git or the GitHub CLI works just as well:
+## GitHub CLI
+
+The repository has a long history. `--filter=blob:none` makes the clone much
+smaller and faster.
 
 ```sh
-gh repo fork nflverse/open-source-football --clone
+gh repo fork nflverse/open-source-football --clone -- --filter=blob:none
 cd open-source-football
 git switch -c my-post-title
 ```
+:::
 
-### Create the post
+## 2. Copy a template
 
-Copy the template folder and give it a date-prefixed, descriptive name:
+Copy the R or the Python template and give the folder a date-prefixed,
+descriptive name:
 
 ```sh
-cp -r _post_template posts/2026-01-15-my-post-title
+cp -r _post_template posts/2026-01-15-my-post-title          # R
+cp -r _post_template_python posts/2026-01-15-my-post-title   # Python
 ```
 
-Open `posts/2026-01-15-my-post-title/index.qmd` and fill in the metadata (title,
-description, author, date, categories). Then write your post.
+## 3. Write your post
 
-A few conventions:
+Open `posts/2026-01-15-my-post-title/index.qmd`, fill in the metadata (title,
+description, author, date, categories), and write. The template shows the
+basics. Please keep in mind:
 
-- **Load data so readers can rerun your code.** Use
-  [nflreadr](https://nflreadr.nflverse.com) or
-  [nflreadpy](https://github.com/nflverse/nflreadpy) rather than local files.
-  Please don't commit large data files. If you must ship data, keep it small.
-- Use `#| column: page` on chunks with wide figures or tables.
-- Set `image:` in the metadata to choose the preview picture on the home page.
-- For Python posts, add `engine: jupyter` and `jupyter: python3` to the metadata.
-- Shared defaults for all posts (show code, hide messages and warnings, 300 dpi
-  figures) live in `posts/_metadata.yml`. Override them per cell with `#|`
-  options, e.g. `#| echo: false`.
-
-### Make it reproducible
-
-Readers should be able to rerun your code years later. Data sources and
-packages change, so please:
-
-- **Load data from public sources** such as nflreadr or nflreadpy, as above.
+- **Readers should be able to rerun your code years later.** Load data from
+  public sources such as [nflreadr](https://nflreadr.nflverse.com) or
+  [nflreadpy](https://github.com/nflverse/nflreadpy), not from local files.
+  Don't commit large data files.
 - **Keep the *Session info* section** at the end of the template. It records
-  the R and package versions you used. You don't need renv or a lockfile.
-- In a **Python post**, replace the session info cell with one that prints
-  the versions of the packages you used:
+  the package versions you used. You don't need renv or a lockfile.
+- The first figure becomes the preview image on the home page. To pick a
+  different one, set `image:` in the metadata to a file in your post folder.
+- Use `#| column: page` on cells with wide figures or tables.
+- The site has a light and a dark mode. Figures with a white background work
+  in both.
 
-  ```python
-  import sys, importlib.metadata as md
-  print(sys.version)
-  for pkg in ["pandas", "matplotlib"]:  # the packages your post uses
-      print(pkg, md.version(pkg))
-  ```
-
-### Render and preview
-
-```sh
-quarto preview posts/2026-01-15-my-post-title/index.qmd
-```
-
-This runs your code and opens a live preview. When you're happy, render once more:
+## 4. Render
 
 ```sh
 quarto render posts/2026-01-15-my-post-title/index.qmd
 ```
 
-The site is configured with `freeze: true`, which means **your code is only ever
-executed on your machine**. Rendering writes the results to
-`_freeze/posts/2026-01-15-my-post-title/`. The website build reuses these frozen
-results and never re-runs your code, so your post keeps working even if the data
-or packages change later.
+This runs your code and writes the results to `_freeze/`. The website build
+reuses these frozen results and **never runs your code itself**, so your post
+keeps working even when data or packages change later. If you edit the post
+afterwards, render it again.
 
-### Commit and open a pull request
+To see the post in the site while you write, use `quarto preview` with the same
+path instead.
 
-Commit everything in your post folder **and** the changes in `_freeze/`. Besides
-`_freeze/posts/2026-01-15-my-post-title/`, that includes any new files in
-`_freeze/site_libs/`: they hold the JavaScript and CSS of htmlwidgets such as
-plotly or DT, which your frozen post needs.
+## 5. Commit and open a pull request
+
+Commit your post folder and everything new in `_freeze/` (your results, plus
+any JavaScript and CSS of interactive widgets such as plotly in
+`_freeze/site_libs/`). Don't commit the `_site/` folder.
 
 ```sh
 git add posts/2026-01-15-my-post-title _freeze
 git commit -m "Add post: My post title"
 ```
 
-Then push and open a pull request:
+::: {.panel-tabset}
+## R (usethis)
 
 ```r
 usethis::pr_push()
 ```
 
-or
+## GitHub CLI
 
 ```sh
 git push -u origin my-post-title
 gh pr create
 ```
+:::
 
-Don't commit the `_site/` folder; the website is built and deployed to GitHub
-Pages automatically after merging. A check on your pull request renders the
-whole site to make sure everything works, and attaches the rendered site as a
-downloadable `site-preview` artifact on the workflow run.
-
-The check also fails if your `_freeze/` results are missing or out of date,
-for example because you edited `index.qmd` after rendering. Render the post
-again and commit the updated `_freeze/` folder. You can run the same check
-locally with `_scripts/check-freeze.sh`.
+A check on your pull request builds the whole site. It fails if `_freeze/` is
+missing or older than your post; render again and commit to fix it (you can run
+the same check locally with `_scripts/check-freeze.sh`). The rendered site is
+attached to the check as a downloadable `site-preview` artifact.
 
 That's it. Thanks for your contribution!
