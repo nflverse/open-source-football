@@ -19,6 +19,7 @@ listings, themes, or render/publish setup**, and follow its guidance over genera
 - `_posts/` — original distill sources (`.Rmd`) of the archived posts (ignored by Quarto). Rendered
   output and bulky data were removed; large data/model files are assets of the `post-data` GitHub release.
 - `_scripts/index-archive.ts` — post-render step adding archived posts to sitemap and search.
+- `_scripts/check-freeze.sh` — PR check: fails if a post's `_freeze/` results are missing or stale.
 - `_post_template/` — template contributors copy for new posts.
 - `posts/_metadata.yml` — shared execution defaults for all posts (don't use `knitr::opts_chunk$set`).
 

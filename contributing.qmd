@@ -81,6 +81,24 @@ A few conventions:
   figures) live in `posts/_metadata.yml`. Override them per cell with `#|`
   options, e.g. `#| echo: false`.
 
+### Make it reproducible
+
+Readers should be able to rerun your code years later. Data sources and
+packages change, so please:
+
+- **Load data from public sources** such as nflreadr or nflreadpy, as above.
+- **Keep the *Session info* section** at the end of the template. It records
+  the R and package versions you used. You don't need renv or a lockfile.
+- In a **Python post**, replace the session info cell with one that prints
+  the versions of the packages you used:
+
+  ```python
+  import sys, importlib.metadata as md
+  print(sys.version)
+  for pkg in ["pandas", "matplotlib"]:  # the packages your post uses
+      print(pkg, md.version(pkg))
+  ```
+
 ### Render and preview
 
 ```sh
@@ -125,5 +143,10 @@ Don't commit the `_site/` folder; the website is built and deployed to GitHub
 Pages automatically after merging. A check on your pull request renders the
 whole site to make sure everything works, and attaches the rendered site as a
 downloadable `site-preview` artifact on the workflow run.
+
+The check also fails if your `_freeze/` results are missing or out of date,
+for example because you edited `index.qmd` after rendering. Render the post
+again and commit the updated `_freeze/` folder. You can run the same check
+locally with `_scripts/check-freeze.sh`.
 
 That's it. Thanks for your contribution!
