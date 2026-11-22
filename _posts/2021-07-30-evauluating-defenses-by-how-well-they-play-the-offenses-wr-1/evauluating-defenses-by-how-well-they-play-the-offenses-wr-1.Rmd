@@ -57,10 +57,10 @@ dir.create("nflfastr")
 get_data <- function(year){
   dir.create(file.path("nflfastr", year))
 
-  download.file(
-    glue::glue("https://github.com/guga31bb/nflfastR-data/blob/master/data/play_by_play_{year}.parquet?raw=true"),
-    file.path("nflfastr", year, "data.parquet"),
-    mode = 'wb'
+  # The original nflfastR-data download URLs no longer exist; nflreadr serves the same data
+  write_parquet(
+    nflreadr::load_pbp(year),
+    file.path("nflfastr", year, "data.parquet")
   )
 }
 
