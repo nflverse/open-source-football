@@ -106,10 +106,12 @@ post16 <- filter(dat,
          def_to = if_else(posteam_type == 'away', home_timeouts_remaining, away_timeouts_remaining)) %>%
   dplyr::select(qb_dropback, down, ydstogo, yardline_100, score_differential, qtr, half_seconds_remaining, off_to, def_to)
 
-xgb_res <- readRDS('objects/xgb-grid-search.RDS') ## Loading hyperparameter grid results
-final_mod <- readRDS('objects/final-mod-test-dat.RDS') ##Loading xgboost model
-final_qb_mod <- readRDS('objects/final-full-xgb.RDS') ##loading xgboost model
-fit_no_epa <- readRDS('objects/no_epa_model.RDS') ##loading stan model
+# Saved model objects are stored as release assets (https://github.com/nflverse/open-source-football/releases/download/post-data)
+read_post_data <- function(file) readRDS(gzcon(url(paste0("https://github.com/nflverse/open-source-football/releases/download/post-data/", file))))
+xgb_res <- read_post_data('runpass-xgb-grid-search.rds') ## Loading hyperparameter grid results
+final_mod <- read_post_data('runpass-final-mod-test-dat.rds') ##Loading xgboost model
+final_qb_mod <- read_post_data('runpass-final-full-xgb.rds') ##loading xgboost model
+fit_no_epa <- read_post_data('runpass-no-epa-model.rds') ##loading stan model
 
 samps_no_epa <- rstan::extract(fit_no_epa, pars = 'mu')$mu ##Extract mu estimates
 quantile_025_no_epa <- apply(samps_no_epa, 2, quantile, .025) ##Calculate 2.5th percentile of mu estimates

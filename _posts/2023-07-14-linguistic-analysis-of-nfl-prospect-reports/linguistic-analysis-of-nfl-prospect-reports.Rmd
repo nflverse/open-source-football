@@ -46,7 +46,7 @@ import seaborn as sns
 
 ```{python}
 # Read in and get a feel for the data
-df = pd.read_csv('dataset.csv')
+df = pd.read_csv('https://github.com/nflverse/open-source-football/releases/download/post-data/prospect-reports-dataset.csv')
 
 df[['Player', 'Player Bio']].head()
 len(df)

@@ -939,7 +939,7 @@ By now, the process should be super familiar.
 ``` {r xp-setup, results = 'hide'}
 # model_data <- readRDS(url('https://github.com/guga31bb/nflfastR-data/blob/master/models/_dropback_model_data.rds?raw=true'))
 
-model_data <- readRDS('_dropback_model_data.rds')
+model_data <- readRDS(gzcon(url('https://github.com/nflverse/open-source-football/releases/download/post-data/ep-wp-cp-dropback-model-data.rds')))
 
 nrounds = 1121
 params <-

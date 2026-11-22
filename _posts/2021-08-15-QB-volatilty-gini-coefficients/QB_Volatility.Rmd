@@ -58,7 +58,7 @@ library(readr)
 library(tidyverse)
 
 #load data
-DF <- read_rds("VOL_DF.rds") %>%
+DF <- readRDS(gzcon(url("https://github.com/nflverse/open-source-football/releases/download/post-data/qb-volatility-vol-df.rds"))) %>%
   filter(
     plays >= 10,#remove any games where QB was involved in less than 10 plays
     season_plays >= 250) #filter for greater than 250 attempts

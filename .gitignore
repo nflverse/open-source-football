@@ -5,3 +5,5 @@
 .RDataTmp
 /.quarto/
 /_site/
+
+_posts/*/nflfastr/
