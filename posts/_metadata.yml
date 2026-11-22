@@ -1,0 +1,8 @@
+# Defaults applied to every post in this folder.
+execute:
+  echo: true
+  message: false
+  warning: false
+knitr:
+  opts_chunk:
+    dpi: 300

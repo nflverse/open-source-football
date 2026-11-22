@@ -1,0 +1,56 @@
+project:
+  type: website
+  output-dir: _site
+  post-render: _scripts/index-archive.ts
+  resources:
+    # distill-era posts are served as pre-rendered static HTML
+    - "posts/20*/**"
+    - "legacy_libs/**"
+    - "logo.png"
+    - "CNAME"
+
+website:
+  title: "Open Source Football"
+  description: "A place where anybody can share their football analytics work and code with others."
+  site-url: https://www.opensourcefootball.com
+  repo-url: https://github.com/nflverse/open-source-football
+  repo-actions: [edit, issue]
+  favicon: logo.png
+  open-graph: true
+  search: true
+  navbar:
+    logo: logo.png
+    background: "#24292e"
+    right:
+      - text: "Home"
+        href: index.qmd
+      - text: "Contributing"
+        href: contributing.qmd
+      - text: "Authors"
+        href: contributors_list.qmd
+      - text: "About"
+        href: about.qmd
+      - icon: github
+        href: https://github.com/nflverse/open-source-football
+      - icon: rss
+        href: index.xml
+  page-footer:
+    left: "Content licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Built with [Quarto](https://quarto.org)."
+    right: "Created by Sebastian Carl &amp; Ben Baldwin · part of [nflverse](https://nflverse.com)"
+
+license: "CC BY-NC"
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles.scss]
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: scroll
+    highlight-style: github
+
+execute:
+  # Posts are executed once by their author and the results are committed in
+  # `_freeze/`. CI never re-runs post code.
+  freeze: true
