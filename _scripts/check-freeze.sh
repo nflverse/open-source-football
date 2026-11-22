@@ -16,6 +16,8 @@ else
   shopt -s nullglob
   files=(posts/*/index.qmd)
 fi
+# bash 3.2 (macOS) treats an empty array as unbound under `set -u`.
+[ "${#files[@]}" -gt 0 ] || exit 0
 
 status=0
 for qmd in "${files[@]}"; do
