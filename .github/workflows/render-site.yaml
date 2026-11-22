@@ -5,11 +5,21 @@ on:
     branches: [master]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel a running deployment, but don't queue more than one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
@@ -17,6 +27,8 @@ jobs:
         with:
           use-public-rspm: true
 
+      # Only what the site pages themselves need. Post code is never executed
+      # in CI (freeze: true); results come from the committed _freeze/ folder.
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: any::rmarkdown, any::knitr, any::yaml, any::DT, any::htmltools
@@ -24,10 +36,16 @@ jobs:
       - name: Render site
         run: quarto render
 
-      # TODO(deploy target): the domain is currently served by Netlify.
-      # Requires repo secrets NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID.
-      - name: Deploy to Netlify
-        run: npx --yes netlify-cli@17 deploy --prod --dir=_site --site="$NETLIFY_SITE_ID"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

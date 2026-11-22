@@ -5,28 +5,21 @@ description: |
 author:
   - name: First Last
     url: https://github.com/your-handle
-date: "2026-01-01"
+date: 2026-01-01
 categories:
   - nflreadr
   - Figures
-image: "preview.png"   # optional: a figure to show on the home page
-# For a Python-only post, uncomment the next line:
+# image: preview.png      # optional: an image in this folder to show on the home page
+# For a Python post, uncomment the next two lines:
+# engine: jupyter
 # jupyter: python3
 ---
 
-```{r}
-#| label: setup
-#| include: false
-knitr::opts_chunk$set(
-  echo = TRUE,
-  message = FALSE,
-  warning = FALSE,
-  dpi = 300
-)
-```
+Start writing here. Code is shown and messages/warnings are hidden by default
+(see `posts/_metadata.yml`); override per cell with `#|` options.
 
-Start writing here. Load data with [nflreadr](https://nflreadr.nflverse.com)
-(or [nflreadpy](https://github.com/nflverse/nflreadpy) in Python) so that readers
+Load data with [nflreadr](https://nflreadr.nflverse.com) (or
+[nflreadpy](https://github.com/nflverse/nflreadpy) in Python) so that readers
 can rerun your code:
 
 ```{r}
@@ -36,11 +29,13 @@ pbp <- nflreadr::load_pbp(2025)
 Wide figures can use the full page width:
 
 ```{r}
+#| label: fig-example
 #| column: page
 #| fig-height: 5
+#| fig-cap: "Describe what the figure shows."
 
 # plot code
 ```
 
-To save a figure as the preview image for the home page, write it to
-`preview.png` in this folder, or point `image:` at any image in the folder.
+To use a figure as the preview image on the home page, set `image:` above to a
+file in this folder (for example one you save with `ggplot2::ggsave()`).

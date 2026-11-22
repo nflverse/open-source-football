@@ -18,6 +18,12 @@ listings, themes, or render/publish setup**, and follow its guidance over genera
 - `_posts/` — original distill sources of the archived posts (ignored by Quarto).
 - `_scripts/index-archive.ts` — post-render step adding archived posts to sitemap and search.
 - `_post_template/` — template contributors copy for new posts.
+- `posts/_metadata.yml` — shared execution defaults for all posts (don't use `knitr::opts_chunk$set`).
+
+## Deployment
+
+GitHub Pages only, via `.github/workflows/render-site.yaml` (Actions build + `deploy-pages`).
+Netlify is no longer used. PR checks upload the rendered site as a `site-preview` artifact.
 
 ## Commands
 

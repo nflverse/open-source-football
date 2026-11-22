@@ -38,6 +38,8 @@ website:
     left: "Content licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Built with [Quarto](https://quarto.org)."
     right: "Created by Sebastian Carl &amp; Ben Baldwin · part of [nflverse](https://nflverse.com)"
 
+license: "CC BY-NC"
+
 format:
   html:
     theme:
@@ -47,7 +49,6 @@ format:
     code-copy: true
     code-overflow: scroll
     highlight-style: github
-    license: "CC BY-NC"
 
 execute:
   # Posts are executed once by their author and the results are committed in

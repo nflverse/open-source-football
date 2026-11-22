@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enabledPlugins": {
+    "quarto@posit-dev-skills": true
+  },
   "extraKnownMarketplaces": {
     "posit-dev-skills": {
       "source": {
@@ -7,8 +10,5 @@
         "repo": "posit-dev/skills"
       }
     }
-  },
-  "enabledPlugins": {
-    "quarto@posit-dev-skills": true
   }
 }

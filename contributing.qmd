@@ -76,7 +76,10 @@ A few conventions:
   Please don't commit large data files. If you must ship data, keep it small.
 - Use `#| column: page` on chunks with wide figures or tables.
 - Set `image:` in the metadata to choose the preview picture on the home page.
-- For Python-only posts, add `jupyter: python3` to the metadata.
+- For Python posts, add `engine: jupyter` and `jupyter: python3` to the metadata.
+- Shared defaults for all posts (show code, hide messages and warnings, 300 dpi
+  figures) live in `posts/_metadata.yml`. Override them per cell with `#|`
+  options, e.g. `#| echo: false`.
 
 ### Render and preview
 
@@ -118,8 +121,9 @@ git push -u origin my-post-title
 gh pr create
 ```
 
-Don't commit the `_site/` folder; the website is built automatically after
-merging. A check on your pull request renders the whole site to make sure
-everything works.
+Don't commit the `_site/` folder; the website is built and deployed to GitHub
+Pages automatically after merging. A check on your pull request renders the
+whole site to make sure everything works, and attaches the rendered site as a
+downloadable `site-preview` artifact on the workflow run.
 
 That's it. Thanks for your contribution!
